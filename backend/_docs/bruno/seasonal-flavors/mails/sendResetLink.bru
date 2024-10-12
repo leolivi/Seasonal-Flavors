@@ -1,0 +1,18 @@
+meta {
+  name: sendResetLink
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}/forgot-password
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "email": "yua@miau.com"
+  }
+  
+}

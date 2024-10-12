@@ -1,0 +1,15 @@
+meta {
+  name: favorite
+  type: http
+  seq: 5
+}
+
+post {
+  url: {{baseUrl}}/recipes/1/favorite
+  body: json
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{token}}
+}

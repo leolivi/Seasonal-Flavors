@@ -1,0 +1,21 @@
+meta {
+  name: unfavorite
+  type: http
+  seq: 6
+}
+
+delete {
+  url: {{baseUrl}}/recipes/2/favorite
+  body: json
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{token}}
+}
+
+body:json {
+  {
+    "id": "1"
+  }
+}

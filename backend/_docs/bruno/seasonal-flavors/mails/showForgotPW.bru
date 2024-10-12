@@ -1,0 +1,17 @@
+meta {
+  name: showForgotPW
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/forgot-password
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "email": "yua@miau.com"
+  }
+}

@@ -1,0 +1,29 @@
+meta {
+  name: update
+  type: http
+  seq: 3
+}
+
+patch {
+  url: {{baseUrl}}/recipe/4
+  body: json
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{token}}
+}
+
+body:json {
+  {
+    "id": 4,
+      "title": "Karotten",
+     "prep_time": 30,
+      "cooking_time": 20,
+      "servings": 4,
+      "steps": "Use a cup to measure the carrots",
+      "ingredients": "200 g Karotten, 30ml Milch",
+      "recipe_img": "image2.png",
+      "user_id": 1
+  }
+}

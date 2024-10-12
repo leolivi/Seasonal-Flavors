@@ -1,0 +1,26 @@
+meta {
+  name: logout
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{baseUrl}}/auth/logout?Authorization=Bearer {{token}}
+  body: json
+  auth: none
+}
+
+params:query {
+  Authorization: Bearer {{token}}
+}
+
+headers {
+  Authorization: Bearer {{token}}
+}
+
+body:json {
+  {
+    "email": "leo@bar.com",
+    "password": "password"
+  }
+}

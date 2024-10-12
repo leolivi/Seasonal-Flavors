@@ -1,0 +1,50 @@
+erDiagram
+ 
+    USERS {
+        int id
+        string username
+        string email
+        string password
+    }
+
+    FAVORITES {
+        int user_id
+        int recipe_id
+    }
+    
+    RECIPES {
+        int id
+        string title
+        int prep_time
+        int cooking_time
+        int servings
+        text ingredients
+        text steps
+        int user_id
+    }
+    
+    TAGS {
+        int id
+        string name
+        string category
+    }
+
+    RECIPE_TAGS {
+        int recipe_id
+        int tag_id
+    }
+
+    IMAGES {
+        int id
+        string file_path
+        int user_id
+        int image_id
+    }
+
+    USERS ||--o{ RECIPES : "owns"
+    RECIPES ||--o{ RECIPE_TAGS : "tagged with"
+    TAGS ||--o{ RECIPE_TAGS : "tags"
+    USERS ||--o{ FAVORITES : "favorites"
+    RECIPES ||--o{ FAVORITES : "favorited by"
+    IMAGES ||--|| RECIPES : "recipe image"
+    IMAGES ||--|| USERS : "profile image"

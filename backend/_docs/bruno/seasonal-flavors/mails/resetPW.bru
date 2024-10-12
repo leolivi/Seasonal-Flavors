@@ -1,0 +1,21 @@
+meta {
+  name: resetPW
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{baseUrl}}/reset-password
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "token": "your-reset-token",
+    "email": "user@example.com",
+    "password": "new-password",
+    "password_confirmation": "new-password"
+  }
+  
+}

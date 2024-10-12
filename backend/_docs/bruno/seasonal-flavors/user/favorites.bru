@@ -1,0 +1,15 @@
+meta {
+  name: favorites
+  type: http
+  seq: 5
+}
+
+get {
+  url: {{baseUrl}}/user/1/favorites
+  body: json
+  auth: none
+}
+
+headers {
+  Authorization: Bearer {{token}}
+}

@@ -1,0 +1,21 @@
+meta {
+  name: read
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{baseUrl}}/recipe
+  body: json
+  auth: none
+}
+
+params:query {
+  ~user_id: 1
+  ~id: 2
+  ~tags[]: spring
+}
+
+headers {
+  Authorization: Bearer {{token}}
+}
