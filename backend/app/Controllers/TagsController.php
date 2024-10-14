@@ -60,17 +60,4 @@ class TagsController {
 
         return response()->json($tags);
     }
-
-    /*
-    @return Tag|Response
-    @desc Assigns Tags to a recipe
-    */
-    // function assign(Request $request): Tag|Response {
-    //     $recipeId = $request->input('recipe_id');
-    //     $tagIds = $request->input('tag_ids');
-    //     $recipe = \Auth::user()->recipes()->findOrFail($recipeId);
-    //     $recipe->tags()->sync($tagIds); 
-    //     $recipe->save();
-    //     return $recipe->fresh(); // fresh um sicherzugehen, immer aktuelle daten
-    // }
 }

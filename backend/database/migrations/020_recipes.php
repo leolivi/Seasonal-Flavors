@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration {
   function up() {
+    // create a Recipes Schema
     Schema::create('recipes', function (Blueprint $table) {
         $table->id();
         $table->string('title');
@@ -18,12 +19,13 @@ return new class extends Migration {
         $table->timestamps();
     });
 
+    // create a Pivot Schema for Favorites (Recipes X User)
     Schema::create('favorites', function (Blueprint $table) {
       $table->id(); 
       $table->foreignId('user_id')->constrained()->cascadeOnDelete();
       $table->foreignId('recipe_id')->constrained()->cascadeOnDelete();
       $table->timestamps();
-      $table->unique(['user_id', 'recipe_id']); // 1 nutzer kann 1 rezept nur 1x favorisieren
+      $table->unique(['user_id', 'recipe_id']);
     });
   }
 

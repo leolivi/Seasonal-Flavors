@@ -9,6 +9,8 @@ use Illuminate\Database\Seeder;
 class RecipeSeeder extends Seeder {
     public function run() {
 
+        // Create default recipes for testing reasons
+        // assign to default testing user
         $user = User::where('email', 'yua@miau.com')->firstOrFail();
 
         Recipe::updateOrCreate(

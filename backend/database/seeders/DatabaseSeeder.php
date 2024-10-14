@@ -9,14 +9,17 @@ use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder {
   function run() {
-    $user1 = User::create([
+    // Create a default user for testing reasons
+    User::create([
       "username" => "yua",
       'email' => 'yua@miau.com',
       'password' => 'password'
     ]);
 
     $this->call([
+      // Create recipes for testing reasons
       RecipeSeeder::class,
+      // default tags, will also be used in productive environment!
       TagSeeder::class,
   ]);
   }

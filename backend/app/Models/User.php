@@ -40,12 +40,12 @@ class User extends Model {
     }
 
     /*
-  @return HasOne
-  @desc 1:1 relationship between user and image
-  */
-  public function image(): HasOne {
-    return $this->hasOne(Image::class);
-  }
+    @return HasOne
+    @desc 1:1 relationship between user and image
+    */
+    public function image(): HasOne {
+        return $this->hasOne(Image::class);
+    }
 
     /*
     @return array

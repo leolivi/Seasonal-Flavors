@@ -15,7 +15,6 @@ class UploadsController {
     */
     function create (Request $request): string|bool {
         $user = \Auth::user();
-        // $request->validate(['file' => ['required', 'max:2048']]); // nur bis zu zwei MB
 
         $request->validate([
             'file' => ['required', 'file', 'max:2048', 'mimes:jpeg,jpg,png,gif,JPG'], // max 2MB
@@ -24,7 +23,7 @@ class UploadsController {
         ]);
 
         // upload file
-        $file = $request->file('file'); // 'file' = name des inputs
+        $file = $request->file('file');
         $filePath = \Storage::putFileAs(
             'uploads/' . $user->id,
             $file,
@@ -32,11 +31,12 @@ class UploadsController {
             $file->getClientOriginalName(),
         );
 
-        // Save the uploaded file path in the Image model
+        // Save the uploaded file path
         $image = new Image([
             'file_path' => $filePath,
         ]);
 
+        // either assign to recipe or user
         if ($request->input('type') === 'recipe') {
             // assign to recipe
             $image->recipe_id = $request->input('recipe_id');
@@ -75,6 +75,7 @@ class UploadsController {
                   })
                   ->first();
 
+        // error handling
         if ($image) {
             $image->delete();
         } else {
