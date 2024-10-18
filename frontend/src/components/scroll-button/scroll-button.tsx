@@ -35,7 +35,7 @@ const ScrollButton = () => {
   }, []);
 
   return (
-    <div className="fixed z-10 flex w-full justify-end p-8">
+    <div className="fixed bottom-0 right-0 z-10 flex w-auto justify-end p-8">
       <Sttb
         className={`h-20 w-20 cursor-pointer rounded-full bg-sfgreen-dark stroke-sfgreen-dark opacity-80 ${isVisible ? "opacity-100" : "opacity-0"}`}
         onClick={scrollToTop}

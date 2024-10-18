@@ -20,6 +20,9 @@ const config: Config = {
       pattern: /bg-(sfred|sfgreen|sfblue|sforange)-(light|DEFAULT|dark)/,
     },
     {
+      pattern: /hover:bg-(sfred|sfgreen|sfblue|sforange)-(light|DEFAULT|dark)/,
+    },
+    {
       pattern: /bg-(sfred|sfgreen|sfblue|sforange)/,
     },
     {

@@ -11,6 +11,10 @@ import registerImage from "../assets/images/register-image.jpg";
 import Image from "next/image";
 import ScrollButton from "@/components/scroll-button/scroll-button";
 
+interface InspirationTextProps {
+  seasonName: string;
+}
+
 const Home = () => {
   const [seasonName, setSeasonName] = useState<string>("");
 
@@ -41,9 +45,21 @@ const Home = () => {
   );
 };
 
-interface InspirationTextProps {
-  seasonName: string;
-}
+const translateSeason = (season: string): string => {
+  switch (season.toLowerCase()) {
+    case "spring":
+      return "Frühling";
+    case "summer":
+      return "Sommer";
+    case "autumn":
+    case "fall":
+      return "Herbst";
+    case "winter":
+      return "Winter";
+    default:
+      return season;
+  }
+};
 
 const InspirationText = ({ seasonName }: InspirationTextProps) => {
   const season = new Season();
@@ -76,7 +92,7 @@ const InspirationText = ({ seasonName }: InspirationTextProps) => {
         <p
           className={`seasontext font-figtreeMedium text-${seasonalColor}-dark`}
         >
-          Inspirationen für den {seasonName}
+          Inspirationen für den {translateSeason(seasonName)}
         </p>
       </Typography>
     </div>

@@ -21,12 +21,10 @@ export const Button = ({ children }: ButtonProps) => {
 
   return (
     <div
-      className={`my-10 w-fit cursor-pointer rounded-full px-10 py-2 hover:bg-sfred active:bg-violet-700 bg-${seasonalColor}-light `}
+      className={`my-10 w-fit cursor-pointer rounded-full px-10 py-2 text-sfblack hover:text-sfwhite active:text-sfwhite hover:bg-${seasonalColor} active:bg-${seasonalColor}-dark bg-${seasonalColor}-light `}
     >
       <Typography variant="btnL">
-        <p className="font-figtreeRegular text-sfblack active:text-sfwhite">
-          {children}
-        </p>
+        <p className="font-figtreeRegular">{children}</p>
       </Typography>
     </div>
   );

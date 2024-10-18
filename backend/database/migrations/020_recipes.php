@@ -19,7 +19,7 @@ return new class extends Migration {
         $table->timestamps();
     });
 
-    // create a Pivot Schema for Favorites (Recipes X User)
+    // create a Pivot Table for Favorites (Recipes X User)
     Schema::create('favorites', function (Blueprint $table) {
       $table->id(); 
       $table->foreignId('user_id')->constrained()->cascadeOnDelete();
