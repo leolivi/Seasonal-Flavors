@@ -1,6 +1,6 @@
 "use client";
 import foodImage from "../../assets/images/food-image.jpg";
-import SeasonAnimation from "./seasonAnimation";
+import SeasonAnimation from "../seasonAnimation/seasonAnimation";
 import { Typography } from "../ui/typography";
 import ImageSection from "../ui/ImageSection";
 

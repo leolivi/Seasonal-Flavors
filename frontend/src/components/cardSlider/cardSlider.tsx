@@ -1,8 +1,8 @@
 import React, { useRef, useState } from "react";
-import { CardList } from "./cardList";
 import { Button } from "../button/button";
 import { cardData } from "../../data/carddata";
 import { useRouter } from "next/navigation";
+import { CardList } from "../cardList.tsx/cardList";
 
 // card slider component including dragmove function
 export const CardSlider = () => {
@@ -75,6 +75,7 @@ export const CardSlider = () => {
       >
         <CardList cardData={cardData} />
       </div>
+
       <div className="flex justify-center">
         <Button label="zu den Rezepten" onClick={handleClick} />
       </div>

@@ -2,9 +2,9 @@
 import { Season } from "../utils/Season";
 import { ReactNode } from "react";
 import { Typography } from "@/components/ui/typography";
-import NavList from "@/components/navigation/navList";
+import NavList from "@/components/navList/navList";
 import Logo from "@/components/ui/logo";
-import { NavStyle } from "@/components/navigation/navItem";
+import { NavStyle } from "@/components/navItem/navItem";
 
 const FooterContainer = ({ color, children }: FooterProps) => (
   <footer className={`rounded-t-3xl p-10 bg-${color}-light`}>

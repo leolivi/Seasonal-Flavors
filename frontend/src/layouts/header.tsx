@@ -1,16 +1,17 @@
 "use client";
 import MobileNav from "../assets/icons/mobile-nav.svg";
 import { useEffect, useRef, useState } from "react";
-import MobileNavigation from "@/components/navigation/mobileNavigation";
+
 import { Season } from "@/utils/Season";
-import NavList from "@/components/navigation/navList";
+import NavList from "@/components/navList/navList";
 import useMediaQuery from "@/utils/useMediaQuery";
 import Home from "../assets/icons/home.svg";
 import Soup from "../assets/icons/soup.svg";
 import Profil from "../assets/icons/profil.svg";
 import Logo from "@/components/ui/logo";
-import { NavStyle } from "@/components/navigation/navItem";
+import { NavStyle } from "@/components/navItem/navItem";
 import { useClickAway, useLocation } from "react-use";
+import MobileNavigation from "@/components/mobileNavigation/mobileNavigation";
 // import { useSession } from "next-auth/react";
 
 interface HeaderContainerProps {

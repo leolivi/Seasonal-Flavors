@@ -1,5 +1,5 @@
 // components/NavList.js
-import NavItem, { NavStyle } from "./navItem";
+import NavItem, { NavStyle } from "../navItem/navItem";
 
 interface NavListProps {
   items: {

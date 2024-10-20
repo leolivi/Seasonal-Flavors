@@ -1,7 +1,7 @@
 import { Season } from "../../utils/Season";
 import Cross from "../../assets/icons/cross.svg";
-import NavList from "./navList";
-import { NavStyle } from "./navItem";
+import NavList from "../navList/navList";
+import { NavStyle } from "../navItem/navItem";
 
 interface MobileNavigationProps {
   onClose: () => void;

@@ -1,4 +1,4 @@
-import ScrollButton from "@/components/scroll-button/scroll-button";
+import ScrollButton from "@/components/scrollButton/scrollButton";
 
 const Rezepte = () => {
   return (
