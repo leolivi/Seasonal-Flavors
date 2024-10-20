@@ -7,7 +7,6 @@ import Header from "@/layouts/header";
 const cordaRegular = localFont({
   src: "./fonts/corda/Corda-Regular.ttf",
   variable: "--font-corda-regular",
-  // weight: "100 900",
 });
 const cordaMedium = localFont({
   src: "./fonts/corda/Corda-Medium.ttf",
@@ -17,17 +16,14 @@ const cordaMedium = localFont({
 const cordaBold = localFont({
   src: "./fonts/corda/Corda-Bold.ttf",
   variable: "--font-corda-bold",
-  // weight: "100 900",
 });
 const figTreeRegular = localFont({
   src: "./fonts/figtree/Figtree-Regular.ttf",
   variable: "--font-figtree-regular",
-  // weight: "100 900",
 });
 const figTreeMedium = localFont({
   src: "./fonts/figtree/Figtree-Medium.ttf",
   variable: "--font-figtree-medium",
-  // weight: "100 900",
 });
 
 export const metadata: Metadata = {

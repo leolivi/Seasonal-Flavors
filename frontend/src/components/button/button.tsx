@@ -2,30 +2,23 @@ import { Season } from "@/utils/Season";
 import { Typography } from "../ui/typography";
 
 interface ButtonProps {
-  children: React.ReactNode;
+  label: string;
+  onClick?: () => void;
 }
 
-export const Button = ({ children }: ButtonProps) => {
+// Button Component passing a label and an onClick function
+export const Button = ({ label, onClick }: ButtonProps) => {
   const season = new Season();
   const seasonalColor = season.getColor();
 
-  // const hoverStyle: React.CSSProperties = {
-  //   backgroundColor: `${seasonalColor}-light`,
-  //   transition: "all 0.3s ease",
-  // };
-
-  // const clickStyle: React.CSSProperties = {
-  //   backgroundColor: `${seasonalColor}-dark`,
-  //   color: "sfwhite",
-  // };
-
   return (
-    <div
+    <button
       className={`my-10 w-fit cursor-pointer rounded-full px-10 py-2 text-sfblack hover:text-sfwhite active:text-sfwhite hover:bg-${seasonalColor} active:bg-${seasonalColor}-dark bg-${seasonalColor}-light `}
+      onClick={onClick}
     >
-      <Typography variant="btnL">
-        <p className="font-figtreeRegular">{children}</p>
+      <Typography variant="btnL" className="font-figtreeRegular">
+        {label}
       </Typography>
-    </div>
+    </button>
   );
 };

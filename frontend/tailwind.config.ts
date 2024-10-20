@@ -18,18 +18,19 @@ const config: Config = {
   safelist: [
     {
       pattern: /bg-(sfred|sfgreen|sfblue|sforange)-(light|DEFAULT|dark)/,
-    },
-    {
-      pattern: /hover:bg-(sfred|sfgreen|sfblue|sforange)-(light|DEFAULT|dark)/,
+      variants: ["hover", "focus"],
     },
     {
       pattern: /bg-(sfred|sfgreen|sfblue|sforange)/,
+      variants: ["hover", "focus"],
     },
     {
       pattern: /border-(sfred|sfgreen|sfblue|sforange)-(light|DEFAULT|dark)/,
+      variants: ["hover", "focus"],
     },
     {
       pattern: /text-(sfred|sfgreen|sfblue|sforange)-(light|DEFAULT|dark)/,
+      variants: ["hover", "focus"],
     },
   ],
   theme: {
@@ -66,10 +67,6 @@ const config: Config = {
           DEFAULT: "#FBFCF8",
         },
       },
-      // backgroundColor: {
-      //   hover: {
-      //     [key: string]: string;
-      //   },
     },
     fontFamily: {
       cordaRegular: ["cordaRegular", "serif"],

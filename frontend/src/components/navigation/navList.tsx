@@ -1,5 +1,5 @@
 // components/NavList.js
-import NavItem from "./navItem";
+import NavItem, { NavStyle } from "./navItem";
 
 interface NavListProps {
   items: {
@@ -7,13 +7,17 @@ interface NavListProps {
     label: string;
     href: string;
   }[];
+  style?: NavStyle;
 }
 
-const NavList = ({ items = [] }: NavListProps) => {
+// component to map through items for navigation
+const NavList = ({ items = [], style = NavStyle.HEADER }: NavListProps) => {
   return (
-    <ul className="flex w-auto flex-col items-start gap-2 space-y-4 pt-6 min-[640px]:flex-row min-[640px]:items-center min-[640px]:justify-evenly min-[640px]:gap-4 min-[640px]:space-y-0 min-[640px]:pt-0 min-[1024px]:gap-10">
+    <ul
+      className={`min-[640px]:flex-row min-[640px]:items-center min-[640px]:justify-evenly min-[640px]:gap-4 min-[640px]:space-y-0 min-[1024px]:gap-10 ${style === NavStyle.FOOTER ? "flex justify-center gap-8" : "flex w-auto flex-col items-start gap-2 space-y-4 pt-6"}`}
+    >
       {items.map((item, index) => (
-        <NavItem key={index} {...item} />
+        <NavItem key={index} {...item} style={style} />
       ))}
     </ul>
   );

@@ -1,17 +1,63 @@
 "use client";
-import SeasonalFlavorsLogo from "../assets/logo/seasonal-flavors-logo.svg";
 import MobileNav from "../assets/icons/mobile-nav.svg";
 import { useState } from "react";
 import MobileNavigation from "@/components/navigation/mobileNavigation";
 import { Season } from "@/utils/Season";
-import Link from "next/link";
 import NavList from "@/components/navigation/navList";
 import useMediaQuery from "@/utils/useMediaQuery";
 import Home from "../assets/icons/home.svg";
 import Soup from "../assets/icons/soup.svg";
 import Profil from "../assets/icons/profil.svg";
+import Logo from "@/components/ui/logo";
+import { NavStyle } from "@/components/navigation/navItem";
 // import { useSession } from "next-auth/react";
 
+interface HeaderContainerProps {
+  color?: string;
+  children: React.ReactNode;
+}
+
+// wrapper component for semantic structure and responsiveness
+const HeaderContainer = ({ children }: HeaderContainerProps) => {
+  return (
+    <header className="px-4 py-0 min-[640px]:p-10 min-[640px]:pr-5">
+      <nav className="flex w-full flex-row items-center min-[640px]:justify-between min-[640px]:gap-6">
+        {children}
+      </nav>
+    </header>
+  );
+};
+
+interface DesktopNavProps {
+  seasonalColor: string;
+  navigationItems: {
+    icon: React.ReactNode;
+    label: string;
+    href: string;
+  }[];
+}
+
+// component for desktop nav
+const DesktopNav = ({ navigationItems }: DesktopNavProps) => {
+  return <NavList items={navigationItems} style={NavStyle.HEADER} />;
+};
+
+interface MobileNavIconProps {
+  onClick: () => void;
+  color: string;
+}
+
+// component for mobile nav icon
+const MobileNavIcon = ({ onClick, color }: MobileNavIconProps) => (
+  <li className="absolute right-4 cursor-pointer min-[640px]:right-0">
+    <MobileNav
+      onClick={onClick}
+      className={`bg-${color}-light h-12 w-auto rounded-full`}
+    />
+  </li>
+);
+
+// header component
 const Header = () => {
   // const { data: session } = useSession();
   // const isAuthenticated = !!session;
@@ -48,9 +94,9 @@ const Header = () => {
 
   return (
     <HeaderContainer color={seasonalColor}>
-      <Logo />
+      <Logo variant="header" />
       {isDesktop ? (
-        <DesktopHeader
+        <DesktopNav
           seasonalColor={seasonalColor}
           navigationItems={navigationItems}
         />
@@ -67,55 +113,5 @@ const Header = () => {
     </HeaderContainer>
   );
 };
-
-interface DesktopHeaderProps {
-  seasonalColor: string;
-  navigationItems: {
-    icon: React.ReactNode;
-    label: string;
-    href: string;
-  }[];
-}
-
-const DesktopHeader = ({ navigationItems }: DesktopHeaderProps) => {
-  return <NavList items={navigationItems} />;
-};
-
-interface HeaderContainerProps {
-  color?: string;
-  children: React.ReactNode;
-}
-
-const HeaderContainer = ({ children }: HeaderContainerProps) => {
-  return (
-    <header className="p-10 min-[640px]:pr-5">
-      <nav className="flex w-full flex-row items-center min-[640px]:justify-between min-[640px]:gap-6">
-        {children}
-      </nav>
-    </header>
-  );
-};
-
-interface MobileNavIconProps {
-  onClick: () => void;
-  color: string;
-}
-
-const MobileNavIcon = ({ onClick, color }: MobileNavIconProps) => (
-  <li className="absolute right-10 cursor-pointer">
-    <MobileNav
-      onClick={onClick}
-      className={`bg-${color}-light h-12 w-auto rounded-full`}
-    />
-  </li>
-);
-
-const Logo = () => (
-  <li className="cursor-pointer min-[640px]:flex">
-    <Link href="/">
-      <SeasonalFlavorsLogo className="h-8 w-auto min-[640px]:h-10" />
-    </Link>
-  </li>
-);
 
 export default Header;

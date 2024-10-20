@@ -8,22 +8,36 @@ interface NavItemProps {
   icon: React.ReactNode;
   label: string;
   href: string;
+  style: NavStyle;
 }
 
-const NavItem = ({ icon, label, href }: NavItemProps) => {
+export enum NavStyle {
+  FOOTER = "footer",
+  HEADER = "header",
+}
+
+// component creating a single nav item
+const NavItem = ({ icon, label, href, style }: NavItemProps) => {
   const season = new Season();
   const seasonalColor = season.getColor();
   const isDesktop = useMediaQuery("(min-width: 640px)");
+  const isFooter = style === NavStyle.FOOTER;
 
   return (
     <li
+      // styling depends on screen width
       className={`cursor-pointer items-center justify-center px-4 py-1 transition-all duration-300 ease-in-out hover:rounded-full ${
-        isDesktop
-          ? `hover:bg-${seasonalColor}-light`
-          : "active:bg-sfwhite active:bg-opacity-80"
+        isFooter
+          ? ""
+          : isDesktop
+            ? `hover:bg-${seasonalColor}-light`
+            : "active:bg-sfwhite active:bg-opacity-80"
       } min-[640px]:mt-0`}
     >
-      <Typography variant="body" className="flex flex-row gap-3 text-sfblack">
+      <Typography
+        variant={isFooter ? "small" : "body"}
+        className="flex flex-row gap-3 text-sfblack"
+      >
         {icon}
         <Link href={href}>{label}</Link>
       </Typography>

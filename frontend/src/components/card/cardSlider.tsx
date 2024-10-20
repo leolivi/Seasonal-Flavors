@@ -2,19 +2,23 @@ import React, { useRef, useState } from "react";
 import { CardList } from "./cardList";
 import { Button } from "../button/button";
 import { cardData } from "../../data/carddata";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 
+// card slider component including dragmove function
 export const CardSlider = () => {
+  const router = useRouter();
   const [isDragging, setIsDragging] = useState(false);
   const [startX, setStartX] = useState<number | null>(null);
   const [scrollLeft, setScrollLeft] = useState<number | null>(null);
   const carouselRef = useRef<HTMLDivElement | null>(null);
 
+  // handler for starting the drag motion
   const handleDragStart = (
     e: React.MouseEvent<HTMLDivElement> | React.TouchEvent<HTMLDivElement>,
   ) => {
     if (!carouselRef.current) return;
 
+    // get the X position of the mouse/touch event
     const pageX = "touches" in e ? e.touches[0].pageX : e.pageX;
 
     setIsDragging(true);
@@ -22,6 +26,7 @@ export const CardSlider = () => {
     setScrollLeft(carouselRef.current.scrollLeft);
   };
 
+  // handler for dragging movement
   const handleDragMove = (e: MouseEvent | TouchEvent) => {
     if (!isDragging || !carouselRef.current) return;
     const pageX = "touches" in e ? e.touches[0].pageX : e.pageX;
@@ -30,6 +35,7 @@ export const CardSlider = () => {
     carouselRef.current.scrollLeft = (scrollLeft as number) - walk;
   };
 
+  // handler for ending the drag motion
   const handleDragEnd = () => {
     if (!carouselRef.current) return;
 
@@ -38,6 +44,7 @@ export const CardSlider = () => {
     carouselRef.current.style.userSelect = "auto";
   };
 
+  // set event listeners for mouse and touch events
   React.useEffect(() => {
     document.addEventListener("mousemove", handleDragMove);
     document.addEventListener("mouseup", handleDragEnd);
@@ -45,6 +52,7 @@ export const CardSlider = () => {
     document.addEventListener("touchend", handleDragEnd);
 
     return () => {
+      // remove event listeners on component unmount
       document.removeEventListener("mousemove", handleDragMove);
       document.removeEventListener("mouseup", handleDragEnd);
       document.removeEventListener("touchmove", handleDragMove);
@@ -52,7 +60,10 @@ export const CardSlider = () => {
     };
   });
 
-  const buttonText = "zu den Rezepten";
+  // Handler for button click to navigate to recipes
+  const handleClick = () => {
+    router.push("/rezepte");
+  };
 
   return (
     <div className="wrapper select-none">
@@ -65,9 +76,7 @@ export const CardSlider = () => {
         <CardList cardData={cardData} />
       </div>
       <div className="flex justify-center">
-        <Link href={"/rezepte"}>
-          <Button>{buttonText}</Button>
-        </Link>
+        <Button label="zu den Rezepten" onClick={handleClick} />
       </div>
     </div>
   );

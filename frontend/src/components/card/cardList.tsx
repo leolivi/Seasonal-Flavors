@@ -8,8 +8,9 @@ interface CardListProps {
   }[];
 }
 
+// Component mapping through several Cards
 export const CardList = ({ cardData }: CardListProps) => (
-  <div className="flex pl-8">
+  <div className="flex pl-4 min-[640px]:p-8">
     {cardData.map((item, index) => (
       <Card
         key={index}

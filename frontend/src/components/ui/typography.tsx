@@ -58,6 +58,7 @@ const sizes: Record<Variant, string> = {
   btnS: "min-[0px]:text-[20px] min-[640px]:text-[25px] min-[1024px]:text-[28px] min-[1280px]:text-[30px]",
 };
 
+// component can be used for responsive typography according to design
 export const Typography = ({ variant, children, className, as }: Props) => {
   const sizeClasses = sizes[variant];
   const Tag = as || tags[variant];

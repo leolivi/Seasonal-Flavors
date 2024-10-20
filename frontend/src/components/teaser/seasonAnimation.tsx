@@ -1,67 +1,52 @@
 "use client";
-import SeasonalFlavorsBrandmark from "../../assets/logo/seasonal-flavors-brandmark.svg";
 import { useRef } from "react";
-import gsap from "gsap";
-import { useGSAP } from "@gsap/react";
-import { ScrollTrigger } from "gsap/all";
+import SeasonalFlavorsBrandmark from "../../assets/logo/seasonal-flavors-brandmark.svg";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { Season } from "@/utils/Season";
 
-gsap.registerPlugin(useGSAP);
-gsap.registerPlugin(ScrollTrigger);
-
-interface RotationConfig {
-  spring: { start: number; end: number };
-  summer: { start: number; end: number };
-  autumn: { start: number; end: number };
-  winter: { start: number; end: number };
-}
-
+// component for the brandmark and its rotation movement
 export default function SeasonAnimation() {
   const container = useRef<HTMLDivElement>(null);
 
+  // const testSeason = "winter";
+
   const season = new Season();
-  const seasonName = season.getSeason();
+  const currentSeason = season.getSeason();
 
-  // TODO: change to no hardcoded rotation
-  const rotationConfig: RotationConfig = {
-    spring: { start: 180, end: 270 },
-    summer: { start: 90, end: 180 },
-    autumn: { start: 0, end: 90 },
-    winter: { start: 270, end: 360 },
-  };
+  const seasons = ["winter", "autumn", "summer", "spring"];
+  const seasonIndex = seasons.indexOf(currentSeason);
 
-  // to test the function
-  // const hardcodedSeason = "Herbst";
+  const rotationIncrement = 90;
+  const bottomPosition = 270;
 
-  const { start, end } = rotationConfig[seasonName as keyof RotationConfig] || {
-    start: 0,
-    end: 180,
-  };
+  // calculate the base rotation based on the current season
+  const startRotation =
+    (seasonIndex * rotationIncrement + bottomPosition) % 360;
+  const endRotation = (startRotation + rotationIncrement) % 360;
 
-  useGSAP(
-    () => {
-      gsap.fromTo(
-        ".brandmark",
-        { x: -200, rotate: start },
-        {
-          x: 0,
-          rotate: end,
-          duration: 4,
-          scrollTrigger: {
-            trigger: ".brandmark",
-            start: "top 80%",
-            end: "top 20%",
-            scrub: true,
-          },
-        },
-      );
-    },
-    { scope: container },
+  //mapping position relative to the container
+  const { scrollYProgress } = useScroll({
+    target: container,
+    offset: ["start end", "end start"],
+  });
+
+  // rotation based on scroll position
+  const rotate = useTransform(
+    scrollYProgress,
+    [0, 0.5],
+    [startRotation, endRotation],
   );
+  // Horizontal movement based on scroll
+  const x = useTransform(scrollYProgress, [0, 0.5], [-200, 0]);
 
   return (
     <div ref={container} className="mt-20 flex items-center justify-center">
-      <SeasonalFlavorsBrandmark className="brandmark h-auto w-full min-[640px]:w-2/5" />
+      <motion.div
+        style={{ rotate, x }}
+        className="h-auto w-full min-[640px]:w-2/5"
+      >
+        <SeasonalFlavorsBrandmark className="brandmark" />
+      </motion.div>
     </div>
   );
 }
