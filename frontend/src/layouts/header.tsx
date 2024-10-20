@@ -1,6 +1,6 @@
 "use client";
 import MobileNav from "../assets/icons/mobile-nav.svg";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import MobileNavigation from "@/components/navigation/mobileNavigation";
 import { Season } from "@/utils/Season";
 import NavList from "@/components/navigation/navList";
@@ -10,6 +10,7 @@ import Soup from "../assets/icons/soup.svg";
 import Profil from "../assets/icons/profil.svg";
 import Logo from "@/components/ui/logo";
 import { NavStyle } from "@/components/navigation/navItem";
+import { useClickAway, useLocation } from "react-use";
 // import { useSession } from "next-auth/react";
 
 interface HeaderContainerProps {
@@ -64,13 +65,14 @@ const Header = () => {
 
   const season = new Season();
   const seasonalColor = season.getColor();
-
   const [isOpen, setIsOpen] = useState(false);
-
   const isDesktop = useMediaQuery("(min-width: 640px)");
+  const location = useLocation();
+  const ref = useRef<HTMLDivElement>(null);
 
   const toggleDropdown = () => setIsOpen(!isOpen);
 
+  // define routes
   const navigationItems = [
     {
       icon: <Soup className="w-5" />,
@@ -92,6 +94,14 @@ const Header = () => {
     });
   }
 
+  // Close modal when the route changes
+  useEffect(() => {
+    setIsOpen(false);
+  }, [location]);
+
+  // Close modal on click away
+  useClickAway(ref, () => setIsOpen(false));
+
   return (
     <HeaderContainer color={seasonalColor}>
       <Logo variant="header" />
@@ -103,11 +113,13 @@ const Header = () => {
       ) : (
         <>
           <MobileNavIcon onClick={toggleDropdown} color={seasonalColor} />
-          <MobileNavigation
-            isOpen={isOpen}
-            onClose={() => setIsOpen(false)}
-            navigationItems={navigationItems}
-          />
+          <div ref={ref}>
+            <MobileNavigation
+              isOpen={isOpen}
+              onClose={() => setIsOpen(false)}
+              navigationItems={navigationItems}
+            />
+          </div>
         </>
       )}
     </HeaderContainer>

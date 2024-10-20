@@ -12,7 +12,7 @@ const Heading = () => (
     </Typography>
     <Typography
       variant="teaserS"
-      className="z-1 w-full -translate-y-10 text-right font-cordaRegular text-sfblack max-[335px]:translate-y-2 min-[500px]:translate-y-0"
+      className="z-1 w-full -translate-y-10 text-right font-cordaRegular text-sfblack max-[335px]:translate-y-2 min-[460px]:translate-y-1 min-[500px]:translate-y-0"
     >
       <h1>
         <span className="block min-[1024px]:inline">saisonale &</span> regionale
