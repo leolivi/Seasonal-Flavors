@@ -22,7 +22,10 @@ interface HeaderContainerProps {
 // wrapper component for semantic structure and responsiveness
 const HeaderContainer = ({ children }: HeaderContainerProps) => {
   return (
-    <header className="px-4 py-0 min-[640px]:p-10 min-[640px]:pr-5">
+    <header
+      className="px-4 py-0 min-[640px]:p-10 min-[640px]:pr-5"
+      data-testid="header"
+    >
       <nav className="flex w-full flex-row items-center min-[640px]:justify-between min-[640px]:gap-6">
         {children}
       </nav>
@@ -51,7 +54,10 @@ interface MobileNavIconProps {
 
 // component for mobile nav icon
 const MobileNavIcon = ({ onClick, color }: MobileNavIconProps) => (
-  <li className="absolute right-4 cursor-pointer min-[640px]:right-0">
+  <li
+    className="absolute right-4 cursor-pointer min-[640px]:right-0"
+    data-testid="mobile-nav-icon"
+  >
     <MobileNav
       onClick={onClick}
       className={`bg-${color}-light h-12 w-auto rounded-full`}

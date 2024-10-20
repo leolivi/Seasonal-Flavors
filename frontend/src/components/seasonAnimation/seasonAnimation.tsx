@@ -43,7 +43,7 @@ export default function SeasonAnimation() {
     <div ref={container} className="mt-20 flex items-center justify-center">
       <motion.div
         style={{ rotate, x }}
-        className="h-auto w-full min-[640px]:w-2/5"
+        className="motiondiv h-auto w-full min-[640px]:w-2/5"
       >
         <SeasonalFlavorsBrandmark className="brandmark" />
       </motion.div>

@@ -21,6 +21,7 @@ export default function MobileNavigation({
 }: MobileNavigationProps) {
   const season = new Season();
   const seasonalColor = season.getColor();
+  if (!isOpen) return null;
 
   return (
     <div
@@ -30,7 +31,11 @@ export default function MobileNavigation({
           : "-translate-y-full opacity-0"
       }`}
     >
-      <Cross className="m-2 w-6 cursor-pointer self-end" onClick={onClose} />
+      <Cross
+        className="m-2 w-6 cursor-pointer self-end"
+        onClick={onClose}
+        data-testid="cross-icon"
+      />
       <NavList items={navigationItems} style={NavStyle.HEADER} />
     </div>
   );

@@ -34,7 +34,10 @@ const ScrollButton = () => {
   }, []);
 
   return (
-    <div className="fixed bottom-0 right-0 z-10 flex w-auto justify-end p-8">
+    <div
+      className="fixed bottom-0 right-0 z-10 flex w-auto justify-end p-8"
+      data-testid="scroll-button"
+    >
       {isVisible && (
         <div className="group relative cursor-pointer" onClick={scrollToTop}>
           <svg

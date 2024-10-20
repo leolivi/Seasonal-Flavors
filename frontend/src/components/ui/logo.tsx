@@ -16,6 +16,7 @@ const Logo = ({ variant = "header" }: LogoProps) => {
   return (
     <li
       className={`cursor-pointer ${variant === "footer" ? "min-[640px]:flex" : ""}`}
+      data-testid="logo"
     >
       <Link href="/">
         <SeasonalFlavorsLogo className={logoStyles} />
