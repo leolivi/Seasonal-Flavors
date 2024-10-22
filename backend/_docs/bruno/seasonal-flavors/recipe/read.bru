@@ -5,15 +5,15 @@ meta {
 }
 
 get {
-  url: {{baseUrl}}/recipe
+  url: {{baseUrl}}/recipe?tags[]=spring
   body: json
   auth: none
 }
 
 params:query {
+  tags[]: spring
   ~user_id: 1
   ~id: 2
-  ~tags[]: spring
 }
 
 headers {

@@ -13,7 +13,7 @@ class DatabaseSeeder extends Seeder {
     User::create([
       "username" => "yua",
       'email' => 'yua@miau.com',
-      'password' => 'password'
+      'password' => 'Password12!'
     ]);
 
     $this->call([
