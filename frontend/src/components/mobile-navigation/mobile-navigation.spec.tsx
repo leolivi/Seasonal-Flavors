@@ -1,16 +1,17 @@
 // components/MobileNavigation.test.js
 import { render, screen, fireEvent } from "@testing-library/react";
-import MobileNavigation from "./mobileNavigation";
+import MobileNavigation from "./mobile-navigation";
 import { Season } from "../../utils/Season";
 
 jest.mock("../../assets/icons/cross.svg", () => {
-  return ({ onClick }: { onClick: () => void }) => (
+  const CrossIconMock = ({ onClick }: { onClick: () => void }) => (
     <svg data-testid="cross-icon" onClick={onClick} />
   );
+  CrossIconMock.displayName = "CrossIconMock";
+  return CrossIconMock;
 });
-
 jest.mock("../../utils/Season");
-jest.mock("../navList/navList", () => {
+jest.mock("../nav-list/nav-list", () => {
   return jest.fn(
     ({
       items,
@@ -34,7 +35,7 @@ const navigationItems = [
   { icon: <svg data-testid="mock-icon" />, label: "About", href: "/about" },
 ];
 
-describe("MobileNavigation Component", () => {
+describe("MobileNavigation", () => {
   const mockOnClose = jest.fn();
 
   beforeEach(() => {

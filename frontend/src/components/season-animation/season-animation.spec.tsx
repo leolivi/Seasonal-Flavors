@@ -1,11 +1,13 @@
 // SeasonAnimation.test.tsx
 import { render, screen } from "@testing-library/react";
 import { Season } from "@/utils/Season";
-import SeasonAnimation from "./seasonAnimation";
+import SeasonAnimation from "./season-animation";
 
-jest.mock("../../assets/logo/seasonal-flavors-brandmark.svg", () => () => (
-  <div data-testid="brandmark" />
-));
+jest.mock("../../assets/logo/seasonal-flavors-brandmark.svg", () => {
+  const MockBrandmark = () => <div data-testid="brandmark" />;
+  MockBrandmark.displayName = "MockBrandmark";
+  return MockBrandmark;
+});
 
 describe("SeasonAnimation", () => {
   const seasons = ["winter", "autumn", "summer", "spring"];
@@ -32,7 +34,7 @@ describe("SeasonAnimation", () => {
 
       const startRotation =
         (seasonIndex * rotationIncrement + bottomPosition) % 360;
-      const endRotation = (startRotation + rotationIncrement) % 360;
+      expect(startRotation).toBeDefined();
     });
   });
 });

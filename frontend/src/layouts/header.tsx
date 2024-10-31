@@ -1,17 +1,17 @@
 "use client";
 import MobileNav from "../assets/icons/mobile-nav.svg";
 import { useEffect, useRef, useState } from "react";
-
 import { Season } from "@/utils/Season";
-import NavList from "@/components/navList/navList";
+import NavList from "@/components/nav-list/nav-list";
 import useMediaQuery from "@/utils/useMediaQuery";
 import Home from "../assets/icons/home.svg";
 import Soup from "../assets/icons/soup.svg";
 import Profil from "../assets/icons/profil.svg";
 import Logo from "@/components/ui/logo";
-import { NavStyle } from "@/components/navItem/navItem";
-import { useClickAway, useLocation } from "react-use";
-import MobileNavigation from "@/components/mobileNavigation/mobileNavigation";
+import { NavStyle } from "@/components/nav-item/nav-item";
+import { useClickAway } from "react-use";
+import MobileNavigation from "@/components/mobile-navigation/mobile-navigation";
+import { usePathname } from "next/navigation";
 // import { useSession } from "next-auth/react";
 
 interface HeaderContainerProps {
@@ -74,7 +74,7 @@ const Header = () => {
   const seasonalColor = season.getColor();
   const [isOpen, setIsOpen] = useState(false);
   const isDesktop = useMediaQuery("(min-width: 640px)");
-  const location = useLocation();
+  const pathname = usePathname();
   const ref = useRef<HTMLDivElement>(null);
 
   const toggleDropdown = () => setIsOpen(!isOpen);
@@ -104,7 +104,7 @@ const Header = () => {
   // Close modal when the route changes
   useEffect(() => {
     setIsOpen(false);
-  }, [location]);
+  }, [pathname]);
 
   // Close modal on click away
   useClickAway(ref, () => setIsOpen(false));

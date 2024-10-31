@@ -25,6 +25,10 @@ const config: Config = {
       variants: ["hover", "focus"],
     },
     {
+      pattern: /fill-(sfred|sfgreen|sfblue|sforange|sfblack)/,
+      variants: ["hover", "focus"],
+    },
+    {
       pattern: /border-(sfred|sfgreen|sfblue|sforange)-(light|DEFAULT|dark)/,
       variants: ["hover", "focus"],
     },

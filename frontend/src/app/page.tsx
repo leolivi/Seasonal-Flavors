@@ -3,12 +3,12 @@ import Teaser from "@/components/teaser/teaser";
 import { useEffect, useState } from "react";
 import { Season } from "@/utils/Season";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { CardSlider } from "@/components/cardSlider/cardSlider";
-import { RegisterBanner } from "@/components/banner/registerBanner";
+import { CardSlider } from "@/components/card-slider/card-slider";
+import { RegisterBanner } from "@/components/banner/register-banner";
 import { Typography } from "@/components/ui/typography";
 import registerImage from "../assets/images/register-image.jpg";
 import Image from "next/image";
-import ScrollButton from "@/components/scrollButton/scrollButton";
+import ScrollButton from "@/components/scroll-button/scroll-button";
 
 interface InspirationTextProps {
   seasonName: string;

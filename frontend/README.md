@@ -49,6 +49,7 @@ This is the frontend for the **Seasonal Flavors** project, a web application tha
 - **TypeScript**: Type-safe JavaScript.
 - **TailwindCSS**: Utility-first CSS framework.
 - **Axios**: HTTP client for API requests.
+- **Jest**: Unit Testing Library. (for test to run, frontend folder must be the root)
 
 ## Project structure
 

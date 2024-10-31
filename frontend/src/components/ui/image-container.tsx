@@ -9,7 +9,7 @@ interface ImageSectionProps {
 }
 
 // component for an image (full screen and responsive)
-const ImageSection = ({ src, alt, width, height }: ImageSectionProps) => (
+const ImageContainer = ({ src, alt, width, height }: ImageSectionProps) => (
   <div className="image-container mt-6 flex h-4/5 w-full items-center justify-center rounded-lg min-[640px]:h-[40rem]">
     <Image
       className="h-full w-full rounded-lg object-cover"
@@ -21,4 +21,4 @@ const ImageSection = ({ src, alt, width, height }: ImageSectionProps) => (
   </div>
 );
 
-export default ImageSection;
+export default ImageContainer;

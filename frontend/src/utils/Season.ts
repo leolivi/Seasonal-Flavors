@@ -22,8 +22,10 @@ class Season {
     }
   }
 
-  getColor() {
-    switch (this.season) {
+  getColor(season?: string) {
+    const currentSeason = season || this.season;
+
+    switch (currentSeason) {
       case "spring":
         return "sfgreen";
       case "summer":
@@ -32,6 +34,8 @@ class Season {
         return "sfred";
       case "winter":
         return "sfblue";
+      case "all_year":
+        return "sfblack";
       default:
         return "sfgreen";
     }

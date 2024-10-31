@@ -1,5 +1,5 @@
 import { render, screen } from "@testing-library/react";
-import { RegisterBanner } from "./registerBanner";
+import { RegisterBanner } from "./register-banner";
 import { Season } from "@/utils/Season";
 import { useRouter } from "next/navigation";
 
@@ -18,7 +18,7 @@ describe("RegisterBanner Component", () => {
 
     const bannerElement = screen.getByTestId("register-banner");
     const buttonElement = screen.getByText(/jetzt registrieren/i);
-    expect(bannerElement).toBeInTheDocument;
+    expect(bannerElement).toBeInTheDocument();
     expect(buttonElement).toBeInTheDocument();
   });
 

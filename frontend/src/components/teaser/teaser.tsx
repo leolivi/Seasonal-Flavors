@@ -1,8 +1,8 @@
 "use client";
 import foodImage from "../../assets/images/food-image.jpg";
-import SeasonAnimation from "../seasonAnimation/seasonAnimation";
+import SeasonAnimation from "../season-animation/season-animation";
 import { Typography } from "../ui/typography";
-import ImageSection from "../ui/ImageSection";
+import ImageContainer from "../ui/image-container";
 
 // heading component only used once in the whole project
 const Heading = () => (
@@ -27,7 +27,7 @@ export default function Teaser() {
   return (
     <div className="teaser-container px-4 py-8 min-[640px]:p-8">
       <Heading />
-      <ImageSection
+      <ImageContainer
         src={foodImage}
         alt="Leckeres Essen"
         width={500}

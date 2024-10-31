@@ -2,12 +2,12 @@
 import { render, screen } from "@testing-library/react";
 import { Season } from "@/utils/Season";
 import useMediaQuery from "@/utils/useMediaQuery";
-import NavItem, { NavStyle } from "./navItem";
+import NavItem, { NavStyle } from "./nav-item";
 
 jest.mock("@/utils/Season");
 jest.mock("@/utils/useMediaQuery");
 
-describe("NavItem Component", () => {
+describe("NavItem", () => {
   const mockIcon = <svg data-testid="mock-icon" />;
   const label = "Test Label";
   const href = "/test";

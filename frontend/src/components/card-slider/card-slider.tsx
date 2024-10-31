@@ -2,7 +2,7 @@ import React, { useRef, useState } from "react";
 import { Button } from "../button/button";
 import { cardData } from "../../data/carddata";
 import { useRouter } from "next/navigation";
-import { CardList } from "../cardList.tsx/cardList";
+import { CardList, LayoutOptions } from "../card-list.tsx/card-list";
 
 // card slider component including dragmove function
 export const CardSlider = () => {
@@ -73,7 +73,7 @@ export const CardSlider = () => {
         onMouseDown={handleDragStart}
         onTouchStart={handleDragStart}
       >
-        <CardList cardData={cardData} />
+        <CardList cardData={cardData} style={LayoutOptions.FLEX} />
       </div>
 
       <div className="flex justify-center">

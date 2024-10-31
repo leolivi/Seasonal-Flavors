@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "test": "jest"
+    "test": "ts-node --transpile-only ./node_modules/.bin/jest"
   },
   "dependencies": {
     "@gsap/react": "^2.1.1",

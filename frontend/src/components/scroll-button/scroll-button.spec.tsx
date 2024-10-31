@@ -1,6 +1,5 @@
-import { fireEvent, render, screen } from "@testing-library/react";
-import ScrollButton from "./scrollButton"; // Adjust the import path as necessary
-import { Season } from "@/utils/Season";
+import { render, screen } from "@testing-library/react";
+import ScrollButton from "./scroll-button";
 import { act } from "react";
 
 jest.mock("@/utils/Season", () => {
