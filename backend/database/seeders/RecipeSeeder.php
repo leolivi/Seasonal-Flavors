@@ -15,7 +15,7 @@ class RecipeSeeder extends Seeder {
         $user = User::where('email', 'yua@miau.com')->firstOrFail();
 
         Recipe::updateOrCreate(
-            ['title' => 'Butternut Squash Soup (Fall)'], 
+            ['title' => 'Butternut Squash Soup'], 
             [
                 'cooking_time' => 35,
                 'prep_time' => 15,
@@ -27,7 +27,7 @@ class RecipeSeeder extends Seeder {
         );
         
         Recipe::updateOrCreate(
-            ['title' => 'Lentil Shepherd’s Pie (Winter)'], 
+            ['title' => 'Lentil Shepherd’s Pie'], 
             [
                 'cooking_time' => 50,
                 'prep_time' => 20,
@@ -39,7 +39,7 @@ class RecipeSeeder extends Seeder {
         );
         
         Recipe::updateOrCreate(
-            ['title' => 'Creamy Spinach Pasta (Spring)'], 
+            ['title' => 'Creamy Spinach Pasta'], 
             [
                 'cooking_time' => 20,
                 'prep_time' => 10,
@@ -51,7 +51,7 @@ class RecipeSeeder extends Seeder {
         );
         
         Recipe::updateOrCreate(
-            ['title' => 'Stuffed Bell Peppers (Summer)'], 
+            ['title' => 'Stuffed Bell Peppers'], 
             [
                 'cooking_time' => 40,
                 'prep_time' => 20,
@@ -63,7 +63,7 @@ class RecipeSeeder extends Seeder {
         );
         
         Recipe::updateOrCreate(
-            ['title' => 'Pumpkin Risotto (Fall)'], 
+            ['title' => 'Pumpkin Risotto'], 
             [
                 'cooking_time' => 35,
                 'prep_time' => 10,
@@ -75,7 +75,7 @@ class RecipeSeeder extends Seeder {
         );
         
         Recipe::updateOrCreate(
-            ['title' => 'Chickpea Salad Sandwich (Spring)'], 
+            ['title' => 'Chickpea Salad Sandwich'], 
             [
                 'cooking_time' => 10,
                 'prep_time' => 10,
@@ -87,7 +87,7 @@ class RecipeSeeder extends Seeder {
         );
         
         Recipe::updateOrCreate(
-            ['title' => 'Sweet Potato Tacos (Winter)'], 
+            ['title' => 'Sweet Potato Tacos'], 
             [
                 'cooking_time' => 30,
                 'prep_time' => 10,
@@ -99,7 +99,7 @@ class RecipeSeeder extends Seeder {
         );
         
         Recipe::updateOrCreate(
-            ['title' => 'Zucchini Noodles with Pesto (Summer)'], 
+            ['title' => 'Zucchini Noodles with Pesto'], 
             [
                 'cooking_time' => 15,
                 'prep_time' => 10,
@@ -111,7 +111,7 @@ class RecipeSeeder extends Seeder {
         );
         
         Recipe::updateOrCreate(
-            ['title' => 'Coconut Curry with Tofu (All Seasons)'], 
+            ['title' => 'Coconut Curry with Tofu'], 
             [
                 'cooking_time' => 30,
                 'prep_time' => 10,
@@ -123,7 +123,7 @@ class RecipeSeeder extends Seeder {
         );
         
         Recipe::updateOrCreate(
-            ['title' => 'Baked Ratatouille (Summer)'], 
+            ['title' => 'Baked Ratatouille'], 
             [
                 'cooking_time' => 40,
                 'prep_time' => 20,
@@ -143,16 +143,16 @@ class RecipeSeeder extends Seeder {
         $winterTag = Tag::where('name', 'winter')->first();
         $allYearTag = Tag::where('name', 'all_year')->first();
     
-        Recipe::where('title', 'Butternut Squash Soup (Fall)')->first()->tags()->attach($autumnTag->id);
-        Recipe::where('title', 'Lentil Shepherd’s Pie (Winter)')->first()->tags()->attach($winterTag->id);
-        Recipe::where('title', 'Creamy Spinach Pasta (Spring)')->first()->tags()->attach($springTag->id);
-        Recipe::where('title', 'Stuffed Bell Peppers (Summer)')->first()->tags()->attach($summerTag->id);
-        Recipe::where('title', 'Pumpkin Risotto (Fall)')->first()->tags()->attach($autumnTag->id);
-        Recipe::where('title', 'Chickpea Salad Sandwich (Spring)')->first()->tags()->attach($springTag->id);
-        Recipe::where('title', 'Sweet Potato Tacos (Winter)')->first()->tags()->attach($winterTag->id);
-        Recipe::where('title', 'Zucchini Noodles with Pesto (Summer)')->first()->tags()->attach($summerTag->id);
-        Recipe::where('title', 'Coconut Curry with Tofu (All Seasons)')->first()->tags()->attach($allYearTag->id);
-        Recipe::where('title', 'Baked Ratatouille (Summer)')->first()->tags()->attach($summerTag->id);
+        Recipe::where('title', 'Butternut Squash Soup')->first()->tags()->attach($autumnTag->id);
+        Recipe::where('title', 'Lentil Shepherd’s Pie')->first()->tags()->attach($winterTag->id);
+        Recipe::where('title', 'Creamy Spinach Pasta')->first()->tags()->attach($springTag->id);
+        Recipe::where('title', 'Stuffed Bell Peppers')->first()->tags()->attach($summerTag->id);
+        Recipe::where('title', 'Pumpkin Risotto')->first()->tags()->attach($autumnTag->id);
+        Recipe::where('title', 'Chickpea Salad Sandwich')->first()->tags()->attach($springTag->id);
+        Recipe::where('title', 'Sweet Potato Tacos')->first()->tags()->attach($winterTag->id);
+        Recipe::where('title', 'Zucchini Noodles with Pesto')->first()->tags()->attach($summerTag->id);
+        Recipe::where('title', 'Coconut Curry with Tofu')->first()->tags()->attach($allYearTag->id);
+        Recipe::where('title', 'Baked Ratatouille')->first()->tags()->attach($summerTag->id);
     }
 }
 

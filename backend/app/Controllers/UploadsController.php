@@ -19,7 +19,8 @@ class UploadsController {
         $request->validate([
             'file' => ['required', 'file', 'max:2048', 'mimes:jpeg,jpg,png,gif,JPG'], // max 2MB
             'type' => [Rule::in(['profile', 'recipe'])], // Ensure 'type' is either 'profile' or 'recipe'
-            'recipe_id' => ['required_if:type,recipe', 'exists:recipes,id'] // recipe_id is required only if type is 'recipe'
+            'recipe_id' => ['required_if:type,recipe', 'exists:recipes,id'], // recipe_id is required only if type is 'recipe'
+            'alt_text' => ['required', 'string', 'max:255'] // required alt text
         ]);
 
         // upload file
@@ -34,6 +35,7 @@ class UploadsController {
         // Save the uploaded file path
         $image = new Image([
             'file_path' => $filePath,
+            'alt_text' => $request->input('alt_text', '')
         ]);
 
         // either assign to recipe or user

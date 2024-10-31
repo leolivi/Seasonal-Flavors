@@ -14,6 +14,9 @@ class Image extends Model {
   #[Column]
   public string $file_path;
 
+  #[Column]
+  public string $alt_text;
+
   /*
   @return BelongsTo
   @desc 1:1 relationship between image and recipe

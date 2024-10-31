@@ -21,6 +21,8 @@ class DatabaseSeeder extends Seeder {
       TagSeeder::class,
       // Create recipes for testing reasons
       RecipeSeeder::class,
+      // Create images for testing reasons
+      ImageSeeder::class
   ]);
   }
 }
