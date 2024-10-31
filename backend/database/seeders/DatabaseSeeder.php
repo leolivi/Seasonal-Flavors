@@ -17,10 +17,10 @@ class DatabaseSeeder extends Seeder {
     ]);
 
     $this->call([
-      // Create recipes for testing reasons
-      RecipeSeeder::class,
       // default tags, will also be used in productive environment!
       TagSeeder::class,
+      // Create recipes for testing reasons
+      RecipeSeeder::class,
   ]);
   }
 }
