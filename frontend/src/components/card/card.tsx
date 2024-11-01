@@ -1,43 +1,34 @@
 import Image from "next/image";
 import { Typography } from "../ui/typography";
-import { ReactNode } from "react";
 import Clock from "../../assets/icons/clock.svg";
 import Bookmark from "../../assets/icons/bookmark.svg";
 import Heart from "../ui/heart";
 import { Season } from "@/utils/Season";
 
 interface CardProps {
-  cardTitle: string;
   imageSrc: string;
   imageAlt: string;
+  title: string;
   prepDuration?: number;
   showDetail?: boolean;
-  className?: string;
-  seasonIcon?: ReactNode;
-  clockIcon?: ReactNode;
   season?: string;
-  onClick?: () => void;
 }
 
-export const Card = ({
-  cardTitle,
+export default async function Card({
   imageSrc,
   imageAlt,
+  title,
   prepDuration,
   showDetail = false,
   season,
-  onClick,
-}: CardProps) => {
+}: CardProps) {
   const seasonColors = season
     ? season.split(",").map((s) => new Season().getColor(s.trim()))
     : [];
 
   return (
-    <div
-      className={`mx-2 my-4 w-auto cursor-pointer rounded-lg bg-sfwhite-light p-3 drop-shadow-lg first:ml-0`}
-      onClick={onClick}
-    >
-      <div className="min-[640px]:min-w-70 min-[1024px]:min-w-90 aspect-square min-w-56">
+    <div className="mx-2 my-4 w-auto cursor-pointer rounded-lg bg-sfwhite-light p-3 drop-shadow-lg first:ml-0">
+      <div className="min-[640px]:min-w-70 min-[1024px]:min-w-90 relative aspect-square min-w-56">
         <Bookmark className="absolute right-4 top-4" />
         <Image
           className="pointer-events-none h-full w-full rounded-lg object-cover"
@@ -52,7 +43,7 @@ export const Card = ({
           variant="heading3"
           className="text-wrap font-cordaMedium text-2xl font-semibold text-sfblack"
         >
-          {cardTitle}
+          {title}
         </Typography>
       </div>
       {showDetail && (
@@ -70,4 +61,4 @@ export const Card = ({
       )}
     </div>
   );
-};
+}

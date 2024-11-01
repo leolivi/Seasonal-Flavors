@@ -11,7 +11,7 @@ export default function SeasonAnimation() {
   // const testSeason = "winter";
 
   const season = new Season();
-  const currentSeason = season.getSeason();
+  const currentSeason = Season.getSeason();
 
   const seasons = ["winter", "autumn", "summer", "spring"];
   const seasonIndex = seasons.indexOf(currentSeason);

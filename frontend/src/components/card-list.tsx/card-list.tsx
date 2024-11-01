@@ -1,16 +1,16 @@
-import { Card } from "../card/card";
+import Card from "../card/card";
 
 interface CardListProps {
-  cardData: {
+  cardData?: {
+    id: number;
     imageSrc: string;
     imageAlt: string;
-    cardTitle: string;
+    title: string;
     prepDuration?: number;
     season?: string;
   }[];
   showDetail?: boolean;
   style?: LayoutOptions;
-  onClick?: (index: number) => void;
 }
 
 export enum LayoutOptions {
@@ -20,23 +20,23 @@ export enum LayoutOptions {
 
 // Component mapping through several Cards
 export const CardList = ({
-  cardData,
   showDetail,
   style,
-  onClick,
-}: CardListProps) => (
-  <div className={style}>
-    {cardData.map((item, index) => (
-      <Card
-        key={index}
-        imageSrc={item.imageSrc}
-        imageAlt={item.imageAlt}
-        cardTitle={item.cardTitle}
-        prepDuration={item.prepDuration}
-        season={item.season}
-        showDetail={showDetail}
-        onClick={() => onClick?.(index)}
-      />
-    ))}
-  </div>
-);
+  cardData = [],
+}: CardListProps) => {
+  return (
+    <div className={style}>
+      {cardData.map((item) => (
+        <Card
+          key={item.id}
+          imageSrc={item.imageSrc}
+          imageAlt={item.imageAlt}
+          title={item.title}
+          prepDuration={item.prepDuration}
+          season={item.season}
+          showDetail={showDetail}
+        />
+      ))}
+    </div>
+  );
+};

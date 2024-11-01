@@ -2,14 +2,14 @@ class Season {
   private season: string;
 
   constructor() {
-    this.season = this.getSeason();
+    this.season = Season.getSeason();
   }
 
-  private getMonth(): number {
+  private static getMonth(): number {
     return new Date().getMonth() + 1;
   }
 
-  public getSeason(): string {
+  public static getSeason(): string {
     const month = this.getMonth();
     if (month >= 3 && month <= 5) {
       return "spring";
