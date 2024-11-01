@@ -1,8 +1,10 @@
-import React from "react";
+"use client";
+import React, { useRef } from "react";
+import { color, motion, useScroll, useTransform } from "framer-motion";
 import { Button } from "../button/button";
 import { useRouter } from "next/navigation";
 import { CardList, LayoutOptions } from "../card-list.tsx/card-list";
-import useDrag from "@/hooks/useDrag";
+import { Season } from "@/utils/Season";
 
 interface CardSliderProps {
   cardData: {
@@ -15,8 +17,14 @@ interface CardSliderProps {
 }
 
 export const CardSlider = ({ cardData }: CardSliderProps) => {
+  const season = new Season();
+  const seasonalColor = season.getColor();
+
   const router = useRouter();
-  const { carouselRef, handleDragStart } = useDrag();
+  const carouselRef = useRef<HTMLDivElement | null>(null);
+
+  const { scrollXProgress } = useScroll({ container: carouselRef });
+  const progressWidth = useTransform(scrollXProgress, [0, 1], ["0%", "100%"]);
 
   const handleClick = () => {
     router.push("/recipes");
@@ -24,16 +32,22 @@ export const CardSlider = ({ cardData }: CardSliderProps) => {
 
   return (
     <div className="wrapper select-none">
-      <div
+      <motion.div
+        className={`left-0 top-0 h-1`}
+        style={{ width: progressWidth }}
+      />
+
+      <motion.div
         ref={carouselRef}
-        className="carousel cursor-grab overflow-hidden overflow-y-hidden whitespace-nowrap"
-        onMouseDown={handleDragStart}
-        onTouchStart={handleDragStart}
+        className={`carousel scrollbar scrollbar-track-${seasonalColor}-light cursor-grab whitespace-nowrap`}
+        drag="x"
+        dragConstraints={{ left: 0, right: 0 }}
+        dragElastic={0.1}
       >
         <CardList cardData={cardData} style={LayoutOptions.FLEX} />
-      </div>
+      </motion.div>
 
-      <div className="flex justify-center">
+      <div className="mt-4 flex justify-center">
         <Button label="zu den Rezepten" onClick={handleClick} />
       </div>
     </div>

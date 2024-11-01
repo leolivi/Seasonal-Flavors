@@ -36,6 +36,11 @@ const config: Config = {
       pattern: /text-(sfred|sfgreen|sfblue|sforange)-(light|DEFAULT|dark)/,
       variants: ["hover", "focus"],
     },
+    {
+      pattern:
+        /(scrollbar|scrollbar-thumb|scrollbar-track)-(sfred|sfgreen|sfblue|sforange)-(light|DEFAULT|dark)/,
+      variants: ["hover", "focus"],
+    },
   ],
   theme: {
     extend: {
@@ -95,7 +100,7 @@ const config: Config = {
   height: {
     "128": "40rem",
   },
-  plugins: [],
+  plugins: [require("tailwind-scrollbar")],
 };
 
 export default config;

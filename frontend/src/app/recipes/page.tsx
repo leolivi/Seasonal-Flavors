@@ -1,4 +1,4 @@
-import CardListWrapper from "@/components/card-list-wrapper/card-list-wrapper";
+import CardListWrapper from "@/components/card-list.tsx/card-list-wrapper";
 import { LayoutOptions } from "@/components/card-list.tsx/card-list";
 import dataFetch from "@/utils/data-fetch";
 import ScrollButton from "@/components/scroll-button/scroll-button";

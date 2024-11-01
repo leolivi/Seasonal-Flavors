@@ -1,6 +1,4 @@
-"use client";
 import React from "react";
-import { useRouter } from "next/navigation";
 import { CardSlider } from "./card-slider";
 
 interface CardSliderWrapperProps {
@@ -16,16 +14,9 @@ interface CardSliderWrapperProps {
 
 // Client component to handle routing and dragging logic
 export const CardSliderWrapper = ({ cardData }: CardSliderWrapperProps) => {
-  const router = useRouter();
-
-  // Handler for button click to navigate to recipes
-  const handleClick = () => {
-    router.push("/rezepte");
-  };
-
   return (
     <div className="wrapper select-none">
-      <div className="carousel cursor-grab overflow-hidden overflow-y-hidden whitespace-nowrap">
+      <div className="carousel overflow-hidden overflow-y-hidden whitespace-nowrap">
         <CardSlider cardData={cardData} />
       </div>
     </div>

@@ -14,7 +14,7 @@ interface CardProps {
   season?: string;
 }
 
-export default async function Card({
+export default function Card({
   imageSrc,
   imageAlt,
   title,
@@ -27,9 +27,10 @@ export default async function Card({
     : [];
 
   return (
-    <div className="mx-2 my-4 w-auto cursor-pointer rounded-lg bg-sfwhite-light p-3 drop-shadow-lg first:ml-0">
+    <div className="mx-2 my-4 min-h-[21rem] w-auto cursor-pointer rounded-lg bg-sfwhite-light p-3 drop-shadow-lg first:ml-0">
+      {/* Set a fixed width here */}
       <div className="min-[640px]:min-w-70 min-[1024px]:min-w-90 relative aspect-square min-w-56">
-        <Bookmark className="absolute right-4 top-4" />
+        {showDetail && <Bookmark className="absolute right-4 top-4" />}
         <Image
           className="pointer-events-none h-full w-full rounded-lg object-cover"
           src={imageSrc}
@@ -40,7 +41,7 @@ export default async function Card({
       </div>
       <div className="py-3 min-[640px]:min-h-20">
         <Typography
-          variant="heading3"
+          variant={showDetail ? "heading3" : "body"}
           className="text-wrap font-cordaMedium text-2xl font-semibold text-sfblack"
         >
           {title}

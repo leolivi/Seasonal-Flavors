@@ -14,18 +14,38 @@ const Home = async () => {
   const cardData = await dataFetch("http://127.0.0.1:8000/api/recipe");
 
   // Format the card data to match the expected structure
-  const formattedCardData = cardData.map((recipe: any) => ({
-    id: recipe.id,
-    imageSrc: recipe.imageSrc || "",
-    imageAlt: recipe.title,
-    title: recipe.title,
-  }));
+  const formattedCardData = await Promise.all(
+    cardData.map(async (recipe: any) => {
+      const imageData = await dataFetch(
+        `http://127.0.0.1:8000/api/images?recipe_id=${recipe.id}`,
+      );
+      const seasonData = await dataFetch(
+        `http://127.0.0.1:8000/api/recipes/${recipe.id}/tags`,
+      );
+
+      const firstImage = imageData[0] || {};
+
+      const seasonTags = seasonData.map((tag: any) => tag.name).join(", ");
+
+      return {
+        id: recipe.id,
+        imageSrc: firstImage.file_path || "",
+        imageAlt: firstImage.alt_text || recipe.title,
+        title: recipe.title,
+        prepDuration: recipe.prep_time,
+        season: seasonTags,
+      };
+    }),
+  );
+
+  console.log(formattedCardData);
 
   return (
     <main>
       <ScrollButton />
       <Teaser />
       <InspirationText seasonName={seasonName} />
+      {/* Pass the fetched data as props */}
       <CardSliderWrapper cardData={formattedCardData} />
       <div className="h-1/8 relative my-24 flex items-center justify-center px-4 min-[640px]:h-80 min-[640px]:px-8 min-[1024px]:h-96">
         <Image
