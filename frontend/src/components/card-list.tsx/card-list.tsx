@@ -1,4 +1,6 @@
+import { ReactNode } from "react";
 import Card from "../card/card";
+import Link from "next/link";
 
 interface CardListProps {
   cardData?: {
@@ -11,6 +13,7 @@ interface CardListProps {
   }[];
   showDetail?: boolean;
   style?: LayoutOptions;
+  children?: ReactNode;
 }
 
 export enum LayoutOptions {
@@ -23,20 +26,24 @@ export const CardList = ({
   showDetail,
   style,
   cardData = [],
+  children,
 }: CardListProps) => {
   return (
     <div className={style}>
       {cardData.map((item) => (
-        <Card
-          key={item.id}
-          imageSrc={item.imageSrc}
-          imageAlt={item.imageAlt}
-          title={item.title}
-          prepDuration={item.prepDuration}
-          season={item.season}
-          showDetail={showDetail}
-        />
+        <Link key={item.id} href={`/recipes/${item.id}`}>
+          <Card
+            key={item.id}
+            imageSrc={item.imageSrc}
+            imageAlt={item.imageAlt}
+            title={item.title}
+            prepDuration={item.prepDuration}
+            season={item.season}
+            showDetail={showDetail}
+          />
+        </Link>
       ))}
+      {children}
     </div>
   );
 };
