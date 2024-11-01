@@ -39,7 +39,7 @@ export const CardSlider = ({ cardData }: CardSliderProps) => {
 
       <motion.div
         ref={carouselRef}
-        className={`carousel scrollbar scrollbar-track-${seasonalColor}-light cursor-grab whitespace-nowrap`}
+        className={`carousel scrollbar scrollbar-track-${seasonalColor}-light whitespace-nowrap`}
         drag="x"
         dragConstraints={{ left: 0, right: 0 }}
         dragElastic={0.1}

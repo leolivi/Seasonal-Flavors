@@ -31,7 +31,11 @@ export const CardList = ({
   return (
     <div className={style}>
       {cardData.map((item) => (
-        <Link key={item.id} href={`/recipes/${item.id}`}>
+        <Link
+          key={item.id}
+          href={`/recipes/${item.id}`}
+          className="cursor-pointer"
+        >
           <Card
             key={item.id}
             imageSrc={item.imageSrc}

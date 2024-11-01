@@ -27,10 +27,19 @@ export default function Card({
     : [];
 
   return (
-    <div className="mx-2 my-4 min-h-[21rem] w-auto cursor-pointer rounded-lg bg-sfwhite-light p-3 drop-shadow-lg first:ml-0">
+    <div
+      className={
+        showDetail
+          ? "mx-2 my-4 cursor-pointer rounded-lg bg-sfwhite-light p-3 drop-shadow-lg first:ml-0"
+          : "cursor-pointer!important mx-2 my-4 min-h-[21rem] w-80 rounded-lg bg-sfwhite-light p-3 drop-shadow-lg first:ml-0 min-[640px]:min-h-[26rem]"
+      }
+    >
+      {/* "" */}
       {/* Set a fixed width here */}
       <div className="min-[640px]:min-w-70 min-[1024px]:min-w-90 relative aspect-square min-w-56">
-        {showDetail && <Bookmark className="absolute right-4 top-4" />}
+        {showDetail && (
+          <Bookmark className="absolute right-4 top-4 h-12 w-auto" />
+        )}
         <Image
           className="pointer-events-none h-full w-full rounded-lg object-cover"
           src={imageSrc}

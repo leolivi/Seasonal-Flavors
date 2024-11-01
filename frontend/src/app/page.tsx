@@ -11,7 +11,10 @@ import { CardSliderWrapper } from "@/components/card-slider/card-slider-wrapper"
 // Home component that renders the main content of the page
 const Home = async () => {
   const seasonName = Season.getSeason();
-  const cardData = await dataFetch("http://127.0.0.1:8000/api/recipe");
+  const cardData = await dataFetch(
+    // `http://127.0.0.1:8000/api/recipe?tags[]=${seasonName}`,
+    `http://127.0.0.1:8000/api/recipe`,
+  );
 
   // Format the card data to match the expected structure
   const formattedCardData = await Promise.all(
@@ -38,7 +41,7 @@ const Home = async () => {
     }),
   );
 
-  console.log(formattedCardData);
+  console.log("Filtered Recipes for Season:", seasonName, formattedCardData);
 
   return (
     <main>

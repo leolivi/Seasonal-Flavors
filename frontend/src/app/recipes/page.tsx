@@ -1,10 +1,20 @@
+import { useSearchParams } from "next/navigation";
 import CardListWrapper from "@/components/card-list.tsx/card-list-wrapper";
 import { LayoutOptions } from "@/components/card-list.tsx/card-list";
 import dataFetch from "@/utils/data-fetch";
 import ScrollButton from "@/components/scroll-button/scroll-button";
+import FilterBar from "@/components/filter-bar/filter-bar";
 
-const Recipes = async () => {
-  const cardData = await dataFetch("http://127.0.0.1:8000/api/recipe");
+interface RecipesProps {
+  searchParams?: { title?: string };
+}
+
+const Recipes = async ({ searchParams }: RecipesProps) => {
+  const title = (await searchParams?.title) || "";
+
+  const cardData = await dataFetch(
+    `http://127.0.0.1:8000/api/recipe${title ? `?title=${encodeURIComponent(title)}` : ""}`,
+  );
 
   const formattedCardData = await Promise.all(
     cardData.map(async (recipe: any) => {
@@ -30,18 +40,16 @@ const Recipes = async () => {
     }),
   );
 
-  console.log(formattedCardData);
-
   return (
     <div className="m-4">
       <ScrollButton />
       <h1 className="h-0 opacity-0">Rezepte</h1>
-      {/* Insert Recipe filter bar */}
+      <FilterBar title={title} />
       <CardListWrapper
         cardData={formattedCardData}
         showDetail={true}
         style={LayoutOptions.GRID}
-      ></CardListWrapper>
+      />
     </div>
   );
 };
