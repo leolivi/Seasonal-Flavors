@@ -1,7 +1,7 @@
 import ScrollButton from "@/components/scroll-button/scroll-button";
 import CardListWrapper from "@/components/card-list-wrapper/card-list-wrapper";
 
-const Rezepte = () => {
+const Recipes = () => {
   return (
     <div className="m-4">
       <ScrollButton />
@@ -12,4 +12,4 @@ const Rezepte = () => {
   );
 };
 
-export default Rezepte;
+export default Recipes;

@@ -84,7 +84,7 @@ const Header = () => {
     {
       icon: <Soup className="w-5" />,
       label: "Rezepte",
-      href: "/rezepte",
+      href: "/recipes",
     },
     {
       icon: <Profil className="w-5" />,

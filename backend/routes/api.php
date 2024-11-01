@@ -15,6 +15,7 @@ Route::post('/user', [UserController::class, 'create']);
 Route::post('/auth/login', [AuthController::class, 'login']);
 // show recipes
 Route::get('/recipe', [RecipeController::class, 'read']);
+Route::get('/images', [UploadsController::class, 'index']);
 // show tags
 Route::get('/tags', [TagsController::class, 'index']);
 Route::get('/recipes/{recipe}/tags', [TagsController::class, 'showTags']);

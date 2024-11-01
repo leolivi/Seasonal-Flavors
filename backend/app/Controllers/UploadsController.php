@@ -10,6 +10,29 @@ use Illuminate\Validation\Rule;
 class UploadsController {
 
     /*
+    @return Image[]
+    @desc fetch images for a recipe or user
+    */
+    function index(Request $request) {
+		$recipeId = $request->query('recipe_id');
+        $userId = $request->query('user_id');
+
+        $query = Image::query();
+
+        // Filter by recipe_id
+        if ($recipeId) {
+            $query->where('recipe_id', $recipeId);
+        }
+
+        // Filter by user_id
+        if ($userId) {
+            $query->where('user_id', $userId);
+        }
+
+        return $query->get();
+	}
+
+    /*
     @return string|bool
     @desc Uploads a file
     */
