@@ -34,11 +34,12 @@ export default function Card({
           : "cursor-pointer!important mx-2 my-4 min-h-[21rem] w-80 rounded-lg bg-sfwhite-light p-3 drop-shadow-lg first:ml-0 min-[640px]:min-h-[26rem]"
       }
     >
-      {/* "" */}
-      {/* Set a fixed width here */}
       <div className="min-[640px]:min-w-70 min-[1024px]:min-w-90 relative aspect-square min-w-56">
         {showDetail && (
-          <Bookmark className="absolute right-4 top-4 h-12 w-auto" />
+          <Bookmark
+            data-testid="bookmark"
+            className="absolute right-4 top-4 h-12 w-auto"
+          />
         )}
         <Image
           className="pointer-events-none h-full w-full rounded-lg object-cover"
@@ -59,12 +60,12 @@ export default function Card({
       {showDetail && (
         <div className="mt-4 flex justify-between">
           <div className="flex items-center gap-2">
-            <Clock />
+            <Clock data-testid="clock" />
             <p className="text-sfblack">{prepDuration} Min. aktiv</p>
           </div>
           <div className="flex gap-1">
             {seasonColors.map((color, index) => (
-              <Heart key={index} color={color} />
+              <Heart data-testid="heart" key={index} color={color} />
             ))}
           </div>
         </div>

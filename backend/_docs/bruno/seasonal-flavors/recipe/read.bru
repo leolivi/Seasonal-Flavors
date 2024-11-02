@@ -5,12 +5,13 @@ meta {
 }
 
 get {
-  url: {{baseUrl}}/recipe
+  url: {{baseUrl}}/recipe?title=butter
   body: json
   auth: none
 }
 
 params:query {
+  title: butter
   ~id: 2
   ~tags[]: spring
   ~user_id: 1

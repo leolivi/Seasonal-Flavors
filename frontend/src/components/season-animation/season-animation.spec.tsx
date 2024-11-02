@@ -24,7 +24,7 @@ describe("SeasonAnimation", () => {
 
   seasons.forEach((seasonName) => {
     test("calculates the correct start and end rotation for the current season", () => {
-      jest.spyOn(Season.prototype, "getSeason").mockReturnValue(seasonName);
+      jest.spyOn(Season, "getSeason").mockReturnValue(seasonName);
 
       render(<SeasonAnimation />);
 
