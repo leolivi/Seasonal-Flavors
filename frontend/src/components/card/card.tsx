@@ -30,7 +30,7 @@ export default function Card({
     <div
       className={
         showDetail
-          ? "mx-2 my-4 cursor-pointer rounded-lg bg-sfwhite-light p-3 drop-shadow-lg first:ml-0"
+          ? "mx-0 my-4 cursor-pointer rounded-lg bg-sfwhite-light p-3 drop-shadow-lg min-[640px]:mx-2"
           : "cursor-pointer!important mx-2 my-4 min-h-[21rem] w-80 rounded-lg bg-sfwhite-light p-3 drop-shadow-lg first:ml-0 min-[640px]:min-h-[26rem]"
       }
     >

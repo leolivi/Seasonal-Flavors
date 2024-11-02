@@ -10,10 +10,8 @@
     "test": "ts-node --transpile-only ./node_modules/.bin/jest"
   },
   "dependencies": {
-    "@gsap/react": "^2.1.1",
     "@uidotdev/usehooks": "^2.4.1",
     "framer-motion": "^11.11.9",
-    "gsap": "^3.12.5",
     "next": "^14.2.16",
     "next-auth": "^4.24.10",
     "react": "^18",

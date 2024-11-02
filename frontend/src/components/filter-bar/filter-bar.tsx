@@ -9,7 +9,7 @@ interface FilterBarProps {
   title?: string;
 }
 
-const FilterBar: React.FC<FilterBarProps> = ({ title = "" }) => {
+const FilterBar = ({ title = "" }: FilterBarProps) => {
   const [inputValue, setInputValue] = useState(title);
 
   useEffect(() => {
@@ -19,11 +19,13 @@ const FilterBar: React.FC<FilterBarProps> = ({ title = "" }) => {
   const season = new Season();
   const seasonalColor = season.getColor();
 
+  const clearInput = () => setInputValue("");
+
   return (
-    <div className="mb-4 flex justify-between gap-2 pl-4 pr-8 max-[640px]:mt-8">
+    <div className="mb-4 flex justify-between gap-2 max-[640px]:mt-8 min-[640px]:pl-6 min-[640px]:pr-7">
       <button
         onClick={() => {}}
-        className={`border-${seasonalColor}-dark flex items-center gap-4 border-b-2 px-8 text-lg font-medium text-sfblack`}
+        className={`border-${seasonalColor}-dark flex items-center gap-4 border-b-2 px-8 text-lg font-medium text-sfblack max-[540px]:px-4`}
       >
         <Bookmark className="h-8 w-auto" />
         <Typography variant="body">Favoriten</Typography>
@@ -40,12 +42,22 @@ const FilterBar: React.FC<FilterBarProps> = ({ title = "" }) => {
             placeholder="suchen"
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
-            className="bg-transparent text-sfblack outline-none focus:border-none active:border-none"
+            className="bg-transparent text-sfblack outline-none focus:border-none active:border-none max-[540px]:w-[10rem] max-[480px]:w-[5rem]"
           />
         </Typography>
-        <button type="submit">
-          <Magnifier />
-        </button>
+        {inputValue ? (
+          <button
+            type="button"
+            onClick={clearInput}
+            className="ml-2 text-sfblack"
+          >
+            &#x2715; {/* Unicode for "X" */}
+          </button>
+        ) : (
+          <button type="submit" className="ml-2">
+            <Magnifier />
+          </button>
+        )}
       </form>
     </div>
   );
