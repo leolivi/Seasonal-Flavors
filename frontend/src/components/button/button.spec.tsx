@@ -20,7 +20,7 @@ describe("Button Component", () => {
 
   test("should have the correct color based on the current season", () => {
     const mockColor = "sfgreen";
-    (Season as jest.Mock).mockImplementation(() => {
+    (Season as unknown as jest.Mock).mockImplementation(() => {
       return {
         getColor: jest.fn().mockReturnValue(mockColor),
       };

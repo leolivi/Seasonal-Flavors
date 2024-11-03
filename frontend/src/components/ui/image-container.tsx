@@ -2,7 +2,7 @@ import Image from "next/image";
 import { StaticImageData } from "next/image";
 
 interface ImageSectionProps {
-  src: StaticImageData;
+  src: string | StaticImageData;
   alt: string;
   width: number;
   height: number;

@@ -1,4 +1,3 @@
-// components/NavList.js
 import NavItem, { NavStyle } from "../nav-item/nav-item";
 
 interface NavListProps {

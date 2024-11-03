@@ -1,10 +1,10 @@
 "use client";
-import { Season } from "../utils/Season";
 import { ReactNode } from "react";
 import { Typography } from "@/components/ui/typography";
 import NavList from "@/components/nav-list/nav-list";
 import Logo from "@/components/ui/logo";
 import { NavStyle } from "@/components/nav-item/nav-item";
+import { getSeasonColor } from "@/utils/SeasonUtils";
 
 const FooterContainer = ({ color, children }: FooterProps) => (
   <footer className={`rounded-t-3xl p-10 bg-${color}-light`}>
@@ -26,8 +26,7 @@ interface FooterProps {
 }
 
 const Footer = () => {
-  const season = new Season();
-  const seasonalColor = season.getColor();
+  const seasonalColor = getSeasonColor();
 
   const footerItems = [
     {

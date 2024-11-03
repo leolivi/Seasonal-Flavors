@@ -39,7 +39,7 @@ describe("MobileNavigation", () => {
   const mockOnClose = jest.fn();
 
   beforeEach(() => {
-    (Season as jest.Mock).mockImplementation(() => {
+    (Season as unknown as jest.Mock).mockImplementation(() => {
       return {
         getColor: jest.fn().mockReturnValue("blue"),
       };

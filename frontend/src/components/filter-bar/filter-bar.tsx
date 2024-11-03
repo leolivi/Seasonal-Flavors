@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import Magnifier from "src/assets/icons/magnifier.svg";
 import Bookmark from "src/assets/icons/bookmark.svg";
 import { Typography } from "../ui/typography";
-import { Season } from "@/utils/Season";
+import { getSeasonColor } from "@/utils/SeasonUtils";
 
 interface FilterBarProps {
   title?: string;
@@ -16,13 +16,14 @@ const FilterBar = ({ title = "" }: FilterBarProps) => {
     setInputValue(title);
   }, [title]);
 
-  const season = new Season();
-  const seasonalColor = season.getColor();
+  const seasonalColor = getSeasonColor();
 
   const clearInput = () => setInputValue("");
 
   return (
     <div className="mb-4 flex justify-between gap-2 max-[640px]:mt-8 min-[640px]:pl-6 min-[640px]:pr-7">
+      {/* TODO: Implement Favortie function */}
+      {/* TODO: Convert to Button Component? */}
       <button
         onClick={() => {}}
         className={`border-${seasonalColor}-dark flex items-center gap-4 border-b-2 px-8 text-lg font-medium text-sfblack max-[540px]:px-4`}
@@ -51,7 +52,7 @@ const FilterBar = ({ title = "" }: FilterBarProps) => {
             onClick={clearInput}
             className="ml-2 text-sfblack"
           >
-            &#x2715; {/* Unicode for "X" */}
+            &#x2715;
           </button>
         ) : (
           <button type="submit" className="ml-2">

@@ -1,7 +1,6 @@
 "use client";
 import MobileNav from "../assets/icons/mobile-nav.svg";
 import { useEffect, useRef, useState } from "react";
-import { Season } from "@/utils/Season";
 import NavList from "@/components/nav-list/nav-list";
 import useMediaQuery from "@/utils/useMediaQuery";
 import Home from "../assets/icons/home.svg";
@@ -12,6 +11,7 @@ import { NavStyle } from "@/components/nav-item/nav-item";
 import { useClickAway } from "react-use";
 import MobileNavigation from "@/components/mobile-navigation/mobile-navigation";
 import { usePathname } from "next/navigation";
+import { getSeasonColor } from "@/utils/SeasonUtils";
 // import { useSession } from "next-auth/react";
 
 interface HeaderContainerProps {
@@ -70,8 +70,7 @@ const Header = () => {
   // const { data: session } = useSession();
   // const isAuthenticated = !!session;
 
-  const season = new Season();
-  const seasonalColor = season.getColor();
+  const seasonalColor = getSeasonColor();
   const [isOpen, setIsOpen] = useState(false);
   const isDesktop = useMediaQuery("(min-width: 640px)");
   const pathname = usePathname();

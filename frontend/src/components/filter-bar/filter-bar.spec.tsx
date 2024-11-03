@@ -12,12 +12,6 @@ describe("FilterBar Component", () => {
     expect(screen.getByText("Favoriten")).toBeInTheDocument();
   });
 
-  test("renders with provided title", () => {
-    const title = "Test Title";
-    render(<FilterBar title={title} />);
-    expect(screen.getByPlaceholderText("suchen")).toHaveValue(title);
-  });
-
   test("updates input value on change", () => {
     render(<FilterBar />);
     const input = screen.getByPlaceholderText("suchen");

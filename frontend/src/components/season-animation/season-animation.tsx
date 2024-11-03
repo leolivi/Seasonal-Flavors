@@ -2,7 +2,7 @@
 import { useRef } from "react";
 import SeasonalFlavorsBrandmark from "../../assets/logo/seasonal-flavors-brandmark.svg";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { Season } from "@/utils/Season";
+import { getCurrentSeason } from "@/utils/SeasonUtils";
 
 // component for the brandmark and its rotation movement
 export default function SeasonAnimation() {
@@ -10,8 +10,7 @@ export default function SeasonAnimation() {
 
   // const testSeason = "winter";
 
-  const season = new Season();
-  const currentSeason = Season.getSeason();
+  const currentSeason = getCurrentSeason();
 
   const seasons = ["winter", "autumn", "summer", "spring"];
   const seasonIndex = seasons.indexOf(currentSeason);

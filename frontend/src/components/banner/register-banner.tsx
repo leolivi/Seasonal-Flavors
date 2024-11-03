@@ -1,13 +1,14 @@
 "use client";
-import { Season } from "@/utils/Season";
+
 import { Button } from "../button/button";
 import { Typography } from "../ui/typography";
 import { useRouter } from "next/navigation";
+import { getSeasonColor } from "@/utils/SeasonUtils";
 
 //  Component to display The register Banner
 export const RegisterBanner = () => {
-  const season = new Season();
-  const seasonalColor = season.getColor();
+  const seasonalColor = getSeasonColor();
+
   const router = useRouter();
 
   // Function to handle button click, navigating to the login page

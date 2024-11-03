@@ -1,4 +1,4 @@
-import { Season } from "../../utils/Season";
+import { getSeasonColor } from "@/utils/SeasonUtils";
 import Cross from "../../assets/icons/cross.svg";
 import { NavStyle } from "../nav-item/nav-item";
 import NavList from "../nav-list/nav-list";
@@ -19,8 +19,7 @@ export default function MobileNavigation({
   onClose,
   navigationItems,
 }: MobileNavigationProps) {
-  const season = new Season();
-  const seasonalColor = season.getColor();
+  const seasonalColor = getSeasonColor();
   if (!isOpen) return null;
 
   return (

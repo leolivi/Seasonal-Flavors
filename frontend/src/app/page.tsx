@@ -7,10 +7,21 @@ import ScrollButton from "@/components/scroll-button/scroll-button";
 import dataFetch from "@/utils/data-fetch";
 import { InspirationText } from "@/components/inspiration-text/inspiration-text";
 import { CardSliderWrapper } from "@/components/card-slider/card-slider-wrapper";
+import { getCurrentSeason } from "@/utils/SeasonUtils";
+
+interface Recipe {
+  id: number;
+  title: string;
+  prep_time: number;
+}
+
+interface SeasonTag {
+  name: string;
+}
 
 // Home component that renders the main content of the page
 const Home = async () => {
-  const seasonName = Season.getSeason();
+  const seasonName = getCurrentSeason();
   const cardData = await dataFetch(
     // `http://127.0.0.1:8000/api/recipe?tags[]=${seasonName}`,
     `http://127.0.0.1:8000/api/recipe`,
@@ -18,7 +29,7 @@ const Home = async () => {
 
   // Format the card data to match the expected structure
   const formattedCardData = await Promise.all(
-    cardData.map(async (recipe: any) => {
+    cardData.map(async (recipe: Recipe) => {
       const imageData = await dataFetch(
         `http://127.0.0.1:8000/api/images?recipe_id=${recipe.id}`,
       );
@@ -28,7 +39,9 @@ const Home = async () => {
 
       const firstImage = imageData[0] || {};
 
-      const seasonTags = seasonData.map((tag: any) => tag.name).join(", ");
+      const seasonTags = seasonData
+        .map((tag: SeasonTag) => tag.name)
+        .join(", ");
 
       return {
         id: recipe.id,
@@ -48,7 +61,6 @@ const Home = async () => {
       <ScrollButton />
       <Teaser />
       <InspirationText seasonName={seasonName} />
-      {/* Pass the fetched data as props */}
       <CardSliderWrapper cardData={formattedCardData} />
       <div className="h-1/8 relative my-24 flex items-center justify-center px-4 min-[640px]:h-80 min-[640px]:px-8 min-[1024px]:h-96">
         <Image

@@ -4,6 +4,7 @@ import Clock from "../../assets/icons/clock.svg";
 import Bookmark from "../../assets/icons/bookmark.svg";
 import Heart from "../ui/heart";
 import { Season } from "@/utils/Season";
+import { getSeasonColor } from "@/utils/SeasonUtils";
 
 interface CardProps {
   imageSrc: string;
@@ -23,7 +24,7 @@ export default function Card({
   season,
 }: CardProps) {
   const seasonColors = season
-    ? season.split(",").map((s) => new Season().getColor(s.trim()))
+    ? season.split(",").map((s) => getSeasonColor(s.trim()))
     : [];
 
   return (
@@ -65,7 +66,13 @@ export default function Card({
           </div>
           <div className="flex gap-1">
             {seasonColors.map((color, index) => (
-              <Heart data-testid="heart" key={index} color={color} />
+              <Heart
+                data-testid="heart"
+                width={42}
+                height={36}
+                key={index}
+                color={color}
+              />
             ))}
           </div>
         </div>

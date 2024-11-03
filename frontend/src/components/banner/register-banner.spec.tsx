@@ -25,7 +25,7 @@ describe("RegisterBanner Component", () => {
   test("should apply the correct seasonal color classes", () => {
     const mockColor = "sfgreen";
 
-    (Season as jest.Mock).mockImplementation(() => ({
+    (Season as unknown as jest.Mock).mockImplementation(() => ({
       getColor: jest.fn().mockReturnValue(mockColor),
     }));
 

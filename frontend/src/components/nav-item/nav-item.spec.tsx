@@ -47,7 +47,7 @@ describe("NavItem", () => {
 
   test("should apply correct styles for header based on Season color", () => {
     const expectedColor = "blue";
-    (Season as jest.Mock).mockImplementation(() => {
+    (Season as unknown as jest.Mock).mockImplementation(() => {
       return {
         getColor: jest.fn().mockReturnValue(expectedColor),
       };

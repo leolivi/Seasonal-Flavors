@@ -2,13 +2,15 @@ import React from "react";
 
 interface HeartProps {
   color: string;
+  height: number;
+  width?: number;
 }
 
-const Heart: React.FC<HeartProps> = ({ color }) => {
+const Heart = ({ color, height, width }: HeartProps) => {
   return (
     <svg
-      width="42"
-      height="36"
+      width={width}
+      height={height}
       viewBox="0 0 42 36"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"

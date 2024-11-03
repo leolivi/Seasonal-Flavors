@@ -1,11 +1,10 @@
 "use client";
-import { Season } from "@/utils/Season";
+import { getSeasonColor } from "@/utils/SeasonUtils";
 import { useEffect, useState } from "react";
 
 // Component defining the scroll to top button
 const ScrollButton = () => {
-  const season = new Season();
-  const seasonalColor = season.getColor();
+  const seasonalColor = getSeasonColor();
   const [isVisible, setIsVisible] = useState(false);
 
   // function to toggle button visability

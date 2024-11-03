@@ -2,7 +2,7 @@
 import Link from "next/link";
 import { Typography } from "../ui/typography";
 import useMediaQuery from "@/utils/useMediaQuery";
-import { Season } from "@/utils/Season";
+import { getSeasonColor } from "@/utils/SeasonUtils";
 
 interface NavItemProps {
   icon: React.ReactNode;
@@ -18,8 +18,7 @@ export enum NavStyle {
 
 // component creating a single nav item
 const NavItem = ({ icon, label, href, style }: NavItemProps) => {
-  const season = new Season();
-  const seasonalColor = season.getColor();
+  const seasonalColor = getSeasonColor();
   const isDesktop = useMediaQuery("(min-width: 640px)");
   const isFooter = style === NavStyle.FOOTER;
 

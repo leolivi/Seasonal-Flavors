@@ -1,4 +1,3 @@
-import { useSearchParams } from "next/navigation";
 import CardListWrapper from "@/components/card-list.tsx/card-list-wrapper";
 import { LayoutOptions } from "@/components/card-list.tsx/card-list";
 import dataFetch from "@/utils/data-fetch";
@@ -7,30 +6,56 @@ import FilterBar from "@/components/filter-bar/filter-bar";
 import { Typography } from "@/components/ui/typography";
 import { Button } from "@/components/button/button";
 import Arrow from "src/assets/icons/arrow.svg";
+import { getCurrentSeason } from "@/utils/SeasonUtils";
 
 interface RecipesProps {
   searchParams?: { title?: string };
 }
 
+interface Recipe {
+  id: number;
+  title: string;
+  prep_time: number;
+}
+
+interface SeasonTag {
+  name: string;
+}
+
 const Recipes = async ({ searchParams }: RecipesProps) => {
+  // TODO: Add the season filter
+  // const seasonName = getCurrentSeason();
+
+  // Fetch the recipe data and added search filter
   const title = (await searchParams?.title) || "";
 
   const cardData = await dataFetch(
+    // `http://127.0.0.1:8000/api/recipe?tags[]=${seasonName}`,
     `http://127.0.0.1:8000/api/recipe${title ? `?title=${encodeURIComponent(title)}` : ""}`,
   );
 
+  if (!Array.isArray(cardData)) {
+    console.error("Expected cardData to be an array, but got:", cardData);
+    return; // or handle the error appropriately
+  }
+
   const formattedCardData = await Promise.all(
-    cardData.map(async (recipe: any) => {
+    // Map through recipe data (cards)
+    cardData.map(async (recipe: Recipe) => {
+      // Fetch image data
       const imageData = await dataFetch(
         `http://127.0.0.1:8000/api/images?recipe_id=${recipe.id}`,
       );
+      // Fetch season data
       const seasonData = await dataFetch(
         `http://127.0.0.1:8000/api/recipes/${recipe.id}/tags`,
       );
 
       const firstImage = imageData[0] || {};
 
-      const seasonTags = seasonData.map((tag: any) => tag.name).join(", ");
+      const seasonTags = seasonData
+        .map((tag: SeasonTag) => tag.name)
+        .join(", ");
 
       return {
         id: recipe.id,
@@ -67,7 +92,7 @@ const Recipes = async ({ searchParams }: RecipesProps) => {
         </div>
       )}
       <div className="flex w-full justify-center">
-        <Button label="mehr" icon={<Arrow />}></Button>
+        <Button label="mehr" iconRight={<Arrow />}></Button>
       </div>
     </div>
   );

@@ -145,6 +145,7 @@ class RecipeSeeder extends Seeder {
     
         Recipe::where('title', 'Butternut Squash Soup')->first()->tags()->attach($autumnTag->id);
         Recipe::where('title', 'Lentil Shepherd’s Pie')->first()->tags()->attach($winterTag->id);
+        Recipe::where('title', 'Lentil Shepherd’s Pie')->first()->tags()->attach($autumnTag->id);
         Recipe::where('title', 'Creamy Spinach Pasta')->first()->tags()->attach($springTag->id);
         Recipe::where('title', 'Stuffed Bell Peppers')->first()->tags()->attach($summerTag->id);
         Recipe::where('title', 'Pumpkin Risotto')->first()->tags()->attach($autumnTag->id);
