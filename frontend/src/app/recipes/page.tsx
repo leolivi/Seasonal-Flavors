@@ -1,5 +1,4 @@
 import CardListWrapper from "@/components/card-list.tsx/card-list-wrapper";
-import { LayoutOptions } from "@/components/card-list.tsx/card-list";
 import dataFetch from "@/utils/data-fetch";
 import ScrollButton from "@/components/scroll-button/scroll-button";
 import FilterBar from "@/components/filter-bar/filter-bar";
@@ -7,6 +6,7 @@ import { Typography } from "@/components/ui/typography";
 import { Button } from "@/components/button/button";
 import Arrow from "src/assets/icons/arrow.svg";
 import { getCurrentSeason } from "@/utils/SeasonUtils";
+import { LayoutOptions } from "@/utils/layout-options";
 
 interface RecipesProps {
   searchParams?: { title?: string };
@@ -36,7 +36,7 @@ const Recipes = async ({ searchParams }: RecipesProps) => {
 
   if (!Array.isArray(cardData)) {
     console.error("Expected cardData to be an array, but got:", cardData);
-    return; // or handle the error appropriately
+    return;
   }
 
   const formattedCardData = await Promise.all(
@@ -73,6 +73,7 @@ const Recipes = async ({ searchParams }: RecipesProps) => {
       <ScrollButton />
       <h1 className="h-0 opacity-0">Rezepte</h1>
       <FilterBar title={title} />
+
       {formattedCardData.length > 0 ? (
         <CardListWrapper
           cardData={formattedCardData}
@@ -91,6 +92,7 @@ const Recipes = async ({ searchParams }: RecipesProps) => {
           </Typography>
         </div>
       )}
+
       <div className="flex w-full justify-center">
         <Button label="mehr" iconRight={<Arrow />}></Button>
       </div>

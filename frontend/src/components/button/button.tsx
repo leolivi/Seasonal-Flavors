@@ -1,4 +1,3 @@
-import { Season } from "@/utils/Season";
 import { Typography } from "../ui/typography";
 import { getSeasonColor } from "@/utils/SeasonUtils";
 

@@ -1,6 +1,7 @@
-import { ReactNode } from "react";
+import { ReactNode, useState } from "react";
 import Card from "../card/card";
 import Link from "next/link";
+import { LayoutOptions, LayoutOptionType } from "@/utils/layout-options";
 
 interface CardListProps {
   cardData?: {
@@ -12,21 +13,16 @@ interface CardListProps {
     season?: string;
   }[];
   showDetail?: boolean;
-  style?: LayoutOptions;
-  children?: ReactNode;
+  style?: LayoutOptionType;
+  onBookmarkClick: (e: React.MouseEvent) => void;
 }
 
-export enum LayoutOptions {
-  FLEX = "flex pl-4 min-[640px]:p-8 space-x-4 overflow-x-auto",
-  GRID = "grid grid-cols-1 gap-4 p-0 min-[640px]:p-4 sm:grid-cols-2 lg:grid-cols-3",
-}
-
-// Component mapping through several Cards
+// Component mapping through recipe Cards
 export const CardList = ({
   showDetail,
-  style,
+  style = LayoutOptions.GRID,
   cardData = [],
-  children,
+  onBookmarkClick,
 }: CardListProps) => {
   return (
     <div className={style}>
@@ -44,10 +40,10 @@ export const CardList = ({
             prepDuration={item.prepDuration}
             season={item.season}
             showDetail={showDetail}
+            onBookmarkClick={onBookmarkClick}
           />
         </Link>
       ))}
-      {children}
     </div>
   );
 };

@@ -1,5 +1,4 @@
 import Teaser from "@/components/teaser/teaser";
-import { Season } from "@/utils/Season";
 import { RegisterBanner } from "@/components/banner/register-banner";
 import registerImage from "../assets/images/register-image.jpg";
 import Image from "next/image";
@@ -53,8 +52,6 @@ const Home = async () => {
       };
     }),
   );
-
-  console.log("Filtered Recipes for Season:", seasonName, formattedCardData);
 
   return (
     <main>

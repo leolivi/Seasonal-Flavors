@@ -1,10 +1,9 @@
 import Image from "next/image";
 import { Typography } from "../ui/typography";
 import Clock from "../../assets/icons/clock.svg";
-import Bookmark from "../../assets/icons/bookmark.svg";
 import Heart from "../ui/heart";
-import { Season } from "@/utils/Season";
 import { getSeasonColor } from "@/utils/SeasonUtils";
+import BookmarkButton from "../ui/bookmark";
 
 interface CardProps {
   imageSrc: string;
@@ -13,6 +12,7 @@ interface CardProps {
   prepDuration?: number;
   showDetail?: boolean;
   season?: string;
+  onBookmarkClick?: (e: React.MouseEvent) => void;
 }
 
 export default function Card({
@@ -22,10 +22,17 @@ export default function Card({
   prepDuration,
   showDetail = false,
   season,
+  onBookmarkClick = () => {},
 }: CardProps) {
   const seasonColors = season
     ? season.split(",").map((s) => getSeasonColor(s.trim()))
     : [];
+
+  const handleBookmarkClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    onBookmarkClick(e);
+  };
 
   return (
     <div
@@ -37,10 +44,7 @@ export default function Card({
     >
       <div className="min-[640px]:min-w-70 min-[1024px]:min-w-90 relative aspect-square min-w-56">
         {showDetail && (
-          <Bookmark
-            data-testid="bookmark"
-            className="absolute right-4 top-4 h-12 w-auto"
-          />
+          <BookmarkButton onClick={onBookmarkClick} data-testid="bookmark" />
         )}
         <Image
           className="pointer-events-none h-full w-full rounded-lg object-cover"

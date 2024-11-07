@@ -31,7 +31,7 @@ export default function MobileNavigation({
       }`}
     >
       <Cross
-        className="m-2 w-6 cursor-pointer self-end"
+        className="m-2 w-6 cursor-pointer self-end stroke-sfblack stroke-2"
         onClick={onClose}
         data-testid="cross-icon"
       />

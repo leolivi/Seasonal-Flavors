@@ -3,8 +3,9 @@ import React, { useRef } from "react";
 import { color, motion, useScroll, useTransform } from "framer-motion";
 import { Button } from "../button/button";
 import { useRouter } from "next/navigation";
-import { CardList, LayoutOptions } from "../card-list.tsx/card-list";
+import { CardList } from "../card-list.tsx/card-list";
 import { getSeasonColor } from "@/utils/SeasonUtils";
+import { LayoutOptions } from "@/utils/layout-options";
 
 interface CardSliderProps {
   cardData: {
