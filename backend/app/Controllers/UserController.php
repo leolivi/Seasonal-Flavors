@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Notifications\Notifiable;
 
@@ -19,6 +20,20 @@ class UserController {
   function show(Request $request): User {
     return \Auth::user();
   }
+
+  /*
+  @return JsonResponse
+  @desc GET: Returns the owner of a specific recipe id
+  */
+  public function showUserById($id): JsonResponse {
+        $user = User::find($id);
+
+        if (!$user) {
+            return response()->json(['error' => 'User not found'], 404);
+        }
+
+        return response()->json($user);
+    }
 
   /*
   @return Collection

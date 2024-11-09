@@ -11,6 +11,8 @@ use App\Controllers\MailController;
 
 // register a user
 Route::post('/user', [UserController::class, 'create']);
+// get owner of recipe
+Route::get('/user/{id}', [UserController::class, 'showUserById']);
 // login a user
 Route::post('/auth/login', [AuthController::class, 'login']);
 // show recipes
