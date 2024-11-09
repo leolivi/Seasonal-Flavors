@@ -31,7 +31,7 @@ const Recipes = async ({ searchParams }: RecipesProps) => {
 
   const cardData = await dataFetch(
     // `http://127.0.0.1:8000/api/recipe?tags[]=${seasonName}`,
-    `http://127.0.0.1:8000/api/recipe${title ? `?title=${encodeURIComponent(title)}` : ""}`,
+    `${process.env.BACKEND_URL}/api/recipe${title ? `?title=${encodeURIComponent(title)}` : ""}`,
   );
 
   if (!Array.isArray(cardData)) {

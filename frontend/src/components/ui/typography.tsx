@@ -11,7 +11,7 @@ type Variant =
   | "btnL"
   | "btnS";
 
-interface Props {
+interface TypographyProps {
   variant: Variant;
   children: React.ReactNode;
   className?: string;
@@ -59,7 +59,12 @@ const sizes: Record<Variant, string> = {
 };
 
 // component can be used for responsive typography according to design
-export const Typography = ({ variant, children, className, as }: Props) => {
+export const Typography = ({
+  variant,
+  children,
+  className,
+  as,
+}: TypographyProps) => {
   const sizeClasses = sizes[variant];
   const Tag = as || tags[variant];
 

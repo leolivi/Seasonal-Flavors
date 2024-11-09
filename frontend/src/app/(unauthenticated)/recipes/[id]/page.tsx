@@ -36,7 +36,7 @@ export default async function Recipe({ params }: { params: { id: number } }) {
   const recipeId = params.id;
 
   const recipeData = await dataFetch(
-    `http://127.0.0.1:8000/api/recipe?id=${recipeId}`,
+    `${process.env.BACKEND_URL}/api/recipe?id=${recipeId}`,
   );
   const recipe: RecipeData = Array.isArray(recipeData)
     ? recipeData[0]

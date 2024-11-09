@@ -3,6 +3,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 import Footer from "@/layouts/footer";
 import Header from "@/layouts/header";
+import SessionProvider from "@/providers/session-provider";
 
 const cordaRegular = localFont({
   src: "./fonts/corda/Corda-Regular.ttf",
@@ -41,10 +42,11 @@ export default function RootLayout({
       <body
         className={`${cordaRegular.variable} ${cordaMedium.variable} ${cordaBold.variable} ${figTreeRegular.variable} ${figTreeMedium.variable} bg-sfwhite antialiased`}
       >
-        <Header />
-        {children}
-
-        <Footer />
+        <SessionProvider>
+          <Header />
+          {children}
+          <Footer />
+        </SessionProvider>
       </body>
     </html>
   );

@@ -8,6 +8,7 @@ interface ButtonProps {
   onClick?: () => void;
   style?: ButtonStyle;
   recipeSeasonColor?: string;
+  type?: "submit" | "button";
 }
 
 export enum ButtonStyle {
@@ -17,12 +18,10 @@ export enum ButtonStyle {
 
 // Button Component passing a label and an onClick function
 export const Button = ({
-  label,
-  iconLeft,
-  iconRight,
-  onClick,
   style = ButtonStyle.PRIMARY,
   recipeSeasonColor: recipeSeasonColor,
+  type = "button",
+  ...props
 }: ButtonProps) => {
   const seasonalColor = getSeasonColor();
 
@@ -36,16 +35,17 @@ export const Button = ({
   return (
     <button
       className={`${baseStyles} ${stylesByType[style]} my-10`}
-      onClick={onClick}
+      type={type}
+      onClick={props.onClick}
     >
-      {iconLeft && <span className="mr-2">{iconLeft}</span>}
+      {props.iconLeft && <span className="mr-2">{props.iconLeft}</span>}
       <Typography
         variant={style === ButtonStyle.PRIMARY ? "btnL" : "btnS"}
         className="font-figtreeRegular"
       >
-        {label}
+        {props.label}
       </Typography>
-      {iconRight && <span className="mr-2">{iconRight}</span>}
+      {props.iconRight && <span className="mr-2">{props.iconRight}</span>}
     </button>
   );
 };

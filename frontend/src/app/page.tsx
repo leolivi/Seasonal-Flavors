@@ -23,17 +23,17 @@ const Home = async () => {
   const seasonName = getCurrentSeason();
   const cardData = await dataFetch(
     // `http://127.0.0.1:8000/api/recipe?tags[]=${seasonName}`,
-    `http://127.0.0.1:8000/api/recipe`,
+    `${process.env.BACKEND_URL}/api/recipe`,
   );
 
   // Format the card data to match the expected structure
   const formattedCardData = await Promise.all(
     cardData.map(async (recipe: Recipe) => {
       const imageData = await dataFetch(
-        `http://127.0.0.1:8000/api/images?recipe_id=${recipe.id}`,
+        `${process.env.BACKEND_URL}/api/images?recipe_id=${recipe.id}`,
       );
       const seasonData = await dataFetch(
-        `http://127.0.0.1:8000/api/recipes/${recipe.id}/tags`,
+        `${process.env.BACKEND_URL}/api/recipes/${recipe.id}/tags`,
       );
 
       const firstImage = imageData[0] || {};

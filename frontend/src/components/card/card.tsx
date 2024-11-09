@@ -16,23 +16,19 @@ interface CardProps {
 }
 
 export default function Card({
-  imageSrc,
-  imageAlt,
-  title,
-  prepDuration,
   showDetail = false,
-  season,
   onBookmarkClick = () => {},
+  ...props
 }: CardProps) {
-  const seasonColors = season
-    ? season.split(",").map((s) => getSeasonColor(s.trim()))
+  const seasonColors = props.season
+    ? props.season.split(",").map((s) => getSeasonColor(s.trim()))
     : [];
 
-  const handleBookmarkClick = (e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    onBookmarkClick(e);
-  };
+  // const handleBookmarkClick = (e: React.MouseEvent) => {
+  //   e.preventDefault();
+  //   e.stopPropagation();
+  //   onBookmarkClick(e);
+  // };
 
   return (
     <div
@@ -48,8 +44,8 @@ export default function Card({
         )}
         <Image
           className="pointer-events-none h-full w-full rounded-lg object-cover"
-          src={imageSrc}
-          alt={imageAlt}
+          src={props.imageSrc}
+          alt={props.imageAlt}
           width={500}
           height={300}
         />
@@ -59,14 +55,14 @@ export default function Card({
           variant={showDetail ? "heading3" : "body"}
           className="text-wrap font-cordaMedium text-2xl font-semibold text-sfblack"
         >
-          {title}
+          {props.title}
         </Typography>
       </div>
       {showDetail && (
         <div className="mt-4 flex justify-between">
           <div className="flex items-center gap-2">
             <Clock data-testid="clock" />
-            <p className="text-sfblack">{prepDuration} Min. aktiv</p>
+            <p className="text-sfblack">{props.prepDuration} Min. aktiv</p>
           </div>
           <div className="flex gap-1">
             {seasonColors.map((color, index) => (

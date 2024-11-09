@@ -14,7 +14,7 @@ interface CardListProps {
   }[];
   showDetail?: boolean;
   style?: LayoutOptionType;
-  onBookmarkClick: (e: React.MouseEvent) => void;
+  onBookmarkClick?: (e: React.MouseEvent) => void;
 }
 
 // Component mapping through recipe Cards

@@ -88,7 +88,7 @@ const Header = () => {
     {
       icon: <Profil className="w-5" />,
       label: "anmelden",
-      href: "/login",
+      href: "/session",
     },
   ];
 

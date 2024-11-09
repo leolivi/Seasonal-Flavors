@@ -6,15 +6,15 @@ interface HeartProps {
   width?: number;
 }
 
-const Heart = ({ color, height, width }: HeartProps) => {
+const Heart = ({ ...props }) => {
   return (
     <svg
-      width={width}
-      height={height}
+      width={props.width}
+      height={props.height}
       viewBox="0 0 42 36"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      className={`fill-${color}`}
+      className={`fill-${props.color}`}
     >
       <mask
         id="mask0_389_1749"

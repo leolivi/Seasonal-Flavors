@@ -8,20 +8,17 @@ interface RecipeInfoProps {
   ingredients: string;
 }
 
-export const RecipeInfo = ({
-  prepTime,
-  cookingTime,
-  servings,
-  ingredients,
-}: RecipeInfoProps) => {
-  const ingredientsArray = ingredients.split(",").map((item) => item.trim());
+export const RecipeInfo = ({ ...props }: RecipeInfoProps) => {
+  const ingredientsArray = props.ingredients
+    .split(",")
+    .map((item) => item.trim());
 
   const seasonalColor = getSeasonColor();
 
   const recipeDetails = [
-    { label: "zubereiten", value: `${prepTime} min` },
-    { label: "kochen", value: `${cookingTime} min` },
-    { label: "Portionen", value: servings },
+    { label: "zubereiten", value: `${props.prepTime} min` },
+    { label: "kochen", value: `${props.cookingTime} min` },
+    { label: "Portionen", value: props.servings },
   ];
 
   return (
