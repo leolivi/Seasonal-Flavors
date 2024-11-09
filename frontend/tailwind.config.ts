@@ -78,11 +78,11 @@ const config: Config = {
       },
     },
     fontFamily: {
-      cordaRegular: ["cordaRegular", "serif"],
-      cordaMedium: ["cordaMedium", "serif"],
-      cordaBold: ["cordaBold", "serif"],
-      figtreeRegular: ["figRegular", "sans-serif"],
-      figtreeMedium: ["figMedium", "sans-serif"],
+      cordaRegular: ["var(--font-corda-regular)", "serif"],
+      cordaMedium: ["var(--font-corda-medium)", "serif"],
+      cordaBold: ["var(--font-corda-bold)", "serif"],
+      figtreeRegular: ["var(--font-figtree-regular)", "sans-serif"],
+      figtreeMedium: ["var(--font-figtree-medium)", "sans-serif"],
     },
   },
   screens: {

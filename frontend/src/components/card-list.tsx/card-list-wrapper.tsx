@@ -44,7 +44,11 @@ const CardListWrapper = ({
       />
       {showRegisterBanner && (
         <div className="fixed left-1/2 top-1/2 z-50 -translate-x-1/2">
-          <RegisterBanner showCloseBtn={true} onClose={handleCloseBanner} />
+          <RegisterBanner
+            label="anmelden"
+            showCloseBtn={true}
+            onClose={handleCloseBanner}
+          />
         </div>
       )}
     </div>

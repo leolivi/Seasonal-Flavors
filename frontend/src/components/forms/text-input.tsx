@@ -1,7 +1,11 @@
 "use client";
 
+import { getSeasonColor } from "@/utils/SeasonUtils";
 import { useState } from "react";
 import { useFormContext } from "react-hook-form";
+import EyeClose from "@/assets/icons/eye-close.svg";
+import EyeOpen from "@/assets/icons/eye-open.svg";
+import { Typography } from "../ui/typography";
 
 interface TextInputProps {
   placeholder: string; // placeholder text for the input field
@@ -10,6 +14,7 @@ interface TextInputProps {
   required?: boolean; // whether the input is required
   className?: string; // optional className for the input field
   validateAs?: "email" | "password" | "text"; // optional validation for the input field
+  autoComplete?: string;
 }
 
 export const TextInput = ({
@@ -18,9 +23,11 @@ export const TextInput = ({
   type,
   required = false,
   className,
+  autoComplete,
   validateAs = "text",
   ...rest
 }: TextInputProps) => {
+  const seasonalColor = getSeasonColor();
   const [showPassword, setShowPassword] = useState(false);
   const {
     register,
@@ -30,13 +37,24 @@ export const TextInput = ({
   // Define validation rules based on the `validateAs` prop
   const validationRules = {
     // If required, display a required field message
-    required: required && "This is a required field",
+    required: required && "Dieses Feld ist erforderlich",
+
+    ...(validateAs === "text" && {
+      minLength: {
+        value: 2,
+        message: "Der Benutzername muss mindestens 2 Zeichen lang sein", // Error message for short username
+      },
+      pattern: {
+        value: /^[a-zA-Z0-9]+$/, // Only letters and numbers allowed
+        message: "Der Benutzername darf nur Buchstaben und Zahlen enthalten", // Error message for invalid characters
+      },
+    }),
 
     // Email validation rule, checks if the input matches a standard email pattern
     ...(validateAs === "email" && {
       pattern: {
         value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-        message: "Invalid email address", // Error message for invalid email format
+        message: "Ungültige Email Adresse", // Error message for invalid email format
       },
     }),
 
@@ -44,7 +62,7 @@ export const TextInput = ({
     ...(validateAs === "password" && {
       minLength: {
         value: 8,
-        message: "Password must be at least 8 characters", // Error message for short password
+        message: "Das Passwort muss mindestens 8 Zeichen lang sein", // Error message for short password
       },
     }),
   };
@@ -54,32 +72,37 @@ export const TextInput = ({
   const error = errors[name]?.message as string | undefined;
 
   return (
-    <div className={`relative mb-8 flex w-full flex-col ${className}`}>
-      <div
-        className={`flex overflow-hidden rounded-md border border-gray-600 ${className}`}
-      >
-        <input
-          type={type === "password" && showPassword ? "text" : type} // toggle password visibility
-          placeholder={placeholder}
-          className="h-12 w-full p-2"
-          {...register(name, validationRules)}
-          {...rest}
-        />
-        {/*toggle of the visibiliy of passowrd */}
+    <div
+      className={`relative mb-10 flex w-full flex-col items-center ${className} max-[640px]:w-2/3 min-[640px]:w-1/2 min-[1240px]:w-1/4`}
+    >
+      <div className={`relative w-full`}>
+        <Typography variant="body">
+          <input
+            type={type === "password" && showPassword ? "text" : type} // toggle password visibility
+            placeholder={placeholder}
+            className={`h-12 w-full rounded-md border-2 placeholder:font-figtreeRegular border-${seasonalColor}-dark bg-${seasonalColor}-light px-2 py-2 pr-10 text-sfblack placeholder:text-sfblack placeholder:opacity-60 hover:bg-white focus:bg-transparent min-[900px]:py-6 focus:border-${seasonalColor}-dark`}
+            autoComplete={autoComplete}
+            {...register(name, validationRules)}
+            {...rest}
+          />
+        </Typography>
+        {/* Toggle visibility within the input */}
         {type === "password" && (
           <div
-            className="absolute right-2 top-3 cursor-pointer"
+            className="absolute right-3 top-3 cursor-pointer text-sfblack min-[900px]:top-3.5"
             onClick={() => setShowPassword(!showPassword)}
           >
-            {showPassword ? <p>Hide</p> : <p>Show</p>}
+            {showPassword ? <EyeClose /> : <EyeOpen />}
           </div>
         )}
       </div>
       {/* conditional rendering of error message */}
       {error && (
-        <p className="absolute left-0 top-[50px] mt-1 text-sm text-red-600">
-          {error}
-        </p>
+        <Typography variant="small">
+          <p className="absolute left-0 top-[50px] mt-1 font-figtreeRegular text-sfred">
+            {error}
+          </p>
+        </Typography>
       )}
     </div>
   );

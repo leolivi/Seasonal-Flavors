@@ -9,7 +9,7 @@ interface FormWrapperProps {
 
 export const FormWrapper = ({ children, onSubmit }: FormWrapperProps) => {
   return (
-    <form className="flex w-full flex-col" onSubmit={onSubmit}>
+    <form className="flex w-full flex-col items-center" onSubmit={onSubmit}>
       {children}
     </form>
   );

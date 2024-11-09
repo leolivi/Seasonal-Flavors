@@ -8,12 +8,14 @@ import { getSeasonColor } from "@/utils/SeasonUtils";
 interface RegisterBannerProps {
   onClose?: () => void;
   showCloseBtn?: boolean;
+  label: string;
 }
 
 //  Component to display The register Banner
 export const RegisterBanner = ({
   onClose,
   showCloseBtn = false,
+  label = "jetzt registrieren",
 }: RegisterBannerProps) => {
   const seasonalColor = getSeasonColor();
 
@@ -21,7 +23,7 @@ export const RegisterBanner = ({
 
   // Function to handle button click, navigating to the login page
   const handleClick = () => {
-    router.push("/login");
+    router.push("/session");
   };
 
   return (
@@ -42,7 +44,7 @@ export const RegisterBanner = ({
         </p>
       </Typography>
 
-      <Button label="jetzt registrieren" onClick={handleClick} />
+      <Button label={label} onClick={handleClick} />
     </div>
   );
 };

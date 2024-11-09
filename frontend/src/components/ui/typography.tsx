@@ -55,7 +55,7 @@ const sizes: Record<Variant, string> = {
   //   Button lagrge
   btnL: "min-[0px]:text-[22px] min-[640px]:text-[28px] min-[1024px]:text-[30px] min-[1280px]:text-[32px]",
   //   Button small
-  btnS: "min-[0px]:text-[20px] min-[640px]:text-[25px] min-[1024px]:text-[28px] min-[1280px]:text-[30px]",
+  btnS: "min-[0px]:text-[18px] min-[640px]:text-[20px] min-[1024px]:text-[22px] min-[1280px]:text-[25px]",
 };
 
 // component can be used for responsive typography according to design

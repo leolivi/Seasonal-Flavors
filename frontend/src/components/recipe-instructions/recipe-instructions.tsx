@@ -9,6 +9,8 @@ export const RecipeInstructions = ({ steps }: RecipeInstructionsProps) => (
     <Typography variant="heading2">
       <h2 className="text-sfblack">Zubereitung</h2>
     </Typography>
-    <p className="text-sfblack">{steps}</p>
+    <Typography variant="body">
+      <p className="text-sfblack">{steps}</p>
+    </Typography>
   </div>
 );

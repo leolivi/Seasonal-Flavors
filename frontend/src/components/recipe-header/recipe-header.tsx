@@ -29,8 +29,8 @@ export const RecipeHeader = ({ title, username }: RecipeHeaderProps) => {
           <h1 className="mt-4 font-cordaBold text-sfblack">{title}</h1>
         </Typography>
         {/* TODO: How do I fetch the userid when unauthenticated? */}
-        <Typography variant="small">
-          <small className="mt-2 text-sfblack">von{username}</small>
+        <Typography variant="body">
+          <small className="mt-2 text-sfblack">von {username}</small>
         </Typography>
         {/* TODO: Implement "speichern" Function */}
         <Button

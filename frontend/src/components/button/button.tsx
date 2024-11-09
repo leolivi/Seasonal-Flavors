@@ -14,6 +14,7 @@ interface ButtonProps {
 export enum ButtonStyle {
   PRIMARY = "primary",
   OUTLINE = "outline",
+  SIMPLE = "simple",
 }
 
 // Button Component passing a label and an onClick function
@@ -26,15 +27,16 @@ export const Button = ({
   const seasonalColor = getSeasonColor();
 
   const baseStyles =
-    "flex w-fit cursor-pointer items-center justify-center gap-1 rounded-full ";
+    "flex w-fit items-center justify-center gap-1 rounded-full ";
   const stylesByType = {
-    [ButtonStyle.PRIMARY]: `px-10 py-2 text-sfblack hover:text-sfwhite active:text-sfwhite hover:bg-${seasonalColor} active:bg-${seasonalColor}-dark bg-${seasonalColor}-light`,
-    [ButtonStyle.OUTLINE]: `border-2 px-4 text-sfblack border-${recipeSeasonColor} bg-sfwhite cursor-default`,
+    [ButtonStyle.PRIMARY]: `my-10 px-10 py-2 text-sfblack hover:text-sfwhite active:text-sfwhite hover:bg-${seasonalColor} active:bg-${seasonalColor}-dark bg-${seasonalColor}-light cursor-pointer`,
+    [ButtonStyle.OUTLINE]: `my-10 border-2 px-4 text-sfblack border-${seasonalColor} bg-sfwhite cursor-default`,
+    [ButtonStyle.SIMPLE]: `text-sfblack cursor-pointer`,
   };
 
   return (
     <button
-      className={`${baseStyles} ${stylesByType[style]} my-10`}
+      className={`${baseStyles} ${stylesByType[style]} `}
       type={type}
       onClick={props.onClick}
     >

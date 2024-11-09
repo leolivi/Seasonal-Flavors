@@ -34,7 +34,7 @@ const NavItem = ({ icon, label, href, style }: NavItemProps) => {
       } min-[640px]:mt-0`}
     >
       <Typography
-        variant={isFooter ? "small" : "body"}
+        variant={isFooter ? "small" : "btnS"}
         className="flex flex-row gap-3 text-sfblack"
       >
         {icon}

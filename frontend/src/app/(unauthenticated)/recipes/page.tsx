@@ -5,7 +5,7 @@ import FilterBar from "@/components/filter-bar/filter-bar";
 import { Typography } from "@/components/ui/typography";
 import { Button } from "@/components/button/button";
 import Arrow from "src/assets/icons/arrow.svg";
-import { getCurrentSeason } from "@/utils/SeasonUtils";
+// import { getCurrentSeason } from "@/utils/SeasonUtils";
 import { LayoutOptions } from "@/utils/layout-options";
 
 interface RecipesProps {

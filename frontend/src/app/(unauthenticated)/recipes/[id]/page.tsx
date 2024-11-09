@@ -26,7 +26,7 @@ interface SeasonTag {
   name: string;
 }
 
-interface userData {
+interface UserData {
   username: string;
   id: number;
 }
@@ -44,18 +44,20 @@ export default async function Recipe({ params }: { params: { id: number } }) {
 
   // Fetch the image data
   const imageData = await dataFetch(
-    `http://127.0.0.1:8000/api/images?recipe_id=${recipeId}`,
+    `${process.env.BACKEND_URL}/api/images?recipe_id=${recipeId}`,
   );
   const firstImage = imageData[0] || {};
 
   // Fetch season data
   const seasonData = await dataFetch(
-    `http://127.0.0.1:8000/api/recipes/${recipeId}/tags`,
+    `${process.env.BACKEND_URL}/api/recipes/${recipeId}/tags`,
   );
   const seasonTags = seasonData.map((tag: SeasonTag) => tag.name).join(", ");
 
   // fetch user data
-  const userData: userData = await dataFetch(`http://127.0.0.1:8000/api/user`);
+  const userData: UserData = await dataFetch(
+    `${process.env.BACKEND_URL}/api/user/${recipe.user_id}`,
+  );
 
   const formattedRecipeData: RecipeData = {
     ...recipe,
@@ -98,7 +100,7 @@ export default async function Recipe({ params }: { params: { id: number } }) {
           );
         })}
       </div>
-      <div className="custom-grid min-[640px]:gap-8flex items-left flex flex-col min-[640px]:grid min-[640px]:grid-cols-2 min-[640px]:grid-cols-[auto_1fr] min-[640px]:items-start min-[640px]:gap-8">
+      <div className="custom-grid min-[640px]:gap-8flex items-left flex flex-col min-[640px]:grid min-[640px]:grid-cols-[auto_1fr] min-[640px]:items-start min-[640px]:gap-8">
         <RecipeInfo
           prepTime={formattedRecipeData.prep_time}
           cookingTime={formattedRecipeData.cooking_time}

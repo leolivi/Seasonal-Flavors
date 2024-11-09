@@ -7,7 +7,9 @@ import { FormWrapper } from "./form-wrapper";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { TextInput } from "./text-input";
-import { Button } from "../button/button";
+import { Button, ButtonStyle } from "../button/button";
+import { Typography } from "../ui/typography";
+import Heart from "../ui/heart";
 
 interface LoginFormProps {
   setForm: Dispatch<SetStateAction<SessionForm>>;
@@ -21,11 +23,10 @@ interface LoginFormInputs {
 export const LoginForm = ({ setForm }: LoginFormProps) => {
   const router = useRouter();
   const methods = useForm<LoginFormInputs>();
-  const [error, setError] = useState<string | null>(null); // state for error handling
-
-  console.log(error);
+  const [error, setError] = useState<string | null>(null);
 
   const onSubmit: SubmitHandler<LoginFormInputs> = async (data) => {
+    setError(null);
     // we define here, that we will use next-auth's handleLogin
     // the handleLogin function of next-auth is called signIn()
     const result = await signIn("credentials", {
@@ -36,7 +37,7 @@ export const LoginForm = ({ setForm }: LoginFormProps) => {
 
     // handle success of error based on the result
     if (result?.error) {
-      setError("Login failed, please try again");
+      setError("Login fehlgeschlagen, bitte versueche es erneut");
       console.error(result.error);
     } else {
       console.log("Login successful, ", result);
@@ -53,6 +54,7 @@ export const LoginForm = ({ setForm }: LoginFormProps) => {
           type="text"
           required
           validateAs="email"
+          autoComplete="email"
         />
         <TextInput
           placeholder="Password"
@@ -60,15 +62,30 @@ export const LoginForm = ({ setForm }: LoginFormProps) => {
           type="password"
           required
           validateAs="password"
+          autoComplete="current-password"
         />
-        <div className="-mt-6 flex justify-end gap-1">
-          <p>Don&apos;t have an account?</p>
+        {error && (
+          <Typography variant="small">
+            <p className="text-center font-figtreeRegular text-sfred">
+              {error}
+            </p>
+          </Typography>
+        )}
+        <Button
+          type="submit"
+          label="anmelden"
+          iconLeft={<Heart color="sfred-dark" height={20} />}
+        />
+        <div className="mb-8 mt-1 flex items-center justify-center gap-1 max-[400px]:flex-col">
+          <Typography variant="small">
+            <p className="text-sfblack">Du hast noch keinen Account?</p>
+          </Typography>
           <Button
             onClick={() => setForm(SessionForm.REGISTER)}
-            label="Register now"
+            label="hier registrieren"
+            style={ButtonStyle.SIMPLE}
           />
         </div>
-        <Button type="submit" label="Login" />
       </FormWrapper>
     </FormProvider>
   );
