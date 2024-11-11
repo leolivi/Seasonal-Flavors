@@ -33,16 +33,21 @@ export const CardSlider = ({ cardData }: CardSliderProps) => {
   return (
     <div className="wrapper select-none">
       <motion.div
-        className={`left-0 top-0 h-1`}
+        className="bg-progress left-0 top-0 h-1"
         style={{ width: progressWidth }}
       />
 
       <motion.div
         ref={carouselRef}
-        className={`carousel scrollbar scrollbar-track-${seasonalColor}-light whitespace-nowrap`}
+        className={`carousel whitespace-nowrap scrollbar`}
         drag="x"
-        dragConstraints={{ left: 0, right: 0 }}
+        dragConstraints={{
+          left: -(carouselRef.current?.scrollWidth || 0),
+          right: 0,
+        }}
         dragElastic={0.1}
+        whileTap={{ cursor: "grabbing" }}
+        style={{ touchAction: "pan-y" }}
       >
         <CardList cardData={cardData} style={LayoutOptions.FLEX} />
       </motion.div>

@@ -23,10 +23,10 @@ interface HeaderContainerProps {
 const HeaderContainer = ({ children }: HeaderContainerProps) => {
   return (
     <header
-      className="px-4 py-0 min-[640px]:p-10 min-[640px]:pr-8 min-[640px]:pt-0"
+      className="px-4 py-6 min-[640px]:p-10 min-[640px]:pr-8"
       data-testid="header"
     >
-      <nav className="flex w-full flex-row items-center min-[640px]:justify-between min-[640px]:gap-6">
+      <nav className="flex w-full list-none flex-row items-center min-[640px]:justify-between min-[640px]:gap-6">
         {children}
       </nav>
     </header>

@@ -4,6 +4,7 @@ import "./globals.css";
 import Footer from "@/layouts/footer";
 import Header from "@/layouts/header";
 import SessionProvider from "@/providers/session-provider";
+import { Toaster } from "@/components/toaster/toaster";
 
 const cordaRegular = localFont({
   src: "./fonts/corda/Corda-Regular.ttf",
@@ -44,6 +45,7 @@ export default function RootLayout({
       >
         <SessionProvider>
           <Header />
+          <Toaster />
           {children}
           <Footer />
         </SessionProvider>

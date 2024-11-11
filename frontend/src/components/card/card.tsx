@@ -35,7 +35,7 @@ export default function Card({
       className={
         showDetail
           ? "mx-0 my-4 cursor-pointer rounded-lg bg-sfwhite-light p-3 drop-shadow-lg min-[640px]:mx-2"
-          : "cursor-pointer!important mx-2 my-4 min-h-[21rem] w-80 rounded-lg bg-sfwhite-light p-3 drop-shadow-lg first:ml-0 min-[640px]:min-h-[26rem]"
+          : "cursor-pointer!important mx-2 my-4 min-h-[21rem] w-80 rounded-lg bg-sfwhite-light p-3 drop-shadow-lg first:ml-0 max-[640px]:mb-8 min-[640px]:min-h-[26rem]"
       }
     >
       <div className="min-[640px]:min-w-70 min-[1024px]:min-w-90 relative aspect-square min-w-56">

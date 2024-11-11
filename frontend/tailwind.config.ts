@@ -8,6 +8,7 @@ const screens = {
 };
 
 const config: Config = {
+  darkMode: ["class"],
   content: [
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
@@ -47,25 +48,21 @@ const config: Config = {
       colors: {
         background: "#FBFCF8",
         sfblack: "#1D1C1C",
-        // frühling
         sfgreen: {
           light: "#DBF0E1",
           DEFAULT: "#A7D7B8",
           dark: "#2A714E",
         },
-        // winter
         sfblue: {
           light: "#D1E1EC",
           DEFAULT: "#7DA2C5",
           dark: "#5373A2",
         },
-        // summer
         sforange: {
           light: "#F9D08E",
           DEFAULT: "#F59D38",
           dark: "#D2520D",
         },
-        // autumn
         sfred: {
           light: "#EFB682",
           DEFAULT: "#D15823",
@@ -75,6 +72,11 @@ const config: Config = {
           light: "#FFFFFF",
           DEFAULT: "#FBFCF8",
         },
+      },
+      borderRadius: {
+        lg: "var(--radius)",
+        md: "calc(var(--radius) - 2px)",
+        sm: "calc(var(--radius) - 4px)",
       },
     },
     fontFamily: {
@@ -100,7 +102,7 @@ const config: Config = {
   height: {
     "128": "40rem",
   },
-  plugins: [require("tailwind-scrollbar")],
+  plugins: [require("tailwind-scrollbar"), require("tailwindcss-animate")],
 };
 
 export default config;

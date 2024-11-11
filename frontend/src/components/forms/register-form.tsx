@@ -9,6 +9,8 @@ import { TextInput } from "./text-input";
 import { Button, ButtonStyle } from "../button/button";
 import { Typography } from "../ui/typography";
 import Heart from "../ui/heart";
+import { useToast } from "@/hooks/use-toast";
+import { ToastAction } from "../toaster/toast";
 
 interface RegisterFormProps {
   setForm: Dispatch<SetStateAction<SessionForm>>;
@@ -23,6 +25,7 @@ interface RegisterFormInputs {
 
 export const RegisterForm = ({ setForm }: RegisterFormProps) => {
   const methods = useForm<RegisterFormInputs>();
+  const { toast } = useToast();
 
   const onSubmit: SubmitHandler<RegisterFormInputs> = async (data) => {
     // ensure data.policy is checked
@@ -41,6 +44,22 @@ export const RegisterForm = ({ setForm }: RegisterFormProps) => {
     // if the response is successful console.log the response
     if (response.status === 201) {
       console.log("Signup successful: ", response);
+      toast({
+        variant: "default",
+        title: "Erfolgreich registriert",
+        description: "Du kannst dich jetzt anmelden.",
+        action: (
+          <ToastAction
+            onClick={() => setForm(SessionForm.LOGIN)}
+            altText="Go to login page"
+          >
+            Login
+          </ToastAction>
+        ),
+      });
+      setTimeout(() => {
+        setForm(SessionForm.LOGIN);
+      }, 5000);
     } else {
       // If there's an error, set the errors in the form
       if (Array.isArray(response.errors)) {
@@ -63,11 +82,29 @@ export const RegisterForm = ({ setForm }: RegisterFormProps) => {
         });
       } else if (typeof response.errors === "string") {
         console.log("Error message: ", response.errors);
+        toast({
+          variant: "destructive",
+          title: "Fehler",
+          description: response.errors,
+        });
       } else {
         console.log("Signup failed: ", response);
+        toast({
+          variant: "destructive",
+          title: "Fehler",
+          description: "Unbekannter Fehler.",
+        });
       }
     }
   };
+
+  // setTimeout(() => {
+  //   toast({
+  //     variant: "default",
+  //     title: "Fehler",
+  //     description: "Unbekannter Fehler.",
+  //   });
+  // }, 8000);
 
   return (
     <FormProvider {...methods}>
@@ -95,34 +132,39 @@ export const RegisterForm = ({ setForm }: RegisterFormProps) => {
           validateAs="password"
           autoComplete="current-password"
         />
-        <div className="flex items-center gap-2">
-          <input
-            type="checkbox"
-            className="h-6 w-6 appearance-none rounded-sm border-2 border-sfred-dark bg-sfwhite accent-sfgreen checked:appearance-auto checked:border-0 checked:bg-sfgreen"
-            id="acceptDataPolicy"
-            {...methods.register("acceptDataPolicy", {
-              required: "Bitte bestätige die Datenschutzerklärung",
-            })}
-          />
-          <Typography variant="small">
-            <label
-              htmlFor="acceptDataPolicy"
-              className="font-figtreeRegular text-sfblack"
-            >
-              Ich akzeptiere die{" "}
-              <a href="/datenschutz" className="font-figtreeRegular text-sfred">
-                Datenschutzerklärung
-              </a>
-            </label>
-          </Typography>
+        <div className="justify-left flex flex-col gap-2">
+          <div className="flex gap-2">
+            <input
+              type="checkbox"
+              className="h-6 w-6 appearance-none rounded-sm border-2 border-sfred-dark bg-sfwhite accent-sfgreen checked:appearance-auto checked:border-0 checked:bg-sfgreen"
+              id="acceptDataPolicy"
+              {...methods.register("acceptDataPolicy", {
+                required: "Bitte bestätige die Datenschutzerklärung",
+              })}
+            />
+            <Typography variant="small">
+              <label
+                htmlFor="acceptDataPolicy"
+                className="font-figtreeRegular text-sfblack"
+              >
+                Ich akzeptiere die{" "}
+                <a
+                  href="/datenschutz"
+                  className="font-figtreeRegular text-sfred"
+                >
+                  Datenschutzerklärung
+                </a>
+              </label>
+            </Typography>
+          </div>
+          {methods.formState.errors.acceptDataPolicy && (
+            <Typography variant="small">
+              <p className="text-sfred">
+                {methods.formState.errors.acceptDataPolicy.message}
+              </p>
+            </Typography>
+          )}
         </div>
-        {methods.formState.errors.acceptDataPolicy && (
-          <Typography variant="small">
-            <p className="text-sfred">
-              {methods.formState.errors.acceptDataPolicy.message}
-            </p>
-          </Typography>
-        )}
         <Button
           type="submit"
           label="registrieren"
