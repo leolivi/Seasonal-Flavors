@@ -2,8 +2,12 @@ import React from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
 import FilterBar from "./filter-bar";
 
-jest.mock("src/assets/icons/magnifier.svg", () => "MagnifierMock");
-jest.mock("src/assets/icons/bookmark.svg", () => "BookmarkMock");
+jest.mock("src/assets/icons/magnifier.svg", () => () => (
+  <span>MagnifierMock</span>
+));
+jest.mock("src/assets/icons/bookmark.svg", () => () => (
+  <span>BookmarkMock</span>
+));
 
 describe("FilterBar Component", () => {
   test("renders with default title", () => {

@@ -1,16 +1,24 @@
-"use server"; // tells the server that this is a server-side action and runs on the server
+"use server";
+import { ReactNode } from "react";
+
+// tells the server that this is a server-side action and runs on the server
 
 interface ResponseReturn {
-  message?: string;
+  message?: string | number;
   status: number;
 }
 
-interface SignUpResponse extends ResponseReturn {
+interface SignupError {
+  field: string; // Name of the field that has an error
+  message: string; // Error message
+}
+
+export interface SignUpResponse extends ResponseReturn {
   email?: string;
   updated_at?: string;
   created_at?: string;
   id?: number;
-  errors?: string[];
+  errors?: SignupError[] | { [key: string]: string } | string;
 }
 
 export async function handleSignup(

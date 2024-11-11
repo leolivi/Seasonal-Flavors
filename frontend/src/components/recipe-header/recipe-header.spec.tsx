@@ -31,15 +31,12 @@ describe("RecipeHeader Component", () => {
   });
 
   test("calls router.back() when the ArrowLeft is clicked", () => {
-    const { debug } = render(
-      <RecipeHeader title="Test Recipe" username="Testuser" />,
-    );
+    render(<RecipeHeader title="Test Recipe" username="Testuser" />);
 
     const backButton = screen.getByRole("button", { name: /go back/i });
     fireEvent.click(backButton);
 
     expect(mockRouter.back).toHaveBeenCalledTimes(1);
-    debug();
   });
 
   test("displays a 'speichern' button with a bookmark icon", () => {

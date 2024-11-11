@@ -27,6 +27,7 @@ export const LoginForm = ({ setForm }: LoginFormProps) => {
 
   const onSubmit: SubmitHandler<LoginFormInputs> = async (data) => {
     setError(null);
+
     // we define here, that we will use next-auth's handleLogin
     // the handleLogin function of next-auth is called signIn()
     const result = await signIn("credentials", {

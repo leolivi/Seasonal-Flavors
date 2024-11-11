@@ -4,7 +4,7 @@ import { SessionForm } from "@/app/(unauthenticated)/session/page";
 import { Dispatch, SetStateAction } from "react";
 import { FormWrapper } from "./form-wrapper";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
-import { handleSignup } from "@/actions/auth-actions";
+import { handleSignup, SignUpResponse } from "@/actions/auth-actions";
 import { TextInput } from "./text-input";
 import { Button, ButtonStyle } from "../button/button";
 import { Typography } from "../ui/typography";
@@ -27,12 +27,12 @@ export const RegisterForm = ({ setForm }: RegisterFormProps) => {
   const onSubmit: SubmitHandler<RegisterFormInputs> = async (data) => {
     // ensure data.policy is checked
     if (!data.acceptDataPolicy) {
-      console.log("You must accept the data policy.");
+      console.log("Du musst die Datenschutzerklärung akzeptieren.");
       return;
     }
 
     // call the server action 'handleSignup' and await the response
-    const response = await handleSignup(
+    const response: SignUpResponse = await handleSignup(
       data.email,
       data.password,
       data.username,
@@ -42,7 +42,30 @@ export const RegisterForm = ({ setForm }: RegisterFormProps) => {
     if (response.status === 201) {
       console.log("Signup successful: ", response);
     } else {
-      console.log("Signup failed: ", response);
+      // If there's an error, set the errors in the form
+      if (Array.isArray(response.errors)) {
+        response.errors.forEach((error) => {
+          methods.setError(error.field as keyof RegisterFormInputs, {
+            type: "manual",
+            message: error.message,
+          });
+        });
+      } else if (
+        typeof response.errors === "object" &&
+        response.errors !== null
+      ) {
+        // Handle object format errors (e.g., { email: "Invalid email" })
+        Object.entries(response.errors).forEach(([field, message]) => {
+          methods.setError(field as keyof RegisterFormInputs, {
+            type: "manual",
+            message: message as string,
+          });
+        });
+      } else if (typeof response.errors === "string") {
+        console.log("Error message: ", response.errors);
+      } else {
+        console.log("Signup failed: ", response);
+      }
     }
   };
 
@@ -78,7 +101,7 @@ export const RegisterForm = ({ setForm }: RegisterFormProps) => {
             className="h-6 w-6 appearance-none rounded-sm border-2 border-sfred-dark bg-sfwhite accent-sfgreen checked:appearance-auto checked:border-0 checked:bg-sfgreen"
             id="acceptDataPolicy"
             {...methods.register("acceptDataPolicy", {
-              required: "You must accept the data policy",
+              required: "Bitte bestätige die Datenschutzerklärung",
             })}
           />
           <Typography variant="small">
@@ -94,9 +117,11 @@ export const RegisterForm = ({ setForm }: RegisterFormProps) => {
           </Typography>
         </div>
         {methods.formState.errors.acceptDataPolicy && (
-          <p className="text-sm text-sfred">
-            {methods.formState.errors.acceptDataPolicy.message}
-          </p>
+          <Typography variant="small">
+            <p className="text-sfred">
+              {methods.formState.errors.acceptDataPolicy.message}
+            </p>
+          </Typography>
         )}
         <Button
           type="submit"

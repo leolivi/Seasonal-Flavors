@@ -14,7 +14,7 @@ describe("RegisterBanner Component", () => {
   });
 
   test("should render", () => {
-    render(<RegisterBanner />);
+    render(<RegisterBanner label={"jetzt registrieren"} />);
 
     const bannerElement = screen.getByTestId("register-banner");
     const buttonElement = screen.getByText(/jetzt registrieren/i);
@@ -29,7 +29,7 @@ describe("RegisterBanner Component", () => {
       getColor: jest.fn().mockReturnValue(mockColor),
     }));
 
-    render(<RegisterBanner />);
+    render(<RegisterBanner label={""} />);
 
     const bannerElement = screen.getByTestId("register-banner");
 
@@ -43,11 +43,11 @@ describe("RegisterBanner Component", () => {
       push: mockRouterPush,
     });
 
-    render(<RegisterBanner />);
+    render(<RegisterBanner label="jetzt registrieren" />);
 
     const buttonElement = screen.getByText(/jetzt registrieren/i);
     buttonElement.click();
 
-    expect(mockRouterPush).toHaveBeenCalledWith("/login");
+    expect(mockRouterPush).toHaveBeenCalledWith("/session");
   });
 });

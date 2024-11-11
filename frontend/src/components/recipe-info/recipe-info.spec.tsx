@@ -46,7 +46,7 @@ describe("RecipeInfo Component", () => {
       };
     });
 
-    const { debug } = render(
+    render(
       <RecipeInfo
         prepTime={15}
         cookingTime={30}
@@ -59,6 +59,5 @@ describe("RecipeInfo Component", () => {
 
     expect(container).toHaveClass(`border-${mockColor}`);
     expect(container).toHaveClass(`bg-${mockColor}-light`);
-    debug();
   });
 });

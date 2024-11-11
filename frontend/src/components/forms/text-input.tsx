@@ -3,9 +3,9 @@
 import { getSeasonColor } from "@/utils/SeasonUtils";
 import { useState } from "react";
 import { useFormContext } from "react-hook-form";
-import EyeClose from "@/assets/icons/eye-close.svg";
-import EyeOpen from "@/assets/icons/eye-open.svg";
 import { Typography } from "../ui/typography";
+import { IoEye } from "react-icons/io5";
+import { IoEyeOff } from "react-icons/io5";
 
 interface TextInputProps {
   placeholder: string; // placeholder text for the input field
@@ -92,7 +92,7 @@ export const TextInput = ({
             className="absolute right-3 top-3 cursor-pointer text-sfblack min-[900px]:top-3.5"
             onClick={() => setShowPassword(!showPassword)}
           >
-            {showPassword ? <EyeClose /> : <EyeOpen />}
+            {showPassword ? <IoEyeOff size={25} /> : <IoEye size={25} />}
           </div>
         )}
       </div>
