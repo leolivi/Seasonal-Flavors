@@ -24,12 +24,6 @@ export default function Card({
     ? props.season.split(",").map((s) => getSeasonColor(s.trim()))
     : [];
 
-  // const handleBookmarkClick = (e: React.MouseEvent) => {
-  //   e.preventDefault();
-  //   e.stopPropagation();
-  //   onBookmarkClick(e);
-  // };
-
   return (
     <div
       className={

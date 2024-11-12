@@ -3,6 +3,7 @@ import { CardList } from "@/components/card-list.tsx/card-list";
 import { LayoutOptionType } from "@/utils/layout-options";
 import { useState } from "react";
 import { RegisterBanner } from "../banner/register-banner";
+import { useSession } from "next-auth/react";
 
 interface CardListWrapperProps {
   cardData: {
@@ -22,12 +23,20 @@ const CardListWrapper = ({
   showDetail,
   style,
 }: CardListWrapperProps) => {
+  const { data: session, status } = useSession();
   const [showRegisterBanner, setShowRegisterBanner] = useState(false);
 
   const handleBookmarkClick = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
-    setShowRegisterBanner((prev) => !prev);
+
+    // If the user is not authenticated, show the register banner
+    if (status === "unauthenticated") {
+      setShowRegisterBanner(true);
+      // TODO: handle bookmark functionality for authenticated users here
+    } else {
+      console.log("Bookmark saved!");
+    }
   };
 
   const handleCloseBanner = () => {

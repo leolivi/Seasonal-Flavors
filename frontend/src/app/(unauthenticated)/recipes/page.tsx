@@ -37,6 +37,7 @@ const Recipes = async ({ searchParams }: RecipesProps) => {
   if (!Array.isArray(cardData)) {
     console.error("Expected cardData to be an array, but got:", cardData);
     return;
+    // TODO: fehlermeldung für user
   }
 
   const formattedCardData = await Promise.all(
@@ -44,11 +45,11 @@ const Recipes = async ({ searchParams }: RecipesProps) => {
     cardData.map(async (recipe: Recipe) => {
       // Fetch image data
       const imageData = await dataFetch(
-        `http://127.0.0.1:8000/api/images?recipe_id=${recipe.id}`,
+        `${process.env.BACKEND_URL}/api/images?recipe_id=${recipe.id}`,
       );
       // Fetch season data
       const seasonData = await dataFetch(
-        `http://127.0.0.1:8000/api/recipes/${recipe.id}/tags`,
+        `${process.env.BACKEND_URL}/api/recipes/${recipe.id}/tags`,
       );
 
       const firstImage = imageData[0] || {};

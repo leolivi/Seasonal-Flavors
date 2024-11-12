@@ -5,7 +5,7 @@ interface ButtonProps {
   label: string;
   iconLeft?: React.ReactNode;
   iconRight?: React.ReactNode;
-  onClick?: () => void;
+  onClick?: React.MouseEventHandler<HTMLButtonElement>;
   style?: ButtonStyle;
   recipeSeasonColor?: string;
   type?: "submit" | "button";

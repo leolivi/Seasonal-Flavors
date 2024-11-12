@@ -20,8 +20,13 @@ class UploadsController {
         $query = Image::query();
 
         // Filter by recipe_id
-        if ($recipeId) {
-            $query->where('recipe_id', $recipeId);
+        if ($recipeId !== null) {
+            if ($recipeId === 'null') {
+                // Explicitly check for images where recipe_id is null
+                $query->whereNull('recipe_id');
+            } else {
+                $query->where('recipe_id', $recipeId);
+            }
         }
 
         // Filter by user_id
