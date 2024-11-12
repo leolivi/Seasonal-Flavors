@@ -7,7 +7,7 @@ import { NavStyle } from "@/components/nav-item/nav-item";
 import { getSeasonColor } from "@/utils/SeasonUtils";
 
 const FooterContainer = ({ color, children }: FooterProps) => (
-  <footer className={`rounded-t-3xl p-10 bg-${color}-light`}>
+  <footer className={`w-full rounded-t-3xl p-10 bg-${color}-light mt-auto`}>
     <ul className="flex w-full flex-col items-center gap-5">{children}</ul>
   </footer>
 );

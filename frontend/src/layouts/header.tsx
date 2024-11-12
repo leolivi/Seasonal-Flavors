@@ -1,22 +1,32 @@
 "use client";
-import MobileNav from "../assets/icons/mobile-nav.svg";
 import { useEffect, useRef, useState } from "react";
-import NavList from "@/components/nav-list/nav-list";
 import useMediaQuery from "@/utils/useMediaQuery";
 import Home from "../assets/icons/home.svg";
 import Soup from "../assets/icons/soup.svg";
 import Profil from "../assets/icons/profil.svg";
 import Logo from "@/components/ui/logo";
-import { NavStyle } from "@/components/nav-item/nav-item";
 import { useClickAway } from "react-use";
 import MobileNavigation from "@/components/mobile-navigation/mobile-navigation";
 import { usePathname } from "next/navigation";
 import { getSeasonColor } from "@/utils/SeasonUtils";
-// import { useSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
+import dataFetch from "@/utils/data-fetch";
+import { MobileNavIcon } from "@/components/mobile-navigation/mobile-nav-icon";
+import { DesktopNav } from "@/components/desktop-nav/desktop-nav";
 
 interface HeaderContainerProps {
   color?: string;
   children: React.ReactNode;
+}
+
+interface UserProfileImage {
+  id: number;
+  file_path: string;
+  alt_text: string;
+  recipe_id: number | null;
+  user_id: number;
+  created_at: string;
+  updated_at: string;
 }
 
 // wrapper component for semantic structure and responsiveness
@@ -33,52 +43,36 @@ const HeaderContainer = ({ children }: HeaderContainerProps) => {
   );
 };
 
-interface DesktopNavProps {
-  seasonalColor: string;
-  navigationItems: {
-    icon: React.ReactNode;
-    label: string;
-    href: string;
-  }[];
-}
-
-// component for desktop nav
-const DesktopNav = ({ navigationItems }: DesktopNavProps) => {
-  return <NavList items={navigationItems} style={NavStyle.HEADER} />;
-};
-
-interface MobileNavIconProps {
-  onClick: () => void;
-  color: string;
-}
-
-// component for mobile nav icon
-const MobileNavIcon = ({ onClick, color }: MobileNavIconProps) => (
-  <li
-    className="absolute right-4 cursor-pointer min-[640px]:right-0"
-    data-testid="mobile-nav-icon"
-  >
-    <MobileNav
-      onClick={onClick}
-      className={`bg-${color}-light h-12 w-auto rounded-full`}
-    />
-  </li>
-);
-
 // header component
 const Header = () => {
-  // const { data: session } = useSession();
-  // const isAuthenticated = !!session;
-
+  const { status } = useSession();
   const seasonalColor = getSeasonColor();
   const [isOpen, setIsOpen] = useState(false);
   const isDesktop = useMediaQuery("(min-width: 640px)");
   const pathname = usePathname();
   const ref = useRef<HTMLDivElement>(null);
 
+  // State to hold the user profile image data
+  const [userData, setUserData] = useState<UserProfileImage | null>(null);
+
   const toggleDropdown = () => setIsOpen(!isOpen);
 
-  // define routes
+  // TODO: Add Profile Image here
+  // Fetch the user profile image data once authenticated
+  // useEffect(() => {
+  //   const fetchUserData = async () => {
+  //     if (status === "authenticated") {
+  //       // Fetch user profile image
+  //       const response = await dataFetch(
+  //         `${process.env.BACKEND_URL}/api/images?profile=1&recipe_id=null`,
+  //       );
+  //       setUserData(response?.[0] || null); // Assume the first image is the profile image
+  //     }
+  //   };
+
+  //   fetchUserData();
+  // }, [status]);
+
   const navigationItems = [
     {
       icon: <Soup className="w-5" />,
@@ -86,9 +80,18 @@ const Header = () => {
       href: "/recipes",
     },
     {
-      icon: <Profil className="w-5" />,
-      label: "anmelden",
-      href: "/session",
+      // TODO: Fix this (add profile image here)
+      icon: userData?.file_path ? (
+        <img
+          src={userData.file_path}
+          alt={userData.alt_text || "Profile"}
+          className="h-8 w-8 rounded-full"
+        />
+      ) : (
+        <Profil className="w-5" />
+      ),
+      label: status === "authenticated" ? "mein Profil" : "anmelden",
+      href: status === "authenticated" ? "/dashboard" : "/session",
     },
   ];
 
@@ -101,9 +104,7 @@ const Header = () => {
   }
 
   // Close modal when the route changes
-  useEffect(() => {
-    setIsOpen(false);
-  }, [pathname]);
+  useEffect(() => setIsOpen(false), [pathname]);
 
   // Close modal on click away
   useClickAway(ref, () => setIsOpen(false));

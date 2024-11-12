@@ -2,6 +2,7 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import { useRouter } from "next/navigation";
 import { RecipeHeader } from "./recipe-header";
+import { useSession } from "next-auth/react";
 
 jest.mock("next/navigation", () => ({
   useRouter: jest.fn(),
@@ -11,11 +12,20 @@ jest.mock("src/assets/icons/arrow-left.svg", () => () => (
   <div>ArrowLeftMock</div>
 ));
 
+jest.mock("next-auth/react", () => ({
+  ...jest.requireActual("next-auth/react"),
+  useSession: jest.fn(),
+}));
+
 describe("RecipeHeader Component", () => {
   const mockRouter = { back: jest.fn() };
 
   beforeEach(() => {
     (useRouter as jest.Mock).mockReturnValue(mockRouter);
+    (useSession as jest.Mock).mockReturnValue({
+      data: { user: { name: "TestUser" }, expires: "fake-expiry-date" },
+      status: "authenticated",
+    });
   });
 
   afterEach(() => {
