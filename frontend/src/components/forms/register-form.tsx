@@ -11,6 +11,8 @@ import { Typography } from "../ui/typography";
 import Heart from "../ui/heart";
 import { useToast } from "@/hooks/use-toast";
 import { ToastAction } from "../toaster/toast";
+import { authSchema, AuthSchema } from "@/validation/authSchema";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 interface RegisterFormProps {
   setForm: Dispatch<SetStateAction<SessionForm>>;
@@ -24,16 +26,13 @@ interface RegisterFormInputs {
 }
 
 export const RegisterForm = ({ setForm }: RegisterFormProps) => {
-  const methods = useForm<RegisterFormInputs>();
+  const methods = useForm<AuthSchema>({
+    resolver: zodResolver(authSchema),
+  });
+
   const { toast } = useToast();
 
   const onSubmit: SubmitHandler<RegisterFormInputs> = async (data) => {
-    // ensure data.policy is checked
-    if (!data.acceptDataPolicy) {
-      console.log("Du musst die Datenschutzerklärung akzeptieren.");
-      return;
-    }
-
     // call the server action 'handleSignup' and await the response
     const response: SignUpResponse = await handleSignup(
       data.email,
@@ -59,7 +58,7 @@ export const RegisterForm = ({ setForm }: RegisterFormProps) => {
       });
       setTimeout(() => {
         setForm(SessionForm.LOGIN);
-      }, 5000);
+      }, 2000);
     } else {
       // If there's an error, set the errors in the form
       if (Array.isArray(response.errors)) {
@@ -98,14 +97,6 @@ export const RegisterForm = ({ setForm }: RegisterFormProps) => {
     }
   };
 
-  // setTimeout(() => {
-  //   toast({
-  //     variant: "default",
-  //     title: "Fehler",
-  //     description: "Unbekannter Fehler.",
-  //   });
-  // }, 8000);
-
   return (
     <FormProvider {...methods}>
       <FormWrapper onSubmit={methods.handleSubmit(onSubmit)}>
@@ -114,14 +105,12 @@ export const RegisterForm = ({ setForm }: RegisterFormProps) => {
           name="username"
           type="text"
           required
-          validateAs="text"
         />
         <TextInput
           placeholder="E-mail"
           name="email"
           type="text"
           required
-          validateAs="email"
           autoComplete="email"
         />
         <TextInput
@@ -129,7 +118,6 @@ export const RegisterForm = ({ setForm }: RegisterFormProps) => {
           name="password"
           type="password"
           required
-          validateAs="password"
           autoComplete="current-password"
         />
         <div className="justify-left flex flex-col gap-2">

@@ -10,6 +10,7 @@
     "test": "ts-node --transpile-only ./node_modules/.bin/jest"
   },
   "dependencies": {
+    "@hookform/resolvers": "^3.9.1",
     "@radix-ui/react-slot": "^1.1.0",
     "@radix-ui/react-toast": "^1.2.2",
     "@shadcn/ui": "^0.0.4",
@@ -27,7 +28,8 @@
     "react-use": "^17.5.1",
     "tailwind-merge": "^2.5.4",
     "tailwind-scrollbar": "^3.1.0",
-    "tailwindcss-animate": "^1.0.7"
+    "tailwindcss-animate": "^1.0.7",
+    "zod": "^3.23.8"
   },
   "devDependencies": {
     "@svgr/webpack": "^8.1.0",

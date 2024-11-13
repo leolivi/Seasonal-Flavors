@@ -10,6 +10,9 @@ import { TextInput } from "./text-input";
 import { Button, ButtonStyle } from "../button/button";
 import { Typography } from "../ui/typography";
 import Heart from "../ui/heart";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { loginSchema } from "@/validation/loginSchema";
+import { useToast } from "@/hooks/use-toast";
 
 interface LoginFormProps {
   setForm: Dispatch<SetStateAction<SessionForm>>;
@@ -22,16 +25,17 @@ interface LoginFormInputs {
 
 export const LoginForm = ({ setForm }: LoginFormProps) => {
   const router = useRouter();
-  const methods = useForm<LoginFormInputs>();
   const [error, setError] = useState<string | null>(null);
+  const { toast } = useToast();
+  const methods = useForm<LoginFormInputs>({
+    resolver: zodResolver(loginSchema),
+  });
 
   const onSubmit: SubmitHandler<LoginFormInputs> = async (data) => {
     setError(null);
 
-    // we define here, that we will use next-auth's handleLogin
-    // the handleLogin function of next-auth is called signIn()
     const result = await signIn("credentials", {
-      redirect: false, // prevents the automatic redirect
+      redirect: false,
       email: data.email,
       password: data.password,
     });
@@ -40,9 +44,24 @@ export const LoginForm = ({ setForm }: LoginFormProps) => {
     if (result?.error) {
       setError("Login fehlgeschlagen, bitte versueche es erneut");
       console.error(result.error);
+      toast({
+        variant: "destructive",
+        title: "Fehler",
+        description: result.error,
+      });
     } else {
       console.log("Login successful, ", result);
-      router.push("/dashboard");
+      toast({
+        variant: "default",
+        title: "Herzlich Willkommen!",
+      });
+      if (process.env.NODE_ENV !== "test") {
+        setTimeout(() => {
+          router.push("/dashboard");
+        }, 2000);
+      } else {
+        router.push("/dashboard");
+      }
     }
   };
 
@@ -54,7 +73,6 @@ export const LoginForm = ({ setForm }: LoginFormProps) => {
           name="email"
           type="text"
           required
-          validateAs="email"
           autoComplete="email"
         />
         <TextInput
@@ -62,7 +80,6 @@ export const LoginForm = ({ setForm }: LoginFormProps) => {
           name="password"
           type="password"
           required
-          validateAs="password"
           autoComplete="current-password"
         />
         {error && (

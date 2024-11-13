@@ -34,24 +34,23 @@ describe("RegisterForm", () => {
   });
 
   test("shows validation error when 'acceptDataPolicy' is not checked", async () => {
-    const { debug } = render(<RegisterForm setForm={setFormMock} />);
+    render(<RegisterForm setForm={setFormMock} />);
 
     const submitButton = screen.getByText("registrieren");
     fireEvent.click(submitButton);
 
     await waitFor(() => {
       expect(
-        screen.getByText("Bitte bestätige die Datenschutzerklärung"),
+        screen.getByText("Du musst die Datenschutzerklärung akzeptieren"),
       ).toBeInTheDocument();
     });
-    debug();
   });
 
   test("calls handleSignup with correct data on valid form submission", async () => {
     const mockResponse = { status: 201 };
     (handleSignup as jest.Mock).mockResolvedValue(mockResponse);
 
-    render(<RegisterForm setForm={setFormMock} />);
+    const { debug } = render(<RegisterForm setForm={setFormMock} />);
 
     fireEvent.input(screen.getByPlaceholderText("Username"), {
       target: { value: "testuser" },
@@ -60,7 +59,7 @@ describe("RegisterForm", () => {
       target: { value: "testuser@example.com" },
     });
     fireEvent.input(screen.getByPlaceholderText("Password"), {
-      target: { value: "password123" },
+      target: { value: "Password123!" },
     });
     fireEvent.click(
       screen.getByLabelText(/Ich akzeptiere die Datenschutzerklärung/),
@@ -72,11 +71,12 @@ describe("RegisterForm", () => {
     await waitFor(() => {
       expect(handleSignup).toHaveBeenCalledWith(
         "testuser@example.com",
-        "password123",
+        "Password123!",
         "testuser",
       );
       expect(handleSignup).toHaveBeenCalledTimes(1);
     });
+    debug();
   });
 
   test("displays success message based on signup response", async () => {
@@ -95,7 +95,7 @@ describe("RegisterForm", () => {
       target: { value: "testuser@example.com" },
     });
     fireEvent.input(screen.getByPlaceholderText("Password"), {
-      target: { value: "password123" },
+      target: { value: "Password123!" },
     });
     fireEvent.click(
       screen.getByLabelText(/Ich akzeptiere die Datenschutzerklärung/),
@@ -130,7 +130,7 @@ describe("RegisterForm", () => {
       target: { value: "testuser@example.com" },
     });
     fireEvent.input(screen.getByPlaceholderText("Password"), {
-      target: { value: "password123" },
+      target: { value: "Password123!" },
     });
     fireEvent.click(
       screen.getByLabelText(/Ich akzeptiere die Datenschutzerklärung/),
