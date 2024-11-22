@@ -1,5 +1,5 @@
 import CardListWrapper from "@/components/card-list.tsx/card-list-wrapper";
-import dataFetch from "@/utils/data-fetch";
+
 import ScrollButton from "@/components/scroll-button/scroll-button";
 import FilterBar from "@/components/filter-bar/filter-bar";
 import { Typography } from "@/components/ui/typography";
@@ -7,6 +7,7 @@ import { Button } from "@/components/button/button";
 import Arrow from "src/assets/icons/arrow.svg";
 // import { getCurrentSeason } from "@/utils/SeasonUtils";
 import { LayoutOptions } from "@/utils/layout-options";
+import { dataFetch } from "@/utils/data-fetch";
 
 interface RecipesProps {
   searchParams?: { title?: string };

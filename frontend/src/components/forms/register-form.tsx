@@ -1,6 +1,6 @@
 "use client";
 
-import { SessionForm } from "@/app/(unauthenticated)/session/page";
+import { SessionForm } from "@/app/session/page";
 import { Dispatch, SetStateAction } from "react";
 import { FormWrapper } from "./form-wrapper";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";

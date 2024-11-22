@@ -4,7 +4,6 @@ import { color, motion, useScroll, useTransform } from "framer-motion";
 import { Button } from "../button/button";
 import { useRouter } from "next/navigation";
 import { CardList } from "../card-list.tsx/card-list";
-import { getSeasonColor } from "@/utils/SeasonUtils";
 import { LayoutOptions } from "@/utils/layout-options";
 
 interface CardSliderProps {
@@ -18,8 +17,6 @@ interface CardSliderProps {
 }
 
 export const CardSlider = ({ cardData }: CardSliderProps) => {
-  const seasonalColor = getSeasonColor();
-
   const router = useRouter();
   const carouselRef = useRef<HTMLDivElement | null>(null);
 

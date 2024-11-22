@@ -1,6 +1,6 @@
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { handleSignup } from "@/actions/auth-actions"; // Mock this function
-import { SessionForm } from "@/app/(unauthenticated)/session/page";
+import { SessionForm } from "@/app/session/page";
 import { RegisterForm } from "./register-form";
 
 jest.mock("src/assets/icons/eye-close.svg", () => () => (

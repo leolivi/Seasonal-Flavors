@@ -1,12 +1,12 @@
 import { Button, ButtonStyle } from "@/components/button/button";
 import ScrollButton from "@/components/scroll-button/scroll-button";
 import ImageContainer from "@/components/ui/image-container";
-import dataFetch from "@/utils/data-fetch";
 import { RecipeHeader } from "@/components/recipe-header/recipe-header";
 import { RecipeInfo } from "@/components/recipe-info/recipe-info";
 import { RecipeInstructions } from "@/components/recipe-instructions/recipe-instructions";
 import Heart from "@/components/ui/heart";
 import { getSeasonColor, translateSeason } from "@/utils/SeasonUtils";
+import { dataFetch } from "@/utils/data-fetch";
 
 interface RecipeData {
   id: number;
@@ -94,7 +94,7 @@ export default async function Recipe({ params }: { params: { id: number } }) {
               key={index}
               label={translatedSeason}
               style={ButtonStyle.OUTLINE}
-              iconLeft={<Heart color={seasonalColor} height={20} />}
+              iconLeft={<Heart color={seasonalColor} height={18} width={25} />}
               recipeSeasonColor={seasonalColor}
             />
           );

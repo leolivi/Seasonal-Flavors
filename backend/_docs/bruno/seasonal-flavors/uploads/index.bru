@@ -5,19 +5,16 @@ meta {
 }
 
 get {
-  url: {{baseUrl}}/images?recipe_id=1
+  url: {{baseUrl}}/images?user_id=1&recipe_id=null
   body: multipartForm
   auth: none
 }
 
 params:query {
-  recipe_id: 1
+  user_id: 1
+  recipe_id: null
 }
 
 headers {
   Authorization: Bearer {{token}}
-}
-
-body:multipart-form {
-  file: @file(/Users/leonieliviero/Documents/1_Schule/1_SAE/2_Module/5_Web Applications/1_Themenfindung/3_Corporate-Design-Konzept/2_Images/SF-DB-Struktur.png)
 }

@@ -17,7 +17,11 @@ Route::get('/user/{id}', [UserController::class, 'showUserById']);
 Route::post('/auth/login', [AuthController::class, 'login']);
 // show recipes
 Route::get('/recipe', [RecipeController::class, 'read']);
+// TODO: do i need this?
 Route::get('/images', [UploadsController::class, 'index']);
+Route::get('storage/{path}', function($path) {
+    return response()->file(storage_path('app/public/' . $path));
+})->where('path', '.*');
 // show tags
 Route::get('/tags', [TagsController::class, 'index']);
 Route::get('/recipes/{recipe}/tags', [TagsController::class, 'showTags']);

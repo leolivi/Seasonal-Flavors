@@ -2,7 +2,7 @@
 
 import { Dispatch, SetStateAction, useState } from "react";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
-import { SessionForm } from "@/app/(unauthenticated)/session/page";
+import { SessionForm } from "@/app/session/page";
 import { FormWrapper } from "./form-wrapper";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";

@@ -3,7 +3,7 @@ import { RegisterBanner } from "@/components/banner/register-banner";
 import registerImage from "../assets/images/register-image.jpg";
 import Image from "next/image";
 import ScrollButton from "@/components/scroll-button/scroll-button";
-import dataFetch from "@/utils/data-fetch";
+import { dataFetch } from "@/utils/data-fetch";
 import { InspirationText } from "@/components/inspiration-text/inspiration-text";
 import { CardSliderWrapper } from "@/components/card-slider/card-slider-wrapper";
 import { getCurrentSeason } from "@/utils/SeasonUtils";
@@ -35,13 +35,10 @@ const Home = async () => {
       const seasonData = await dataFetch(
         `${process.env.BACKEND_URL}/api/recipes/${recipe.id}/tags`,
       );
-
       const firstImage = imageData[0] || {};
-
       const seasonTags = seasonData
         .map((tag: SeasonTag) => tag.name)
         .join(", ");
-
       return {
         id: recipe.id,
         imageSrc: firstImage.file_path || "",
@@ -68,7 +65,7 @@ const Home = async () => {
           height={300}
         />
         <div className="absolute flex items-center justify-center">
-          <RegisterBanner />
+          <RegisterBanner label="jetzt registrieren" />
         </div>
       </div>
     </main>

@@ -1,4 +1,4 @@
-async function dataFetch(endpoint: string) {
+export async function dataFetch(endpoint: string) {
   try {
     const response = await fetch(endpoint, {
       cache: "no-store",
@@ -10,4 +10,19 @@ async function dataFetch(endpoint: string) {
   }
 }
 
-export default dataFetch;
+export async function dataFetchWithToken(endpoint: string, token: string) {
+  try {
+    const response = await fetch(endpoint, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    const data = await response.json();
+
+    return data;
+  } catch (error) {
+    console.error(error);
+  }
+}

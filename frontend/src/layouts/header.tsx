@@ -10,9 +10,15 @@ import MobileNavigation from "@/components/mobile-navigation/mobile-navigation";
 import { usePathname } from "next/navigation";
 import { getSeasonColor } from "@/utils/SeasonUtils";
 import { useSession } from "next-auth/react";
-import dataFetch from "@/utils/data-fetch";
+import { dataFetch } from "@/utils/data-fetch";
 import { MobileNavIcon } from "@/components/mobile-navigation/mobile-nav-icon";
 import { DesktopNav } from "@/components/desktop-nav/desktop-nav";
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+  AvatarSize,
+} from "@/components/avatar/avatar";
 
 interface HeaderContainerProps {
   color?: string;
@@ -81,15 +87,23 @@ const Header = () => {
     },
     {
       // TODO: Fix this (add profile image here)
-      icon: userData?.file_path ? (
-        <img
-          src={userData.file_path}
-          alt={userData.alt_text || "Profile"}
-          className="h-8 w-8 rounded-full"
-        />
-      ) : (
-        <Profil className="w-5" />
-      ),
+      icon:
+        status === "authenticated" ? (
+          // <img
+          //   src={userData.file_path}
+          //   alt={userData.alt_text || "Profile"}
+          //   className="h-8 w-8 rounded-full"
+          // />
+          <Avatar size={AvatarSize.small}>
+            <AvatarImage
+              src="https://robohash.org/81.221.206.170.png"
+              alt="User's avatar"
+            />
+            <AvatarFallback>JD</AvatarFallback>
+          </Avatar>
+        ) : (
+          <Profil className="w-5" />
+        ),
       label: status === "authenticated" ? "mein Profil" : "anmelden",
       href: status === "authenticated" ? "/dashboard" : "/session",
     },

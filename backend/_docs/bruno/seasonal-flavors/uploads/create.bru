@@ -5,14 +5,9 @@ meta {
 }
 
 post {
-  url: {{baseUrl}}/uploads?type=recipe&recipe_id=1
+  url: {{baseUrl}}/uploads
   body: multipartForm
   auth: none
-}
-
-params:query {
-  type: recipe
-  recipe_id: 1
 }
 
 headers {
@@ -20,5 +15,8 @@ headers {
 }
 
 body:multipart-form {
-  file: @file(/Users/leonieliviero/Documents/1_Schule/1_SAE/2_Module/5_Web Applications/1_Themenfindung/2_Moodboard/2_Images/food_cook_spoon_chef_kitchenware.svg)
+  file: @file(/Users/leonieliviero/Downloads/5d1e7d3c-3c40-4cd0-8b68-904eb78877dc.JPG)
+  alt_text: "profile image"
+  type: profile
+  ~recipe_id: 
 }

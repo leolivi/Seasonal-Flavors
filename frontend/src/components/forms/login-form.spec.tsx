@@ -1,5 +1,5 @@
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
-import { SessionForm } from "@/app/(unauthenticated)/session/page";
+import { SessionForm } from "@/app/session/page";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { FormProvider, useForm } from "react-hook-form";

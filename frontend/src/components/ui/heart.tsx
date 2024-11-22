@@ -21,8 +21,8 @@ const Heart = ({ ...props }) => {
         maskUnits="userSpaceOnUse"
         x="0"
         y="0"
-        width="42"
-        height="36"
+        // width="42"
+        // height="36"
       >
         <path
           d="M41.6387 0.0891113H0.638672V35.0891H41.6387V0.0891113Z"
@@ -36,8 +36,8 @@ const Heart = ({ ...props }) => {
           maskUnits="userSpaceOnUse"
           x="0"
           y="0"
-          width="42"
-          height="36"
+          // width="42"
+          // height="36"
         >
           <path
             d="M41.6387 0.0891113H0.638672V35.0891H41.6387V0.0891113Z"
@@ -51,8 +51,8 @@ const Heart = ({ ...props }) => {
             maskUnits="userSpaceOnUse"
             x="0"
             y="0"
-            width="42"
-            height="36"
+            // width="42"
+            // height="36"
           >
             <path
               d="M41.6387 0.0891113H0.638672V35.0891H41.6387V0.0891113Z"
@@ -67,8 +67,8 @@ const Heart = ({ ...props }) => {
                 maskUnits="userSpaceOnUse"
                 x="0"
                 y="0"
-                width="42"
-                height="36"
+                // width="42"
+                // height="36"
               >
                 <path
                   d="M41.6387 0.0891113H0.638672V35.0891H41.6387V0.0891113Z"
