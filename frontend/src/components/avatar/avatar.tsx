@@ -4,9 +4,10 @@ import * as React from "react";
 import * as AvatarPrimitive from "@radix-ui/react-avatar";
 
 import { cn } from "@/lib/utils";
+import { getSeasonColor } from "@/utils/SeasonUtils";
 
 export enum AvatarSize {
-  small = "h-8 w-8",
+  small = "h-10 w-10",
   large = "h-20 w-20",
 }
 
@@ -15,6 +16,8 @@ interface AvatarProps
   size?: AvatarSize;
 }
 
+const seasonalColor = getSeasonColor();
+
 const Avatar = React.forwardRef<
   React.ElementRef<typeof AvatarPrimitive.Root>,
   AvatarProps
@@ -22,7 +25,7 @@ const Avatar = React.forwardRef<
   <AvatarPrimitive.Root
     ref={ref}
     className={cn(
-      "relative flex shrink-0 overflow-hidden rounded-full",
+      `relative flex shrink-0 overflow-hidden rounded-full border-2 border-${seasonalColor}-dark bg-${seasonalColor}-light`,
       size,
       className,
     )}

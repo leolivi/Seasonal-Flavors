@@ -57,10 +57,10 @@ export const LoginForm = ({ setForm }: LoginFormProps) => {
       });
       if (process.env.NODE_ENV !== "test") {
         setTimeout(() => {
-          router.push("/dashboard");
+          router.push("/my-recipes");
         }, 2000);
       } else {
-        router.push("/dashboard");
+        router.push("/my-recipes");
       }
     }
   };

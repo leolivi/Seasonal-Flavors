@@ -59,7 +59,7 @@ describe("LoginForm", () => {
     fireEvent.click(screen.getByRole("button", { name: /anmelden/i }));
 
     await waitFor(() => {
-      expect(pushMock).toHaveBeenCalledWith("/dashboard");
+      expect(pushMock).toHaveBeenCalledWith("/my-recipes");
     });
   });
 

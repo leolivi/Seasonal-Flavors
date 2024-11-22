@@ -26,7 +26,7 @@ interface UserData {
 //   alt_text: string;
 // }
 
-const Dashboard = () => {
+const Profile = () => {
   const { toast } = useToast();
   const seasonalColor = getSeasonColor();
   const { data: session, status } = useSession();
@@ -124,4 +124,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default Profile;

@@ -85,27 +85,32 @@ const Header = () => {
       label: "Rezepte",
       href: "/recipes",
     },
+    ...(status === "authenticated"
+      ? [
+          {
+            label: "meine Rezepte",
+            href: "/my-recipes",
+          },
+        ]
+      : []),
     {
       // TODO: Fix this (add profile image here)
       icon:
         status === "authenticated" ? (
-          // <img
-          //   src={userData.file_path}
-          //   alt={userData.alt_text || "Profile"}
-          //   className="h-8 w-8 rounded-full"
-          // />
           <Avatar size={AvatarSize.small}>
             <AvatarImage
-              src="https://robohash.org/81.221.206.170.png"
-              alt="User's avatar"
+              src={
+                userData?.file_path || "https://robohash.org/81.221.206.170.png"
+              }
+              alt={userData?.alt_text || "User's avatar"}
             />
             <AvatarFallback>JD</AvatarFallback>
           </Avatar>
         ) : (
           <Profil className="w-5" />
         ),
-      label: status === "authenticated" ? "mein Profil" : "anmelden",
-      href: status === "authenticated" ? "/dashboard" : "/session",
+      label: status === "authenticated" ? "" : "anmelden",
+      href: status === "authenticated" ? "/profile" : "/session",
     },
   ];
 

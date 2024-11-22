@@ -8,9 +8,15 @@ export async function middleware(req: NextRequest) {
   // get the current request pathname
   const { pathname } = req.nextUrl;
 
-  if (pathname === "/dashboard" && !token) {
+  if (pathname === "/profile" && !token) {
     const redirectUrl = req.nextUrl.clone();
     redirectUrl.pathname = "/session";
+    return NextResponse.redirect(redirectUrl);
+  }
+
+  if (pathname === "/my-recipes" && !token) {
+    const redirectUrl = req.nextUrl.clone();
+    redirectUrl.pathname = "/";
     return NextResponse.redirect(redirectUrl);
   }
 
