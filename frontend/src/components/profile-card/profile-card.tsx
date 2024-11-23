@@ -1,12 +1,6 @@
-import { getSeasonColor } from "@/utils/SeasonUtils";
 import { Typography } from "../ui/typography";
-import { FaPen } from "react-icons/fa";
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-  AvatarSize,
-} from "../avatar/avatar";
+import AvatarUpload from "../file-upload/avatar-upload";
+import EditableField from "../forms/editable-fields";
 
 interface ProfileCardProps {
   name: string;
@@ -15,37 +9,28 @@ interface ProfileCardProps {
 }
 
 export default function ProfileCard({ name, email }: ProfileCardProps) {
-  const seasonalColor = getSeasonColor();
+  const editableFields = [
+    { value: name },
+    { value: email },
+    { value: "Password***" },
+  ];
 
   return (
-    <div
-      className={`w-full rounded bg-${seasonalColor}-light px-5 py-8 shadow-lg hover:drop-shadow-lg`}
-    >
-      <div className="mb-12 flex cursor-pointer items-center justify-between">
+    <div className="w-full rounded px-5 py-8">
+      <div className="mb-12 flex cursor-pointer items-center justify-center">
         <Typography variant="heading2" className="font-figtreeRegular">
           <h2>mein Profil</h2>
         </Typography>
-        <div
-          className="flex h-10 w-10 items-center justify-center rounded-full bg-sfwhite"
-          // onClick={openModalClick}
-        >
-          <FaPen size={20} />
-        </div>
       </div>
-      <div className="flex gap-6">
-        <Avatar size={AvatarSize.large}>
-          <AvatarImage
-            src="https://robohash.org/81.221.206.170.png"
-            alt="User's avatar"
-          />
-          <AvatarFallback>JD</AvatarFallback>
-        </Avatar>
-        <div>
-          <Typography variant="body">
-            <p className="font-figtreeRegular">{name}</p>
-            <p className="font-figtreeRegular">{email}</p>
-            <p className="font-figtreeRegular">Passwort ***</p>
-          </Typography>
+      <div className="flex flex-col items-center gap-6">
+        <AvatarUpload
+          avatarSrc="https://robohash.org/81.221.206.170.png"
+          avatarFallback="User's avatar"
+        />
+        <div className="w-5/6">
+          {editableFields.map((field, index) => (
+            <EditableField key={index} value={field.value} />
+          ))}
         </div>
       </div>
     </div>

@@ -90,11 +90,11 @@ const Header = () => {
           {
             label: "meine Rezepte",
             href: "/my-recipes",
+            // No icon property needed here
           },
         ]
       : []),
     {
-      // TODO: Fix this (add profile image here)
       icon:
         status === "authenticated" ? (
           <Avatar size={AvatarSize.small}>

@@ -6,7 +6,7 @@ import { getSeasonColor } from "@/utils/SeasonUtils";
 import { useSession } from "next-auth/react";
 
 interface NavItemProps {
-  icon: React.ReactNode;
+  icon?: React.ReactNode;
   label: string;
   href: string;
   style: NavStyle;
@@ -27,7 +27,7 @@ const NavItem = ({ icon, label, href, style }: NavItemProps) => {
   return (
     <li
       // styling depends on screen width
-      className={`cursor-pointer items-center justify-center px-4 py-1 transition-all duration-300 ease-in-out last:self-center hover:rounded-full ${
+      className={`cursor-pointer items-center justify-center px-4 py-1 transition-all duration-300 ease-in-out last:self-center hover:rounded-full hover:drop-shadow-lg ${
         isFooter
           ? ""
           : isDesktop

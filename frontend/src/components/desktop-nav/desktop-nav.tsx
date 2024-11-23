@@ -4,7 +4,7 @@ import NavList from "../nav-list/nav-list";
 interface DesktopNavProps {
   seasonalColor: string;
   navigationItems: {
-    icon: React.ReactNode;
+    icon?: React.ReactNode;
     label: string;
     href: string;
   }[];

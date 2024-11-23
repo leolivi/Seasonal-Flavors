@@ -2,7 +2,7 @@ import NavItem, { NavStyle } from "../nav-item/nav-item";
 
 interface NavListProps {
   items: {
-    icon: React.ReactNode;
+    icon?: React.ReactNode;
     label: string;
     href: string;
   }[];

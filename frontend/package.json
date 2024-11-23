@@ -10,6 +10,9 @@
     "test": "ts-node --transpile-only ./node_modules/.bin/jest"
   },
   "dependencies": {
+    "@chakra-ui/react": "^3.2.0",
+    "@emotion/react": "^11.13.5",
+    "@emotion/styled": "^11.13.5",
     "@hookform/resolvers": "^3.9.1",
     "@radix-ui/react-avatar": "^1.1.1",
     "@radix-ui/react-slot": "^1.1.0",
@@ -18,7 +21,7 @@
     "@uidotdev/usehooks": "^2.4.1",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
-    "framer-motion": "^11.11.9",
+    "framer-motion": "^11.11.17",
     "lucide-react": "^0.456.0",
     "next": "^14.2.16",
     "next-auth": "^4.24.10",

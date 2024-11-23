@@ -8,11 +8,7 @@ import {
 } from "@/components/auth-session/auth-session";
 import { signOut, useSession } from "next-auth/react";
 import { useToast } from "@/hooks/use-toast";
-import cardImage from "@/assets/images/dashboard-image.jpg";
 import { Suspense, useEffect, useState } from "react";
-import DashboardCard from "@/components/dashboard-card/dashboard-card";
-import { FaPlus } from "react-icons/fa6";
-import { getSeasonColor } from "@/utils/SeasonUtils";
 import { dataFetchWithToken } from "@/utils/data-fetch";
 
 interface UserData {
@@ -28,7 +24,6 @@ interface UserData {
 
 const Profile = () => {
   const { toast } = useToast();
-  const seasonalColor = getSeasonColor();
   const { data: session, status } = useSession();
   const [userData, setUserData] = useState<UserData | null>(null);
   // const [userImage, setUserImage] = useState<UserImage | null>(null);
@@ -84,39 +79,18 @@ const Profile = () => {
   }
 
   return (
-    <div className="px-4 pb-8 min-[640px]:px-8">
+    <div className="flex justify-center px-4 pb-8 min-[640px]:px-8">
       <h1 className="sr-only">Dashboard</h1>
       <Suspense fallback={<SessionLoader />}>
         <AuthSession>
-          <div className="flex flex-col gap-8 min-[850px]:flex-row min-[850px]:gap-4">
-            <div className="flex flex-1 flex-col gap-8 min-[1200px]:w-1/2">
-              <DashboardCard
-                href="/recipes/create"
-                label="neues Rezept erstellen"
-                fontColor="sf-white"
-                icon={
-                  <div
-                    className={`inline-flex items-center justify-center rounded-full bg-${seasonalColor}-dark p-3`}
-                  >
-                    <FaPlus size={30} className="text-sfwhite" />
-                  </div>
-                }
-              />
-              <DashboardCard
-                href="/my-recipes"
-                label="meine Rezepte"
-                backgroundImage={cardImage.src}
-              />
-            </div>
-
-            <div className="flex flex-col items-center gap-4 min-[850px]:ml-4 min-[1200px]:w-1/2">
-              <ProfileCard name={userData.username} email={userData.email} />
-              <Button
-                style={ButtonStyle.OUTLINERED}
-                label="abmelden"
-                onClick={handleLogout}
-              />
-            </div>
+          <div className="flex flex-col items-center gap-4">
+            <ProfileCard name={userData.username} email={userData.email} />
+            {/* TODO: Remove abmelden Button and add delete profile button */}
+            <Button
+              style={ButtonStyle.OUTLINERED}
+              label="abmelden"
+              onClick={handleLogout}
+            />
           </div>
         </AuthSession>
       </Suspense>
