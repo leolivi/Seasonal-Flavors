@@ -1,6 +1,6 @@
 "use client";
 
-import { Button, ButtonStyle } from "@/components/button/button";
+import { Button, ButtonSize, ButtonStyle } from "@/components/button/button";
 import ProfileCard from "@/components/profile-card/profile-card";
 import {
   AuthSession,
@@ -53,26 +53,6 @@ const Profile = () => {
     fetchUserProfile();
   }, [status, session?.accessToken]);
 
-  const handleLogout = async () => {
-    try {
-      toast({
-        variant: "default",
-        title: "Abgemeldet",
-        description: "Sie wurden erfolgreich abgemeldet.",
-      });
-
-      await new Promise((resolve) => setTimeout(resolve, 2000));
-      await signOut({ redirect: true, callbackUrl: "/session" });
-    } catch (error) {
-      toast({
-        variant: "destructive",
-        title: "Fehler",
-        description: "Abmeldung fehlgeschlagen. Bitte versuchen Sie es erneut.",
-      });
-      console.error("Logout failed: ", error);
-    }
-  };
-
   // If userData is not yet loaded, show a loading state
   if (!userData) {
     return <SessionLoader />;
@@ -83,14 +63,20 @@ const Profile = () => {
       <h1 className="sr-only">Dashboard</h1>
       <Suspense fallback={<SessionLoader />}>
         <AuthSession>
-          <div className="flex flex-col items-center gap-4">
+          <div className="flex flex-col items-center">
             <ProfileCard name={userData.username} email={userData.email} />
-            {/* TODO: Remove abmelden Button and add delete profile button */}
-            <Button
-              style={ButtonStyle.OUTLINERED}
-              label="abmelden"
-              onClick={handleLogout}
-            />
+            <div className="flex w-full justify-center">
+              <Button
+                style={ButtonStyle.SIMPLERED}
+                label="Profil löschen"
+                size={ButtonSize.XS}
+              />
+              {/* <Button
+                style={ButtonStyle.SIMPLE}
+                label="Password ändern"
+                size={ButtonSize.SMALL}
+              /> */}
+            </div>
           </div>
         </AuthSession>
       </Suspense>

@@ -1,6 +1,5 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import Cross from "@/assets/icons/cross.svg";
 import Magnifier from "src/assets/icons/magnifier.svg";
 import Bookmark from "src/assets/icons/bookmark.svg";
 import { Typography } from "../ui/typography";
@@ -51,7 +50,7 @@ const FilterBar = ({ title = "" }: FilterBarProps) => {
           <button
             type="button"
             onClick={clearInput}
-            className="ml-2 h-2 text-sfblack"
+            className="ml-2 text-sfblack"
           >
             &#x2715;
           </button>

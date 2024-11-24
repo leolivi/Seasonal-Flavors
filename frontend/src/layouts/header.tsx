@@ -13,26 +13,11 @@ import { useSession } from "next-auth/react";
 import { dataFetch } from "@/utils/data-fetch";
 import { MobileNavIcon } from "@/components/mobile-navigation/mobile-nav-icon";
 import { DesktopNav } from "@/components/desktop-nav/desktop-nav";
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-  AvatarSize,
-} from "@/components/avatar/avatar";
+import ProfileDropdown from "@/components/profile-dropdown/profile-dropdown";
 
 interface HeaderContainerProps {
   color?: string;
   children: React.ReactNode;
-}
-
-interface UserProfileImage {
-  id: number;
-  file_path: string;
-  alt_text: string;
-  recipe_id: number | null;
-  user_id: number;
-  created_at: string;
-  updated_at: string;
 }
 
 // wrapper component for semantic structure and responsiveness
@@ -57,9 +42,6 @@ const Header = () => {
   const isDesktop = useMediaQuery("(min-width: 640px)");
   const pathname = usePathname();
   const ref = useRef<HTMLDivElement>(null);
-
-  // State to hold the user profile image data
-  const [userData, setUserData] = useState<UserProfileImage | null>(null);
 
   const toggleDropdown = () => setIsOpen(!isOpen);
 
@@ -90,27 +72,18 @@ const Header = () => {
           {
             label: "meine Rezepte",
             href: "/my-recipes",
-            // No icon property needed here
           },
         ]
       : []),
     {
       icon:
         status === "authenticated" ? (
-          <Avatar size={AvatarSize.small}>
-            <AvatarImage
-              src={
-                userData?.file_path || "https://robohash.org/81.221.206.170.png"
-              }
-              alt={userData?.alt_text || "User's avatar"}
-            />
-            <AvatarFallback>JD</AvatarFallback>
-          </Avatar>
+          <ProfileDropdown />
         ) : (
           <Profil className="w-5" />
         ),
       label: status === "authenticated" ? "" : "anmelden",
-      href: status === "authenticated" ? "/profile" : "/session",
+      href: status === "authenticated" ? "" : "/session",
     },
   ];
 
@@ -126,7 +99,13 @@ const Header = () => {
   useEffect(() => setIsOpen(false), [pathname]);
 
   // Close modal on click away
-  useClickAway(ref, () => setIsOpen(false));
+  useClickAway(ref, (event) => {
+    const target = event.target as Node;
+    const profileDropdown = document.querySelector("[data-profile-dropdown]");
+    if (profileDropdown && !profileDropdown.contains(target)) {
+      setIsOpen(false);
+    }
+  });
 
   return (
     <HeaderContainer color={seasonalColor}>
