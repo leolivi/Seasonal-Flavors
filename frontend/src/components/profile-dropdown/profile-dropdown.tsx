@@ -1,4 +1,4 @@
-import React from "react";
+import React, { forwardRef } from "react";
 import Link from "next/link";
 import {
   Avatar,
@@ -26,7 +26,7 @@ interface UserProfileImage {
   updated_at: string;
 }
 
-export default function ProfileDropdown() {
+const ProfileDropdown = forwardRef<HTMLDivElement>((_, ref) => {
   const seasonalColor = getSeasonColor();
   const isDesktop = useMediaQuery("(min-width: 640px)");
   const [userData, setUserData] = useState<UserProfileImage | null>(null);
@@ -52,7 +52,7 @@ export default function ProfileDropdown() {
   };
 
   return (
-    <DropdownMenu.Root data-profile-dropdown>
+    <DropdownMenu.Root>
       <DropdownMenu.Trigger asChild>
         <Avatar size={AvatarSize.small}>
           <AvatarImage src={userData?.file_path} alt="User's avatar" />
@@ -71,8 +71,9 @@ export default function ProfileDropdown() {
           className="z-50 mt-2 w-fit rounded-md bg-sfwhite p-4 shadow-lg"
           sideOffset={5}
           align={isDesktop ? "end" : "center"}
+          ref={ref}
         >
-          <DropdownMenu.Item className="mb-2 flex items-center gap-2">
+          <DropdownMenu.Item className="mb-2 flex items-center gap-2 px-2">
             <Link href="/profile" className="flex w-full items-center">
               <User className="mr-2 h-4 w-4" />
               <Typography variant="small">
@@ -81,7 +82,7 @@ export default function ProfileDropdown() {
             </Link>
           </DropdownMenu.Item>
 
-          <DropdownMenu.Item className="mb-2 flex items-center gap-2">
+          <DropdownMenu.Item className="mb-2 flex items-center gap-2 px-2">
             <Link href="/change-password" className="flex w-full items-center">
               <Lock className="mr-2 h-4 w-4" />
               <Typography variant="small">
@@ -89,9 +90,11 @@ export default function ProfileDropdown() {
               </Typography>
             </Link>
           </DropdownMenu.Item>
-
+          <DropdownMenu.Separator
+            className={`border-${seasonalColor}-dark mb-2 rounded border-[1px]`}
+          />
           <DropdownMenu.Item
-            className="flex items-center gap-2"
+            className="flex cursor-pointer items-center gap-2 px-2"
             onSelect={handleLogout}
           >
             <LogOut className="mr-2 h-4 w-4" />
@@ -103,4 +106,8 @@ export default function ProfileDropdown() {
       </DropdownMenu.Portal>
     </DropdownMenu.Root>
   );
-}
+});
+
+ProfileDropdown.displayName = "ProfileDropdown";
+
+export default ProfileDropdown;

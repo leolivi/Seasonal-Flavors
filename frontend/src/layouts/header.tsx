@@ -42,6 +42,7 @@ const Header = () => {
   const isDesktop = useMediaQuery("(min-width: 640px)");
   const pathname = usePathname();
   const ref = useRef<HTMLDivElement>(null);
+  const profileRef = useRef<HTMLDivElement>(null);
 
   const toggleDropdown = () => setIsOpen(!isOpen);
 
@@ -61,6 +62,32 @@ const Header = () => {
   //   fetchUserData();
   // }, [status]);
 
+  // Close modal on click away
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      const target = event.target as Node;
+
+      if (
+        (ref.current && ref.current.contains(target)) ||
+        (profileRef.current && profileRef.current.contains(target))
+      ) {
+        return; // Klick innerhalb eines relevanten Bereichs
+      }
+
+      setIsOpen(false); // Klick außerhalb
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+  // useClickAway(ref, () => setIsOpen(false));
+
+  // Close modal when the route changes
+  useEffect(() => setIsOpen(false), [pathname]);
+
   const navigationItems = [
     {
       icon: <Soup className="w-5" />,
@@ -78,7 +105,7 @@ const Header = () => {
     {
       icon:
         status === "authenticated" ? (
-          <ProfileDropdown />
+          <ProfileDropdown ref={profileRef} />
         ) : (
           <Profil className="w-5" />
         ),
@@ -94,18 +121,6 @@ const Header = () => {
       href: "/",
     });
   }
-
-  // Close modal when the route changes
-  useEffect(() => setIsOpen(false), [pathname]);
-
-  // Close modal on click away
-  useClickAway(ref, (event) => {
-    const target = event.target as Node;
-    const profileDropdown = document.querySelector("[data-profile-dropdown]");
-    if (profileDropdown && !profileDropdown.contains(target)) {
-      setIsOpen(false);
-    }
-  });
 
   return (
     <HeaderContainer color={seasonalColor}>
