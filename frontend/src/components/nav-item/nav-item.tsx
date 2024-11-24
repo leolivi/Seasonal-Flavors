@@ -35,10 +35,7 @@ const NavItem = ({ icon, label, href, style }: NavItemProps) => {
             : "active:bg-sfwhite active:bg-opacity-80"
       } ${status === "authenticated" && `last:hover:bg-transparent`} min-[640px]:mt-0`}
     >
-      <Typography
-        variant={isFooter ? "small" : "btnS"}
-        className="text-sfblack"
-      >
+      <Typography variant={isFooter ? "xs" : "btnS"} className="text-sfblack">
         <Link className="flex flex-row gap-3" href={href}>
           {icon}
           {label}

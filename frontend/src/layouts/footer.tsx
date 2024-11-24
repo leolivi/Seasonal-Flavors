@@ -5,10 +5,13 @@ import NavList from "@/components/nav-list/nav-list";
 import Logo from "@/components/ui/logo";
 import { NavStyle } from "@/components/nav-item/nav-item";
 import { getSeasonColor } from "@/utils/SeasonUtils";
+import useMediaQuery from "@/utils/useMediaQuery";
 
 const FooterContainer = ({ color, children }: FooterProps) => (
-  <footer className={`w-full rounded-t-3xl p-10 bg-${color}-light mt-auto`}>
-    <ul className="flex w-full flex-col items-center gap-5">{children}</ul>
+  <footer
+    className={`w-full rounded-t-3xl p-10 bg-${color}-light mt-auto list-none`}
+  >
+    {children}
   </footer>
 );
 
@@ -27,6 +30,7 @@ interface FooterProps {
 
 const Footer = () => {
   const seasonalColor = getSeasonColor();
+  const isDesktop = useMediaQuery("(min-width: 640px)");
 
   const footerItems = [
     {
@@ -43,9 +47,25 @@ const Footer = () => {
 
   return (
     <FooterContainer color={seasonalColor}>
-      <Logo variant="footer" />
-      <NavList items={footerItems} style={NavStyle.FOOTER} />
-      <Copyright />
+      {isDesktop ? (
+        <ul className="grid grid-cols-3 items-center">
+          <div className="flex justify-start">
+            <NavList items={footerItems} style={NavStyle.FOOTER} />
+          </div>
+          <div className="flex justify-center">
+            <Logo variant="footer" />
+          </div>
+          <div className="flex justify-end">
+            <Copyright />
+          </div>
+        </ul>
+      ) : (
+        <ul className="flex w-full flex-col items-center gap-5">
+          <Logo variant="footer" />
+          <NavList items={footerItems} style={NavStyle.FOOTER} />
+          <Copyright />
+        </ul>
+      )}
     </FooterContainer>
   );
 };

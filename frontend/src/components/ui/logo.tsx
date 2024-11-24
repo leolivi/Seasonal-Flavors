@@ -9,9 +9,7 @@ interface LogoProps {
 const Logo = ({ variant = "header" }: LogoProps) => {
   // Conditional styles based on the variant (header or footer)
   const logoStyles =
-    variant === "footer"
-      ? "h-5 min-[640px]:h-6"
-      : "h-8 w-auto min-[640px]:h-10";
+    variant === "footer" ? "h-[1.8rem] w-auto" : "h-8 w-auto min-[640px]:h-10";
 
   return (
     <li
