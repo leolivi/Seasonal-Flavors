@@ -13,7 +13,7 @@ export default function ProfileCard({ name, email, src }: ProfileCardProps) {
     <div className="flex w-full flex-col items-center rounded px-5 py-8">
       <div className="mb-12 flex cursor-pointer items-center justify-center">
         <Typography variant="heading2" className="font-figtreeRegular">
-          <h2>mein Profil</h2>
+          <h1>mein Profil</h1>
         </Typography>
       </div>
       <div className="flex flex-col items-center gap-6">

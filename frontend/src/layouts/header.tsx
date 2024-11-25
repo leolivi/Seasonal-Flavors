@@ -5,12 +5,10 @@ import Home from "../assets/icons/home.svg";
 import Soup from "../assets/icons/soup.svg";
 import Profil from "../assets/icons/profil.svg";
 import Logo from "@/components/ui/logo";
-import { useClickAway } from "react-use";
 import MobileNavigation from "@/components/mobile-navigation/mobile-navigation";
 import { usePathname } from "next/navigation";
 import { getSeasonColor } from "@/utils/SeasonUtils";
 import { useSession } from "next-auth/react";
-import { dataFetch } from "@/utils/data-fetch";
 import { MobileNavIcon } from "@/components/mobile-navigation/mobile-nav-icon";
 import { DesktopNav } from "@/components/desktop-nav/desktop-nav";
 import ProfileDropdown from "@/components/profile-dropdown/profile-dropdown";
@@ -83,7 +81,6 @@ const Header = () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
-  // useClickAway(ref, () => setIsOpen(false));
 
   // Close modal when the route changes
   useEffect(() => setIsOpen(false), [pathname]);

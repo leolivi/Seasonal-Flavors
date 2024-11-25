@@ -17,9 +17,8 @@ export const RegisterBanner = ({
   showCloseBtn = false,
   label = "jetzt registrieren",
 }: RegisterBannerProps) => {
-  const seasonalColor = getSeasonColor();
-
   const router = useRouter();
+  const seasonalColor = getSeasonColor();
 
   // Function to handle button click, navigating to the login page
   const handleClick = () => {
