@@ -10,9 +10,6 @@ export const handleLogout = async () => {
       title: "Abgemeldet",
       description: "Sie wurden erfolgreich abgemeldet.",
     });
-
-    // Add a delay before redirecting
-    await new Promise((resolve) => setTimeout(resolve, 2000));
     await signOut({ redirect: true, callbackUrl: "/session" });
   } catch (error) {
     toast({

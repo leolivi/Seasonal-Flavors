@@ -51,9 +51,9 @@ export const Button: React.FC<ButtonProps> = ({
   };
 
   const sizeClasses = {
-    [ButtonSize.SMALL]: "btnL",
+    [ButtonSize.SMALL]: "btnS",
     [ButtonSize.XS]: "small",
-    [ButtonSize.LARGE]: "btnS",
+    [ButtonSize.LARGE]: "btnL",
   };
 
   const typographyVariant =

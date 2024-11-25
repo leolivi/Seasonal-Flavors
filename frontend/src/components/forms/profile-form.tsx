@@ -61,7 +61,14 @@ export default function ProfileForm({ name, email }: ProfileFormProps) {
                 <Input
                   type="file"
                   accept="image/*"
-                  onChange={(e) => field.onChange(e.target.files)}
+                  onChange={(e) => {
+                    const files = e.target.files;
+                    if (files && files.length > 0) {
+                      field.onChange(files[0]);
+                    }
+                  }}
+                  placeholder="Profilbild hochladen"
+                  name={field.name}
                 />
               </FormControl>
               <FormMessage />

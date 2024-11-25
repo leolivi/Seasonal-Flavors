@@ -2,17 +2,23 @@
 
 import { SessionForm } from "@/app/session/page";
 import { Dispatch, SetStateAction } from "react";
-import { FormWrapper } from "./form-wrapper";
-import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { handleSignup, SignUpResponse } from "@/actions/auth-actions";
-import { TextInput } from "./text-input";
-import { Button, ButtonStyle } from "../button/button";
+import { Button, ButtonSize, ButtonStyle } from "../button/button";
 import { Typography } from "../ui/typography";
 import Heart from "../ui/heart";
 import { useToast } from "@/hooks/use-toast";
 import { ToastAction } from "../toaster/toast";
 import { authSchema, AuthSchema } from "@/validation/authSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage,
+} from "../ui/form";
+import { Input } from "../ui/input";
 
 interface RegisterFormProps {
   setForm: Dispatch<SetStateAction<SessionForm>>;
@@ -26,21 +32,26 @@ interface RegisterFormInputs {
 }
 
 export const RegisterForm = ({ setForm }: RegisterFormProps) => {
-  const methods = useForm<AuthSchema>({
+  const form = useForm<AuthSchema>({
     resolver: zodResolver(authSchema),
+    defaultValues: {
+      username: "",
+      email: "",
+      password: "",
+    },
+    mode: "onSubmit",
+    reValidateMode: "onBlur",
   });
 
   const { toast } = useToast();
 
   const onSubmit: SubmitHandler<RegisterFormInputs> = async (data) => {
-    // call the server action 'handleSignup' and await the response
     const response: SignUpResponse = await handleSignup(
       data.email,
       data.password,
       data.username,
     );
 
-    // if the response is successful console.log the response
     if (response.status === 201) {
       console.log("Signup successful: ", response);
       toast({
@@ -60,10 +71,9 @@ export const RegisterForm = ({ setForm }: RegisterFormProps) => {
         setForm(SessionForm.LOGIN);
       }, 2000);
     } else {
-      // If there's an error, set the errors in the form
       if (Array.isArray(response.errors)) {
         response.errors.forEach((error) => {
-          methods.setError(error.field as keyof RegisterFormInputs, {
+          form.setError(error.field as keyof RegisterFormInputs, {
             type: "manual",
             message: error.message,
           });
@@ -72,9 +82,8 @@ export const RegisterForm = ({ setForm }: RegisterFormProps) => {
         typeof response.errors === "object" &&
         response.errors !== null
       ) {
-        // Handle object format errors (e.g., { email: "Invalid email" })
         Object.entries(response.errors).forEach(([field, message]) => {
-          methods.setError(field as keyof RegisterFormInputs, {
+          form.setError(field as keyof RegisterFormInputs, {
             type: "manual",
             message: message as string,
           });
@@ -98,77 +107,98 @@ export const RegisterForm = ({ setForm }: RegisterFormProps) => {
   };
 
   return (
-    <FormProvider {...methods}>
-      <FormWrapper onSubmit={methods.handleSubmit(onSubmit)}>
-        <TextInput
-          placeholder="Username"
+    <Form {...form}>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+        <FormField
+          control={form.control}
           name="username"
-          type="text"
-          required
-        />
-        <TextInput
-          placeholder="E-mail"
-          name="email"
-          type="text"
-          required
-          autoComplete="email"
-        />
-        <TextInput
-          placeholder="Password"
-          name="password"
-          type="password"
-          required
-          autoComplete="current-password"
-        />
-        <div className="justify-left flex flex-col gap-2">
-          <div className="flex gap-2">
-            <input
-              type="checkbox"
-              className="h-6 w-6 appearance-none rounded-sm border-2 border-sfred-dark bg-sfwhite accent-sfgreen checked:appearance-auto checked:border-0 checked:bg-sfgreen"
-              id="acceptDataPolicy"
-              {...methods.register("acceptDataPolicy", {
-                required: "Bitte bestätige die Datenschutzerklärung",
-              })}
-            />
-            <Typography variant="small">
-              <label
-                htmlFor="acceptDataPolicy"
-                className="font-figtreeRegular text-sfblack"
-              >
-                Ich akzeptiere die{" "}
-                <a
-                  href="/datenschutz"
-                  className="font-figtreeRegular text-sfred"
-                >
-                  Datenschutzerklärung
-                </a>
-              </label>
-            </Typography>
-          </div>
-          {methods.formState.errors.acceptDataPolicy && (
-            <Typography variant="small">
-              <p className="text-sfred">
-                {methods.formState.errors.acceptDataPolicy.message}
-              </p>
-            </Typography>
+          render={({ field }) => (
+            <FormItem>
+              <FormControl>
+                <Input placeholder="Username" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
           )}
-        </div>
-        <Button
-          type="submit"
-          label="registrieren"
-          iconLeft={<Heart color="sfred-dark" height={20} />}
         />
+        <FormField
+          control={form.control}
+          name="email"
+          render={({ field }) => (
+            <FormItem>
+              <FormControl>
+                <Input placeholder="Email" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="password"
+          render={({ field }) => (
+            <FormItem>
+              <FormControl>
+                <Input type="password" placeholder="Password" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
+        {/* Checkbox for Data Policy */}
+        <div className="flex items-center space-x-2">
+          <input
+            type="checkbox"
+            id="acceptDataPolicy"
+            {...form.register("acceptDataPolicy", { required: true })}
+            className="h-6 w-6 appearance-none rounded-sm border-2 border-sfred-dark bg-sfwhite accent-sfgreen checked:appearance-auto checked:border-0 checked:bg-sfgreen"
+          />
+          <label
+            htmlFor="acceptDataPolicy"
+            className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+          >
+            Ich akzeptiere die{" "}
+            <a
+              href="/datenschutz"
+              className="font-figtreeRegular text-sfred-dark"
+            >
+              Datenschutzerklärung
+            </a>
+          </label>
+        </div>
+
+        {/* Error message for Data Policy */}
+        {form.formState.errors.acceptDataPolicy && (
+          <Typography variant="xs">
+            <p className="text-sfred-dark">
+              {form.formState.errors.acceptDataPolicy.message}
+            </p>
+          </Typography>
+        )}
+
+        <div className="flex justify-center">
+          <Button
+            type="submit"
+            label="registrieren"
+            iconLeft={<Heart color="sfred-dark" height={20} />}
+            size={ButtonSize.SMALL}
+          />
+        </div>
+
         <div className="mb-8 flex items-center justify-center gap-1 max-[400px]:flex-col">
           <Typography variant="small">
-            <p className="text-sfblack">Du bist bereits registriert?</p>
+            <p className="pr-2 text-sfblack">Du bist bereits registriert?</p>
           </Typography>
+
           <Button
             onClick={() => setForm(SessionForm.LOGIN)}
             label="hier anmelden"
             style={ButtonStyle.SIMPLE}
+            size={ButtonSize.SMALL}
           />
         </div>
-      </FormWrapper>
-    </FormProvider>
+      </form>
+    </Form>
   );
 };

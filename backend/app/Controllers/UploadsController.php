@@ -48,8 +48,7 @@ class UploadsController {
             'file' => ['required', 'file', 'max:2048', 'mimes:jpeg,jpg,png,gif,JPG'], // max 2MB
             'type' => [Rule::in(['profile', 'recipe'])], // Ensure 'type' is either 'profile' or 'recipe'
             'recipe_id' => ['required_if:type,recipe', 'exists:recipes,id'], // recipe_id is required only if type is 'recipe'
-            // TODO: Add required here:
-            'alt_text' => [ 'string', 'max:255'] // required alt text
+            'alt_text' => [ 'string', 'max:255'] // alt text
         ]);
 
         // upload file

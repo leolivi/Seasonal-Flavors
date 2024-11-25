@@ -6,10 +6,11 @@ import {
   AuthSession,
   SessionLoader,
 } from "@/components/auth-session/auth-session";
-import { signOut, useSession } from "next-auth/react";
-import { useToast } from "@/hooks/use-toast";
+import { useSession } from "next-auth/react";
+
 import { Suspense, useEffect, useState } from "react";
 import { dataFetchWithToken } from "@/utils/data-fetch";
+import Image from "next/image";
 
 interface UserData {
   id: number;
@@ -17,16 +18,14 @@ interface UserData {
   email: string;
 }
 
-// interface UserImage {
-//   file_path: string;
-//   alt_text: string;
-// }
+interface RecipeData {
+  id: number;
+}
 
 const Profile = () => {
-  const { toast } = useToast();
   const { data: session, status } = useSession();
   const [userData, setUserData] = useState<UserData | null>(null);
-  // const [userImage, setUserImage] = useState<UserImage | null>(null);
+  const [userImage, setUserImage] = useState<string | null>(null);
 
   useEffect(() => {
     async function fetchUserProfile() {
@@ -36,14 +35,27 @@ const Profile = () => {
             `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/user`,
             session.accessToken,
           );
+
           if (profile) {
             setUserData(profile);
-            // const images = await dataFetch(
-            //   `${process.env.NEXT_PUBLIC_BACKEND_URL}/images?user_id=${profile.id}&recipe_id=null`,
-            // );
+
+            console.log("Access Token:", session.accessToken);
+
+            // Fetch user image
+            const images = await dataFetchWithToken(
+              `${process.env.NEXT_PUBLIC_BACKEND_URL}/images?user_id=${profile.id}&recipe_id=null`,
+              session.accessToken,
+            );
+
+            console.log("Images response:", images);
+
             // if (images && images.length > 0) {
-            //   setUserImage(images);
+            //   const fullImagePath = `${process.env.NEXT_PUBLIC_BACKEND_URL}/${images[0].file_path}`;
+            //   setUserImage(fullImagePath);
+            // } else {
+            //   setUserImage(null);
             // }
+            setUserImage(null);
           }
         } catch (error) {
           console.error("Error fetching user profile:", error);
@@ -64,18 +76,18 @@ const Profile = () => {
       <Suspense fallback={<SessionLoader />}>
         <AuthSession>
           <div className="flex flex-col items-center">
-            <ProfileCard name={userData.username} email={userData.email} />
+            {/* TODO: Add src here */}
+            <ProfileCard
+              name={userData.username}
+              email={userData.email}
+              src={userImage || ""}
+            />
             <div className="flex w-full justify-center">
               <Button
                 style={ButtonStyle.SIMPLERED}
                 label="Profil löschen"
                 size={ButtonSize.XS}
               />
-              {/* <Button
-                style={ButtonStyle.SIMPLE}
-                label="Password ändern"
-                size={ButtonSize.SMALL}
-              /> */}
             </div>
           </div>
         </AuthSession>

@@ -38,7 +38,7 @@ describe("LoginForm", () => {
   test("renders the email and password input fields and submit button", () => {
     render(<LoginForm setForm={setFormMock} />);
 
-    expect(screen.getByPlaceholderText("E-mail")).toBeInTheDocument();
+    expect(screen.getByPlaceholderText("Email")).toBeInTheDocument();
     expect(screen.getByPlaceholderText("Password")).toBeInTheDocument();
     expect(
       screen.getByRole("button", { name: /anmelden/i }),
@@ -50,7 +50,7 @@ describe("LoginForm", () => {
 
     render(<LoginForm setForm={setFormMock} />);
 
-    fireEvent.change(screen.getByPlaceholderText("E-mail"), {
+    fireEvent.change(screen.getByPlaceholderText("Email"), {
       target: { value: "test@example.com" },
     });
     fireEvent.change(screen.getByPlaceholderText("Password"), {
@@ -66,9 +66,9 @@ describe("LoginForm", () => {
   test("displays an error message when login fails", async () => {
     (signIn as jest.Mock).mockResolvedValueOnce({ error: "Login failed" });
 
-    render(<LoginForm setForm={setFormMock} />);
+    const { debug } = render(<LoginForm setForm={setFormMock} />);
 
-    fireEvent.change(screen.getByPlaceholderText("E-mail"), {
+    fireEvent.change(screen.getByPlaceholderText("Email"), {
       target: { value: "test@example.com" },
     });
     fireEvent.change(screen.getByPlaceholderText("Password"), {
@@ -78,9 +78,10 @@ describe("LoginForm", () => {
 
     await waitFor(() => {
       expect(
-        screen.getByText("Login fehlgeschlagen, bitte versueche es erneut"),
+        screen.getByText("Login fehlgeschlagen, bitte versuche es erneut"),
       ).toBeInTheDocument();
     });
+    debug();
   });
 
   test("calls setForm to switch to registration form when 'register' button is clicked", () => {

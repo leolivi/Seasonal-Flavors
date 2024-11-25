@@ -3,12 +3,17 @@ import { handleSignup } from "@/actions/auth-actions"; // Mock this function
 import { SessionForm } from "@/app/session/page";
 import { RegisterForm } from "./register-form";
 
-jest.mock("src/assets/icons/eye-close.svg", () => () => (
-  <span>EyeCloseMock</span>
-));
-jest.mock("src/assets/icons/eye-open.svg", () => () => (
-  <span>EyeOpenMock</span>
-));
+jest.mock("src/assets/icons/eye-close.svg", () => {
+  const EyeCloseMock = () => <span>EyeCloseMock</span>;
+  EyeCloseMock.displayName = "EyeCloseMock";
+  return EyeCloseMock;
+});
+
+jest.mock("src/assets/icons/eye-open.svg", () => {
+  const EyeOpenMock = () => <span>EyeOpenMock</span>;
+  EyeOpenMock.displayName = "EyeOpenMock";
+  return EyeOpenMock;
+});
 
 jest.mock("@/actions/auth-actions", () => ({
   handleSignup: jest.fn(),
@@ -25,7 +30,7 @@ describe("RegisterForm", () => {
     render(<RegisterForm setForm={setFormMock} />);
 
     expect(screen.getByPlaceholderText("Username")).toBeInTheDocument();
-    expect(screen.getByPlaceholderText("E-mail")).toBeInTheDocument();
+    expect(screen.getByPlaceholderText("Email")).toBeInTheDocument();
     expect(screen.getByPlaceholderText("Password")).toBeInTheDocument();
     expect(
       screen.getByLabelText(/Ich akzeptiere die Datenschutzerklärung/),
@@ -55,7 +60,7 @@ describe("RegisterForm", () => {
     fireEvent.input(screen.getByPlaceholderText("Username"), {
       target: { value: "testuser" },
     });
-    fireEvent.input(screen.getByPlaceholderText("E-mail"), {
+    fireEvent.input(screen.getByPlaceholderText("Email"), {
       target: { value: "testuser@example.com" },
     });
     fireEvent.input(screen.getByPlaceholderText("Password"), {
@@ -91,7 +96,7 @@ describe("RegisterForm", () => {
     fireEvent.input(screen.getByPlaceholderText("Username"), {
       target: { value: "testuser" },
     });
-    fireEvent.input(screen.getByPlaceholderText("E-mail"), {
+    fireEvent.input(screen.getByPlaceholderText("Email"), {
       target: { value: "testuser@example.com" },
     });
     fireEvent.input(screen.getByPlaceholderText("Password"), {
@@ -126,7 +131,7 @@ describe("RegisterForm", () => {
     fireEvent.input(screen.getByPlaceholderText("Username"), {
       target: { value: "testuser" },
     });
-    fireEvent.input(screen.getByPlaceholderText("E-mail"), {
+    fireEvent.input(screen.getByPlaceholderText("Email"), {
       target: { value: "testuser@example.com" },
     });
     fireEvent.input(screen.getByPlaceholderText("Password"), {
