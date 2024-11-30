@@ -1,5 +1,4 @@
 "use server";
-import { ReactNode } from "react";
 
 // tells the server that this is a server-side action and runs on the server
 
@@ -9,8 +8,8 @@ interface ResponseReturn {
 }
 
 interface SignupError {
-  field: string; // Name of the field that has an error
-  message: string; // Error message
+  field: string;
+  message: string;
 }
 
 export interface SignUpResponse extends ResponseReturn {

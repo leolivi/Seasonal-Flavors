@@ -2,7 +2,6 @@ import { useToast } from "@/hooks/use-toast";
 import { signOut } from "next-auth/react";
 
 const { toast } = useToast();
-
 export const handleLogout = async () => {
   try {
     toast({

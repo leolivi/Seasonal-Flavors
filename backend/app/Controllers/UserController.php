@@ -10,7 +10,7 @@ use Illuminate\Notifications\Notifiable;
 
 class UserController {
   // necessary for mails controller to work? 
-// @TODO: test later...
+// TODO: test later...
   use Notifiable;
 
   /*

@@ -32,7 +32,7 @@ export default function AvatarUpload({
           />
         </AvatarFallback>
       </Avatar>
-      {!avatarFallback && (
+      {avatarSrc && (
         <div className="relative -right-10 -top-20 w-fit cursor-pointer rounded-full bg-sfwhite-light p-1 hover:drop-shadow-lg">
           <FiTrash2 size={25} />
         </div>

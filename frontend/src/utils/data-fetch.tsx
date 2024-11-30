@@ -19,6 +19,10 @@ export async function dataFetchWithToken(endpoint: string, token: string) {
       },
     });
 
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
     const data = await response.json();
 
     return data;

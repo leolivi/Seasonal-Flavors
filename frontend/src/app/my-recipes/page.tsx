@@ -7,6 +7,7 @@ import { LayoutOptions } from "@/utils/layout-options";
 import { dataFetch, dataFetchWithToken } from "@/utils/data-fetch";
 import { getServerSession } from "next-auth";
 import { authConfig } from "@/auth";
+import Link from "next/link";
 
 interface Recipe {
   id: number;
@@ -71,7 +72,7 @@ const MyRecipes = async () => {
 
   // TODO: Add handle click but maybe in a subcomponent?
   // const handleCreateClick = () => {
-  //   router.push("/session");
+  //   route.push("/recipes/create");
   // };
 
   return (
@@ -81,19 +82,26 @@ const MyRecipes = async () => {
         <Typography variant="heading2" className="font-figtreeRegular">
           <h1>meine Rezepte</h1>
         </Typography>
-        <Button
-          label="Rezept erstellen"
-          size={ButtonSize.SMALL}
-          // onClick={handleCreateClick}
-        />
+        <Link href="/recipes/create">
+          <Button label="Rezept erstellen" size={ButtonSize.SMALL} />
+        </Link>
       </div>
 
       {formattedCardData.length > 0 ? (
-        <CardListWrapper
-          cardData={formattedCardData}
-          showDetail={true}
-          style={LayoutOptions.GRID}
-        />
+        <>
+          <CardListWrapper
+            cardData={formattedCardData}
+            showDetail={true}
+            style={LayoutOptions.GRID}
+          />
+          <div className="flex w-full justify-center">
+            <Button
+              label="mehr"
+              size={ButtonSize.SMALL}
+              iconRight={<Arrow />}
+            ></Button>
+          </div>
+        </>
       ) : (
         <div className="flex h-[45vh] w-full flex-col items-center pt-10">
           <Typography variant="heading3">
@@ -101,19 +109,11 @@ const MyRecipes = async () => {
           </Typography>
           <Typography variant="body">
             <span className="text-sfblack">
-              Wir haben keine Ergebnisse für Ihre Suche gefunden...
+              Du hast noch keine eigenen Rezepte erstellt.
             </span>
           </Typography>
         </div>
       )}
-
-      <div className="flex w-full justify-center">
-        <Button
-          label="mehr"
-          size={ButtonSize.SMALL}
-          iconRight={<Arrow />}
-        ></Button>
-      </div>
     </div>
   );
 };

@@ -77,11 +77,20 @@ const Recipes = async ({ searchParams }: RecipesProps) => {
       <FilterBar title={title} />
 
       {formattedCardData.length > 0 ? (
-        <CardListWrapper
-          cardData={formattedCardData}
-          showDetail={true}
-          style={LayoutOptions.GRID}
-        />
+        <>
+          <CardListWrapper
+            cardData={formattedCardData}
+            showDetail={true}
+            style={LayoutOptions.GRID}
+          />
+          <div className="flex w-full justify-center">
+            <Button
+              label="mehr"
+              size={ButtonSize.SMALL}
+              iconRight={<Arrow />}
+            ></Button>
+          </div>
+        </>
       ) : (
         <div className="flex h-[45vh] w-full flex-col items-center pt-10">
           <Typography variant="heading3">
@@ -94,14 +103,6 @@ const Recipes = async ({ searchParams }: RecipesProps) => {
           </Typography>
         </div>
       )}
-
-      <div className="flex w-full justify-center">
-        <Button
-          label="mehr"
-          size={ButtonSize.SMALL}
-          iconRight={<Arrow />}
-        ></Button>
-      </div>
     </div>
   );
 };

@@ -1,6 +1,6 @@
-"use client"; // Marking this component as a Client Component
+"use client";
 
-import { useSession } from "next-auth/react"; // Use the client-side session hook
+import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import ProfileCard from "@/components/profile-card/profile-card";
 import {
@@ -14,43 +14,44 @@ interface UserData {
   id: number;
   username: string;
   email: string;
+  imageSrc?: string;
 }
 
-async function fetchUserProfile(accessToken: string) {
+async function fetchUserProfile(accessToken: string): Promise<UserData> {
   // Fetch user profile
   const profile = await dataFetchWithToken(
     `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/user`,
     accessToken,
   );
 
-  // Fetch user images
-  const images = await dataFetchWithToken(
-    `${process.env.NEXT_PUBLIC_BACKEND_URL}/images?user_id=${profile.id}&recipe_id=null`,
+  // Fetch user image data
+  const imageData = await dataFetchWithToken(
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/images?user_id=${profile.id}&recipe_id=null`,
     accessToken,
   );
+  const userImage = imageData[0] || {};
 
   return {
-    profile,
-    userImage:
-      images && images.length > 0
-        ? `${process.env.NEXT_PUBLIC_BACKEND_URL}/${images.file_path}`
-        : null,
+    ...profile,
+    imageSrc: userImage.file_path
+      ? `${process.env.NEXT_PUBLIC_BACKEND_URL}/${userImage.file_path}`
+      : "",
   };
 }
 
 const Profile = () => {
   const { data: session, status } = useSession();
   const [userData, setUserData] = useState<UserData | null>(null);
-  const [userImage, setUserImage] = useState<string | null>(null);
 
   useEffect(() => {
     const loadUserProfile = async () => {
-      if (status === "authenticated") {
-        const { profile, userImage } = await fetchUserProfile(
-          session.accessToken,
-        );
-        setUserData(profile);
-        setUserImage(userImage);
+      if (status === "authenticated" && session?.accessToken) {
+        try {
+          const profileData = await fetchUserProfile(session.accessToken);
+          setUserData(profileData);
+        } catch (error) {
+          console.error("Error loading user profile:", error);
+        }
       }
     };
 
@@ -70,7 +71,7 @@ const Profile = () => {
           <ProfileCard
             name={userData.username}
             email={userData.email}
-            src={userImage || ""}
+            src={userData.imageSrc || ""}
           />
           <div className="flex w-full justify-center">
             <Button
