@@ -22,8 +22,7 @@ interface SeasonTag {
 const Home = async () => {
   const seasonName = getCurrentSeason();
   const cardData = await dataFetch(
-    // `http://127.0.0.1:8000/api/recipe?tags[]=${seasonName}`,
-    `${process.env.BACKEND_URL}/api/recipe`,
+    `${process.env.BACKEND_URL}/api/recipe?tags[]=all_year&tags[]=${seasonName}`,
   );
 
   // Format the card data to match the expected structure

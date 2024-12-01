@@ -4,6 +4,7 @@ import { LayoutOptionType } from "@/utils/layout-options";
 import { useState } from "react";
 import { RegisterBanner } from "../banner/register-banner";
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 interface CardListWrapperProps {
   cardData: {
@@ -15,15 +16,20 @@ interface CardListWrapperProps {
     season?: string;
   }[];
   showDetail?: boolean;
+  showEdit?: boolean;
+  showBookmark?: boolean;
   style?: LayoutOptionType;
 }
 
 const CardListWrapper = ({
   cardData,
   showDetail,
+  showBookmark,
+  showEdit,
   style,
 }: CardListWrapperProps) => {
-  const { data: session, status } = useSession();
+  const { status } = useSession();
+  const router = useRouter();
   const [showRegisterBanner, setShowRegisterBanner] = useState(false);
 
   const handleBookmarkClick = (e: React.MouseEvent) => {
@@ -39,6 +45,14 @@ const CardListWrapper = ({
     }
   };
 
+  const handleEditClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (status === "authenticated") {
+      router.push("/recipes/edit");
+    }
+  };
+
   const handleCloseBanner = () => {
     setShowRegisterBanner(false);
   };
@@ -47,10 +61,14 @@ const CardListWrapper = ({
     <div>
       <CardList
         onBookmarkClick={handleBookmarkClick}
+        onEditClick={handleEditClick}
+        showEdit={showEdit}
         cardData={cardData}
         showDetail={showDetail}
+        showBookmark={showBookmark}
         style={style}
       />
+
       {showRegisterBanner && (
         <div className="fixed left-1/2 top-1/2 z-50 -translate-x-1/2">
           <RegisterBanner

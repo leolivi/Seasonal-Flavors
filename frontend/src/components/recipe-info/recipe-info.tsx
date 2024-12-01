@@ -43,7 +43,7 @@ export const RecipeInfo = ({ ...props }: RecipeInfoProps) => {
       </ul>
       <ul className={`list-disc marker:text-${seasonalColor}-dark`}>
         {ingredientsArray.map((ingredient, index) => (
-          <Typography variant="body">
+          <Typography key={index} variant="body">
             <li key={index} className="ml-6 pb-2 text-sfblack">
               {ingredient}
             </li>

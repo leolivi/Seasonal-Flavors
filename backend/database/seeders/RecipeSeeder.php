@@ -133,6 +133,79 @@ class RecipeSeeder extends Seeder {
                 'user_id' => $user->id,
             ]
         );
+
+        Recipe::updateOrCreate(
+            ['title' => 'Vegan Mushroom Stroganoff'], 
+            [
+                'cooking_time' => 25,
+                'prep_time' => 10,
+                'servings' => 4,
+                'steps' => '1. Sauté mushrooms, onion, and garlic. 2. Add cashew cream and vegetable broth. 3. Serve over cooked pasta. 4. Garnish with parsley.',
+                'ingredients' => 'Mushrooms, Onion, Garlic, Cashew Cream, Vegetable Broth, Pasta, Parsley, Salt, Pepper',
+                'user_id' => $user->id,
+            ]
+        );
+
+        Recipe::updateOrCreate(
+            ['title' => 'Vegan Pad Thai'], 
+            [
+                'cooking_time' => 20,
+                'prep_time' => 15,
+                'servings' => 4,
+                'steps' => '1. Cook rice noodles. 2. Sauté tofu and vegetables. 3. Add tamarind sauce. 4. Toss noodles with sauce. 5. Garnish with peanuts and lime.',
+                'ingredients' => 'Rice Noodles, Tofu, Bell Peppers, Carrot, Tamarind Paste, Soy Sauce, Peanuts, Lime, Garlic, Cilantro',
+                'user_id' => $user->id,
+            ]
+        );
+
+        Recipe::updateOrCreate(
+            ['title' => 'Vegan Cauliflower Wings'], 
+            [
+                'cooking_time' => 30,
+                'prep_time' => 15,
+                'servings' => 4,
+                'steps' => '1. Coat cauliflower florets in batter. 2. Bake until crispy. 3. Toss with buffalo sauce. 4. Serve with vegan ranch dip.',
+                'ingredients' => 'Cauliflower, Flour, Plant-Based Milk, Buffalo Sauce, Vegan Ranch, Garlic Powder, Salt, Pepper',
+                'user_id' => $user->id,
+            ]
+        );
+
+        Recipe::updateOrCreate(
+            ['title' => 'Vegan Chocolate Avocado Mousse'], 
+            [
+                'cooking_time' => 5,
+                'prep_time' => 5,
+                'servings' => 4,
+                'steps' => '1. Blend avocado, cocoa powder, and maple syrup until smooth. 2. Chill in refrigerator. 3. Serve with fresh berries.',
+                'ingredients' => 'Avocado, Cocoa Powder, Maple Syrup, Vanilla Extract, Berries',
+                'user_id' => $user->id,
+            ]
+        );
+
+        Recipe::updateOrCreate(
+            ['title' => 'Vegan Mediterranean Bowl'], 
+            [
+                'cooking_time' => 20,
+                'prep_time' => 10,
+                'servings' => 4,
+                'steps' => '1. Cook quinoa. 2. Prepare roasted vegetables. 3. Add hummus and olives. 4. Drizzle with tahini dressing.',
+                'ingredients' => 'Quinoa, Bell Peppers, Zucchini, Eggplant, Hummus, Olives, Tahini, Lemon Juice, Salt, Pepper',
+                'user_id' => $user->id,
+            ]
+        );
+
+        Recipe::updateOrCreate(
+            ['title' => 'Vegan Banana Pancakes'], 
+            [
+                'cooking_time' => 15,
+                'prep_time' => 10,
+                'servings' => 4,
+                'steps' => '1. Mix mashed bananas, flour, and plant-based milk. 2. Cook on a skillet until golden. 3. Serve with maple syrup and fresh fruit.',
+                'ingredients' => 'Bananas, Flour, Plant-Based Milk, Maple Syrup, Fresh Fruit',
+                'user_id' => $user->id,
+            ]
+        );
+
         $this->attachTagsToRecipes();
     }
 
@@ -154,6 +227,12 @@ class RecipeSeeder extends Seeder {
         Recipe::where('title', 'Zucchini Noodles with Pesto')->first()->tags()->attach($summerTag->id);
         Recipe::where('title', 'Coconut Curry with Tofu')->first()->tags()->attach($allYearTag->id);
         Recipe::where('title', 'Baked Ratatouille')->first()->tags()->attach($summerTag->id);
+        Recipe::where('title', 'Vegan Mushroom Stroganoff')->first()->tags()->attach($winterTag->id);
+        Recipe::where('title', 'Vegan Pad Thai')->first()->tags()->attach($summerTag->id);
+        Recipe::where('title', 'Vegan Cauliflower Wings')->first()->tags()->attach($allYearTag->id);
+        Recipe::where('title', 'Vegan Chocolate Avocado Mousse')->first()->tags()->attach($allYearTag->id);
+        Recipe::where('title', 'Vegan Mediterranean Bowl')->first()->tags()->attach($summerTag->id);
+        Recipe::where('title', 'Vegan Banana Pancakes')->first()->tags()->attach($springTag->id);
     }
 }
 

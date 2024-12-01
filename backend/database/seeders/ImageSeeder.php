@@ -61,6 +61,36 @@ class ImageSeeder extends Seeder {
                 'imageSrc' => 'https://images.unsplash.com/photo-1652622550740-f90d03edfbf0?q=80&w=3024&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
                 'imageAlt' => 'Baked ratatouille with fresh summer vegetables',
             ],
+            [
+                'title' => 'Vegan Mushroom Stroganoff',
+                'imageSrc' => 'https://images.unsplash.com/photo-1644592219048-5c070fd3c91c?q=80&w=2761&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+                'imageAlt' => 'Vegan mushroom stroganoff served over pasta',
+            ],
+            [
+                'title' => 'Vegan Pad Thai',
+                'imageSrc' => 'https://images.unsplash.com/photo-1637806930600-37fa8892069d?q=80&w=2785&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+                'imageAlt' => 'A plate of vegan pad thai with tofu and vegetables',
+            ],
+            [
+                'title' => 'Vegan Cauliflower Wings',
+                'imageSrc' => 'https://images.unsplash.com/photo-1692011412194-fda4e883c016?q=80&w=3000&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+                'imageAlt' => 'Crispy vegan cauliflower wings with buffalo sauce',
+            ],
+            [
+                'title' => 'Vegan Chocolate Avocado Mousse',
+                'imageSrc' => 'https://images.unsplash.com/photo-1607920591413-4ec007e70023?w=900&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8Y2hvY29sYXRlJTIwYXZvY2FkbyUyMG1vdXNzZXxlbnwwfHwwfHx8MA%3D%3D',
+                'imageAlt' => 'A bowl of creamy chocolate avocado mousse topped with berries',
+            ],
+            [
+                'title' => 'Vegan Mediterranean Bowl',
+                'imageSrc' => 'https://images.unsplash.com/photo-1610452220299-5edf90b8a6ed?q=80&w=2960&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+                'imageAlt' => 'Vegan Mediterranean bowl with quinoa and vegetables',
+            ],
+            [
+                'title' => 'Vegan Banana Pancakes',
+                'imageSrc' => 'https://images.unsplash.com/photo-1597699401474-e8714c1b7879?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
+                'imageAlt' => 'Stack of vegan banana pancakes topped with fresh fruit',
+            ],
         ];
 
         
@@ -74,7 +104,7 @@ class ImageSeeder extends Seeder {
                         'file_path' => $imageData['imageSrc'],
                         'alt_text' => $imageData['imageAlt'] ?? null,
                         'recipe_id' => $recipe->id,
-                        'user_id' => $user->id,
+                        // 'user_id' => $user->id,
                     ]
                 );
             }

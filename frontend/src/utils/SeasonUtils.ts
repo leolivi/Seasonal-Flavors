@@ -23,6 +23,8 @@ export const translateSeason = (season: string): string => {
       return "Herbst";
     case "winter":
       return "Winter";
+    case "all_year":
+      return "ganzjährig";
     default:
       return season;
   }

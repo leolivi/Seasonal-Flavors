@@ -1,17 +1,6 @@
-import CardListWrapper from "@/components/card-list.tsx/card-list-wrapper";
-
-import ScrollButton from "@/components/scroll-button/scroll-button";
-import FilterBar from "@/components/filter-bar/filter-bar";
-import { Typography } from "@/components/ui/typography";
-import { Button, ButtonSize } from "@/components/button/button";
-import Arrow from "src/assets/icons/arrow.svg";
-// import { getCurrentSeason } from "@/utils/SeasonUtils";
-import { LayoutOptions } from "@/utils/layout-options";
+import RecipesClient from "@/components/recipes-client/recipes-client";
+import { getCurrentSeason } from "@/utils/SeasonUtils";
 import { dataFetch } from "@/utils/data-fetch";
-
-interface RecipesProps {
-  searchParams?: { title?: string };
-}
 
 interface Recipe {
   id: number;
@@ -19,92 +8,55 @@ interface Recipe {
   prep_time: number;
 }
 
-interface SeasonTag {
+interface ImageData {
+  file_path: string;
+  alt_text: string;
+}
+
+interface TagData {
   name: string;
 }
 
-const Recipes = async ({ searchParams }: RecipesProps) => {
-  // TODO: Add the season filter
-  // const seasonName = getCurrentSeason();
+const RecipesPage = async ({
+  searchParams,
+}: {
+  searchParams?: { title?: string };
+}) => {
+  const seasonName = getCurrentSeason();
+  const title = searchParams?.title || "";
 
-  // Fetch the recipe data and added search filter
-  const title = (await searchParams?.title) || "";
-
-  const cardData = await dataFetch(
-    // `http://127.0.0.1:8000/api/recipe?tags[]=${seasonName}`,
-    `${process.env.BACKEND_URL}/api/recipe${title ? `?title=${encodeURIComponent(title)}` : ""}`,
+  const cardData: Recipe[] = await dataFetch(
+    `${process.env.BACKEND_URL}/api/recipe?tags[]=all_year&tags[]=${seasonName}${title ? `&title=${encodeURIComponent(title)}` : ""}`,
   );
 
-  if (!Array.isArray(cardData)) {
-    console.error("Expected cardData to be an array, but got:", cardData);
-    return;
-    // TODO: fehlermeldung für user
-  }
+  const formattedCardData = Array.isArray(cardData)
+    ? await Promise.all(
+        cardData.map(async (recipe: Recipe) => {
+          const imageData: ImageData[] = await dataFetch(
+            `${process.env.BACKEND_URL}/api/images?recipe_id=${recipe.id}`,
+          );
+          const seasonData: TagData[] = await dataFetch(
+            `${process.env.BACKEND_URL}/api/recipes/${recipe.id}/tags`,
+          );
 
-  const formattedCardData = await Promise.all(
-    // Map through recipe data (cards)
-    cardData.map(async (recipe: Recipe) => {
-      // Fetch image data
-      const imageData = await dataFetch(
-        `${process.env.BACKEND_URL}/api/images?recipe_id=${recipe.id}`,
-      );
-      // Fetch season data
-      const seasonData = await dataFetch(
-        `${process.env.BACKEND_URL}/api/recipes/${recipe.id}/tags`,
-      );
+          const firstImage = imageData[0] || {};
+          const seasonTags = seasonData
+            .map((tag: TagData) => tag.name)
+            .join(", ");
 
-      const firstImage = imageData[0] || {};
+          return {
+            id: recipe.id,
+            imageSrc: firstImage.file_path || "",
+            imageAlt: firstImage.alt_text || recipe.title,
+            title: recipe.title,
+            prepDuration: recipe.prep_time,
+            season: seasonTags,
+          };
+        }),
+      )
+    : [];
 
-      const seasonTags = seasonData
-        .map((tag: SeasonTag) => tag.name)
-        .join(", ");
-
-      return {
-        id: recipe.id,
-        imageSrc: firstImage.file_path || "",
-        imageAlt: firstImage.alt_text || recipe.title,
-        title: recipe.title,
-        prepDuration: recipe.prep_time,
-        season: seasonTags,
-      };
-    }),
-  );
-
-  return (
-    <div className="m-4">
-      <ScrollButton />
-      <h1 className="h-0 opacity-0">Rezepte</h1>
-      <FilterBar title={title} />
-
-      {formattedCardData.length > 0 ? (
-        <>
-          <CardListWrapper
-            cardData={formattedCardData}
-            showDetail={true}
-            style={LayoutOptions.GRID}
-          />
-          <div className="flex w-full justify-center">
-            <Button
-              label="mehr"
-              size={ButtonSize.SMALL}
-              iconRight={<Arrow />}
-            ></Button>
-          </div>
-        </>
-      ) : (
-        <div className="flex h-[45vh] w-full flex-col items-center pt-10">
-          <Typography variant="heading3">
-            <p className="text-sfblack">OOPS!</p>
-          </Typography>
-          <Typography variant="body">
-            <span className="text-sfblack">
-              Wir haben keine Ergebnisse für Ihre Suche gefunden...
-            </span>
-          </Typography>
-        </div>
-      )}
-    </div>
-  );
+  return <RecipesClient formattedCardData={formattedCardData} />;
 };
 
-export default Recipes;
+export default RecipesPage;

@@ -29,7 +29,7 @@ const MyRecipes = async () => {
     `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/user`,
     session.accessToken,
   );
-  console.log("Access Token:", session.accessToken);
+
   // Fetch the recipe data of current user
   const cardData = await dataFetch(
     `${process.env.BACKEND_URL}/api/recipe?user_id=${user.id}`,
@@ -70,11 +70,6 @@ const MyRecipes = async () => {
     }),
   );
 
-  // TODO: Add handle click but maybe in a subcomponent?
-  // const handleCreateClick = () => {
-  //   route.push("/recipes/create");
-  // };
-
   return (
     <div className="m-4">
       <ScrollButton />
@@ -92,6 +87,7 @@ const MyRecipes = async () => {
           <CardListWrapper
             cardData={formattedCardData}
             showDetail={true}
+            showEdit={true}
             style={LayoutOptions.GRID}
           />
           <div className="flex w-full justify-center">

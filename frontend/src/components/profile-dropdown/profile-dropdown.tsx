@@ -1,4 +1,4 @@
-import React, { forwardRef } from "react";
+import React, { forwardRef, useEffect } from "react";
 import Link from "next/link";
 import {
   Avatar,
@@ -11,25 +11,61 @@ import { Lock, LogOut, User } from "lucide-react";
 import { getSeasonColor } from "@/utils/SeasonUtils";
 import { useState } from "react";
 import { toast } from "@/hooks/use-toast";
-import { signOut } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import { Typography } from "../ui/typography";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import useMediaQuery from "@/utils/useMediaQuery";
+import { dataFetchWithToken } from "@/utils/data-fetch";
 
-interface UserProfileImage {
+interface UserData {
   id: number;
-  file_path: string;
-  alt_text: string;
-  recipe_id: number | null;
-  user_id: number;
-  created_at: string;
-  updated_at: string;
+  username: string;
+  email: string;
+  imageSrc?: string;
+}
+
+async function fetchUserProfile(accessToken: string): Promise<UserData> {
+  // Fetch user profile
+  const profile = await dataFetchWithToken(
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/user`,
+    accessToken,
+  );
+
+  // Fetch user image data
+  const imageData = await dataFetchWithToken(
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/images?user_id=${profile.id}&recipe_id=null`,
+    accessToken,
+  );
+  const userImage = imageData[0] || {};
+
+  return {
+    ...profile,
+    imageSrc: userImage.file_path
+      ? `${process.env.NEXT_PUBLIC_BACKEND_URL}/${userImage.file_path}`
+      : "",
+  };
 }
 
 const ProfileDropdown = forwardRef<HTMLDivElement>((_, ref) => {
+  const { data: session, status } = useSession();
   const seasonalColor = getSeasonColor();
   const isDesktop = useMediaQuery("(min-width: 640px)");
-  const [userData, setUserData] = useState<UserProfileImage | null>(null);
+  const [userData, setUserData] = useState<UserData | null>(null);
+
+  useEffect(() => {
+    const loadUserProfile = async () => {
+      if (status === "authenticated" && session?.accessToken) {
+        try {
+          const profileData = await fetchUserProfile(session.accessToken);
+          setUserData(profileData);
+        } catch (error) {
+          console.error("Error loading user profile:", error);
+        }
+      }
+    };
+
+    loadUserProfile();
+  }, [status, session?.accessToken]);
 
   const handleLogout = async () => {
     try {
@@ -55,7 +91,7 @@ const ProfileDropdown = forwardRef<HTMLDivElement>((_, ref) => {
     <DropdownMenu.Root>
       <DropdownMenu.Trigger asChild>
         <Avatar size={AvatarSize.small}>
-          <AvatarImage src={userData?.file_path} alt="User's avatar" />
+          <AvatarImage src={userData?.imageSrc} alt="User's avatar" />
           <AvatarFallback>
             <FaUserCircle
               size={100}

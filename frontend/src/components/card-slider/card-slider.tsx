@@ -1,5 +1,6 @@
 "use client";
 import React, { useRef } from "react";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { color, motion, useScroll, useTransform } from "framer-motion";
 import { Button } from "../button/button";
 import { useRouter } from "next/navigation";

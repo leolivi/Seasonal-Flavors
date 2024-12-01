@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Laravel\Sanctum\HasApiTokens;
 use WendellAdriel\Lift\Attributes\Hidden;
 
+
 class User extends Model {
     use HasApiTokens; 
 
@@ -22,6 +23,7 @@ class User extends Model {
 
     #[Column] #[Hidden]
     public string $password;
+
 
     /*
     @return HasMany|Recipe
@@ -47,6 +49,7 @@ class User extends Model {
         return $this->hasOne(Image::class);
     }
 
+    
     /*
     @return array
     @desc Validates the request for creating/updating a User

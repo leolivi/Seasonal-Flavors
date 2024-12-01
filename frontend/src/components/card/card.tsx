@@ -4,6 +4,7 @@ import Clock from "../../assets/icons/clock.svg";
 import Heart from "../ui/heart";
 import { getSeasonColor } from "@/utils/SeasonUtils";
 import BookmarkButton from "../ui/bookmark";
+import { Button, ButtonSize } from "../button/button";
 
 interface CardProps {
   imageSrc: string;
@@ -11,13 +12,19 @@ interface CardProps {
   title: string;
   prepDuration?: number;
   showDetail?: boolean;
+  showBookmark?: boolean;
+  showEdit?: boolean;
   season?: string;
   onBookmarkClick?: (e: React.MouseEvent) => void;
+  onEditClick?: (e: React.MouseEvent) => void;
 }
 
 export default function Card({
   showDetail = false,
+  showBookmark = false,
+  showEdit = false,
   onBookmarkClick = () => {},
+  onEditClick = () => {},
   ...props
 }: CardProps) {
   const seasonColors = props.season
@@ -33,7 +40,7 @@ export default function Card({
       }
     >
       <div className="min-[640px]:min-w-70 min-[1024px]:min-w-90 relative aspect-square min-w-56">
-        {showDetail && (
+        {showBookmark && (
           <BookmarkButton onClick={onBookmarkClick} data-testid="bookmark" />
         )}
         <Image
@@ -44,7 +51,7 @@ export default function Card({
           height={300}
         />
       </div>
-      <div className="py-3 min-[640px]:min-h-20">
+      <div className="py-3 min-[640px]:min-h-24">
         <Typography
           variant={showDetail ? "heading3" : "body"}
           className="text-wrap font-cordaMedium text-2xl font-semibold text-sfblack"
@@ -69,6 +76,15 @@ export default function Card({
               />
             ))}
           </div>
+        </div>
+      )}
+      {showEdit && (
+        <div className="mt-4 flex justify-center border-t-2 border-sfblack">
+          <Button
+            size={ButtonSize.XS}
+            label="bearbeiten"
+            onClick={onEditClick}
+          />
         </div>
       )}
     </div>
