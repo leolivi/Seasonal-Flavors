@@ -12,7 +12,7 @@ export default function BookmarkButton({ onClick }: BookmarkButtonProps) {
         className="absolute right-4 top-4"
         aria-label="Bookmark"
       >
-        <BookmarkIcon className="h-12 w-auto" />
+        <BookmarkIcon className="h-10 w-auto" />
       </button>
     </>
   );

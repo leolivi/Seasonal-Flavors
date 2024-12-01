@@ -1,4 +1,4 @@
-import { Button, ButtonStyle } from "@/components/button/button";
+import { Button, ButtonSize, ButtonStyle } from "@/components/button/button";
 import ScrollButton from "@/components/scroll-button/scroll-button";
 import ImageContainer from "@/components/ui/image-container";
 import { RecipeHeader } from "@/components/recipe-header/recipe-header";
@@ -94,6 +94,7 @@ export default async function Recipe({ params }: { params: { id: number } }) {
               key={index}
               label={translatedSeason}
               style={ButtonStyle.OUTLINE}
+              size={ButtonSize.SMALL}
               iconLeft={<Heart color={seasonalColor} height={18} width={25} />}
               recipeSeasonColor={seasonalColor}
             />

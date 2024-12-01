@@ -43,7 +43,7 @@ export const Button: React.FC<ButtonProps> = ({
     "flex w-fit items-center justify-center gap-1 rounded-full hover:drop-shadow-lg";
 
   const styleClasses = {
-    [ButtonStyle.PRIMARY]: `my-2 px-4 py-2 text-sfblack hover:text-sfwhite active:text-sfwhite hover:bg-${seasonalColor} active:bg-${seasonalColor}-dark bg-${seasonalColor}-light cursor-pointer`,
+    [ButtonStyle.PRIMARY]: `px-4 py-2 text-sfblack hover:text-sfwhite active:text-sfwhite hover:bg-${seasonalColor} active:bg-${seasonalColor}-dark bg-${seasonalColor}-light cursor-pointer`,
     [ButtonStyle.OUTLINE]: `my-2 border-2 px-4 py-2 text-sfblack border-${recipeSeasonColor} bg-sfwhite cursor-default`,
     [ButtonStyle.OUTLINERED]: `my-2 border-2 px-4 py-2 text-sfblack border-sfred bg-sfwhite cursor-pointer`,
     [ButtonStyle.SIMPLE]: `text-sfblack cursor-pointer`,
@@ -51,9 +51,9 @@ export const Button: React.FC<ButtonProps> = ({
   };
 
   const sizeClasses = {
-    [ButtonSize.SMALL]: "text-sm px-4 py-2",
-    [ButtonSize.XS]: "text-xs px-2 py-1",
-    [ButtonSize.LARGE]: "text-lg px-6 py-3",
+    [ButtonSize.SMALL]: "text-sm my-6 px-4 py-3",
+    [ButtonSize.XS]: "text-xs my-2 px-2 py-1",
+    [ButtonSize.LARGE]: "text-lg px-6 py-3 my-10",
   };
 
   const typographyVariant =
