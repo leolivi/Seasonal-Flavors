@@ -69,8 +69,7 @@ class Recipe extends Model {
       'cooking_time' => [$post ? 'required' : 'sometimes', 'integer'],
       'servings' => [$post ? 'required' : 'sometimes', 'integer'],
       'steps' => [$post ? 'required' : 'sometimes', 'min:1', 'max:20000'],
-      'ingredients' => [$post ? 'required' : 'sometimes', 'min:1', 'max:20000'],
-      // 'recipe_img' => [$post ? 'required' : 'sometimes', 'string', 'regex:/\.(jpeg|jpg|png|gif)$/i', 'max:2048'],
+      'ingredients' => [$post ? 'required' : 'sometimes', 'min:1', 'max:20000'], 
       'user_id' => [$post ? 'required' : 'sometimes', 'exists:users,id'],
       'tags' => [$post ? 'required' : 'sometimes', 'array'], 
     ]);
