@@ -77,7 +77,7 @@ const MyRecipes = async () => {
         <Typography variant="heading2" className="font-figtreeRegular">
           <h1>meine Rezepte</h1>
         </Typography>
-        <Link href="/recipes/create">
+        <Link href={"/recipes/create"}>
           <Button label="Rezept erstellen" size={ButtonSize.SMALL} />
         </Link>
       </div>

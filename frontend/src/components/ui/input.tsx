@@ -3,11 +3,13 @@ import { cn } from "@/lib/utils";
 import { getSeasonColor } from "@/utils/SeasonUtils";
 import { Typography } from "./typography";
 import { IoEye, IoEyeOff } from "react-icons/io5";
+import { useFormField } from "./form";
 
 const Input = React.forwardRef<HTMLInputElement, React.ComponentProps<"input">>(
   ({ className, type, ...props }, ref) => {
     const seasonalColor = getSeasonColor();
     const [showPassword, setShowPassword] = React.useState(false);
+    const { error } = useFormField();
 
     return (
       <div className="relative w-full">
@@ -15,7 +17,7 @@ const Input = React.forwardRef<HTMLInputElement, React.ComponentProps<"input">>(
           <input
             type={type === "password" && showPassword ? "text" : type}
             className={cn(
-              `flex w-full border-2 border-${seasonalColor}-dark bg-${seasonalColor}-light rounded-md px-3 py-2 font-figtreeRegular text-sfblack file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-sfblack focus:bg-sfwhite focus-visible:outline-none disabled:cursor-not-allowed`,
+              `flex w-full border-2 border-${seasonalColor}-dark bg-${seasonalColor}-light rounded-md px-3 py-2 font-figtreeRegular text-sfblack file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-sfblack focus:bg-sfwhite focus-visible:outline-none disabled:cursor-not-allowed ${error && `border-4 border-sfred-dark`}`,
               className,
             )}
             ref={ref}

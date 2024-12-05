@@ -6,6 +6,8 @@ use App\Models\Image;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Validation\Rule;
+use Storage;
+use Str;
 
 class UploadsController {
 
@@ -52,13 +54,21 @@ class UploadsController {
         ]);
 
         // upload file
-        $file = $request->file('file');
-        $filePath = \Storage::putFileAs(
-            'uploads/' . $user->id,
-            $file,
-            // save original file name
-            $file->getClientOriginalName(),
-        );
+       $file = $request->file('file');
+       $originalFilename = $file->getClientOriginalName();
+       $filename = pathinfo($originalFilename, PATHINFO_FILENAME);
+       $extension = $file->getClientOriginalExtension();
+
+       // Generate a unique filename
+       $uniqueFilename = $filename . '_' . Str::random(16) . '.' . $extension;
+       $filePath = 'uploads/' . $user->id . '/' . $uniqueFilename;
+
+       // Save file to storage
+       Storage::putFileAs(
+        'uploads/' . $user->id,
+        $file,
+        $uniqueFilename
+    );
 
         // Save the uploaded file path
         $image = new Image([
