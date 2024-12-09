@@ -11,14 +11,6 @@ interface FormField {
 }
 
 export default async function CreateRecipeForm() {
-  const seasons = [
-    { id: "spring", label: "Frühling" },
-    { id: "summer", label: "Sommer" },
-    { id: "autumn", label: "Herbst" },
-    { id: "winter", label: "Winter" },
-    { id: "all_year", label: "ganzjährig" },
-  ];
-
   const formFields: FormField[] = [
     { name: "title", label: "Rezepttitel", placeholder: "Rezepttitel" },
     {
@@ -39,13 +31,13 @@ export default async function CreateRecipeForm() {
       placeholder: "Portionen",
       type: "number",
     },
-    { name: "ingredients", label: "Zutaten", placeholder: "Zutaten" },
     {
-      name: "steps",
-      label: "Zubereitungsschritte",
-      placeholder: "Schritte beschreiben",
+      name: "cover_image",
+      label: "Titelbild",
+      placeholder: "Titelbild",
+      type: "file",
     },
   ];
 
-  return <CreateRecipeFormWrapper formFields={formFields} seasons={seasons} />;
+  return <CreateRecipeFormWrapper formFields={formFields} />;
 }

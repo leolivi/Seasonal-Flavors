@@ -17,8 +17,8 @@ Route::get('/user/{id}', [UserController::class, 'showUserById']);
 Route::post('/auth/login', [AuthController::class, 'login']);
 // show recipes
 Route::get('/recipe', [RecipeController::class, 'read']);
-// TODO: do i need this?
 Route::get('/images', [UploadsController::class, 'index']);
+// TODO: do i need this?
 Route::get('storage/{path}', function($path) {
     return response()->file(storage_path('app/public/' . $path));
 })->where('path', '.*');
@@ -58,5 +58,5 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     // uploads
     Route::post('/uploads', [UploadsController::class, 'create']);
-    Route::delete('/uploads', [UploadsController::class, 'destroy']);
+    Route::delete('/uploads/{id}', [UploadsController::class, 'destroy']);
 });

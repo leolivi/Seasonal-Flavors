@@ -15,33 +15,59 @@ export const createRecipeSchema = z.object({
     .min(1, "Titel ist erforderlich.")
     .max(100, "Titel darf maximal 100 Zeichen lang sein."),
   cooking_time: z
-    .number()
-    .positive("Kochzeit muss eine positive Zahl sein.")
-    .max(1440, "Kochzeit darf maximal 1440 Minuten betragen."),
+    .preprocess(
+      (val) => (val === "" ? null : Number(val)),
+      z.number().nullable(),
+    )
+    .refine(
+      (val) => val === null || (val > 0 && val <= 1440),
+      "Kochzeit muss eine positive Zahl sein und darf maximal 1440 Minuten betragen.",
+    ),
   prep_time: z
-    .number()
-    .positive("Vorbereitungszeit muss eine positive Zahl sein.")
-    .max(1440, "Vorbereitungszeit darf maximal 1440 Minuten betragen."),
+    .preprocess(
+      (val) => (val === "" ? null : Number(val)),
+      z.number().nullable(),
+    )
+    .refine(
+      (val) => val === null || (val > 0 && val <= 1440),
+      "Vorbereitungszeit muss eine positive Zahl sein und darf maximal 1440 Minuten betragen.",
+    ),
   servings: z
-    .number()
-    .positive("Anzahl der Portionen muss eine positive Zahl sein.")
-    .max(100, "Maximale Anzahl der Portionen ist 100."),
+    .preprocess(
+      (val) => (val === "" ? null : Number(val)),
+      z.number().nullable(),
+    )
+    .refine(
+      (val) => val === null || (val > 0 && val <= 100),
+      "Anzahl der Portionen muss eine positive Zahl sein und maximal 100 betragen.",
+    ),
   steps: z
-    .string()
-    .min(1, "Zubereitungsschritte sind erforderlich.")
-    .max(5000, "Zubereitungsschritte dürfen maximal 5000 Zeichen lang sein."),
+    .object({
+      type: z.literal("doc"),
+      content: z
+        .array(z.any())
+        .min(1, "Zubereitungsschritte dürfen nicht leer sein."),
+    })
+    .refine(
+      (value) =>
+        value.content.some(
+          (node) =>
+            node.type === "paragraph" &&
+            node.content &&
+            node.content.length > 0,
+        ),
+      {
+        message: "Zubereitungsschritte müssen Text enthalten.",
+      },
+    ),
   ingredients: z
     .string()
     .min(1, "Zutaten sind erforderlich.")
     .max(2000, "Zutaten dürfen maximal 2000 Zeichen lang sein."),
-  imageSrc: z.string().url("Bildquelle muss eine gültige URL sein."),
-  season: z
-    .string()
-    .refine(
-      (val) => !val || ["Winter", "Spring", "Summer", "Autumn"].includes(val),
-      "Ungültige Saison. Erlaubt sind 'Winter', 'Spring', 'Summer', 'Autumn'.",
-    ),
-  picture: z
+  seasons: z.array(z.string()).refine((value) => value.some((item) => item), {
+    message: "Du musst mindestens eine Saison auswählen.",
+  }),
+  cover_image: z
     .any()
     .nullable()
     .refine((file) => file instanceof File || file === null, {
@@ -53,9 +79,6 @@ export const createRecipeSchema = z.object({
     .refine((file) => !file || ACCEPTED_IMAGE_TYPES.includes(file.type), {
       message: ".jpg, .jpeg, .png, .webp und .svg Dateien sind akzeptiert.",
     }),
-  seasons: z.array(z.string()).refine((value) => value.some((item) => item), {
-    message: "Du musst mindestens eine Saison auswählen.",
-  }),
 });
 
 export type CreateRecipeSchema = z.infer<typeof createRecipeSchema>;

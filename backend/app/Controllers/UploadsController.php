@@ -45,50 +45,55 @@ class UploadsController {
     */
     function create (Request $request): string|bool {
         $user = \Auth::user();
-
-        $request->validate([
-            'file' => ['required', 'file', 'max:2048', 'mimes:jpeg,jpg,png,gif,JPG'], // max 2MB
-            'type' => [Rule::in(['profile', 'recipe'])], // Ensure 'type' is either 'profile' or 'recipe'
-            'recipe_id' => ['required_if:type,recipe', 'exists:recipes,id'], // recipe_id is required only if type is 'recipe'
-            'alt_text' => [ 'string', 'max:255'] // alt text
-        ]);
-
-        // upload file
-       $file = $request->file('file');
-       $originalFilename = $file->getClientOriginalName();
-       $filename = pathinfo($originalFilename, PATHINFO_FILENAME);
-       $extension = $file->getClientOriginalExtension();
-
-       // Generate a unique filename
-       $uniqueFilename = $filename . '_' . Str::random(16) . '.' . $extension;
-       $filePath = 'uploads/' . $user->id . '/' . $uniqueFilename;
-
-       // Save file to storage
-       Storage::putFileAs(
-        'uploads/' . $user->id,
-        $file,
-        $uniqueFilename
-    );
-
-        // Save the uploaded file path
-        $image = new Image([
-            'file_path' => $filePath,
-            'alt_text' => $request->post('alt_text', '')
-        ]);
-
-        // either assign to recipe or user
-        if ($request->input('type') === 'recipe') {
-            // assign to recipe
-            $image->recipe_id = $request->input('recipe_id');
-        } else {
-            // asign to user
-            $image->user_id = $user->id;
+    
+        try {
+            $validated = $request->validate([
+                'file' => ['required', 'file', 'max:2048', 'mimes:jpeg,jpg,png,gif,JPG'],
+                'type' => ['required', Rule::in(['profile', 'recipe'])],
+                'recipe_id' => ['required_if:type,recipe', 'exists:recipes,id'],
+                'alt_text' => ['string', 'max:255'],
+            ]);
+    
+            $file = $request->file('file');
+            $originalFilename = $file->getClientOriginalName();
+            $filename = pathinfo($originalFilename, PATHINFO_FILENAME);
+            $extension = $file->getClientOriginalExtension();
+    
+            $uniqueFilename = $filename . '_' . Str::random(16) . '.' . $extension;
+            $filePath = 'uploads/' . $user->id . '/' . $uniqueFilename;
+    
+            Storage::putFileAs(
+                'uploads/' . $user->id,
+                $file,
+                $uniqueFilename
+            );
+    
+            $image = new Image([
+                'file_path' => $filePath,
+                'alt_text' => $request->post('alt_text', ''),
+                'user_id' => $user->id,
+            ]);
+    
+            if ($request->input('type') === 'recipe') {
+                $image->recipe_id = $request->input('recipe_id');
+            }
+    
+            $image->save();
+    
+            // Ensure a valid relative path with a leading slash
+            return response()->json([
+                'message' => 'Image uploaded successfully.',
+                'file_path' => '/' . $filePath, 
+            ], 201);
+    
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'There was an error in the upload. Please ensure that the image is max. 8MB.',
+            ], 400);
         }
-
-        $image->save();
-
-        return $filePath;
     }
+    
+    
 
     /*
     @return string|Response

@@ -4,7 +4,7 @@ import Clock from "../../assets/icons/clock.svg";
 import Heart from "../ui/heart";
 import { getSeasonColor } from "@/utils/SeasonUtils";
 import BookmarkButton from "../ui/bookmark";
-import { Button, ButtonSize } from "../button/button";
+import { Button, ButtonSize, ButtonStyle } from "../button/button";
 
 interface CardProps {
   imageSrc: string;
@@ -31,6 +31,13 @@ export default function Card({
     ? props.season.split(",").map((s) => getSeasonColor(s.trim()))
     : [];
 
+  const imageLoader = ({ src }: { src: string }): string => {
+    if (src.startsWith("http://") || src.startsWith("https://")) {
+      return src; // Absolute URL, return as is
+    }
+    return `/${src.startsWith("/") ? src.slice(1) : src}`; // Ensure leading slash for relative paths
+  };
+
   return (
     <div
       className={
@@ -45,6 +52,7 @@ export default function Card({
         )}
         <Image
           className="pointer-events-none h-full w-full rounded-lg object-cover"
+          loader={imageLoader}
           src={props.imageSrc}
           alt={props.imageAlt}
           width={500}
@@ -79,7 +87,14 @@ export default function Card({
         </div>
       )}
       {showEdit && (
-        <div className="mt-4 flex justify-center border-t-2 border-sfblack">
+        <div className="mt-4 flex justify-between border-t-2 border-sfblack pt-2">
+          <Button
+            size={ButtonSize.XS}
+            style={ButtonStyle.OUTLINERED}
+            label="löschen"
+            // TODO: Add delete option
+            // onClick={onDeleteClick}
+          />
           <Button
             size={ButtonSize.XS}
             label="bearbeiten"

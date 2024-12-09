@@ -10,8 +10,6 @@ import { getSeasonColor } from "@/utils/SeasonUtils";
 
 const ToastProvider = ToastPrimitives.Provider;
 
-const seasonalColor = getSeasonColor();
-
 const ToastViewport = React.forwardRef<
   React.ElementRef<typeof ToastPrimitives.Viewport>,
   React.ComponentPropsWithoutRef<typeof ToastPrimitives.Viewport>

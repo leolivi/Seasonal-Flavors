@@ -10,18 +10,15 @@ import Checkbox from "../ui/checkbox";
 
 interface SeasonCheckboxProps {
   control: any;
-  seasons: { id: string; label: string }[];
+  tags: { id: string; name: string }[];
 }
 
-export function SeasonCheckbox({
-  control,
-  seasons: items,
-}: SeasonCheckboxProps) {
+export function SeasonCheckbox({ control, tags: items }: SeasonCheckboxProps) {
   return (
     <FormField
       control={control}
       name="seasons"
-      render={() => (
+      render={({ field, fieldState }) => (
         <FormItem>
           <div className="mb-4">
             <FormLabel className="text-base">Saison</FormLabel>
@@ -33,38 +30,30 @@ export function SeasonCheckbox({
           {items.map((item) => {
             const checkboxId = `season-${item.id}`;
             return (
-              <FormField
-                key={item.id}
-                control={control}
-                name="seasons"
-                render={({ field }) => (
-                  <FormItem className="flex flex-row items-start space-x-3 space-y-0">
-                    <FormControl>
-                      <Checkbox
-                        id={checkboxId}
-                        checked={field.value?.includes(item.id)}
-                        onCheckedChange={(checked) => {
-                          if (checked) {
-                            field.onChange([...field.value, item.id]);
-                          } else {
-                            field.onChange(
-                              field.value?.filter(
-                                (value: string) => value !== item.id,
-                              ),
-                            );
-                          }
-                        }}
-                      />
-                    </FormControl>
-                    <FormLabel htmlFor={checkboxId} className="font-normal">
-                      {item.label}
-                    </FormLabel>
-                  </FormItem>
-                )}
-              />
+              <div key={item.id} className="flex items-center space-x-3">
+                <FormControl>
+                  <Checkbox
+                    id={checkboxId}
+                    checked={field.value?.includes(item.name) ?? false}
+                    onCheckedChange={(checked) => {
+                      const newValue = checked
+                        ? [...(field.value || []), item.name]
+                        : (field.value || []).filter(
+                            (val: string) => val !== item.name,
+                          );
+                      field.onChange(newValue);
+                    }}
+                  />
+                </FormControl>
+                <FormLabel htmlFor={checkboxId} className="font-normal">
+                  {item.name}
+                </FormLabel>
+              </div>
             );
           })}
-          <FormMessage />
+          {fieldState.error && (
+            <FormMessage>{fieldState.error.message}</FormMessage>
+          )}
         </FormItem>
       )}
     />

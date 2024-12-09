@@ -64,14 +64,14 @@ class Recipe extends Model {
   static function validate(Request $request): array {
     $post = $request->method == 'POST'; 
     return $request->validate([
-      'title' => [$post ? 'required' : 'sometimes', 'min:1', 'max:100'],
+      'title' => [$post ? 'required' : 'sometimes', 'min:1', 'max:255'],
       'prep_time' => [$post ? 'required' : 'sometimes', 'integer'],
       'cooking_time' => [$post ? 'required' : 'sometimes', 'integer'],
       'servings' => [$post ? 'required' : 'sometimes', 'integer'],
-      'steps' => [$post ? 'required' : 'sometimes', 'min:1', 'max:20000'],
+      'steps' => [$post ? 'required' : 'sometimes', 'json'],
       'ingredients' => [$post ? 'required' : 'sometimes', 'min:1', 'max:20000'], 
       'user_id' => [$post ? 'required' : 'sometimes', 'exists:users,id'],
-      'tags' => [$post ? 'required' : 'sometimes', 'array'], 
+      // 'tags' => [$post ? 'required' : 'sometimes', 'array'], 
     ]);
   }
 }

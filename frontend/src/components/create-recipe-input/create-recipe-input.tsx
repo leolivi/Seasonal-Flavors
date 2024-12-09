@@ -13,17 +13,18 @@ interface CreateRecipeInputProps {
   fields: {
     name: keyof CreateRecipeSchema;
     label: string;
-    placeholder: string;
     type?: string;
   }[];
   control: Control<CreateRecipeSchema>;
   layout?: "row" | "column";
+  onFileChange?: (fieldName: string, file: File | undefined) => void;
 }
 
 export function CreateRecipeInput({
   fields,
   control,
   layout = "column",
+  onFileChange,
 }: CreateRecipeInputProps) {
   return (
     <div className={layout === "row" ? "flex flex-row gap-4" : "space-y-6"}>
@@ -36,12 +37,37 @@ export function CreateRecipeInput({
             <FormItem className={layout === "row" ? "flex-1" : ""}>
               <FormLabel htmlFor={field.name}>{field.label}</FormLabel>
               <FormControl>
-                <Input
-                  id={field.name}
-                  type={field.type || "text"}
-                  placeholder={field.placeholder}
-                  {...controllerField}
-                />
+                {field.type === "file" ? (
+                  <Input
+                    id={field.name}
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) =>
+                      onFileChange &&
+                      onFileChange(field.name, e.target.files?.[0] || undefined)
+                    }
+                  />
+                ) : (
+                  <Input
+                    id={field.name}
+                    type={field.type || "text"}
+                    value={
+                      typeof controllerField.value === "string" ||
+                      typeof controllerField.value === "number"
+                        ? controllerField.value
+                        : ""
+                    }
+                    onChange={(e) => {
+                      const value =
+                        e.target.type === "number"
+                          ? e.target.value === ""
+                            ? ""
+                            : Number(e.target.value)
+                          : e.target.value;
+                      controllerField.onChange(value);
+                    }}
+                  />
+                )}
               </FormControl>
               <FormMessage />
             </FormItem>

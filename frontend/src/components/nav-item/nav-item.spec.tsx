@@ -3,14 +3,23 @@ import { render, screen } from "@testing-library/react";
 import { Season } from "@/utils/Season";
 import useMediaQuery from "@/utils/useMediaQuery";
 import NavItem, { NavStyle } from "./nav-item";
+import { useSession } from "next-auth/react";
 
 jest.mock("@/utils/Season");
 jest.mock("@/utils/useMediaQuery");
+
+jest.mock("next-auth/react", () => ({
+  useSession: jest.fn(() => ({ status: "unauthenticated" })),
+}));
 
 describe("NavItem", () => {
   const mockIcon = <svg data-testid="mock-icon" />;
   const label = "Test Label";
   const href = "/test";
+
+  beforeEach(() => {
+    (useSession as jest.Mock).mockReturnValue({ status: "unauthenticated" });
+  });
 
   afterEach(() => {
     jest.clearAllMocks();

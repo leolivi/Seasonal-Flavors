@@ -15,193 +15,320 @@ class RecipeSeeder extends Seeder {
         $user = User::where('email', 'yua@miau.com')->firstOrFail();
 
         Recipe::updateOrCreate(
-            ['title' => 'Butternut Squash Soup'], 
+            ['title' => 'Butternut-Kürbissuppe'], 
             [
                 'cooking_time' => 35,
                 'prep_time' => 15,
                 'servings' => 4,
-                'steps' => '1. Roast butternut squash. 2. Sauté onion and garlic. 3. Blend with vegetable broth and spices. 4. Garnish with pumpkin seeds.',
-                'ingredients' => 'Butternut Squash, Onion, Garlic, Vegetable Broth, Coconut Milk, Pumpkin Seeds, Salt, Pepper',
+                'steps' => json_encode([
+                    'type' => 'doc',
+                    'content' => [
+                        ['type' => 'paragraph', 'content' => [['type' => 'text', 'text' => '1. Butternut-Kürbis rösten.']]],
+                        ['type' => 'paragraph', 'content' => [['type' => 'text', 'text' => '2. Zwiebel und Knoblauch anbraten.']]],
+                        ['type' => 'paragraph', 'content' => [['type' => 'text', 'text' => '3. Mit Gemüsebrühe und Gewürzen pürieren.']]],
+                        ['type' => 'paragraph', 'content' => [['type' => 'text', 'text' => '4. Mit Kürbiskernen garnieren.']]]
+                    ]
+                ]),
+                'ingredients' => 'Butternut-Kürbis, Zwiebel, Knoblauch, Gemüsebrühe, Kokosmilch, Kürbiskerne, Salz, Pfeffer',
                 'user_id' => $user->id,
             ]
         );
         
         Recipe::updateOrCreate(
-            ['title' => 'Lentil Shepherd’s Pie'], 
+            ['title' => 'Linsen-Shepherd\'s Pie'], 
             [
                 'cooking_time' => 50,
                 'prep_time' => 20,
                 'servings' => 6,
-                'steps' => '1. Sauté lentils with vegetables. 2. Prepare mashed potatoes. 3. Layer lentil mix and mashed potatoes in a baking dish. 4. Bake until golden.',
-                'ingredients' => 'Lentils, Carrot, Onion, Garlic, Potatoes, Vegetable Broth, Thyme, Salt, Pepper',
+                'steps' => json_encode([
+                    'type' => 'doc',
+                    'content' => [
+                        ['type' => 'paragraph', 'content' => [['type' => 'text', 'text' => '1. Linsen mit Gemüse anbraten.']]],
+                        ['type' => 'paragraph', 'content' => [['type' => 'text', 'text' => '2. Kartoffelpüree zubereiten.']]],
+                        ['type' => 'paragraph', 'content' => [['type' => 'text', 'text' => '3. Linsenmischung und Kartoffelpüree in einer Auflaufform schichten.']]],
+                        ['type' => 'paragraph', 'content' => [['type' => 'text', 'text' => '4. Backen bis die Oberfläche goldbraun ist.']]]
+                    ]
+                ]),
+                'ingredients' => 'Linsen, Karotte, Zwiebel, Knoblauch, Kartoffeln, Gemüsebrühe, Thymian, Salz, Pfeffer',
                 'user_id' => $user->id,
             ]
         );
         
         Recipe::updateOrCreate(
-            ['title' => 'Creamy Spinach Pasta'], 
+            ['title' => 'Cremige Spinat-Pasta'], 
             [
                 'cooking_time' => 20,
                 'prep_time' => 10,
                 'servings' => 4,
-                'steps' => '1. Cook pasta. 2. Blend soaked cashews with spinach, garlic, and lemon juice. 3. Combine sauce with pasta. 4. Garnish with fresh herbs.',
-                'ingredients' => 'Pasta, Spinach, Cashews, Garlic, Lemon Juice, Salt, Pepper',
+                'steps' => json_encode([
+                    'type' => 'doc',
+                    'content' => [
+                        ['type' => 'paragraph', 'content' => [['type' => 'text', 'text' => '1. Pasta kochen.']]],
+                        ['type' => 'paragraph', 'content' => [['type' => 'text', 'text' => '2. Eingeweichte Cashewkerne mit Spinat, Knoblauch und Zitronensaft pürieren.']]],
+                        ['type' => 'paragraph', 'content' => [['type' => 'text', 'text' => '3. Sauce mit Pasta vermischen.']]],
+                        ['type' => 'paragraph', 'content' => [['type' => 'text', 'text' => '4. Mit frischen Kräutern garnieren.']]]
+                    ]
+                ]),
+                'ingredients' => 'Pasta, Spinat, Cashewkerne, Knoblauch, Zitronensaft, Salz, Pfeffer',
                 'user_id' => $user->id,
             ]
         );
         
         Recipe::updateOrCreate(
-            ['title' => 'Stuffed Bell Peppers'], 
+            ['title' => 'Gefüllte Paprikaschoten'], 
             [
                 'cooking_time' => 40,
                 'prep_time' => 20,
                 'servings' => 4,
-                'steps' => '1. Prepare quinoa filling with vegetables and spices. 2. Stuff bell peppers. 3. Bake until peppers are tender. 4. Serve with fresh parsley.',
-                'ingredients' => 'Bell Peppers, Quinoa, Black Beans, Corn, Onion, Garlic, Tomato, Cumin, Salt, Pepper, Parsley',
+                'steps' => json_encode([
+                    'type' => 'doc',
+                    'content' => [
+                        ['type' => 'paragraph', 'content' => [['type' => 'text', 'text' => '1. Quinoa-Füllung mit Gemüse und Gewürzen zubereiten.']]],
+                        ['type' => 'paragraph', 'content' => [['type' => 'text', 'text' => '2. Paprikaschoten füllen.']]],
+                        ['type' => 'paragraph', 'content' => [['type' => 'text', 'text' => '3. Backen, bis die Paprika zart sind.']]],
+                        ['type' => 'paragraph', 'content' => [['type' => 'text', 'text' => '4. Mit frischer Petersilie servieren.']]]
+                    ]
+                ]),
+                'ingredients' => 'Paprikaschoten, Quinoa, Schwarze Bohnen, Mais, Zwiebel, Knoblauch, Tomate, Kreuzkümmel, Salz, Pfeffer, Petersilie',
                 'user_id' => $user->id,
             ]
         );
         
         Recipe::updateOrCreate(
-            ['title' => 'Pumpkin Risotto'], 
+            ['title' => 'Kürbis-Risotto'], 
             [
                 'cooking_time' => 35,
                 'prep_time' => 10,
                 'servings' => 4,
-                'steps' => '1. Sauté onion and garlic. 2. Add rice and pumpkin puree. 3. Gradually add vegetable broth, stirring until creamy. 4. Garnish with sage.',
-                'ingredients' => 'Arborio Rice, Pumpkin Puree, Onion, Garlic, Vegetable Broth, Sage, Salt, Pepper',
+                'steps' => json_encode([
+                    'type' => 'doc',
+                    'content' => [
+                        ['type' => 'paragraph', 'content' => [['type' => 'text', 'text' => '1. Zwiebel und Knoblauch anbraten.']]],
+                        ['type' => 'paragraph', 'content' => [['type' => 'text', 'text' => '2. Reis und Kürbispüree hinzufügen.']]],
+                        ['type' => 'paragraph', 'content' => [['type' => 'text', 'text' => '3. Nach und nach Gemüsebrühe hinzufügen und cremig rühren.']]],
+                        ['type' => 'paragraph', 'content' => [['type' => 'text', 'text' => '4. Mit Salbei garnieren.']]]
+                    ]
+                ]),
+                'ingredients' => 'Arborio-Reis, Kürbispüree, Zwiebel, Knoblauch, Gemüsebrühe, Salbei, Salz, Pfeffer',
                 'user_id' => $user->id,
             ]
         );
         
         Recipe::updateOrCreate(
-            ['title' => 'Chickpea Salad Sandwich'], 
+            ['title' => 'Kichererbsen-Salat-Sandwich'], 
             [
                 'cooking_time' => 10,
                 'prep_time' => 10,
                 'servings' => 4,
-                'steps' => '1. Mash chickpeas. 2. Mix with chopped veggies and  mayo. 3. Spread on bread. 4. Serve with fresh lettuce.',
-                'ingredients' => 'Chickpeas, Celery, Carrot, Green Onion,  Mayo, Bread, Lettuce, Salt, Pepper',
+                'steps' => json_encode([
+                    'type' => 'doc',
+                    'content' => [
+                        ['type' => 'paragraph', 'content' => [['type' => 'text', 'text' => '1. Kichererbsen zerdrücken.']]],
+                        ['type' => 'paragraph', 'content' => [['type' => 'text', 'text' => '2. Mit gehacktem Gemüse und Mayonnaise mischen.']]],
+                        ['type' => 'paragraph', 'content' => [['type' => 'text', 'text' => '3. Auf Brot verteilen.']]],
+                        ['type' => 'paragraph', 'content' => [['type' => 'text', 'text' => '4. Mit frischem Salat servieren.']]]
+                    ]
+                ]),
+                'ingredients' => 'Kichererbsen, Sellerie, Karotte, Frühlingszwiebel, Mayonnaise, Brot, Salat, Salz, Pfeffer',
                 'user_id' => $user->id,
             ]
         );
         
         Recipe::updateOrCreate(
-            ['title' => 'Sweet Potato Tacos'], 
+            ['title' => 'Süsskartoffel-Tacos'], 
             [
                 'cooking_time' => 30,
                 'prep_time' => 10,
                 'servings' => 4,
-                'steps' => '1. Roast sweet potatoes with spices. 2. Warm tortillas. 3. Fill tortillas with sweet potatoes, black beans, and toppings. 4. Garnish with cilantro and lime.',
-                'ingredients' => 'Sweet Potatoes, Black Beans, Tortillas, Avocado, Cilantro, Lime, Cumin, Salt, Pepper',
+                'steps' => json_encode([
+                    'type' => 'doc',
+                    'content' => [
+                        ['type' => 'paragraph', 'content' => [['type' => 'text', 'text' => '1. Süßkartoffeln mit Gewürzen rösten.']]],
+                        ['type' => 'paragraph', 'content' => [['type' => 'text', 'text' => '2. Tortillas erwärmen.']]],
+                        ['type' => 'paragraph', 'content' => [['type' => 'text', 'text' => '3. Tortillas mit Süßkartoffeln, schwarzen Bohnen und Toppings füllen.']]],
+                        ['type' => 'paragraph', 'content' => [['type' => 'text', 'text' => '4. Mit Koriander und Limette garnieren.']]]
+                    ]
+                ]),
+                'ingredients' => 'Süßkartoffeln, Schwarze Bohnen, Tortillas, Avocado, Koriander, Limette, Kreuzkümmel, Salz, Pfeffer',
                 'user_id' => $user->id,
             ]
         );
         
         Recipe::updateOrCreate(
-            ['title' => 'Zucchini Noodles with Pesto'], 
+            ['title' => 'Zucchini-Nudeln mit Pesto'], 
             [
                 'cooking_time' => 15,
                 'prep_time' => 10,
                 'servings' => 4,
-                'steps' => '1. Spiralize zucchini. 2. Blend basil, garlic, nuts, and olive oil for pesto. 3. Toss zucchini noodles with pesto. 4. Top with cherry tomatoes.',
-                'ingredients' => 'Zucchini, Basil, Garlic, Pine Nuts, Olive Oil, Cherry Tomatoes, Salt, Pepper',
+                'steps' => json_encode([
+                    'type' => 'doc',
+                    'content' => [
+                        ['type' => 'paragraph', 'content' => [['type' => 'text', 'text' => '1. Zucchini in Nudeln schneiden.']]],
+                        ['type' => 'paragraph', 'content' => [['type' => 'text', 'text' => '2. Basilikum, Knoblauch, Nüsse und Olivenöl für Pesto mixen.']]],
+                        ['type' => 'paragraph', 'content' => [['type' => 'text', 'text' => '3. Zucchini-Nudeln mit Pesto vermischen.']]],
+                        ['type' => 'paragraph', 'content' => [['type' => 'text', 'text' => '4. Mit Kirschtomaten toppen.']]]
+                    ]
+                ]),
+                'ingredients' => 'Zucchini, Basilikum, Knoblauch, Piniennüsse, Olivenöl, Kirschtomaten, Salz, Pfeffer',
                 'user_id' => $user->id,
             ]
         );
         
         Recipe::updateOrCreate(
-            ['title' => 'Coconut Curry with Tofu'], 
+            ['title' => 'Kokos-Curry mit Tofu'], 
             [
                 'cooking_time' => 30,
                 'prep_time' => 10,
                 'servings' => 4,
-                'steps' => '1. Sauté tofu with spices. 2. Add coconut milk and vegetables. 3. Simmer until vegetables are tender. 4. Serve with rice.',
-                'ingredients' => 'Tofu, Coconut Milk, Red Curry Paste, Bell Peppers, Broccoli, Carrot, Rice, Salt, Pepper',
+                'steps' => json_encode([
+                    'type' => 'doc',
+                    'content' => [
+                        ['type' => 'paragraph', 'content' => [['type' => 'text', 'text' => '1. Tofu mit Gewürzen anbraten.']]],
+                        ['type' => 'paragraph', 'content' => [['type' => 'text', 'text' => '2. Kokosmilch und Gemüse hinzufügen.']]],
+                        ['type' => 'paragraph', 'content' => [['type' => 'text', 'text' => '3. Köcheln, bis das Gemüse zart ist.']]],
+                        ['type' => 'paragraph', 'content' => [['type' => 'text', 'text' => '4. Mit Reis servieren.']]]
+                    ]
+                ]),
+                'ingredients' => 'Tofu, Kokosmilch, Rote Curry-Paste, Paprika, Brokkoli, Karotte, Reis, Salz, Pfeffer',
                 'user_id' => $user->id,
             ]
         );
         
         Recipe::updateOrCreate(
-            ['title' => 'Baked Ratatouille'], 
+            ['title' => 'Gebackene Ratatouille'], 
             [
                 'cooking_time' => 40,
                 'prep_time' => 20,
                 'servings' => 4,
-                'steps' => '1. Slice vegetables. 2. Arrange in a baking dish with herbs and olive oil. 3. Bake until tender. 4. Serve with fresh basil.',
-                'ingredients' => 'Eggplant, Zucchini, Bell Peppers, Tomatoes, Olive Oil, Thyme, Basil, Salt, Pepper',
+                'steps' => json_encode([
+                    'type' => 'doc',
+                    'content' => [
+                        ['type' => 'paragraph', 'content' => [['type' => 'text', 'text' => '1. Gemüse in Scheiben schneiden.']]],
+                        ['type' => 'paragraph', 'content' => [['type' => 'text', 'text' => '2. In einer Auflaufform mit Kräutern und Olivenöl anrichten.']]],
+                        ['type' => 'paragraph', 'content' => [['type' => 'text', 'text' => '3. Backen, bis das Gemüse zart ist.']]],
+                        ['type' => 'paragraph', 'content' => [['type' => 'text', 'text' => '4. Mit frischem Basilikum servieren.']]]
+                    ]
+                ]),
+                'ingredients' => 'Aubergine, Zucchini, Paprika, Tomaten, Olivenöl, Thymian, Basilikum, Salz, Pfeffer',
                 'user_id' => $user->id,
             ]
         );
 
         Recipe::updateOrCreate(
-            ['title' => 'Vegan Mushroom Stroganoff'], 
+            ['title' => 'Veganer Pilz-Stroganoff'], 
             [
                 'cooking_time' => 25,
                 'prep_time' => 10,
                 'servings' => 4,
-                'steps' => '1. Sauté mushrooms, onion, and garlic. 2. Add cashew cream and vegetable broth. 3. Serve over cooked pasta. 4. Garnish with parsley.',
-                'ingredients' => 'Mushrooms, Onion, Garlic, Cashew Cream, Vegetable Broth, Pasta, Parsley, Salt, Pepper',
+                'steps' => json_encode([
+                    'type' => 'doc',
+                    'content' => [
+                        ['type' => 'paragraph', 'content' => [['type' => 'text', 'text' => '1. Pilze, Zwiebel und Knoblauch anbraten.']]],
+                        ['type' => 'paragraph', 'content' => [['type' => 'text', 'text' => '2. Cashew-Creme und Gemüsebrühe hinzufügen.']]],
+                        ['type' => 'paragraph', 'content' => [['type' => 'text', 'text' => '3. Über gekochte Pasta servieren.']]],
+                        ['type' => 'paragraph', 'content' => [['type' => 'text', 'text' => '4. Mit Petersilie garnieren.']]]
+                    ]
+                ]),
+                'ingredients' => 'Pilze, Zwiebel, Knoblauch, Cashew-Creme, Gemüsebrühe, Pasta, Petersilie, Salz, Pfeffer',
                 'user_id' => $user->id,
             ]
         );
 
         Recipe::updateOrCreate(
-            ['title' => 'Vegan Pad Thai'], 
+            ['title' => 'Veganes Pad Thai'], 
             [
                 'cooking_time' => 20,
                 'prep_time' => 15,
                 'servings' => 4,
-                'steps' => '1. Cook rice noodles. 2. Sauté tofu and vegetables. 3. Add tamarind sauce. 4. Toss noodles with sauce. 5. Garnish with peanuts and lime.',
-                'ingredients' => 'Rice Noodles, Tofu, Bell Peppers, Carrot, Tamarind Paste, Soy Sauce, Peanuts, Lime, Garlic, Cilantro',
+                'steps' => json_encode([
+                    'type' => 'doc',
+                    'content' => [
+                        ['type' => 'paragraph', 'content' => [['type' => 'text', 'text' => '1. Reisnudeln kochen.']]],
+                        ['type' => 'paragraph', 'content' => [['type' => 'text', 'text' => '2. Tofu und Gemüse anbraten.']]],
+                        ['type' => 'paragraph', 'content' => [['type' => 'text', 'text' => '3. Tamarinden-Sauce hinzufügen.']]],
+                        ['type' => 'paragraph', 'content' => [['type' => 'text', 'text' => '4. Nudeln mit Sauce vermischen.']]],
+                        ['type' => 'paragraph', 'content' => [['type' => 'text', 'text' => '5. Mit Erdnüssen und Limette garnieren.']]]
+                    ]
+                ]),
+                'ingredients' => 'Reisnudeln, Tofu, Paprika, Karotte, Tamarindenpaste, Sojasauce, Erdnüsse, Limette, Knoblauch, Koriander',
                 'user_id' => $user->id,
             ]
         );
 
         Recipe::updateOrCreate(
-            ['title' => 'Vegan Cauliflower Wings'], 
+            ['title' => 'Vegane Blumenkohl-Flügel'], 
             [
                 'cooking_time' => 30,
                 'prep_time' => 15,
                 'servings' => 4,
-                'steps' => '1. Coat cauliflower florets in batter. 2. Bake until crispy. 3. Toss with buffalo sauce. 4. Serve with vegan ranch dip.',
-                'ingredients' => 'Cauliflower, Flour, Plant-Based Milk, Buffalo Sauce, Vegan Ranch, Garlic Powder, Salt, Pepper',
+                'steps' => json_encode([
+                    'type' => 'doc',
+                    'content' => [
+                        ['type' => 'paragraph', 'content' => [['type' => 'text', 'text' => '1. Blumenkohlröschen in Teig wenden.']]],
+                        ['type' => 'paragraph', 'content' => [['type' => 'text', 'text' => '2. Knusprig backen.']]],
+                        ['type' => 'paragraph', 'content' => [['type' => 'text', 'text' => '3. Mit Buffalo-Sauce mischen.']]],
+                        ['type' => 'paragraph', 'content' => [['type' => 'text', 'text' => '4. Mit veganem Ranch-Dip servieren.']]]
+                    ]
+                ]),
+                'ingredients' => 'Blumenkohl, Mehl, Pflanzliche Milch, Buffalo-Sauce, Veganer Ranch-Dip, Knoblauchpulver, Salz, Pfeffer',
                 'user_id' => $user->id,
             ]
         );
 
         Recipe::updateOrCreate(
-            ['title' => 'Vegan Chocolate Avocado Mousse'], 
+            ['title' => 'Vegane Schokoladen-Avocado-Mousse'], 
             [
                 'cooking_time' => 5,
                 'prep_time' => 5,
                 'servings' => 4,
-                'steps' => '1. Blend avocado, cocoa powder, and maple syrup until smooth. 2. Chill in refrigerator. 3. Serve with fresh berries.',
-                'ingredients' => 'Avocado, Cocoa Powder, Maple Syrup, Vanilla Extract, Berries',
+                'steps' => json_encode([
+                    'type' => 'doc',
+                    'content' => [
+                        ['type' => 'paragraph', 'content' => [['type' => 'text', 'text' => '1. Avocado, Kakao-Pulver und Ahornsirup cremig mixen.']]],
+                        ['type' => 'paragraph', 'content' => [['type' => 'text', 'text' => '2. Im Kühlschrank kaltstellen.']]],
+                        ['type' => 'paragraph', 'content' => [['type' => 'text', 'text' => '3. Mit frischen Beeren servieren.']]]
+                    ]
+                ]),
+                'ingredients' => 'Avocado, Kakao-Pulver, Ahornsirup, Vanilleextrakt, Beeren',
                 'user_id' => $user->id,
             ]
         );
 
         Recipe::updateOrCreate(
-            ['title' => 'Vegan Mediterranean Bowl'], 
+            ['title' => 'Vegane Mittelmeer-Bowl'], 
             [
                 'cooking_time' => 20,
                 'prep_time' => 10,
                 'servings' => 4,
-                'steps' => '1. Cook quinoa. 2. Prepare roasted vegetables. 3. Add hummus and olives. 4. Drizzle with tahini dressing.',
-                'ingredients' => 'Quinoa, Bell Peppers, Zucchini, Eggplant, Hummus, Olives, Tahini, Lemon Juice, Salt, Pepper',
+                'steps' => json_encode([
+                    'type' => 'doc',
+                    'content' => [
+                        ['type' => 'paragraph', 'content' => [['type' => 'text', 'text' => '1. Quinoa kochen.']]],
+                        ['type' => 'paragraph', 'content' => [['type' => 'text', 'text' => '2. Gebratene Gemüsesorten zubereiten.']]],
+                        ['type' => 'paragraph', 'content' => [['type' => 'text', 'text' => '3. Hummus und Oliven hinzufügen.']]],
+                        ['type' => 'paragraph', 'content' => [['type' => 'text', 'text' => '4. Mit Tahini-Dressing beträufeln.']]]
+                    ]
+                ]),
+                'ingredients' => 'Quinoa, Paprika, Zucchini, Aubergine, Hummus, Oliven, Tahini, Zitronensaft, Salz, Pfeffer',
                 'user_id' => $user->id,
             ]
         );
 
         Recipe::updateOrCreate(
-            ['title' => 'Vegan Banana Pancakes'], 
+            ['title' => 'Vegane Bananen-Pfannkuchen'], 
             [
                 'cooking_time' => 15,
                 'prep_time' => 10,
                 'servings' => 4,
-                'steps' => '1. Mix mashed bananas, flour, and plant-based milk. 2. Cook on a skillet until golden. 3. Serve with maple syrup and fresh fruit.',
-                'ingredients' => 'Bananas, Flour, Plant-Based Milk, Maple Syrup, Fresh Fruit',
+                'steps' => json_encode([
+                    'type' => 'doc',
+                    'content' => [
+                        ['type' => 'paragraph', 'content' => [['type' => 'text', 'text' => '1. Zerdrückte Bananen, Mehl und pflanzliche Milch mischen.']]],
+                        ['type' => 'paragraph', 'content' => [['type' => 'text', 'text' => '2. In der Pfanne goldbraun braten.']]],
+                        ['type' => 'paragraph', 'content' => [['type' => 'text', 'text' => '3. Mit Ahornsirup und frischen Früchten servieren.']]]
+                    ]
+                ]),
+                'ingredients' => 'Bananen, Mehl, Pflanzliche Milch, Ahornsirup, Frische Früchte',
                 'user_id' => $user->id,
             ]
         );
@@ -216,23 +343,23 @@ class RecipeSeeder extends Seeder {
         $winterTag = Tag::where('name', 'winter')->first();
         $allYearTag = Tag::where('name', 'all_year')->first();
     
-        Recipe::where('title', 'Butternut Squash Soup')->first()->tags()->attach($autumnTag->id);
-        Recipe::where('title', 'Lentil Shepherd’s Pie')->first()->tags()->attach($winterTag->id);
-        Recipe::where('title', 'Lentil Shepherd’s Pie')->first()->tags()->attach($autumnTag->id);
-        Recipe::where('title', 'Creamy Spinach Pasta')->first()->tags()->attach($springTag->id);
-        Recipe::where('title', 'Stuffed Bell Peppers')->first()->tags()->attach($summerTag->id);
-        Recipe::where('title', 'Pumpkin Risotto')->first()->tags()->attach($autumnTag->id);
-        Recipe::where('title', 'Chickpea Salad Sandwich')->first()->tags()->attach($springTag->id);
-        Recipe::where('title', 'Sweet Potato Tacos')->first()->tags()->attach($winterTag->id);
-        Recipe::where('title', 'Zucchini Noodles with Pesto')->first()->tags()->attach($summerTag->id);
-        Recipe::where('title', 'Coconut Curry with Tofu')->first()->tags()->attach($allYearTag->id);
-        Recipe::where('title', 'Baked Ratatouille')->first()->tags()->attach($summerTag->id);
-        Recipe::where('title', 'Vegan Mushroom Stroganoff')->first()->tags()->attach($winterTag->id);
-        Recipe::where('title', 'Vegan Pad Thai')->first()->tags()->attach($summerTag->id);
-        Recipe::where('title', 'Vegan Cauliflower Wings')->first()->tags()->attach($allYearTag->id);
-        Recipe::where('title', 'Vegan Chocolate Avocado Mousse')->first()->tags()->attach($allYearTag->id);
-        Recipe::where('title', 'Vegan Mediterranean Bowl')->first()->tags()->attach($summerTag->id);
-        Recipe::where('title', 'Vegan Banana Pancakes')->first()->tags()->attach($springTag->id);
+        Recipe::where('title', 'Butternut-Kürbissuppe')->first()->tags()->attach($autumnTag->id);
+        Recipe::where('title', 'Linsen-Shepherd\'s Pie')->first()->tags()->attach($winterTag->id);
+        Recipe::where('title', 'Linsen-Shepherd\'s Pie')->first()->tags()->attach($autumnTag->id);
+        Recipe::where('title', 'Cremige Spinat-Pasta')->first()->tags()->attach($springTag->id);
+        Recipe::where('title', 'Gefüllte Paprikaschoten')->first()->tags()->attach($summerTag->id);
+        Recipe::where('title', 'Kürbis-Risotto')->first()->tags()->attach($autumnTag->id);
+        Recipe::where('title', 'Kichererbsen-Salat-Sandwich')->first()->tags()->attach($springTag->id);
+        Recipe::where('title', 'Süsskartoffel-Tacos')->first()->tags()->attach($winterTag->id);
+        Recipe::where('title', 'Zucchini-Nudeln mit Pesto')->first()->tags()->attach($summerTag->id);
+        Recipe::where('title', 'Kokos-Curry mit Tofu')->first()->tags()->attach($allYearTag->id);
+        Recipe::where('title', 'Gebackene Ratatouille')->first()->tags()->attach($summerTag->id);
+        Recipe::where('title', 'Veganer Pilz-Stroganoff')->first()->tags()->attach($winterTag->id);
+        Recipe::where('title', 'Veganes Pad Thai')->first()->tags()->attach($summerTag->id);
+        Recipe::where('title', 'Vegane Blumenkohl-Flügel')->first()->tags()->attach($allYearTag->id);
+        Recipe::where('title', 'Vegane Schokoladen-Avocado-Mousse')->first()->tags()->attach($allYearTag->id);
+        Recipe::where('title', 'Vegane Mittelmeer-Bowl')->first()->tags()->attach($summerTag->id);
+        Recipe::where('title', 'Vegane Bananen-Pfannkuchen')->first()->tags()->attach($springTag->id);
     }
 }
 

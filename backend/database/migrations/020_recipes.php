@@ -13,7 +13,7 @@ return new class extends Migration {
         $table->integer('cooking_time');
         $table->integer('prep_time');
         $table->integer('servings');
-        $table->text('steps');
+        $table->json('steps');
         $table->text('ingredients');
         $table->foreignId('user_id')->constrained()->cascadeOnDelete();
         $table->timestamps();

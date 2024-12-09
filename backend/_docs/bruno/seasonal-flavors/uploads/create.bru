@@ -5,9 +5,14 @@ meta {
 }
 
 post {
-  url: {{baseUrl}}/uploads
+  url: {{baseUrl}}/uploads?type=recipe&recipe_id=17
   body: multipartForm
   auth: none
+}
+
+params:query {
+  type: recipe
+  recipe_id: 17
 }
 
 headers {
@@ -16,7 +21,8 @@ headers {
 
 body:multipart-form {
   file: @file(/Users/leonieliviero/Downloads/beautiful-woman-avatar-character-icon-free-vector.jpg)
-  alt_text: "profile image"
-  type: profile
-  ~recipe_id: 
+  type: recipe
+  recipe_id: 18
+  ~user_id: NULL
+  ~alt_text: "profile image"
 }

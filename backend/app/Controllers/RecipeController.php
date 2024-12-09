@@ -56,12 +56,45 @@ class RecipeController {
   @return Recipe|Response
   @desc Creates a new recipe
   */
-  function create(Request $request): Recipe|Response {
-    $payload = Recipe::validate($request);
-    $recipe = \Auth::user()->recipes()->create($payload);
+  function create(Request $request): JsonResponse {
+    // Konvertiere Schritte in JSON, falls notwendig
+    if (is_array($request->input('steps'))) {
+        $request->merge(['steps' => json_encode($request->input('steps'))]);
+    }
 
-    return $recipe;
-  } 
+    // Validierung
+    $validatedData = $request->validate([
+        'title' => ['required', 'string', 'max:255'], 
+        'prep_time' => ['required', 'integer'],
+        'cooking_time' => ['required', 'integer'],
+        'servings' => ['required', 'integer'],
+        'steps' => ['required', 'string'],
+        'ingredients' => ['required', 'string'],
+        'tags' => ['nullable', 'array'], // Tags als Array optional akzeptieren
+        'tags.*' => ['integer', 'exists:tags,id'], // Jeder Tag muss in der Tags-Tabelle existieren
+         // 'image_id' => ['nullable', 'integer', 'exists:images,id'], // image_id must exist in images table if provided
+    ]);
+
+    // Erstelle das Rezept
+    $recipe = Auth::user()->recipes()->create([
+        'title' => $validatedData['title'],
+        'prep_time' => $validatedData['prep_time'],
+        'cooking_time' => $validatedData['cooking_time'],
+        'servings' => $validatedData['servings'],
+        'steps' => $validatedData['steps'],
+        'ingredients' => $validatedData['ingredients'],
+          // 'image_id' => $validatedData['image_id'] ?? null, // Use image_id if provided, or null
+    ]);
+
+    // Tags speichern
+    if (isset($validatedData['tags'])) {
+        $recipe->tags()->attach($validatedData['tags']); // Tags zur Pivot-Tabelle hinzufügen
+    }
+
+    // Antwort mit Tags
+    return response()->json(['recipe' => $recipe->load('tags')], 201);
+}
+
 
   /*
   @return Recipe|Response
