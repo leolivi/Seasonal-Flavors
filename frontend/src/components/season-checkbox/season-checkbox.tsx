@@ -1,3 +1,4 @@
+import Checkbox from "../ui/checkbox";
 import {
   FormControl,
   FormDescription,
@@ -5,20 +6,20 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import Checkbox from "../ui/checkbox";
+} from "../ui/form";
 
-interface SeasonCheckboxProps {
+export function SeasonCheckbox({
+  control,
+  seasons,
+}: {
   control: any;
-  tags: { id: string; name: string }[];
-}
-
-export function SeasonCheckbox({ control, tags: items }: SeasonCheckboxProps) {
+  seasons: { id: string; name: string }[];
+}) {
   return (
     <FormField
       control={control}
       name="seasons"
-      render={({ field, fieldState }) => (
+      render={() => (
         <FormItem>
           <div className="mb-4">
             <FormLabel className="text-base">Saison</FormLabel>
@@ -27,33 +28,41 @@ export function SeasonCheckbox({ control, tags: items }: SeasonCheckboxProps) {
               Saison sind.
             </FormDescription>
           </div>
-          {items.map((item) => {
-            const checkboxId = `season-${item.id}`;
+          {seasons.map((season) => {
+            const checkboxId = `season-${season.id}`;
             return (
-              <div key={item.id} className="flex items-center space-x-3">
-                <FormControl>
-                  <Checkbox
-                    id={checkboxId}
-                    checked={field.value?.includes(item.name) ?? false}
-                    onCheckedChange={(checked) => {
-                      const newValue = checked
-                        ? [...(field.value || []), item.name]
-                        : (field.value || []).filter(
-                            (val: string) => val !== item.name,
-                          );
-                      field.onChange(newValue);
-                    }}
-                  />
-                </FormControl>
-                <FormLabel htmlFor={checkboxId} className="font-normal">
-                  {item.name}
-                </FormLabel>
-              </div>
+              <FormField
+                key={season.id}
+                control={control}
+                name="seasons"
+                render={({ field }) => (
+                  <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+                    <FormControl>
+                      <Checkbox
+                        id={checkboxId}
+                        checked={field.value?.includes(season.name)}
+                        onCheckedChange={(checked) => {
+                          console.log("Before Update:", field.value);
+                          const updatedSeasons = checked
+                            ? [...field.value, season.name]
+                            : field.value.filter(
+                                (name: string) => name !== season.name,
+                              );
+
+                          field.onChange(updatedSeasons);
+                          console.log("After Update:", updatedSeasons);
+                        }}
+                      />
+                    </FormControl>
+                    <FormLabel htmlFor={checkboxId} className="font-normal">
+                      {season.name}
+                    </FormLabel>
+                  </FormItem>
+                )}
+              />
             );
           })}
-          {fieldState.error && (
-            <FormMessage>{fieldState.error.message}</FormMessage>
-          )}
+          <FormMessage />
         </FormItem>
       )}
     />

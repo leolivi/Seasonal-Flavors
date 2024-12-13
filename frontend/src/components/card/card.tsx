@@ -31,12 +31,14 @@ export default function Card({
     ? props.season.split(",").map((s) => getSeasonColor(s.trim()))
     : [];
 
-  const imageLoader = ({ src }: { src: string }): string => {
-    if (src.startsWith("http://") || src.startsWith("https://")) {
-      return src; // Absolute URL, return as is
-    }
-    return `/${src.startsWith("/") ? src.slice(1) : src}`; // Ensure leading slash for relative paths
-  };
+  // const imageLoader = ({ src }: { src: string }): string => {
+  //   if (src.startsWith("http://") || src.startsWith("https://")) {
+  //     return src;
+  //   }
+
+  //   const baseURL = process.env.NEXT_PUBLIC_BACKEND_URL;
+  //   return `${baseURL}/${src.startsWith("/") ? src.slice(1) : src}`;
+  // };
 
   return (
     <div
@@ -52,7 +54,7 @@ export default function Card({
         )}
         <Image
           className="pointer-events-none h-full w-full rounded-lg object-cover"
-          loader={imageLoader}
+          // loader={imageLoader}
           src={props.imageSrc}
           alt={props.imageAlt}
           width={500}

@@ -2,7 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { Form, FormField, FormLabel, FormMessage } from "@/components/ui/form";
+import { Form, FormField, FormMessage } from "@/components/ui/form";
 import { Button, ButtonSize, ButtonStyle } from "../button/button";
 import {
   createRecipeSchema,
@@ -17,6 +17,7 @@ import { dataFetch, dataFetchWithToken } from "@/utils/data-fetch";
 import { useSession } from "next-auth/react";
 import { useToast } from "@/hooks/use-toast";
 import { IngredientInput } from "../create-recipe-input/ingredient-input";
+import { translateSeason } from "@/utils/SeasonUtils";
 
 interface FormField {
   name: keyof CreateRecipeSchema;
@@ -37,7 +38,7 @@ export function CreateRecipeFormWrapper({
     ProseMirrorNode | undefined
   >(undefined);
   const [userData, setUserData] = useState<any>(null);
-  const [coverImage, setCoverImage] = useState<File | undefined>();
+  const [coverImage, setCoverImage] = useState<File | null>();
   const [tags, setTags] = useState<{ id: string; name: string }[]>([]);
   const [ingredients, setIngredients] = useState<string[]>([""]);
   const { toast } = useToast();
@@ -84,6 +85,7 @@ export function CreateRecipeFormWrapper({
         const tagsData = await dataFetch(
           `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/tags`,
         );
+
         setTags(tagsData);
       }
     };
@@ -92,43 +94,49 @@ export function CreateRecipeFormWrapper({
   }, [session]);
 
   // function to handle uploading an image to the server
-  const handleImageUpload = async (recipeId: string) => {
-    if (!coverImage) return null;
+  // const handleImageUpload = async (recipeId: string) => {
+  //   if (!coverImage) return null;
 
-    const formData = new FormData();
-    formData.append("file", coverImage);
-    formData.append("type", "recipe");
-    formData.append("recipe_id", recipeId);
+  //   const formData = new FormData();
+  //   formData.append("file", coverImage);
+  //   formData.append("type", "recipe");
+  //   formData.append("recipe_id", recipeId);
 
-    try {
-      const response = await fetch("/api/upload-image", {
-        method: "POST",
-        body: formData,
-      });
+  //   try {
+  //     const response = await fetch("/api/upload-image", {
+  //       method: "POST",
+  //       body: formData,
+  //     });
 
-      const data = await response.json();
+  //     const data = await response.json();
 
-      if (!response.ok) {
-        toast({
-          variant: "destructive",
-          title: "Fehler",
-          description: "Bild-Upload fehlgeschlagen.",
-        });
-        throw new Error(data.message || "Image upload failed");
-      }
-
-      return data;
-    } catch (error) {
-      console.error("Bild-Upload fehlgeschlagen:", error);
-      return null;
-    }
-  };
+  //     if (!response.ok) {
+  //       toast({
+  //         variant: "destructive",
+  //         title: "Fehler",
+  //         description: "Bild-Upload fehlgeschlagen.",
+  //       });
+  //       throw new Error(data.message || "Image upload failed");
+  //     }
+  //     return data;
+  //   } catch (error) {
+  //     console.error("Bild-Upload fehlgeschlagen:", error);
+  //     return null;
+  //   }
+  // };
 
   const handleCreateRecipe = async (data: CreateRecipeSchema) => {
     if (!userData) {
       console.error("Benutzerdaten sind nicht verfügbar");
       return;
     }
+
+    // if (!data.cover_image) {
+    //   console.error("Bild ist erforderlich.");
+    //   return;
+    // }
+
+    console.log("Seasons in form data:", data.seasons);
 
     let recipeId = null;
     let imageId = null;
@@ -140,7 +148,7 @@ export function CreateRecipeFormWrapper({
         cooking_time: data.cooking_time,
         prep_time: data.prep_time,
         servings: data.servings,
-        steps: JSON.stringify({ type: "doc", content: [] }),
+        steps: JSON.stringify(editorContent),
         user_id: userData.id,
         seasons: data.seasons,
         image_id: imageId,
@@ -166,23 +174,25 @@ export function CreateRecipeFormWrapper({
       }
 
       const responseData = await response.json();
-      console.log(responseData);
-      recipeId = responseData.id;
+      // console.log(responseData);
+      recipeId = responseData.recipe?.id;
 
-      if (coverImage) {
-        const uploadedImageResponse = await handleImageUpload(recipeId);
+      // if (coverImage) {
+      //   const uploadedImageResponse = await handleImageUpload(recipeId);
 
-        if (!uploadedImageResponse) {
-          console.error("Bild-Upload fehlgeschlagen.");
-          return;
-        }
-      }
+      //   if (!uploadedImageResponse) {
+      //     console.error("Bild-Upload fehlgeschlagen.");
+      //     return;
+      //   }
+      // }
 
       toast({
         variant: "default",
         title: "Erfolgreich!",
         description: "Das Rezept wurde erfolgreich erstellt.",
       });
+
+      console.log("Payload:", payload);
 
       router.push("/my-recipes");
     } catch (error) {
@@ -219,6 +229,8 @@ export function CreateRecipeFormWrapper({
             if (fieldName === "cover_image") {
               setCoverImage(file);
             }
+            form.setValue(fieldName, file);
+            form.trigger(fieldName);
           }}
         />
 
@@ -254,9 +266,7 @@ export function CreateRecipeFormWrapper({
           )}
         />
 
-        {tags.length > 0 && (
-          <SeasonCheckbox control={form.control} tags={tags} />
-        )}
+        <SeasonCheckbox control={form.control} seasons={tags} />
 
         <div className="flex w-full justify-between">
           <Button

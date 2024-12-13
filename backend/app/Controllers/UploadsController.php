@@ -60,7 +60,7 @@ class UploadsController {
             $extension = $file->getClientOriginalExtension();
     
             $uniqueFilename = $filename . '_' . Str::random(16) . '.' . $extension;
-            $filePath = 'uploads/' . $user->id . '/' . $uniqueFilename;
+            $filePath = '/uploads/' . $user->id . '/' . $uniqueFilename;
     
             Storage::putFileAs(
                 'uploads/' . $user->id,
@@ -80,11 +80,7 @@ class UploadsController {
     
             $image->save();
     
-            // Ensure a valid relative path with a leading slash
-            return response()->json([
-                'message' => 'Image uploaded successfully.',
-                'file_path' => '/' . $filePath, 
-            ], 201);
+            return $filePath;
     
         } catch (\Exception $e) {
             return response()->json([

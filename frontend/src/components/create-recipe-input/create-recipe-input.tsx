@@ -17,7 +17,10 @@ interface CreateRecipeInputProps {
   }[];
   control: Control<CreateRecipeSchema>;
   layout?: "row" | "column";
-  onFileChange?: (fieldName: string, file: File | undefined) => void;
+  onFileChange?: (
+    fieldName: keyof CreateRecipeSchema,
+    file: File | null,
+  ) => void;
 }
 
 export function CreateRecipeInput({
@@ -42,10 +45,11 @@ export function CreateRecipeInput({
                     id={field.name}
                     type="file"
                     accept="image/*"
-                    onChange={(e) =>
-                      onFileChange &&
-                      onFileChange(field.name, e.target.files?.[0] || undefined)
-                    }
+                    onChange={(e) => {
+                      const file = e.target.files?.[0] || null;
+                      if (onFileChange) onFileChange(field.name, file);
+                      controllerField.onChange(file);
+                    }}
                   />
                 ) : (
                   <Input

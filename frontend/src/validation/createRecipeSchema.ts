@@ -69,7 +69,7 @@ export const createRecipeSchema = z.object({
   }),
   cover_image: z
     .any()
-    .nullable()
+    // .nullable()
     .refine((file) => file instanceof File || file === null, {
       message: "Ein Bild ist erforderlich.",
     })

@@ -33,6 +33,7 @@ export async function POST(request: NextRequest) {
     if (!session || !session.accessToken) {
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
+
     // send the request to the backend
     const response = await fetch(
       `${process.env.BACKEND_URL}/api/uploads?type=recipe&recipe_id=${recipeId}`,
@@ -45,7 +46,9 @@ export async function POST(request: NextRequest) {
       },
     );
 
-    const data = await response.json();
+    const data = await response.text();
+
+    console.log("data: ", data);
 
     // (optional) handle errors
     // if the response from the server is not ok, in some cases the response of the
@@ -53,10 +56,7 @@ export async function POST(request: NextRequest) {
     // !response.ok,
     // that's why we did an additional check here
     if (!response.ok) {
-      return NextResponse.json(
-        { message: data.message },
-        { status: response.status },
-      );
+      return NextResponse.json({ message: data }, { status: response.status });
     }
 
     return NextResponse.json(data, { status: 201 });
@@ -64,8 +64,7 @@ export async function POST(request: NextRequest) {
     console.error("Image upload failed: ", error);
     return NextResponse.json(
       {
-        message:
-          "There was an error in the upload. Please ensure that the image is max. 8MB.",
+        message: "There was an error in the upload.",
       },
       { status: 400 },
     );

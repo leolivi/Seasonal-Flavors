@@ -7,6 +7,7 @@ import { RecipeInstructions } from "@/components/recipe-instructions/recipe-inst
 import Heart from "@/components/ui/heart";
 import { getSeasonColor, translateSeason } from "@/utils/SeasonUtils";
 import { dataFetch } from "@/utils/data-fetch";
+import foodImage from "@/assets/images/food-image.jpg";
 
 interface RecipeData {
   id: number;
@@ -78,9 +79,7 @@ export default async function Recipe({ params }: { params: { id: number } }) {
         username={userData.username}
       />
       <ImageContainer
-        src={
-          formattedRecipeData.imageSrc || "/src/assets/images/food-image.jpg"
-        }
+        src={formattedRecipeData.imageSrc || foodImage}
         alt={`Rezept Titelbild, ${formattedRecipeData.imageAlt}`}
         width={500}
         height={300}

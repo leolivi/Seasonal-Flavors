@@ -33,7 +33,7 @@ const RecipesPage = async ({
     ? await Promise.all(
         cardData.map(async (recipe: Recipe) => {
           const imageData: ImageData[] = await dataFetch(
-            `${process.env.BACKEND_URL}/api/images?recipe_id=${recipe.id}`,
+            `${process.env.BACKEND_URL}/api/images?type=recipe&recipe_id=${recipe.id}`,
           );
           const seasonData: TagData[] = await dataFetch(
             `${process.env.BACKEND_URL}/api/recipes/${recipe.id}/tags`,
@@ -44,9 +44,14 @@ const RecipesPage = async ({
             .map((tag: TagData) => tag.name)
             .join(", ");
 
+          // const imageSrc = firstImage.file_path
+          //   ? `${process.env.BACKEND_URL}/${firstImage.file_path}`
+          //   : "";
+
           return {
             id: recipe.id,
             imageSrc: firstImage.file_path || "",
+            // imageSrc,
             imageAlt: firstImage.alt_text || recipe.title,
             title: recipe.title,
             prepDuration: recipe.prep_time,
