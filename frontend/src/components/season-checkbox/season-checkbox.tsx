@@ -1,3 +1,4 @@
+import { Control } from "react-hook-form";
 import Checkbox from "../ui/checkbox";
 import {
   FormControl,
@@ -7,13 +8,14 @@ import {
   FormLabel,
   FormMessage,
 } from "../ui/form";
+import { CreateRecipeSchema } from "@/validation/createRecipeSchema";
 
 export function SeasonCheckbox({
   control,
   tags,
 }: {
-  control: any;
-  tags: { id: string; name: string }[];
+  control: Control<CreateRecipeSchema>;
+  tags: { id: number; name: string }[];
 }) {
   return (
     <FormField
@@ -45,7 +47,7 @@ export function SeasonCheckbox({
                           const updatedSeasons = checked
                             ? [...field.value, season.id]
                             : field.value.filter(
-                                (id: string) => id !== season.id,
+                                (id: number) => id !== season.id,
                               );
 
                           field.onChange(updatedSeasons);

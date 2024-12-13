@@ -50,6 +50,9 @@ export function CreateRecipeInput({
                       if (onFileChange) onFileChange(field.name, file);
                       controllerField.onChange(file);
                     }}
+                    onBlur={controllerField.onBlur}
+                    name={controllerField.name}
+                    ref={controllerField.ref}
                   />
                 ) : (
                   <Input

@@ -68,11 +68,12 @@ export const createRecipeSchema = z.object({
     message: "Du musst mindestens eine Saison auswählen.",
   }),
   cover_image: z
-    .any()
-    // .nullable()
-    .refine((file) => file instanceof File || file === null, {
-      message: "Ein Bild ist erforderlich.",
-    })
+    .custom<File | null>()
+    .refine((file) => file !== null, "Bild ist erforderlich")
+    .refine(
+      (file) => file instanceof File || file === null,
+      "Ungültiges Dateiformat",
+    )
     .refine((file) => !file || file.size <= MAX_FILE_SIZE, {
       message: `Maximale Dateigröße ist ${MAX_FILE_SIZE / 1000000}MB.`,
     })

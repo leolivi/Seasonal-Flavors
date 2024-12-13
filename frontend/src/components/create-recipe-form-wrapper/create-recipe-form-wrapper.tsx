@@ -29,6 +29,17 @@ interface CreateRecipeFormWrapperProps {
   formFields: FormField[];
 }
 
+interface UserData {
+  id: string;
+  name?: string;
+  email?: string;
+}
+
+interface Tag {
+  id: string;
+  name: string;
+}
+
 export function CreateRecipeFormWrapper({
   formFields,
 }: CreateRecipeFormWrapperProps) {
@@ -37,9 +48,9 @@ export function CreateRecipeFormWrapper({
   const [editorContent, setEditorContent] = useState<
     ProseMirrorNode | undefined
   >(undefined);
-  const [userData, setUserData] = useState<any>(null);
+  const [userData, setUserData] = useState<UserData | null>(null);
   const [coverImage, setCoverImage] = useState<File | null>();
-  const [tags, setTags] = useState<{ id: string; name: string }[]>([]);
+  const [tags, setTags] = useState<{ id: number; name: string }[]>([]);
   const [ingredients, setIngredients] = useState<string[]>([""]);
   const { toast } = useToast();
 
@@ -86,44 +97,50 @@ export function CreateRecipeFormWrapper({
           `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/tags`,
         );
 
-        setTags(tagsData);
+        const translatedTags = tagsData.map((tag: Tag) => ({
+          id: tag.id,
+          name: translateSeason(tag.name),
+        }));
+
+        setTags(translatedTags);
       }
     };
 
     fetchData();
-  }, [session]);
+  }, [session, form, ingredients]);
 
   // function to handle uploading an image to the server
-  // const handleImageUpload = async (recipeId: string) => {
-  //   if (!coverImage) return null;
+  const handleImageUpload = async (recipeId: string) => {
+    if (!coverImage) return null;
 
-  //   const formData = new FormData();
-  //   formData.append("file", coverImage);
-  //   formData.append("type", "recipe");
-  //   formData.append("recipe_id", recipeId);
+    const formData = new FormData();
+    formData.append("file", coverImage);
+    formData.append("type", "recipe");
+    formData.append("alt_text", `Titelbild Rezept ${form.getValues("title")}`);
+    formData.append("recipe_id", recipeId);
 
-  //   try {
-  //     const response = await fetch("/api/upload-image", {
-  //       method: "POST",
-  //       body: formData,
-  //     });
+    try {
+      const response = await fetch("/api/upload-image", {
+        method: "POST",
+        body: formData,
+      });
 
-  //     const data = await response.json();
+      const data = await response.json();
 
-  //     if (!response.ok) {
-  //       toast({
-  //         variant: "destructive",
-  //         title: "Fehler",
-  //         description: "Bild-Upload fehlgeschlagen.",
-  //       });
-  //       throw new Error(data.message || "Image upload failed");
-  //     }
-  //     return data;
-  //   } catch (error) {
-  //     console.error("Bild-Upload fehlgeschlagen:", error);
-  //     return null;
-  //   }
-  // };
+      if (!response.ok) {
+        toast({
+          variant: "destructive",
+          title: "Fehler",
+          description: "Bild-Upload fehlgeschlagen.",
+        });
+        throw new Error(data.message || "Image upload failed");
+      }
+      return data;
+    } catch (error) {
+      console.error("Bild-Upload fehlgeschlagen:", error);
+      return null;
+    }
+  };
 
   const handleCreateRecipe = async (data: CreateRecipeSchema) => {
     if (!userData) {
@@ -131,15 +148,14 @@ export function CreateRecipeFormWrapper({
       return;
     }
 
-    // if (!data.cover_image) {
-    //   console.error("Bild ist erforderlich.");
-    //   return;
-    // }
+    if (!data.cover_image) {
+      console.error("Bild ist erforderlich.");
+      return;
+    }
 
     console.log("tags in form data:", data.tags);
 
     let recipeId = null;
-    let imageId = null;
 
     try {
       // 1. Create the recipe
@@ -151,7 +167,6 @@ export function CreateRecipeFormWrapper({
         steps: JSON.stringify(editorContent),
         user_id: userData.id,
         tags: data.tags,
-        image_id: imageId,
       };
 
       const response = await fetch("/api/create-recipe", {
@@ -177,14 +192,14 @@ export function CreateRecipeFormWrapper({
       // console.log(responseData);
       recipeId = responseData.recipe?.id;
 
-      // if (coverImage) {
-      //   const uploadedImageResponse = await handleImageUpload(recipeId);
+      if (coverImage) {
+        const uploadedImageResponse = await handleImageUpload(recipeId);
 
-      //   if (!uploadedImageResponse) {
-      //     console.error("Bild-Upload fehlgeschlagen.");
-      //     return;
-      //   }
-      // }
+        if (!uploadedImageResponse) {
+          console.error("Bild-Upload fehlgeschlagen.");
+          return;
+        }
+      }
 
       toast({
         variant: "default",
