@@ -67,7 +67,7 @@ export function CreateRecipeFormWrapper({
       servings: null,
       steps: { type: "doc", content: [] },
       ingredients: ingredients.filter(Boolean).join(", "),
-      seasons: [],
+      tags: [],
       cover_image: null,
     },
   });
@@ -136,7 +136,7 @@ export function CreateRecipeFormWrapper({
     //   return;
     // }
 
-    console.log("Seasons in form data:", data.seasons);
+    console.log("tags in form data:", data.tags);
 
     let recipeId = null;
     let imageId = null;
@@ -150,7 +150,7 @@ export function CreateRecipeFormWrapper({
         servings: data.servings,
         steps: JSON.stringify(editorContent),
         user_id: userData.id,
-        seasons: data.seasons,
+        tags: data.tags,
         image_id: imageId,
       };
 
@@ -266,7 +266,7 @@ export function CreateRecipeFormWrapper({
           )}
         />
 
-        <SeasonCheckbox control={form.control} seasons={tags} />
+        <SeasonCheckbox control={form.control} tags={tags} />
 
         <div className="flex w-full justify-between">
           <Button

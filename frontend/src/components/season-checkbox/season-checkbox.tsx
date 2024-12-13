@@ -10,15 +10,15 @@ import {
 
 export function SeasonCheckbox({
   control,
-  seasons,
+  tags,
 }: {
   control: any;
-  seasons: { id: string; name: string }[];
+  tags: { id: string; name: string }[];
 }) {
   return (
     <FormField
       control={control}
-      name="seasons"
+      name="tags"
       render={() => (
         <FormItem>
           <div className="mb-4">
@@ -28,29 +28,27 @@ export function SeasonCheckbox({
               Saison sind.
             </FormDescription>
           </div>
-          {seasons.map((season) => {
+          {tags.map((season) => {
             const checkboxId = `season-${season.id}`;
             return (
               <FormField
                 key={season.id}
                 control={control}
-                name="seasons"
+                name="tags"
                 render={({ field }) => (
                   <FormItem className="flex flex-row items-start space-x-3 space-y-0">
                     <FormControl>
                       <Checkbox
                         id={checkboxId}
-                        checked={field.value?.includes(season.name)}
+                        checked={field.value?.includes(season.id)}
                         onCheckedChange={(checked) => {
-                          console.log("Before Update:", field.value);
                           const updatedSeasons = checked
-                            ? [...field.value, season.name]
+                            ? [...field.value, season.id]
                             : field.value.filter(
-                                (name: string) => name !== season.name,
+                                (id: string) => id !== season.id,
                               );
 
                           field.onChange(updatedSeasons);
-                          console.log("After Update:", updatedSeasons);
                         }}
                       />
                     </FormControl>

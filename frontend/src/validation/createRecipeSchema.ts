@@ -64,7 +64,7 @@ export const createRecipeSchema = z.object({
     .string()
     .min(1, "Zutaten sind erforderlich.")
     .max(2000, "Zutaten dürfen maximal 2000 Zeichen lang sein."),
-  seasons: z.array(z.string()).refine((value) => value.some((item) => item), {
+  tags: z.array(z.number()).refine((value) => value.some((item) => item), {
     message: "Du musst mindestens eine Saison auswählen.",
   }),
   cover_image: z
