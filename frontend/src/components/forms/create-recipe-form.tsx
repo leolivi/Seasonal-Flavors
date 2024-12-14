@@ -1,5 +1,5 @@
-import { CreateRecipeFormWrapper } from "../create-recipe-form-wrapper/create-recipe-form-wrapper";
 import { CreateRecipeSchema } from "@/validation/createRecipeSchema";
+import CreateRecipeFormWrapper from "../create-recipe-form-wrapper/create-recipe-form-wrapper";
 
 type FormFieldName = keyof CreateRecipeSchema;
 

@@ -84,6 +84,7 @@ const FilterBar = ({
     <div className="mb-4 flex justify-between gap-2 max-[640px]:mt-8 min-[640px]:pl-6 min-[640px]:pr-7">
       {/* Toggle Favorites Button */}
       <button
+        data-testid="favorites-toggle-button"
         onClick={toggleFavorites}
         className={`border-${seasonalColor}-dark flex items-center gap-4 border-b-2 px-8 text-lg font-medium text-sfblack max-[540px]:px-4`}
       >

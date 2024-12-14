@@ -11,10 +11,10 @@ export const RecipeInstructions = ({ steps }: RecipeInstructionsProps) => {
     const parsedSteps = JSON.parse(steps);
     if (parsedSteps?.content) {
       instructions = parsedSteps.content
-        .map((item: any) => {
+        .map((item: { type: string; content?: { text?: string }[] }) => {
           if (item.type === "paragraph" && item.content) {
             return item.content
-              .map((innerItem: any) => innerItem.text || "")
+              .map((innerItem: { text?: string }) => innerItem.text || "")
               .join("");
           }
           return "";

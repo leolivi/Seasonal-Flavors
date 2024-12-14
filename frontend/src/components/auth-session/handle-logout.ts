@@ -1,7 +1,9 @@
-import { useToast } from "@/hooks/use-toast";
 import { signOut } from "next-auth/react";
+import { useToast } from "@/hooks/use-toast";
 
+// eslint-disable-next-line react-hooks/rules-of-hooks
 const { toast } = useToast();
+
 export const handleLogout = async () => {
   try {
     toast({

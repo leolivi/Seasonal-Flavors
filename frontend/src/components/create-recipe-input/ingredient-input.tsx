@@ -49,18 +49,23 @@ export function IngredientInput<T extends FieldValues>({
       control={control}
       name={name}
       render={({ field }) => (
-        <FormItem>
-          <FormLabel>Zutaten</FormLabel>
+        <FormItem data-testid="ingredient-form-item">
+          <FormLabel data-testid="ingredient-label">Zutaten</FormLabel>
           <FormControl>
-            <div className="space-y-2">
+            <div className="space-y-2" data-testid="ingredients-container">
               {ingredients.map((ingredient, index) => (
-                <div key={index} className="flex items-center space-x-2">
+                <div
+                  key={index}
+                  className="flex items-center space-x-2"
+                  data-testid={`ingredient-row-${index}`}
+                >
                   <Input
                     value={ingredient}
                     onChange={(e) => {
                       updateIngredient(index, e.target.value);
                       field.onChange(ingredients.filter(Boolean).join(", "));
                     }}
+                    data-testid={`ingredient-input-${index}`}
                   />
                   <Cross
                     className="m-2 w-6 cursor-pointer stroke-sfblack stroke-2"
@@ -68,7 +73,7 @@ export function IngredientInput<T extends FieldValues>({
                       removeIngredient(index);
                       field.onChange(ingredients.filter(Boolean).join(", "));
                     }}
-                    data-testid="cross-icon"
+                    data-testid={`remove-ingredient-${index}`}
                   />
                 </div>
               ))}
@@ -80,10 +85,11 @@ export function IngredientInput<T extends FieldValues>({
                   addIngredient();
                   field.onChange(ingredients.filter(Boolean).join(", "));
                 }}
+                data-testid="add-ingredient-button"
               />
             </div>
           </FormControl>
-          <FormMessage />
+          <FormMessage data-testid="ingredient-form-message" />
         </FormItem>
       )}
     />

@@ -25,6 +25,7 @@ interface ButtonProps {
   size?: ButtonSize;
   recipeSeasonColor?: string;
   type?: "submit" | "button";
+  dataTestId?: string;
 }
 
 export const Button: React.FC<ButtonProps> = ({
@@ -36,6 +37,7 @@ export const Button: React.FC<ButtonProps> = ({
   size = ButtonSize.LARGE,
   recipeSeasonColor,
   type = "button",
+  dataTestId,
 }) => {
   const seasonalColor = getSeasonColor();
 
@@ -68,6 +70,7 @@ export const Button: React.FC<ButtonProps> = ({
       className={`${baseStyles} ${styleClasses[style]} ${sizeClasses[size]}`}
       type={type}
       onClick={onClick}
+      data-testid={dataTestId}
     >
       {iconLeft && <span className="mr-2">{iconLeft}</span>}
       <Typography variant={typographyVariant} className="font-figtreeRegular">

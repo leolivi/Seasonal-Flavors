@@ -42,7 +42,7 @@ interface Tag {
   name: string;
 }
 
-export function CreateRecipeFormWrapper({
+export default function CreateRecipeFormWrapper({
   formFields,
 }: CreateRecipeFormWrapperProps) {
   const router = useRouter();

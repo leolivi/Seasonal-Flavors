@@ -51,24 +51,38 @@ export function CreateRecipeInput({
   };
 
   return (
-    <div className={layout === "row" ? "flex flex-row gap-4" : "space-y-6"}>
+    <div
+      className={layout === "row" ? "flex flex-row gap-4" : "space-y-6"}
+      data-testid="create-recipe-form"
+    >
       {fields.map((field) => (
         <FormField
           key={field.name}
           control={control}
           name={field.name}
           render={({ field: controllerField }) => (
-            <FormItem className={layout === "row" ? "flex-1" : ""}>
-              <FormLabel className="font-figtreeRegular" htmlFor={field.name}>
+            <FormItem
+              className={layout === "row" ? "flex-1" : ""}
+              data-testid={`form-item-${field.name}`}
+            >
+              <FormLabel
+                className="font-figtreeRegular"
+                htmlFor={field.name}
+                data-testid={`form-label-${field.name}`}
+              >
                 {field.label}
               </FormLabel>
               <FormControl>
                 {field.type === "file" ? (
-                  <div className="flex flex-col items-center">
+                  <div
+                    className="flex flex-col items-center"
+                    data-testid={`file-upload-container-${field.name}`}
+                  >
                     <Input
                       id={field.name}
                       type="file"
                       accept="image/*"
+                      data-testid={`file-input-${field.name}`}
                       onChange={(e) => {
                         const file = e.target.files?.[0] || null;
                         handleFileChange(field.name, file);
@@ -79,7 +93,10 @@ export function CreateRecipeInput({
                       ref={controllerField.ref}
                     />
                     {previewUrls[field.name] && (
-                      <div className="mt-2">
+                      <div
+                        className="mt-2"
+                        data-testid={`image-preview-${field.name}`}
+                      >
                         <Image
                           src={previewUrls[field.name]}
                           alt={`Preview of ${field.label}`}
@@ -94,6 +111,7 @@ export function CreateRecipeInput({
                   <Input
                     id={field.name}
                     type={field.type || "text"}
+                    data-testid={`input-${field.name}`}
                     value={
                       typeof controllerField.value === "string" ||
                       typeof controllerField.value === "number"
@@ -112,7 +130,7 @@ export function CreateRecipeInput({
                   />
                 )}
               </FormControl>
-              <FormMessage />
+              <FormMessage data-testid={`form-message-${field.name}`} />
             </FormItem>
           )}
         />
