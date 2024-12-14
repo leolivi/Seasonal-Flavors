@@ -94,9 +94,11 @@ class ImageSeeder extends Seeder {
         ];
 
         
+        $user = User::where('email', 'yua@miau.com')->firstOrFail();
+
         foreach ($images as $imageData) {
             $recipe = Recipe::where('title', $imageData['title'])->first();
-            $user = User::where('email', 'yua@miau.com')->firstOrFail();
+
             if ($recipe) {
                 Image::updateOrCreate(
                     ['file_path' => $imageData['imageSrc']],
@@ -104,10 +106,11 @@ class ImageSeeder extends Seeder {
                         'file_path' => $imageData['imageSrc'],
                         'alt_text' => $imageData['imageAlt'] ?? null,
                         'recipe_id' => $recipe->id,
-                        // 'user_id' => $user->id,
+                        'user_id' => $user->id, 
                     ]
                 );
             }
         }
+    
     }
 }

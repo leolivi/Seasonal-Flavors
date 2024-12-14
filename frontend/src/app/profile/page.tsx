@@ -24,11 +24,12 @@ async function fetchUserProfile(accessToken: string): Promise<UserData> {
     accessToken,
   );
 
-  // Fetch user image data
+  // Fetch user image data for type=profile
   const imageData = await dataFetchWithToken(
-    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/images?user_id=${profile.id}&recipe_id=null`,
+    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/images?user_id=${profile.id}&type=profile`,
     accessToken,
   );
+
   const userImage = imageData[0] || {};
 
   return {
@@ -58,7 +59,6 @@ const Profile = () => {
     loadUserProfile();
   }, [status, session?.accessToken]);
 
-  // If session is loading or user data is not available, show loading state
   if (status === "loading" || !userData) {
     return <SessionLoader />;
   }

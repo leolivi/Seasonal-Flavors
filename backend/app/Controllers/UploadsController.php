@@ -15,35 +15,65 @@ class UploadsController {
     @return Image[]
     @desc fetch images for a recipe or user
     */
+    // function index(Request $request) {
+	// 	$recipeId = $request->query('recipe_id');
+    //     $userId = $request->query('user_id');
+
+    //     $query = Image::query();
+
+    //     // Filter by recipe_id
+    //     if ($recipeId !== null) {
+    //         if ($recipeId === 'null') {
+    //             // Explicitly check for images where recipe_id is null
+    //             $query->whereNull('recipe_id');
+    //         } else {
+    //             $query->where('recipe_id', $recipeId);
+    //         }
+    //     }
+
+    //     // Filter by user_id
+    //     if ($userId) {
+    //         $query->where('user_id', $userId);
+    //     }
+
+    //     return $query->get();
+	// }
+
     function index(Request $request) {
-		$recipeId = $request->query('recipe_id');
-        $userId = $request->query('user_id');
-
         $query = Image::query();
-
-        // Filter by recipe_id
-        if ($recipeId !== null) {
-            if ($recipeId === 'null') {
-                // Explicitly check for images where recipe_id is null
-                $query->whereNull('recipe_id');
-            } else {
-                $query->where('recipe_id', $recipeId);
+    
+        if ($request->has('recipe_id')) {
+            $query->where('recipe_id', $request->query('recipe_id'));
+        }
+    
+        $images = $query->get();
+    
+        $imagesWithUrls = $images->map(function ($image) {
+            if (filter_var($image->file_path, FILTER_VALIDATE_URL)) {
+                // Externe URL unverändert zurückgeben
+                return [
+                    'id' => $image->id,
+                    'file_path' => $image->file_path,
+                    'alt_text' => $image->alt_text,
+                ];
             }
-        }
-
-        // Filter by user_id
-        if ($userId) {
-            $query->where('user_id', $userId);
-        }
-
-        return $query->get();
-	}
+    
+            // Für lokale Pfade das "uploads/"-Präfix hinzufügen
+            return [
+                'id' => $image->id,
+                'file_path' => url('uploads/' . $image->file_path),
+                'alt_text' => $image->alt_text,
+            ];
+        });
+    
+        return response()->json($imagesWithUrls, 200);
+    }
 
     /*
     @return string|bool
     @desc Uploads a file
     */
-    function create (Request $request): string|bool {
+    function create(Request $request): string|bool {
         $user = \Auth::user();
     
         try {
@@ -60,7 +90,7 @@ class UploadsController {
             $extension = $file->getClientOriginalExtension();
     
             $uniqueFilename = $filename . '_' . Str::random(16) . '.' . $extension;
-            $filePath = '/uploads/' . $user->id . '/' . $uniqueFilename;
+            $filePath = $user->id . '/' . $uniqueFilename; 
     
             Storage::putFileAs(
                 'uploads/' . $user->id,
@@ -69,7 +99,7 @@ class UploadsController {
             );
     
             $image = new Image([
-                'file_path' => $filePath,
+                'file_path' => $filePath, 
                 'alt_text' => $request->post('alt_text', ''),
                 'user_id' => $user->id,
             ]);
@@ -88,6 +118,7 @@ class UploadsController {
             ], 400);
         }
     }
+    
     
     
 
