@@ -1,5 +1,4 @@
-// components/IngredientInput.tsx
-import React from "react";
+import React, { useState } from "react";
 import {
   FormField,
   FormItem,
@@ -24,11 +23,27 @@ interface IngredientInputProps<T extends FieldValues> {
 export function IngredientInput<T extends FieldValues>({
   control,
   name,
-  ingredients,
-  updateIngredient,
-  removeIngredient,
-  addIngredient,
-}: IngredientInputProps<T>) {
+}: Omit<
+  IngredientInputProps<T>,
+  "ingredients" | "updateIngredient" | "removeIngredient" | "addIngredient"
+>) {
+  const [ingredients, setIngredients] = useState<string[]>([""]);
+
+  const updateIngredient = (index: number, value: string) => {
+    const newIngredients = [...ingredients];
+    newIngredients[index] = value;
+    setIngredients(newIngredients);
+  };
+
+  const removeIngredient = (index: number) => {
+    const newIngredients = ingredients.filter((_, i) => i !== index);
+    setIngredients(newIngredients);
+  };
+
+  const addIngredient = () => {
+    setIngredients([...ingredients, ""]);
+  };
+
   return (
     <FormField
       control={control}

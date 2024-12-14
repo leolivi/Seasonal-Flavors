@@ -21,7 +21,9 @@ export default function CreateRecipe() {
           <h1>Rezept erstellen</h1>
         </Typography>
       </div>
-      <CreateRecipeForm />
+      <div className="flex justify-center">
+        <CreateRecipeForm />
+      </div>
     </div>
   );
 }

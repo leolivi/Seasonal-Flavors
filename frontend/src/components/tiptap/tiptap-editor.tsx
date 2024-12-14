@@ -2,9 +2,8 @@
 
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
-import { Bold, Heading1, Heading2, Heading3, Italic, List } from "lucide-react";
+import { Bold, Heading1, Heading2, Heading3, Italic } from "lucide-react";
 import { ToggleGroup, ToggleGroupItem } from "../ui/toggle-group";
-import BulletList from "@tiptap/extension-bullet-list";
 import ListItem from "@tiptap/extension-list-item";
 import { getSeasonColor } from "@/utils/SeasonUtils";
 import { FormLabel, useFormField } from "../ui/form";
@@ -34,7 +33,6 @@ export const TipTapEditor = ({
       StarterKit.configure({
         listItem: false,
       }),
-      // BulletList,
       ListItem,
     ],
     editorProps: {
@@ -63,7 +61,9 @@ export const TipTapEditor = ({
         variant="outline"
         className="mt-6 justify-between gap-5"
       >
-        <FormLabel htmlFor="steps">Zubereitung</FormLabel>
+        <FormLabel htmlFor="steps" className="font-figtreeRegular">
+          Zubereitung
+        </FormLabel>
         <div className="flex gap-2">
           <ToggleGroupItem
             value="bold"

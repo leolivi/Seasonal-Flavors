@@ -69,7 +69,7 @@ export const createRecipeSchema = z.object({
   }),
   cover_image: z
     .custom<File | null>()
-    .refine((file) => file !== null, "Bild ist erforderlich")
+    .refine((file) => file !== null, "Bild ist erforderlich.")
     .refine(
       (file) => file instanceof File || file === null,
       "Ungültiges Dateiformat",

@@ -8,6 +8,8 @@ import {
 import { Input } from "@/components/ui/input";
 import { Control } from "react-hook-form";
 import { CreateRecipeSchema } from "@/validation/createRecipeSchema";
+import { useState } from "react";
+import Image from "next/image";
 
 interface CreateRecipeInputProps {
   fields: {
@@ -29,6 +31,25 @@ export function CreateRecipeInput({
   layout = "column",
   onFileChange,
 }: CreateRecipeInputProps) {
+  const [previewUrls, setPreviewUrls] = useState<Record<string, string>>({});
+
+  const handleFileChange = (
+    fieldName: keyof CreateRecipeSchema,
+    file: File | null,
+  ) => {
+    if (file) {
+      const url = URL.createObjectURL(file);
+      setPreviewUrls((prev) => ({ ...prev, [fieldName]: url }));
+    } else {
+      setPreviewUrls((prev) => {
+        const updated = { ...prev };
+        delete updated[fieldName];
+        return updated;
+      });
+    }
+    if (onFileChange) onFileChange(fieldName, file);
+  };
+
   return (
     <div className={layout === "row" ? "flex flex-row gap-4" : "space-y-6"}>
       {fields.map((field) => (
@@ -38,22 +59,37 @@ export function CreateRecipeInput({
           name={field.name}
           render={({ field: controllerField }) => (
             <FormItem className={layout === "row" ? "flex-1" : ""}>
-              <FormLabel htmlFor={field.name}>{field.label}</FormLabel>
+              <FormLabel className="font-figtreeRegular" htmlFor={field.name}>
+                {field.label}
+              </FormLabel>
               <FormControl>
                 {field.type === "file" ? (
-                  <Input
-                    id={field.name}
-                    type="file"
-                    accept="image/*"
-                    onChange={(e) => {
-                      const file = e.target.files?.[0] || null;
-                      if (onFileChange) onFileChange(field.name, file);
-                      controllerField.onChange(file);
-                    }}
-                    onBlur={controllerField.onBlur}
-                    name={controllerField.name}
-                    ref={controllerField.ref}
-                  />
+                  <div className="flex flex-col items-center">
+                    <Input
+                      id={field.name}
+                      type="file"
+                      accept="image/*"
+                      onChange={(e) => {
+                        const file = e.target.files?.[0] || null;
+                        handleFileChange(field.name, file);
+                        controllerField.onChange(file);
+                      }}
+                      onBlur={controllerField.onBlur}
+                      name={controllerField.name}
+                      ref={controllerField.ref}
+                    />
+                    {previewUrls[field.name] && (
+                      <div className="mt-2">
+                        <Image
+                          src={previewUrls[field.name]}
+                          alt={`Preview of ${field.label}`}
+                          width={200}
+                          height={200}
+                          className="rounded-md object-cover"
+                        />
+                      </div>
+                    )}
+                  </div>
                 ) : (
                   <Input
                     id={field.name}

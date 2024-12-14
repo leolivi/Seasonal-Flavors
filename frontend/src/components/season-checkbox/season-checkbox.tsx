@@ -24,8 +24,10 @@ export function SeasonCheckbox({
       render={() => (
         <FormItem>
           <div className="mb-4">
-            <FormLabel className="text-base">Saison</FormLabel>
-            <FormDescription>
+            <FormLabel className="font-figtreeRegular text-base">
+              Saison
+            </FormLabel>
+            <FormDescription className="font-figtreeRegular">
               Wähle die Jahreszeiten aus, in denen die Zutaten des Rezeptes in
               Saison sind.
             </FormDescription>
@@ -38,7 +40,7 @@ export function SeasonCheckbox({
                 control={control}
                 name="tags"
                 render={({ field }) => (
-                  <FormItem className="flex flex-row items-start space-x-3 space-y-0">
+                  <FormItem className="flex flex-row items-center justify-start space-x-3 space-y-0">
                     <FormControl>
                       <Checkbox
                         id={checkboxId}
@@ -54,7 +56,11 @@ export function SeasonCheckbox({
                         }}
                       />
                     </FormControl>
-                    <FormLabel htmlFor={checkboxId} className="font-normal">
+
+                    <FormLabel
+                      htmlFor={checkboxId}
+                      className="font-figtreeRegular text-2xl"
+                    >
                       {season.name}
                     </FormLabel>
                   </FormItem>

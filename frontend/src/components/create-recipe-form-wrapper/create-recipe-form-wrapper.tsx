@@ -18,6 +18,8 @@ import { useSession } from "next-auth/react";
 import { useToast } from "@/hooks/use-toast";
 import { IngredientInput } from "../create-recipe-input/ingredient-input";
 import { translateSeason } from "@/utils/SeasonUtils";
+import { handleImageUpload } from "@/services/recipe/imageUpload";
+import { handleCreateRecipe } from "@/services/recipe/recipeCreate";
 
 interface FormField {
   name: keyof CreateRecipeSchema;
@@ -51,23 +53,7 @@ export function CreateRecipeFormWrapper({
   const [userData, setUserData] = useState<UserData | null>(null);
   const [coverImage, setCoverImage] = useState<File | null>();
   const [tags, setTags] = useState<{ id: number; name: string }[]>([]);
-  const [ingredients, setIngredients] = useState<string[]>([""]);
   const { toast } = useToast();
-
-  const addIngredient = () => {
-    setIngredients([...ingredients, ""]);
-  };
-
-  const removeIngredient = (index: number) => {
-    const newIngredients = ingredients.filter((_, i) => i !== index);
-    setIngredients(newIngredients);
-  };
-
-  const updateIngredient = (index: number, value: string) => {
-    const newIngredients = [...ingredients];
-    newIngredients[index] = value;
-    setIngredients(newIngredients);
-  };
 
   const form = useForm<CreateRecipeSchema>({
     resolver: zodResolver(createRecipeSchema),
@@ -77,14 +63,13 @@ export function CreateRecipeFormWrapper({
       prep_time: null,
       servings: null,
       steps: { type: "doc", content: [] },
-      ingredients: ingredients.filter(Boolean).join(", "),
+      ingredients: "",
       tags: [],
-      cover_image: null,
+      cover_image: undefined,
     },
   });
 
   useEffect(() => {
-    form.setValue("ingredients", ingredients.filter(Boolean).join(", "));
     const fetchData = async () => {
       if (session?.accessToken) {
         const user = await dataFetchWithToken(
@@ -107,117 +92,20 @@ export function CreateRecipeFormWrapper({
     };
 
     fetchData();
-  }, [session, form, ingredients]);
+  }, [session, form]);
 
-  // function to handle uploading an image to the server
-  const handleImageUpload = async (recipeId: string) => {
-    if (!coverImage) return null;
+  const onSubmit = async (data: CreateRecipeSchema) => {
+    console.log(data.cover_image);
+    const recipeId = await handleCreateRecipe({
+      data,
+      userData,
+      editorContent,
+      toast,
+      router,
+    });
 
-    const formData = new FormData();
-    formData.append("file", coverImage);
-    formData.append("type", "recipe");
-    formData.append("alt_text", `Titelbild Rezept ${form.getValues("title")}`);
-    formData.append("recipe_id", recipeId);
-
-    try {
-      const response = await fetch("/api/upload-image", {
-        method: "POST",
-        body: formData,
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        toast({
-          variant: "destructive",
-          title: "Fehler",
-          description: "Bild-Upload fehlgeschlagen.",
-        });
-        throw new Error(data.message || "Image upload failed");
-      }
-      return data;
-    } catch (error) {
-      console.error("Bild-Upload fehlgeschlagen:", error);
-      return null;
-    }
-  };
-
-  const handleCreateRecipe = async (data: CreateRecipeSchema) => {
-    if (!userData) {
-      console.error("Benutzerdaten sind nicht verfügbar");
-      return;
-    }
-
-    if (!data.cover_image) {
-      console.error("Bild ist erforderlich.");
-      return;
-    }
-
-    console.log("tags in form data:", data.tags);
-
-    let recipeId = null;
-
-    try {
-      // 1. Create the recipe
-      const payload = {
-        ...data,
-        cooking_time: data.cooking_time,
-        prep_time: data.prep_time,
-        servings: data.servings,
-        steps: JSON.stringify(editorContent),
-        user_id: userData.id,
-        tags: data.tags,
-      };
-
-      const response = await fetch("/api/create-recipe", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(payload),
-      });
-
-      if (!response.ok) {
-        toast({
-          variant: "destructive",
-          title: "Fehler",
-          description: "Rezept-Erstellung fehlgeschlagen.",
-        });
-        const error = await response.json();
-        console.error("Fehler beim Erstellen des Rezepts:", error);
-        return;
-      }
-
-      const responseData = await response.json();
-      // console.log(responseData);
-      recipeId = responseData.recipe?.id;
-
-      if (coverImage) {
-        const uploadedImageResponse = await handleImageUpload(recipeId);
-
-        if (!uploadedImageResponse) {
-          console.error("Bild-Upload fehlgeschlagen.");
-          return;
-        }
-      }
-
-      toast({
-        variant: "default",
-        title: "Erfolgreich!",
-        description: "Das Rezept wurde erfolgreich erstellt.",
-      });
-
-      console.log("Payload:", payload);
-
-      router.push("/my-recipes");
-    } catch (error) {
-      console.error("Rezept-Erstellung fehlgeschlagen:", error);
-      toast({
-        variant: "destructive",
-        title: "Fehler",
-        description:
-          "Rezept-Erstellung fehlgeschlagen. Bitte erneut versuchen.",
-      });
+    if (recipeId && coverImage) {
+      await handleImageUpload(recipeId, coverImage, data.title, toast);
     }
   };
 
@@ -233,8 +121,8 @@ export function CreateRecipeFormWrapper({
   return (
     <Form {...form}>
       <form
-        onSubmit={form.handleSubmit(handleCreateRecipe)}
-        className="w-full space-y-6"
+        onSubmit={form.handleSubmit(onSubmit)}
+        className="w-full space-y-6 min-[640px]:w-5/6 min-[1020px]:w-2/3 min-[1240px]:w-1/2"
       >
         <CreateRecipeInput
           fields={singleInputs}
@@ -255,14 +143,7 @@ export function CreateRecipeFormWrapper({
           layout="row"
         />
 
-        <IngredientInput
-          control={form.control}
-          name="ingredients"
-          ingredients={ingredients}
-          updateIngredient={updateIngredient}
-          removeIngredient={removeIngredient}
-          addIngredient={addIngredient}
-        />
+        <IngredientInput control={form.control} name="ingredients" />
 
         <FormField
           control={form.control}
