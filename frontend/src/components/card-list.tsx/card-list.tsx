@@ -2,6 +2,7 @@ import Card from "../card/card";
 import Link from "next/link";
 import { LayoutOptions, LayoutOptionType } from "@/utils/layout-options";
 import React from "react";
+import foodImage from "@/assets/images/food-image.jpg";
 
 interface CardListProps {
   cardData?: {
@@ -17,7 +18,7 @@ interface CardListProps {
   showEdit?: boolean;
   style?: LayoutOptionType;
   onBookmarkClick?: (e: React.MouseEvent) => void;
-  onEditClick?: (e: React.MouseEvent) => void;
+  onEditClick: (e: React.MouseEvent, id: number) => void;
 }
 
 // Component mapping through recipe Cards
@@ -36,7 +37,8 @@ export const CardList = ({
         <React.Fragment key={item.id}>
           <Link href={`/recipes/${item.id}`} className="cursor-pointer">
             <Card
-              imageSrc={item.imageSrc}
+              id={item.id}
+              imageSrc={item.imageSrc || foodImage.src}
               imageAlt={item.imageAlt}
               title={item.title}
               prepDuration={item.prepDuration}
@@ -45,7 +47,7 @@ export const CardList = ({
               showBookmark={showBookmark}
               showEdit={showEdit}
               onBookmarkClick={onBookmarkClick}
-              onEditClick={onEditClick}
+              onEditClick={(e) => onEditClick(e, item.id)}
             />
           </Link>
         </React.Fragment>

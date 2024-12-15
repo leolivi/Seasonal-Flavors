@@ -14,20 +14,17 @@ import { Button, ButtonSize } from "../button/button";
 interface IngredientInputProps<T extends FieldValues> {
   control: Control<T>;
   name: Path<T>;
-  ingredients: string[];
-  updateIngredient: (index: number, value: string) => void;
-  removeIngredient: (index: number) => void;
-  addIngredient: () => void;
+  defaultValue?: string;
 }
 
 export function IngredientInput<T extends FieldValues>({
   control,
   name,
-}: Omit<
-  IngredientInputProps<T>,
-  "ingredients" | "updateIngredient" | "removeIngredient" | "addIngredient"
->) {
-  const [ingredients, setIngredients] = useState<string[]>([""]);
+  defaultValue,
+}: IngredientInputProps<T>) {
+  const [ingredients, setIngredients] = useState<string[]>(
+    defaultValue ? defaultValue.split(",").map((i) => i.trim()) : [""],
+  );
 
   const updateIngredient = (index: number, value: string) => {
     const newIngredients = [...ingredients];

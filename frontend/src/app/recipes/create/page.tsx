@@ -1,8 +1,8 @@
 import ScrollButton from "@/components/scroll-button/scroll-button";
 import { Typography } from "@/components/ui/typography";
 import ArrowLeft from "@/assets/icons/arrow-left.svg";
-import CreateRecipeForm from "@/components/forms/create-recipe-form";
 import Link from "next/link";
+import CreateRecipeFormWrapper from "@/components/create-recipe-form-wrapper/create-recipe-form-wrapper";
 
 export default function CreateRecipe() {
   return (
@@ -22,7 +22,7 @@ export default function CreateRecipe() {
         </Typography>
       </div>
       <div className="flex justify-center">
-        <CreateRecipeForm />
+        <CreateRecipeFormWrapper />
       </div>
     </div>
   );

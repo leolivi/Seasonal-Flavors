@@ -45,11 +45,12 @@ const CardListWrapper = ({
     }
   };
 
-  const handleEditClick = (e: React.MouseEvent) => {
+  const handleEditClick = (e: React.MouseEvent, id: number) => {
     e.preventDefault();
     e.stopPropagation();
+    console.log("ID:", id);
     if (status === "authenticated") {
-      router.push("/recipes/edit");
+      router.push(`/recipes/edit/${id}`);
     }
   };
 
@@ -61,7 +62,7 @@ const CardListWrapper = ({
     <div>
       <CardList
         onBookmarkClick={handleBookmarkClick}
-        onEditClick={handleEditClick}
+        onEditClick={(e, id) => handleEditClick(e, id)}
         showEdit={showEdit}
         cardData={cardData}
         showDetail={showDetail}

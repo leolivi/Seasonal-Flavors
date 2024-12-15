@@ -29,6 +29,7 @@ interface FormField {
 
 interface CreateRecipeFormProps {
   formFields: FormField[];
+  recipeId?: number;
 }
 
 interface UserData {
@@ -42,8 +43,9 @@ interface Tag {
   name: string;
 }
 
-export default function CreateRecipeForm({
+export default function EditRecipeForm({
   formFields,
+  recipeId,
 }: CreateRecipeFormProps) {
   const router = useRouter();
   const { data: session } = useSession();
@@ -70,7 +72,39 @@ export default function CreateRecipeForm({
   });
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchRecipeData = async () => {
+      if (recipeId) {
+        const recipeData = await dataFetch(
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/recipe?id=${recipeId}`,
+        );
+        const recipe = Array.isArray(recipeData) ? recipeData[0] : recipeData;
+
+        const ingredientsArray = recipe.ingredients
+          .split(",")
+          .map((ingredient: string) => ingredient.trim());
+
+        const seasonData = await dataFetch(
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/recipes/${recipeId}/tags`,
+        );
+        const seasonTags = seasonData.map(
+          (tag: { id: number; name: string }) => tag.name,
+        );
+
+        form.reset({
+          title: recipe.title,
+          cooking_time: recipe.cooking_time,
+          prep_time: recipe.prep_time,
+          servings: recipe.servings,
+          steps: JSON.parse(recipe.steps),
+          ingredients: ingredientsArray.join(", "),
+          tags: seasonTags,
+        });
+
+        setEditorContent(JSON.parse(recipe.steps));
+      }
+    };
+
+    const fetchUserAndTags = async () => {
       if (session?.accessToken) {
         const user = await dataFetchWithToken(
           `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/user`,
@@ -91,8 +125,9 @@ export default function CreateRecipeForm({
       }
     };
 
-    fetchData();
-  }, [session, form]);
+    fetchRecipeData();
+    fetchUserAndTags();
+  }, [recipeId, session, form]);
 
   const onSubmit = async (data: CreateRecipeSchema) => {
     console.log(data.cover_image);
@@ -143,7 +178,11 @@ export default function CreateRecipeForm({
           layout="row"
         />
 
-        <IngredientInput control={form.control} name="ingredients" />
+        <IngredientInput
+          control={form.control}
+          name="ingredients"
+          defaultValue={form.getValues("ingredients")}
+        />
 
         <FormField
           control={form.control}
@@ -151,7 +190,7 @@ export default function CreateRecipeForm({
           render={({ field }) => (
             <>
               <TipTapEditor
-                content={field.value}
+                content={editorContent}
                 onContentChange={(newContent) => {
                   setEditorContent(newContent);
                   field.onChange(newContent);
@@ -162,7 +201,11 @@ export default function CreateRecipeForm({
           )}
         />
 
-        <SeasonCheckbox control={form.control} tags={tags} />
+        <SeasonCheckbox
+          control={form.control}
+          tags={tags}
+          defaultValue={form.getValues("tags")}
+        />
 
         <div className="flex w-full justify-between">
           <Button

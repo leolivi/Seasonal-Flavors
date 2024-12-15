@@ -9,7 +9,7 @@ import { getSeasonColor, translateSeason } from "@/utils/SeasonUtils";
 import { dataFetch } from "@/utils/data-fetch";
 import foodImage from "@/assets/images/food-image.jpg";
 
-interface RecipeData {
+export interface RecipeData {
   id: number;
   title: string;
   cooking_time: number;

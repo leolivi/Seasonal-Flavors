@@ -7,6 +7,7 @@ import BookmarkButton from "../ui/bookmark";
 import { Button, ButtonSize, ButtonStyle } from "../button/button";
 
 interface CardProps {
+  id: number;
   imageSrc: string;
   imageAlt: string;
   title: string;

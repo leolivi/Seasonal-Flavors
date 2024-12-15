@@ -15,30 +15,7 @@ class UploadsController {
     @return Image[]
     @desc fetch images for a recipe or user
     */
-    // function index(Request $request) {
-	// 	$recipeId = $request->query('recipe_id');
-    //     $userId = $request->query('user_id');
-
-    //     $query = Image::query();
-
-    //     // Filter by recipe_id
-    //     if ($recipeId !== null) {
-    //         if ($recipeId === 'null') {
-    //             // Explicitly check for images where recipe_id is null
-    //             $query->whereNull('recipe_id');
-    //         } else {
-    //             $query->where('recipe_id', $recipeId);
-    //         }
-    //     }
-
-    //     // Filter by user_id
-    //     if ($userId) {
-    //         $query->where('user_id', $userId);
-    //     }
-
-    //     return $query->get();
-	// }
-
+    // TODO: fix return type
     function index(Request $request) {
         $query = Image::query();
     
@@ -50,7 +27,6 @@ class UploadsController {
     
         $imagesWithUrls = $images->map(function ($image) {
             if (filter_var($image->file_path, FILTER_VALIDATE_URL)) {
-                // Externe URL unverändert zurückgeben
                 return [
                     'id' => $image->id,
                     'file_path' => $image->file_path,
@@ -58,7 +34,6 @@ class UploadsController {
                 ];
             }
     
-            // Für lokale Pfade das "uploads/"-Präfix hinzufügen
             return [
                 'id' => $image->id,
                 'file_path' => url('uploads/' . $image->file_path),
@@ -156,5 +131,27 @@ class UploadsController {
             
         return $filename;
     }
+
+    // Funktion von Hadrian:
+    // function destroy(Request $request, $id) {
+    //     $user = Auth::user(); // Get the authenticated user
+
+    //     // Find the image by its ID and ensure it belongs to the authenticated user
+    //     $image = Image::where('id', $id)->where('user_id', $user->id)->firstOrFail();
+
+    //     // Get the pathname from the database
+    //     $pathname = $image->pathname;
+
+    //     // Check if the file exists in storage
+    //     if (Storage::exists($pathname)) {
+    //         // Delete the file from storage
+    //         Storage::delete($pathname);
+    //     }
+
+    //     // Delete the reference in the database
+    //     $image->delete();
+
+    //     return response()->json(['deleted' => $pathname, 'id' => $id], 200);
+    // }
 
 }
