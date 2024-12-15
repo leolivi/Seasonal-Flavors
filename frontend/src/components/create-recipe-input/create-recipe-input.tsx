@@ -10,6 +10,7 @@ import { Control } from "react-hook-form";
 import { CreateRecipeSchema } from "@/validation/createRecipeSchema";
 import { useState } from "react";
 import Image from "next/image";
+import { EditRecipeSchema } from "@/validation/editRecipeSchema";
 
 interface CreateRecipeInputProps {
   fields: {
@@ -17,12 +18,9 @@ interface CreateRecipeInputProps {
     label: string;
     type?: string;
   }[];
-  control: Control<CreateRecipeSchema>;
+  control: Control<EditRecipeSchema>;
   layout?: "row" | "column";
-  onFileChange?: (
-    fieldName: keyof CreateRecipeSchema,
-    file: File | null,
-  ) => void;
+  onFileChange?: (fieldName: keyof EditRecipeSchema, file: File | null) => void;
 }
 
 export function CreateRecipeInput({

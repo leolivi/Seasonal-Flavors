@@ -1,5 +1,4 @@
 /** @type {import('next').NextConfig} */
-// import svgr from "@svgr/webpack";
 
 const nextConfig = {
   images: {
@@ -19,6 +18,27 @@ const nextConfig = {
         hostname: "images.unsplash.com",
       },
     ],
+  },
+  async headers() {
+    return [
+      {
+        source: "/api/:path*",
+        headers: [
+          {
+            key: "Access-Control-Allow-Origin",
+            value: "*",
+          },
+          {
+            key: "Access-Control-Allow-Methods",
+            value: "GET, POST, PATCH, DELETE, OPTIONS",
+          },
+          {
+            key: "Access-Control-Allow-Headers",
+            value: "Authorization, Content-Type",
+          },
+        ],
+      },
+    ];
   },
   webpack(config) {
     config.module.rules.push({

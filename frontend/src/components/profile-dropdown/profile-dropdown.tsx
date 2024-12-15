@@ -14,8 +14,8 @@ import { toast } from "@/hooks/use-toast";
 import { signOut, useSession } from "next-auth/react";
 import { Typography } from "../ui/typography";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
-import useMediaQuery from "@/utils/useMediaQuery";
-import { dataFetchWithToken } from "@/utils/data-fetch";
+import useMediaQuery from "@/hooks/useMediaQuery";
+import { dataFetchWithToken } from "@/lib/data-fetch";
 
 interface UserData {
   id: number;

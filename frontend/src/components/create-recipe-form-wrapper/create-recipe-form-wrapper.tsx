@@ -1,6 +1,7 @@
 import { CreateRecipeSchema } from "@/validation/createRecipeSchema";
 import CreateRecipeForm from "../forms/create-recipe-form";
 import EditRecipeForm from "../forms/edit-recipe-form";
+import { RecipeData, UserData } from "@/app/recipes/[id]/page";
 
 type FormFieldName = keyof CreateRecipeSchema;
 
@@ -12,11 +13,15 @@ interface FormField {
 }
 
 interface CreateRecipeFormWrapperProps {
-  data?: number;
+  recipeData?: RecipeData;
+  tags?: { id: number; name: string }[];
+  user?: UserData;
 }
 
 export default function CreateRecipeFormWrapper({
-  data,
+  recipeData,
+  tags,
+  user,
 }: CreateRecipeFormWrapperProps) {
   const formFields: FormField[] = [
     { name: "title", label: "Rezepttitel", placeholder: "Rezepttitel" },
@@ -46,8 +51,13 @@ export default function CreateRecipeFormWrapper({
     },
   ];
 
-  return data ? (
-    <EditRecipeForm formFields={formFields} recipeId={data} />
+  return recipeData ? (
+    <EditRecipeForm
+      formFields={formFields}
+      recipeData={recipeData}
+      tags={tags || []}
+      user={user!}
+    />
   ) : (
     <CreateRecipeForm formFields={formFields} />
   );

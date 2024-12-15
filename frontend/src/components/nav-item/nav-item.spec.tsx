@@ -1,7 +1,7 @@
 // components/NavItem.test.js
 import { render, screen } from "@testing-library/react";
 import { Season } from "@/utils/Season";
-import useMediaQuery from "@/utils/useMediaQuery";
+import useMediaQuery from "@/hooks/useMediaQuery";
 import NavItem, { NavStyle } from "./nav-item";
 import { useSession } from "next-auth/react";
 

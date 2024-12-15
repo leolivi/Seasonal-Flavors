@@ -5,7 +5,7 @@ import NavList from "@/components/nav-list/nav-list";
 import Logo from "@/components/ui/logo";
 import { NavStyle } from "@/components/nav-item/nav-item";
 import { getSeasonColor } from "@/utils/SeasonUtils";
-import useMediaQuery from "@/utils/useMediaQuery";
+import useMediaQuery from "@/hooks/useMediaQuery";
 
 const FooterContainer = ({ color, children }: FooterProps) => (
   <footer

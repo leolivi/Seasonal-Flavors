@@ -4,139 +4,68 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Form, FormField, FormMessage } from "@/components/ui/form";
 import { Button, ButtonSize, ButtonStyle } from "../button/button";
-import {
-  createRecipeSchema,
-  CreateRecipeSchema,
-} from "@/validation/createRecipeSchema";
 import { SeasonCheckbox } from "../season-checkbox/season-checkbox";
 import { useRouter } from "next/navigation";
 import { CreateRecipeInput } from "../create-recipe-input/create-recipe-input";
 import { ProseMirrorNode, TipTapEditor } from "../tiptap/tiptap-editor";
-import { useEffect, useState } from "react";
-import { dataFetch, dataFetchWithToken } from "@/utils/data-fetch";
-import { useSession } from "next-auth/react";
+import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { IngredientInput } from "../create-recipe-input/ingredient-input";
-import { translateSeason } from "@/utils/SeasonUtils";
 import { handleImageUpload } from "@/services/recipe/imageUpload";
-import { handleCreateRecipe } from "@/services/recipe/recipeCreate";
+import { RecipeData, UserData } from "@/app/recipes/[id]/page";
+import {
+  editRecipeSchema,
+  EditRecipeSchema,
+} from "@/validation/editRecipeSchema";
+import { handleEditRecipe } from "@/services/recipe/recipeEdit";
 
 interface FormField {
-  name: keyof CreateRecipeSchema;
+  name: keyof EditRecipeSchema;
   label: string;
   type?: string;
 }
 
-interface CreateRecipeFormProps {
+interface EditRecipeFormProps {
   formFields: FormField[];
-  recipeId?: number;
-}
-
-interface UserData {
-  id: string;
-  name?: string;
-  email?: string;
-}
-
-interface Tag {
-  id: string;
-  name: string;
+  recipeData: RecipeData;
+  tags: { id: number; name: string }[];
+  user: UserData;
 }
 
 export default function EditRecipeForm({
   formFields,
-  recipeId,
-}: CreateRecipeFormProps) {
+  recipeData,
+  tags,
+  user,
+}: EditRecipeFormProps) {
   const router = useRouter();
-  const { data: session } = useSession();
   const [editorContent, setEditorContent] = useState<
     ProseMirrorNode | undefined
   >(undefined);
-  const [userData, setUserData] = useState<UserData | null>(null);
   const [coverImage, setCoverImage] = useState<File | null>();
-  const [tags, setTags] = useState<{ id: number; name: string }[]>([]);
   const { toast } = useToast();
 
-  const form = useForm<CreateRecipeSchema>({
-    resolver: zodResolver(createRecipeSchema),
+  const form = useForm<EditRecipeSchema>({
+    resolver: zodResolver(editRecipeSchema),
     defaultValues: {
-      title: "",
-      cooking_time: null,
-      prep_time: null,
-      servings: null,
-      steps: { type: "doc", content: [] },
-      ingredients: "",
-      tags: [],
+      title: recipeData.title,
+      cooking_time: recipeData.cooking_time,
+      prep_time: recipeData.prep_time,
+      servings: recipeData.servings,
+      steps: JSON.parse(recipeData.steps),
+      ingredients: recipeData.ingredients,
+      tags: recipeData.season ? [parseInt(recipeData.season)] : [],
       cover_image: undefined,
     },
   });
 
-  useEffect(() => {
-    const fetchRecipeData = async () => {
-      if (recipeId) {
-        const recipeData = await dataFetch(
-          `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/recipe?id=${recipeId}`,
-        );
-        const recipe = Array.isArray(recipeData) ? recipeData[0] : recipeData;
-
-        const ingredientsArray = recipe.ingredients
-          .split(",")
-          .map((ingredient: string) => ingredient.trim());
-
-        const seasonData = await dataFetch(
-          `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/recipes/${recipeId}/tags`,
-        );
-        const seasonTags = seasonData.map(
-          (tag: { id: number; name: string }) => tag.name,
-        );
-
-        form.reset({
-          title: recipe.title,
-          cooking_time: recipe.cooking_time,
-          prep_time: recipe.prep_time,
-          servings: recipe.servings,
-          steps: JSON.parse(recipe.steps),
-          ingredients: ingredientsArray.join(", "),
-          tags: seasonTags,
-        });
-
-        setEditorContent(JSON.parse(recipe.steps));
-      }
-    };
-
-    const fetchUserAndTags = async () => {
-      if (session?.accessToken) {
-        const user = await dataFetchWithToken(
-          `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/user`,
-          session.accessToken,
-        );
-        setUserData(user);
-
-        const tagsData = await dataFetch(
-          `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/tags`,
-        );
-
-        const translatedTags = tagsData.map((tag: Tag) => ({
-          id: tag.id,
-          name: translateSeason(tag.name),
-        }));
-
-        setTags(translatedTags);
-      }
-    };
-
-    fetchRecipeData();
-    fetchUserAndTags();
-  }, [recipeId, session, form]);
-
-  const onSubmit = async (data: CreateRecipeSchema) => {
-    console.log(data.cover_image);
-    const recipeId = await handleCreateRecipe({
-      data,
-      userData,
+  const onSubmit = async (data: EditRecipeSchema) => {
+    const recipeId = await handleEditRecipe({
+      data: { ...data, id: recipeData.id },
       editorContent,
       toast,
       router,
+      userData: user,
     });
 
     if (recipeId && coverImage) {
@@ -181,7 +110,7 @@ export default function EditRecipeForm({
         <IngredientInput
           control={form.control}
           name="ingredients"
-          defaultValue={form.getValues("ingredients")}
+          defaultValue={recipeData.ingredients}
         />
 
         <FormField
@@ -190,7 +119,7 @@ export default function EditRecipeForm({
           render={({ field }) => (
             <>
               <TipTapEditor
-                content={editorContent}
+                content={field.value}
                 onContentChange={(newContent) => {
                   setEditorContent(newContent);
                   field.onChange(newContent);
@@ -201,11 +130,7 @@ export default function EditRecipeForm({
           )}
         />
 
-        <SeasonCheckbox
-          control={form.control}
-          tags={tags}
-          defaultValue={form.getValues("tags")}
-        />
+        <SeasonCheckbox control={form.control} tags={tags} />
 
         <div className="flex w-full justify-between">
           <Button

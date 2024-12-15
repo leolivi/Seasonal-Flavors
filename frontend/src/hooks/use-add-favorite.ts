@@ -1,4 +1,4 @@
-import dataFetch from "@/utils/data-fetch";
+import dataFetch from "@/lib/data-fetch";
 import { useState } from "react";
 
 export const useAddFavorite = () => {

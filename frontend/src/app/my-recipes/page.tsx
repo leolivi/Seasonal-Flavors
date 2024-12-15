@@ -4,7 +4,7 @@ import { Typography } from "@/components/ui/typography";
 import { Button, ButtonSize } from "@/components/button/button";
 import Arrow from "src/assets/icons/arrow.svg";
 import { LayoutOptions } from "@/utils/layout-options";
-import { dataFetch, dataFetchWithToken } from "@/utils/data-fetch";
+import { dataFetch, dataFetchWithToken } from "@/lib/data-fetch";
 import { getServerSession } from "next-auth";
 import { authConfig } from "@/auth";
 import Link from "next/link";

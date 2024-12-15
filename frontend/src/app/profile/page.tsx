@@ -8,7 +8,7 @@ import {
   SessionLoader,
 } from "@/components/auth-session/auth-session";
 import { Button, ButtonSize, ButtonStyle } from "@/components/button/button";
-import { dataFetchWithToken } from "@/utils/data-fetch";
+import { dataFetchWithToken } from "@/lib/data-fetch";
 
 interface UserData {
   id: number;

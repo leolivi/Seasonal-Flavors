@@ -1,6 +1,6 @@
 import RecipesClient from "@/components/recipes-client/recipes-client";
 import { getCurrentSeason } from "@/utils/SeasonUtils";
-import { dataFetch } from "@/utils/data-fetch";
+import { dataFetch } from "@/lib/data-fetch";
 
 interface Recipe {
   id: number;

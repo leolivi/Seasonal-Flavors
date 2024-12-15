@@ -26,6 +26,8 @@ export async function middleware(req: NextRequest) {
     return NextResponse.redirect(redirectUrl);
   }
 
+  // TODO: add middleware for edit recipe etc.
+
   // 5. continue with the request, if no other condition is met
   return NextResponse.next();
 }

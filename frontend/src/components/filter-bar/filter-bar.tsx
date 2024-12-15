@@ -5,7 +5,7 @@ import Magnifier from "src/assets/icons/magnifier.svg";
 import Bookmark from "src/assets/icons/bookmark.svg";
 import { Typography } from "../ui/typography";
 import { getSeasonColor } from "@/utils/SeasonUtils";
-import { dataFetch, dataFetchWithToken } from "@/utils/data-fetch";
+import { dataFetch, dataFetchWithToken } from "@/lib/data-fetch";
 import { useSession } from "next-auth/react";
 
 interface FilterBarProps {

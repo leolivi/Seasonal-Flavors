@@ -3,7 +3,7 @@ import { RegisterBanner } from "@/components/banner/register-banner";
 import registerImage from "../assets/images/register-image.jpg";
 import Image from "next/image";
 import ScrollButton from "@/components/scroll-button/scroll-button";
-import { dataFetch } from "@/utils/data-fetch";
+import { dataFetch } from "@/lib/data-fetch";
 import { InspirationText } from "@/components/inspiration-text/inspiration-text";
 import { CardSliderWrapper } from "@/components/card-slider/card-slider-wrapper";
 import { getCurrentSeason } from "@/utils/SeasonUtils";

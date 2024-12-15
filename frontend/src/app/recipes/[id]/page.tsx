@@ -6,7 +6,7 @@ import { RecipeInfo } from "@/components/recipe-info/recipe-info";
 import { RecipeInstructions } from "@/components/recipe-instructions/recipe-instructions";
 import Heart from "@/components/ui/heart";
 import { getSeasonColor, translateSeason } from "@/utils/SeasonUtils";
-import { dataFetch } from "@/utils/data-fetch";
+import { dataFetch } from "@/lib/data-fetch";
 import foodImage from "@/assets/images/food-image.jpg";
 
 export interface RecipeData {
@@ -27,7 +27,7 @@ interface SeasonTag {
   name: string;
 }
 
-interface UserData {
+export interface UserData {
   username: string;
   id: number;
 }

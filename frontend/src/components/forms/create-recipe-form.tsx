@@ -13,7 +13,7 @@ import { useRouter } from "next/navigation";
 import { CreateRecipeInput } from "../create-recipe-input/create-recipe-input";
 import { ProseMirrorNode, TipTapEditor } from "../tiptap/tiptap-editor";
 import { useEffect, useState } from "react";
-import { dataFetch, dataFetchWithToken } from "@/utils/data-fetch";
+import { dataFetch, dataFetchWithToken } from "@/lib/data-fetch";
 import { useSession } from "next-auth/react";
 import { useToast } from "@/hooks/use-toast";
 import { IngredientInput } from "../create-recipe-input/ingredient-input";
