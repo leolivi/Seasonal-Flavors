@@ -1,4 +1,4 @@
-import { Control } from "react-hook-form";
+import { Control, FieldValues } from "react-hook-form";
 import Checkbox from "../ui/checkbox";
 import {
   FormControl,
@@ -8,19 +8,22 @@ import {
   FormLabel,
   FormMessage,
 } from "../ui/form";
-import { CreateRecipeSchema } from "@/validation/createRecipeSchema";
 
-export function SeasonCheckbox({
-  control,
-  tags,
-}: {
-  control: Control<CreateRecipeSchema>;
+interface SeasonCheckboxProps<T extends FieldValues> {
+  control: Control<T>;
+  name: keyof T;
   tags: { id: number; name: string }[];
-}) {
+}
+
+export function SeasonCheckbox<T extends FieldValues>({
+  control,
+  name,
+  tags,
+}: SeasonCheckboxProps<T>) {
   return (
     <FormField
       control={control}
-      name="tags"
+      name={name as any}
       render={() => (
         <FormItem>
           <div className="mb-4">
@@ -38,7 +41,7 @@ export function SeasonCheckbox({
               <FormField
                 key={season.id}
                 control={control}
-                name="tags"
+                name={name as any}
                 render={({ field }) => (
                   <FormItem className="flex flex-row items-center justify-start space-x-3 space-y-0">
                     <FormControl>

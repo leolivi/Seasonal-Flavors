@@ -49,6 +49,7 @@ export const handleCreateRecipe = async ({
       description: "Das Rezept wurde erfolgreich erstellt.",
     });
 
+    router.refresh();
     router.push("/my-recipes");
     return recipeId;
   } catch (error) {

@@ -11,13 +11,13 @@ import { ProseMirrorNode, TipTapEditor } from "../tiptap/tiptap-editor";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { IngredientInput } from "../create-recipe-input/ingredient-input";
-import { handleImageUpload } from "@/services/recipe/imageUpload";
+import { handleImagePatch } from "@/services/recipe/imagePatch";
 import { RecipeData, UserData } from "@/app/recipes/[id]/page";
 import {
   editRecipeSchema,
   EditRecipeSchema,
 } from "@/validation/editRecipeSchema";
-import { handleEditRecipe } from "@/services/recipe/recipeEdit";
+import { handleRecipePatch } from "@/services/recipe/recipePatch";
 
 interface FormField {
   name: keyof EditRecipeSchema;
@@ -60,7 +60,10 @@ export default function EditRecipeForm({
   });
 
   const onSubmit = async (data: EditRecipeSchema) => {
-    const recipeId = await handleEditRecipe({
+    console.log("Starting form submission");
+    const recipeId = recipeData.id;
+
+    await handleRecipePatch({
       data: { ...data, id: recipeData.id },
       editorContent,
       toast,
@@ -68,9 +71,25 @@ export default function EditRecipeForm({
       userData: user,
     });
 
-    if (recipeId && coverImage) {
-      await handleImageUpload(recipeId, coverImage, data.title, toast);
+    console.log("RecipeId after patch:", recipeId);
+
+    if (coverImage) {
+      console.log("Sending image patch with:", {
+        recipeId,
+        imageId: recipeData.image_id,
+        title: data.title,
+      });
+
+      await handleImagePatch(
+        recipeId,
+        recipeData.image_id,
+        coverImage,
+        data.title,
+        toast,
+      );
     }
+
+    console.log("Form-Daten nach dem Senden:", data);
   };
 
   const singleInputs = formFields.filter(
@@ -88,7 +107,7 @@ export default function EditRecipeForm({
         onSubmit={form.handleSubmit(onSubmit)}
         className="w-full space-y-6 min-[640px]:w-5/6 min-[1020px]:w-2/3 min-[1240px]:w-1/2"
       >
-        <CreateRecipeInput
+        <CreateRecipeInput<EditRecipeSchema>
           fields={singleInputs}
           control={form.control}
           layout="column"
@@ -96,8 +115,8 @@ export default function EditRecipeForm({
             if (fieldName === "cover_image") {
               setCoverImage(file);
             }
-            form.setValue(fieldName, file);
-            form.trigger(fieldName);
+            form.setValue(fieldName as keyof EditRecipeSchema, file);
+            form.trigger(fieldName as keyof EditRecipeSchema);
           }}
         />
 
@@ -130,7 +149,11 @@ export default function EditRecipeForm({
           )}
         />
 
-        <SeasonCheckbox control={form.control} tags={tags} />
+        <SeasonCheckbox<EditRecipeSchema>
+          control={form.control}
+          name="tags"
+          tags={tags}
+        />
 
         <div className="flex w-full justify-between">
           <Button

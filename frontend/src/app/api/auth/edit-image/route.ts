@@ -3,23 +3,27 @@ import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 
 // here we need to defined it as a NextRequest, so taht we can access the request body
-export async function POST(request: NextRequest) {
-  // route schützen
-  if (request.method !== "POST") {
+export async function PATCH(request: NextRequest) {
+  console.log("PATCH request received");
+
+  if (request.method !== "PATCH") {
     return NextResponse.json(
       { message: "Method not allowed" },
       { status: 405 },
     );
   }
 
-  // retrieve the request body
   const formData = await request.formData();
+  console.log("FormData received:", Object.fromEntries(formData));
 
   const recipeId = formData.get("recipe_id");
+  const imageId = formData.get("image_id");
 
-  if (!recipeId) {
+  console.log("IDs from request:", { recipeId, imageId });
+
+  if (!recipeId || !imageId) {
     return NextResponse.json(
-      { message: "Recipe ID is required for image uploads" },
+      { message: "Recipe ID and Image ID are required" },
       { status: 400 },
     );
   }
@@ -36,9 +40,9 @@ export async function POST(request: NextRequest) {
 
     // send the request to the backend
     const response = await fetch(
-      `${process.env.BACKEND_URL}/api/uploads?type=recipe&recipe_id=${recipeId}`,
+      `${process.env.BACKEND_URL}/api/uploads/${imageId}?type=recipe&recipe_id=${recipeId}`,
       {
-        method: "POST",
+        method: "PATCH",
         headers: {
           Authorization: `Bearer ${session.accessToken}`,
         },
@@ -47,6 +51,8 @@ export async function POST(request: NextRequest) {
     );
 
     const data = await response.text();
+
+    console.log("data: ", data);
 
     // (optional) handle errors
     // if the response from the server is not ok, in some cases the response of the
@@ -57,11 +63,11 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ message: data }, { status: response.status });
     }
 
-    return NextResponse.json(data, { status: 201 });
+    return NextResponse.json(data, { status: 200 });
   } catch (error) {
-    console.error("Image upload failed: ", error);
+    console.error("Image update failed: ", error);
     return NextResponse.json(
-      { message: "There was an error in the upload." },
+      { message: "Error updating image" },
       { status: 400 },
     );
   }

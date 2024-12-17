@@ -1,0 +1,28 @@
+meta {
+  name: update
+  type: http
+  seq: 4
+}
+
+post {
+  url: {{baseUrl}}/uploads?type=recipe&recipe_id=22
+  body: multipartForm
+  auth: none
+}
+
+params:query {
+  type: recipe
+  recipe_id: 22
+}
+
+headers {
+  Authorization: Bearer {{token}}
+}
+
+body:multipart-form {
+  file: @file(/Users/leonieliviero/Downloads/beautiful-woman-avatar-character-icon-free-vector.jpg)
+  type: recipe
+  recipe_id: 18
+  ~user_id: NULL
+  ~alt_text: "profile image"
+}

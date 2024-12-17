@@ -94,9 +94,81 @@ class UploadsController {
         }
     }
     
+    function update(Request $request) {
+        $user = \Auth::user();
     
+        try {
+            $validated = $request->validate([
+                'file' => ['required', 'file', 'max:2048', 'mimes:jpeg,jpg,png,gif,JPG'],
+                'type' => ['required', Rule::in(['profile', 'recipe'])],
+                'recipe_id' => ['required_if:type,recipe', 'exists:recipes,id'],
+                'alt_text' => ['string', 'max:255'],
+            ]);
     
-
+            // Finde das existierende Bild basierend auf type und ID
+            $existingImage = Image::query()
+                ->when($request->input('type') === 'recipe', function ($query) use ($request) {
+                    return $query->where('recipe_id', $request->input('recipe_id'));
+                })
+                ->when($request->input('type') === 'profile', function ($query) use ($user) {
+                    return $query->where('user_id', $user->id)
+                               ->whereNull('recipe_id');
+                })
+                ->first();
+    
+            // Lösche altes Bild falls vorhanden
+            if ($existingImage) {
+                Storage::delete('uploads/' . $existingImage->file_path);
+            }
+    
+            // Verarbeite neues Bild
+            $file = $request->file('file');
+            $originalFilename = $file->getClientOriginalName();
+            $filename = pathinfo($originalFilename, PATHINFO_FILENAME);
+            $extension = $file->getClientOriginalExtension();
+            
+            $uniqueFilename = $filename . '_' . Str::random(16) . '.' . $extension;
+            $filePath = $user->id . '/' . $uniqueFilename;
+    
+            Storage::putFileAs(
+                'uploads/' . $user->id,
+                $file,
+                $uniqueFilename
+            );
+    
+            // Update oder erstelle Bildeintrag
+            if ($existingImage) {
+                $existingImage->update([
+                    'file_path' => $filePath,
+                    'alt_text' => $request->post('alt_text', '')
+                ]);
+                $image = $existingImage;
+            } else {
+                $image = new Image([
+                    'file_path' => $filePath,
+                    'alt_text' => $request->post('alt_text', ''),
+                    'user_id' => $user->id,
+                ]);
+    
+                if ($request->input('type') === 'recipe') {
+                    $image->recipe_id = $request->input('recipe_id');
+                }
+    
+                $image->save();
+            }
+    
+            return response()->json([
+                'message' => 'Bild erfolgreich aktualisiert',
+                'file_path' => url('uploads/' . $filePath)
+            ], 200);
+    
+        } catch (\Exception $e) {
+            return response()->json([
+                'message' => 'Fehler beim Aktualisieren des Bildes.',
+            ], 400);
+        }
+    }
+    
     /*
     @return string|Response
     @desc Deletes a file

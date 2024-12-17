@@ -100,14 +100,47 @@ class RecipeController {
   @return Recipe|Response
   @desc Updates a recipe by fetching it's id
   */
+  // function update(Request $request): Recipe|Response {
+  //   $id = $request->input('id');
+  //   $payload = Recipe::validate($request);
+  //   $recipe = \Auth::user()->recipes()->findOrFail($id);
+  //   $recipe->update($payload);
+
+  //   return $recipe;
+  // }
+
   function update(Request $request): Recipe|Response {
     $id = $request->input('id');
-    $payload = Recipe::validate($request);
-    $recipe = \Auth::user()->recipes()->findOrFail($id);
-    $recipe->update($payload);
+    
+    // Extrahiere tags aus den Eingabedaten
+    $tags = $request->input('tags', []);
+    
+    // Entferne tags aus dem Payload für das Recipe-Update
+    $payload = $request->except('tags');
+    
+    // Validiere die Rezept-Daten
+    $validatedData = $request->validate([
+        'title' => ['sometimes', 'string', 'max:255'],
+        'prep_time' => ['sometimes', 'integer'],
+        'cooking_time' => ['sometimes', 'integer'],
+        'servings' => ['sometimes', 'integer'],
+        'steps' => ['sometimes', 'string'],
+        'ingredients' => ['sometimes', 'string'],
+    ]);
 
-    return $recipe;
-  }
+    $recipe = \Auth::user()->recipes()->findOrFail($id);
+    
+    // Update der Rezept-Attribute
+    $recipe->update($validatedData);
+
+    // Update der Tags-Beziehung separat
+    if (!empty($tags)) {
+        $recipe->tags()->sync($tags);
+    }
+
+    // Lade das aktualisierte Rezept mit Tags
+    return $recipe->load('tags');
+}
 
   /*
   @return Recipe|Response

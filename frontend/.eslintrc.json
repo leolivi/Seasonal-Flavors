@@ -1,3 +1,18 @@
 {
-  "extends": ["next/core-web-vitals", "next/typescript"]
+  "extends": ["next/core-web-vitals", "next/typescript"],
+  "rules": {
+    "no-console": [
+      "error",
+      {
+        "allow": ["warn", "error"]
+      }
+    ],
+    "no-restricted-syntax": [
+      "error",
+      {
+        "selector": "VariableDeclarator[id.type='ObjectPattern'] > ObjectPattern > Property[key.name='debug']",
+        "message": "Destructuring assignment of `debug` is not allowed."
+      }
+    ]
+  }
 }

@@ -3,8 +3,6 @@ import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function PATCH(request: NextRequest) {
-  console.log("Request received for PATCH /api/edit-recipe");
-
   // Überprüfe die Methode
   if (request.method !== "PATCH") {
     return NextResponse.json(
@@ -22,7 +20,6 @@ export async function PATCH(request: NextRequest) {
 
   // Body auslesen
   const body = await request.json();
-  console.log("Request body:", body);
 
   // Sicherstellen, dass die Rezept-ID vorhanden ist
   const recipeId = body.id;
@@ -46,8 +43,6 @@ export async function PATCH(request: NextRequest) {
         body: JSON.stringify(body),
       },
     );
-
-    console.log("Backend response status:", response.status);
 
     if (!response.ok) {
       const error = await response.json();

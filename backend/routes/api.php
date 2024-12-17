@@ -58,5 +58,6 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     // uploads
     Route::post('/uploads', [UploadsController::class, 'create']);
+    Route::patch('/uploads/{id}', [UploadsController::class, 'update']);
     Route::delete('/uploads/{id}', [UploadsController::class, 'destroy']);
 });

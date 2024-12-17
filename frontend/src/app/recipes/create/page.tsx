@@ -3,8 +3,23 @@ import { Typography } from "@/components/ui/typography";
 import ArrowLeft from "@/assets/icons/arrow-left.svg";
 import Link from "next/link";
 import CreateRecipeFormWrapper from "@/components/create-recipe-form-wrapper/create-recipe-form-wrapper";
+import { getCurrentUser } from "@/services/user/userService";
+import { getTags } from "@/services/recipe/tagService";
+import { notFound } from "next/navigation";
+import { translateSeason } from "@/utils/SeasonUtils";
 
-export default function CreateRecipe() {
+export default async function CreateRecipe() {
+  const [user, tags] = await Promise.all([getCurrentUser(), getTags()]);
+
+  if (!user) {
+    return notFound();
+  }
+
+  const translatedTags = tags.map((tag: { id: number; name: string }) => ({
+    ...tag,
+    name: translateSeason(tag.name),
+  }));
+
   return (
     <div className="px-4 pb-16 pt-8 min-[640px]:p-8 min-[640px]:pb-24">
       <ScrollButton />
@@ -22,7 +37,7 @@ export default function CreateRecipe() {
         </Typography>
       </div>
       <div className="flex justify-center">
-        <CreateRecipeFormWrapper />
+        <CreateRecipeFormWrapper user={user} tags={translatedTags} />
       </div>
     </div>
   );

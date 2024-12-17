@@ -18,6 +18,7 @@ export interface RecipeData {
   steps: string;
   ingredients: string;
   user_id: string;
+  image_id?: number;
   imageSrc?: string;
   imageAlt?: string;
   season?: string;

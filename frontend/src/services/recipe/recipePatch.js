@@ -1,4 +1,4 @@
-export const handleEditRecipe = async ({
+export const handleRecipePatch = async ({
   data,
   userData,
   editorContent,
@@ -50,6 +50,7 @@ export const handleEditRecipe = async ({
       description: "Das Rezept wurde erfolgreich aktualisiert.",
     });
 
+    router.refresh();
     router.push("/my-recipes");
     return recipeId;
   } catch (error) {

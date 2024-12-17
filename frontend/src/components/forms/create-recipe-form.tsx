@@ -12,14 +12,12 @@ import { SeasonCheckbox } from "../season-checkbox/season-checkbox";
 import { useRouter } from "next/navigation";
 import { CreateRecipeInput } from "../create-recipe-input/create-recipe-input";
 import { ProseMirrorNode, TipTapEditor } from "../tiptap/tiptap-editor";
-import { useEffect, useState } from "react";
-import { dataFetch, dataFetchWithToken } from "@/lib/data-fetch";
-import { useSession } from "next-auth/react";
+import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { IngredientInput } from "../create-recipe-input/ingredient-input";
-import { translateSeason } from "@/utils/SeasonUtils";
 import { handleImageUpload } from "@/services/recipe/imageUpload";
 import { handleCreateRecipe } from "@/services/recipe/recipeCreate";
+import { UserData } from "@/app/recipes/[id]/page";
 
 interface FormField {
   name: keyof CreateRecipeSchema;
@@ -29,30 +27,20 @@ interface FormField {
 
 interface CreateRecipeFormProps {
   formFields: FormField[];
-}
-
-interface UserData {
-  id: string;
-  name?: string;
-  email?: string;
-}
-
-interface Tag {
-  id: string;
-  name: string;
+  tags: { id: number; name: string }[];
+  user: UserData;
 }
 
 export default function CreateRecipeForm({
   formFields,
+  tags,
+  user,
 }: CreateRecipeFormProps) {
   const router = useRouter();
-  const { data: session } = useSession();
   const [editorContent, setEditorContent] = useState<
     ProseMirrorNode | undefined
   >(undefined);
-  const [userData, setUserData] = useState<UserData | null>(null);
   const [coverImage, setCoverImage] = useState<File | null>();
-  const [tags, setTags] = useState<{ id: number; name: string }[]>([]);
   const { toast } = useToast();
 
   const form = useForm<CreateRecipeSchema>({
@@ -69,36 +57,10 @@ export default function CreateRecipeForm({
     },
   });
 
-  useEffect(() => {
-    const fetchData = async () => {
-      if (session?.accessToken) {
-        const user = await dataFetchWithToken(
-          `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/user`,
-          session.accessToken,
-        );
-        setUserData(user);
-
-        const tagsData = await dataFetch(
-          `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/tags`,
-        );
-
-        const translatedTags = tagsData.map((tag: Tag) => ({
-          id: tag.id,
-          name: translateSeason(tag.name),
-        }));
-
-        setTags(translatedTags);
-      }
-    };
-
-    fetchData();
-  }, [session, form]);
-
   const onSubmit = async (data: CreateRecipeSchema) => {
-    console.log(data.cover_image);
     const recipeId = await handleCreateRecipe({
       data,
-      userData,
+      userData: user,
       editorContent,
       toast,
       router,
@@ -124,7 +86,7 @@ export default function CreateRecipeForm({
         onSubmit={form.handleSubmit(onSubmit)}
         className="w-full space-y-6 min-[640px]:w-5/6 min-[1020px]:w-2/3 min-[1240px]:w-1/2"
       >
-        <CreateRecipeInput
+        <CreateRecipeInput<CreateRecipeSchema>
           fields={singleInputs}
           control={form.control}
           layout="column"
@@ -132,14 +94,14 @@ export default function CreateRecipeForm({
             if (fieldName === "cover_image") {
               setCoverImage(file);
             }
-            form.setValue(fieldName, file);
-            form.trigger(fieldName);
+            form.setValue(fieldName as keyof CreateRecipeSchema, file);
+            form.trigger(fieldName as keyof CreateRecipeSchema);
           }}
         />
 
         <CreateRecipeInput
-          fields={rowInputs}
           control={form.control}
+          fields={rowInputs}
           layout="row"
         />
 
@@ -162,7 +124,11 @@ export default function CreateRecipeForm({
           )}
         />
 
-        <SeasonCheckbox control={form.control} tags={tags} />
+        <SeasonCheckbox<CreateRecipeSchema>
+          control={form.control}
+          name="tags"
+          tags={tags}
+        />
 
         <div className="flex w-full justify-between">
           <Button

@@ -14,8 +14,8 @@ interface FormField {
 
 interface CreateRecipeFormWrapperProps {
   recipeData?: RecipeData;
-  tags?: { id: number; name: string }[];
-  user?: UserData;
+  tags: { id: number; name: string }[];
+  user: UserData;
 }
 
 export default function CreateRecipeFormWrapper({
@@ -56,9 +56,9 @@ export default function CreateRecipeFormWrapper({
       formFields={formFields}
       recipeData={recipeData}
       tags={tags || []}
-      user={user!}
+      user={user}
     />
   ) : (
-    <CreateRecipeForm formFields={formFields} />
+    <CreateRecipeForm formFields={formFields} tags={tags || []} user={user} />
   );
 }
