@@ -9,6 +9,7 @@ interface CardListProps {
     id: number;
     imageSrc: string;
     imageAlt: string;
+    imageId?: number;
     title: string;
     prepDuration?: number;
     season?: string;
@@ -40,6 +41,7 @@ export const CardList = ({
               id={item.id}
               imageSrc={item.imageSrc || foodImage.src}
               imageAlt={item.imageAlt}
+              imageId={item.imageId}
               title={item.title}
               prepDuration={item.prepDuration}
               season={item.season}

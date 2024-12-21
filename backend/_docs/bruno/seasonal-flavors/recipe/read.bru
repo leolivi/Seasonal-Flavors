@@ -5,19 +5,19 @@ meta {
 }
 
 get {
-  url: {{baseUrl}}/recipe
+  url: {{baseUrl}}/recipe?id=5
   body: json
   auth: none
 }
 
 params:query {
+  id: 5
   ~tags[]: winter
   ~tags[]: all_year
   ~all_year: 
   ~limit: 9
   ~user_id: 1
   ~title: butter
-  ~id: 2
 }
 
 headers {

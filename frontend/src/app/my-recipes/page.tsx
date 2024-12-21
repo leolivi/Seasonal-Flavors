@@ -19,6 +19,12 @@ interface SeasonTag {
   name: string;
 }
 
+interface ImageData {
+  id: number;
+  file_path: string;
+  alt_text: string;
+}
+
 const MyRecipes = async () => {
   const session = await getServerSession(authConfig);
 
@@ -53,6 +59,7 @@ const MyRecipes = async () => {
       );
 
       const firstImage = imageData[0] || {};
+
       const seasonTags = seasonData
         .map((tag: SeasonTag) => tag.name)
         .join(", ");
@@ -61,6 +68,7 @@ const MyRecipes = async () => {
         id: recipe.id,
         imageSrc: firstImage.file_path || "",
         imageAlt: firstImage.alt_text || recipe.title,
+        imageId: firstImage.id || null,
         title: recipe.title,
         prepDuration: recipe.prep_time,
         season: seasonTags,
@@ -83,7 +91,10 @@ const MyRecipes = async () => {
       {formattedCardData.length > 0 ? (
         <>
           <CardListWrapper
-            cardData={formattedCardData}
+            cardData={formattedCardData.map((item) => ({
+              ...item,
+              imageId: item.imageId || 0,
+            }))}
             showDetail={true}
             showEdit={true}
             style={LayoutOptions.GRID}

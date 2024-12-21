@@ -1,20 +1,10 @@
-import { handleImageDelete } from "../image/imageDelete";
-
-export const handleRecipeDelete = async (recipeId, images, toast, router) => {
-  console.log("handleRecipeDelete started with:", { recipeId, images });
-
+export const handleRecipeDelete = async (recipeId, toast, router) => {
   if (!recipeId) {
     console.error("Keine Rezept-ID angegeben");
     return false;
   }
 
   try {
-    if (images && images.length > 0) {
-      for (const image of images) {
-        await handleImageDelete(recipeId, image.id, toast);
-      }
-    }
-
     const response = await fetch(`/api/auth/delete-recipe/${recipeId}`, {
       method: "DELETE",
     });

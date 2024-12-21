@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\Image;
+use Auth;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Validation\Rule;
@@ -173,57 +174,61 @@ class UploadsController {
     @return string|Response
     @desc Deletes a file
     */
-    function destroy(Request $request): string|Response {
-        $user = \Auth::user();
-        $filename = $request->input('filename');
-        $path = 'uploads/' . $user->id . '/' . $filename;
+    // function destroy(Request $request): string|Response {
+    //     $user = \Auth::user();
+    //     $filename = $request->input('filename');
+    //     $path = 'uploads/' . $user->id . '/' . $filename;
       
-        // check if file exists
-        if (!\Storage::exists($path)) {
-            return abort(404, 'File does not exist');
-        }
-
-        // delete file path (in folder structure)
-        \Storage::delete($path);
-
-        // delete file in database
-        $image = Image::where('file_path', $path) 
-                  ->where(function($query) use ($user) {
-                      $query->where('user_id', $user->id)
-                            ->orWhereNotNull('recipe_id');
-                  })
-                  ->first();
-
-        // error handling
-        if ($image) {
-            $image->delete();
-        } else {
-            return abort(404, 'Image not found in database');
-        }
-            
-        return $filename;
-    }
-
-    // Funktion von Hadrian:
-    // function destroy(Request $request, $id) {
-    //     $user = Auth::user(); // Get the authenticated user
-
-    //     // Find the image by its ID and ensure it belongs to the authenticated user
-    //     $image = Image::where('id', $id)->where('user_id', $user->id)->firstOrFail();
-
-    //     // Get the pathname from the database
-    //     $pathname = $image->pathname;
-
-    //     // Check if the file exists in storage
-    //     if (Storage::exists($pathname)) {
-    //         // Delete the file from storage
-    //         Storage::delete($pathname);
+    //     // check if file exists
+    //     if (!\Storage::exists($path)) {
+    //         return abort(404, 'File does not exist');
     //     }
 
-    //     // Delete the reference in the database
-    //     $image->delete();
+    //     // delete file path (in folder structure)
+    //     \Storage::delete($path);
 
-    //     return response()->json(['deleted' => $pathname, 'id' => $id], 200);
+    //     // delete file in database
+    //     $image = Image::where('file_path', $path) 
+    //               ->where(function($query) use ($user) {
+    //                   $query->where('user_id', $user->id)
+    //                         ->orWhereNotNull('recipe_id');
+    //               })
+    //               ->first();
+
+    //     // error handling
+    //     if ($image) {
+    //         $image->delete();
+    //     } else {
+    //         return abort(404, 'Image not found in database');
+    //     }
+            
+    //     return $filename;
     // }
+
+    function destroy(Request $request, $id) {
+        $user = Auth::user();
+        
+        $image = Image::where('id', $id)
+            ->where(function($query) use ($user) {
+                $query->where('user_id', $user->id)
+                      ->orWhereHas('recipe', function($q) use ($user) {
+                          $q->where('user_id', $user->id);
+                      });
+            })
+            ->firstOrFail();
+    
+        $storagePath = 'uploads/' . $image->file_path;
+        
+        if (Storage::exists($storagePath)) {
+            Storage::delete($storagePath);
+        }
+    
+        $image->delete();
+    
+        return response()->json([
+            'message' => 'Bild erfolgreich gelöscht',
+            'id' => $id
+        ], 200);
+    }
 
 }

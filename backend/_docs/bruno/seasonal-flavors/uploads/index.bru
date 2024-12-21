@@ -5,14 +5,16 @@ meta {
 }
 
 get {
-  url: {{baseUrl}}/images?user_id=1&recipe_id=null
+  url: {{baseUrl}}/images?recipe_id=24&type=recipe
   body: multipartForm
   auth: none
 }
 
 params:query {
-  user_id: 1
-  recipe_id: null
+  recipe_id: 24
+  type: recipe
+  ~user_id: 1
+  ~recipe_id: null
 }
 
 headers {

@@ -11,6 +11,7 @@ interface CardListWrapperProps {
     id: number;
     imageSrc: string;
     imageAlt: string;
+    imageId: number;
     title: string;
     prepDuration?: number;
     season?: string;

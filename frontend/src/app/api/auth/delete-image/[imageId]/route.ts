@@ -2,23 +2,14 @@ import { authConfig } from "@/auth";
 import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function DELETE(request: NextRequest) {
-  console.log("DELETE request received");
+export async function DELETE(
+  request: NextRequest,
+  { params }: { params: { imageId: string } },
+) {
+  const imageId = params.imageId;
 
-  if (request.method !== "DELETE") {
-    return NextResponse.json(
-      { message: "Method not allowed" },
-      { status: 405 },
-    );
-  }
-
-  const formData = await request.formData();
-  console.log("FormData received:", Object.fromEntries(formData));
-
-  const recipeId = formData.get("recipe_id");
-  const imageId = formData.get("image_id");
-
-  console.log("IDs from request:", { recipeId, imageId });
+  const body = await request.json();
+  const recipeId = body.recipe_id;
 
   if (!recipeId || !imageId) {
     return NextResponse.json(
@@ -35,24 +26,28 @@ export async function DELETE(request: NextRequest) {
     }
 
     const response = await fetch(
-      `${process.env.BACKEND_URL}/api/uploads/${imageId}?type=recipe&recipe_id=${recipeId}`,
+      `${process.env.BACKEND_URL}/api/uploads/${imageId}`,
       {
         method: "DELETE",
         headers: {
+          "Content-Type": "application/json",
           Authorization: `Bearer ${session.accessToken}`,
         },
+        body: JSON.stringify({
+          recipe_id: recipeId,
+        }),
       },
     );
 
-    const data = await response.text();
-
-    console.log("data: ", data);
-
     if (!response.ok) {
-      return NextResponse.json({ message: data }, { status: response.status });
+      const error = await response.text();
+      return NextResponse.json(
+        { message: error || "Fehler beim Löschen des Bildes" },
+        { status: response.status },
+      );
     }
 
-    return NextResponse.json(data, { status: 200 });
+    return NextResponse.json({ message: "Bild erfolgreich gelöscht" });
   } catch (error) {
     console.error("Image deletion failed: ", error);
     return NextResponse.json(

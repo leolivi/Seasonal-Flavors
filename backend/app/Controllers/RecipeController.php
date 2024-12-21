@@ -70,8 +70,8 @@ class RecipeController {
         'servings' => ['required', 'integer'],
         'steps' => ['required', 'string'],
         'ingredients' => ['required', 'string'],
-        'tags' => ['nullable', 'array'], // Tags als Array optional akzeptieren
-        'tags.*' => ['integer', 'exists:tags,id'], // Jeder Tag muss in der Tags-Tabelle existieren
+        'tags' => ['nullable', 'array'],
+        'tags.*' => ['integer', 'exists:tags,id'],
          // 'image_id' => ['nullable', 'integer', 'exists:images,id'], // image_id must exist in images table if provided
     ]);
 
@@ -88,7 +88,7 @@ class RecipeController {
 
     // Tags speichern
     if (isset($validatedData['tags'])) {
-        $recipe->tags()->attach($validatedData['tags']); // Tags zur Pivot-Tabelle hinzufügen
+        $recipe->tags()->attach($validatedData['tags']);
     }
 
     // Antwort mit Tags
@@ -146,12 +146,23 @@ class RecipeController {
   @return Recipe|Response
   @desc Delete a recipe by fetching it's id
   */
-  function destroy(Request $request): Recipe|Response {
-    $id = $request->input('id');
-    $recipe = \Auth::user()->recipes()->findOrFail($id);
-    $recipe->delete();
-    return $recipe;
+  // function destroy(Request $request): Recipe|Response {
+  //   $id = $request->input('id');
+  //   $recipe = \Auth::user()->recipes()->findOrFail($id);
+  //   $recipe->delete();
+  //   return $recipe;
+  // }
+
+  public function destroy(Recipe $recipe)
+  {
+      if ($recipe->user_id !== Auth::user()->id) {
+          return response()->json(['message' => 'Unauthorized'], 403);
+      }
+  
+      $recipe->delete();
+      return response()->json(['message' => 'Recipe deleted successfully']);
   }
+
 
   /*
   @return Response

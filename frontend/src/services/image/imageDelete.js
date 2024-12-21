@@ -3,13 +3,28 @@ export const handleImageDelete = async (recipeId, imageId, toast) => {
     recipeId,
     imageId,
   });
+  if (!recipeId || !imageId) {
+    console.error("Invalid parameters for handleImageDelete:", {
+      recipeId,
+      imageId,
+    });
+    return null;
+  }
 
   try {
-    const response = await fetch(
-      `/api/delete-image/${imageId}?recipe_id=${recipeId}`,
-      {
-        method: "DELETE",
+    const response = await fetch(`/api/auth/delete-image/${imageId}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
       },
+      body: JSON.stringify({
+        recipe_id: recipeId,
+      }),
+    });
+
+    console.log(
+      "Image deletion request body:",
+      JSON.stringify({ recipe_id: recipeId }),
     );
 
     const data = await response.json();
@@ -28,7 +43,7 @@ export const handleImageDelete = async (recipeId, imageId, toast) => {
       description: "Bild wurde erfolgreich gelöscht.",
     });
 
-    return data;
+    return true;
   } catch (error) {
     console.error("Bild-Löschung fehlgeschlagen:", error);
     return null;

@@ -6,6 +6,7 @@ import { getSeasonColor } from "@/utils/SeasonUtils";
 import BookmarkButton from "../ui/bookmark";
 import { Button, ButtonSize, ButtonStyle } from "../button/button";
 import { handleRecipeDelete } from "@/services/recipe/recipeDelete";
+import { handleImageDelete } from "@/services/image/imageDelete";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/hooks/use-toast";
 
@@ -13,6 +14,7 @@ interface CardProps {
   id: number;
   imageSrc: string;
   imageAlt: string;
+  imageId?: number;
   title: string;
   prepDuration?: number;
   showDetail?: boolean;
@@ -35,17 +37,18 @@ export default function Card({
     ? props.season.split(",").map((s) => getSeasonColor(s.trim()))
     : [];
 
-  // const imageLoader = ({ src }: { src: string }): string => {
-  //   if (src.startsWith("http://") || src.startsWith("https://")) {
-  //     return src;
-  //   }
-
-  //   const baseURL = process.env.NEXT_PUBLIC_BACKEND_URL;
-  //   return `${baseURL}/${src.startsWith("/") ? src.slice(1) : src}`;
-  // };
-
   const router = useRouter();
   const { toast } = useToast();
+
+  const deleteRecipe = async () => {
+    console.log("deleteRecipe called");
+    if (props.id) {
+      console.log("Lösche Bild mit ID:", props.imageId);
+      await handleImageDelete(props.id, props.imageId, toast);
+    }
+
+    await handleRecipeDelete(props.id, toast, router);
+  };
 
   return (
     <div
@@ -101,7 +104,7 @@ export default function Card({
             size={ButtonSize.XS}
             style={ButtonStyle.OUTLINERED}
             label="löschen"
-            onClick={() => handleRecipeDelete(props.id, [], toast, router)}
+            onClick={deleteRecipe}
           />
           <Button
             size={ButtonSize.XS}
