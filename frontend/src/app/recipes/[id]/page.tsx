@@ -54,7 +54,9 @@ export default async function Recipe({ params }: { params: { id: number } }) {
   const seasonData = await dataFetch(
     `${process.env.BACKEND_URL}/api/recipes/${recipeId}/tags`,
   );
-  const seasonTags = seasonData.map((tag: SeasonTag) => tag.name).join(", ");
+  const seasonTags = Array.isArray(seasonData)
+    ? seasonData.map((tag: SeasonTag) => tag.name).join(", ")
+    : "";
 
   // fetch user data
   const userData: UserData = await dataFetch(

@@ -11,13 +11,14 @@ import { ProseMirrorNode, TipTapEditor } from "../tiptap/tiptap-editor";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { IngredientInput } from "../create-recipe-input/ingredient-input";
-import { handleImagePatch } from "@/services/recipe/imagePatch";
+// import { handleImagePatch } from "@/services/image/imageUpload";
+// import { handleImagePatch } from "@/services/image/imageDelete";
 import { RecipeData, UserData } from "@/app/recipes/[id]/page";
 import {
   editRecipeSchema,
   EditRecipeSchema,
 } from "@/validation/editRecipeSchema";
-import { handleRecipePatch } from "@/services/recipe/recipePatch";
+// import { handleRecipePatch } from "@/services/recipe/recipePatch";
 
 interface FormField {
   name: keyof EditRecipeSchema;
@@ -63,13 +64,13 @@ export default function EditRecipeForm({
     console.log("Starting form submission");
     const recipeId = recipeData.id;
 
-    await handleRecipePatch({
-      data: { ...data, id: recipeData.id },
-      editorContent,
-      toast,
-      router,
-      userData: user,
-    });
+    // await handleRecipePatch({
+    //   data: { ...data, id: recipeData.id },
+    //   editorContent,
+    //   toast,
+    //   router,
+    //   userData: user,
+    // });
 
     console.log("RecipeId after patch:", recipeId);
 

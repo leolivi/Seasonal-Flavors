@@ -5,6 +5,9 @@ import Heart from "../ui/heart";
 import { getSeasonColor } from "@/utils/SeasonUtils";
 import BookmarkButton from "../ui/bookmark";
 import { Button, ButtonSize, ButtonStyle } from "../button/button";
+import { handleRecipeDelete } from "@/services/recipe/recipeDelete";
+import { useRouter } from "next/navigation";
+import { useToast } from "@/hooks/use-toast";
 
 interface CardProps {
   id: number;
@@ -40,6 +43,9 @@ export default function Card({
   //   const baseURL = process.env.NEXT_PUBLIC_BACKEND_URL;
   //   return `${baseURL}/${src.startsWith("/") ? src.slice(1) : src}`;
   // };
+
+  const router = useRouter();
+  const { toast } = useToast();
 
   return (
     <div
@@ -95,8 +101,7 @@ export default function Card({
             size={ButtonSize.XS}
             style={ButtonStyle.OUTLINERED}
             label="löschen"
-            // TODO: Add delete option
-            // onClick={onDeleteClick}
+            onClick={() => handleRecipeDelete(props.id, [], toast, router)}
           />
           <Button
             size={ButtonSize.XS}

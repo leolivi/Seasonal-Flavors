@@ -1,6 +1,6 @@
 import { getRecipeDetail } from "@/services/recipe/recipeDetail";
 import { getCurrentUser } from "@/services/user/userService";
-import { getTags } from "@/services/recipe/tagService";
+import { getTags } from "@/services/tag/tagService";
 import { notFound } from "next/navigation";
 import CreateRecipeFormWrapper from "@/components/create-recipe-form-wrapper/create-recipe-form-wrapper";
 import { Typography } from "@/components/ui/typography";

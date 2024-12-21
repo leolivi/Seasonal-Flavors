@@ -15,7 +15,7 @@ import { ProseMirrorNode, TipTapEditor } from "../tiptap/tiptap-editor";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { IngredientInput } from "../create-recipe-input/ingredient-input";
-import { handleImageUpload } from "@/services/recipe/imageUpload";
+import { handleImageUpload } from "@/services/image/imageUpload";
 import { handleCreateRecipe } from "@/services/recipe/recipeCreate";
 import { UserData } from "@/app/recipes/[id]/page";
 

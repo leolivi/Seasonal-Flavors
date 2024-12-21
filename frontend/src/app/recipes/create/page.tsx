@@ -4,7 +4,7 @@ import ArrowLeft from "@/assets/icons/arrow-left.svg";
 import Link from "next/link";
 import CreateRecipeFormWrapper from "@/components/create-recipe-form-wrapper/create-recipe-form-wrapper";
 import { getCurrentUser } from "@/services/user/userService";
-import { getTags } from "@/services/recipe/tagService";
+import { getTags } from "@/services/tag/tagService";
 import { notFound } from "next/navigation";
 import { translateSeason } from "@/utils/SeasonUtils";
 
