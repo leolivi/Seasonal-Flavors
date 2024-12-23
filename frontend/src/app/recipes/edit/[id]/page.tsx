@@ -7,6 +7,7 @@ import { Typography } from "@/components/ui/typography";
 import ScrollButton from "@/components/scroll-button/scroll-button";
 import Link from "next/link";
 import ArrowLeft from "@/assets/icons/arrow-left.svg";
+import { getCurrentImage } from "@/services/image/imageService";
 
 export default async function EditRecipePage({
   params,
@@ -15,15 +16,18 @@ export default async function EditRecipePage({
 }) {
   const recipeId = parseInt(params.id);
 
-  const [recipe, user, tags] = await Promise.all([
+  const [recipe, user, tags, imageData] = await Promise.all([
     getRecipeDetail(recipeId),
     getCurrentUser(),
     getTags(),
+    getCurrentImage(recipeId),
   ]);
 
   if (!recipe || !user || user.id !== recipe.user_id) {
     return notFound();
   }
+
+  console.log("Fetched image data:", imageData);
 
   return (
     <div className="px-4 pb-16 pt-8 min-[640px]:p-8 min-[640px]:pb-24">
@@ -39,7 +43,12 @@ export default async function EditRecipePage({
         </Typography>
       </div>
       <div className="flex justify-center">
-        <CreateRecipeFormWrapper recipeData={recipe} tags={tags} user={user} />
+        <CreateRecipeFormWrapper
+          recipeData={recipe}
+          tags={tags}
+          user={user}
+          imageData={imageData}
+        />
       </div>
     </div>
   );

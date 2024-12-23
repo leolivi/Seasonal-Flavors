@@ -11,14 +11,15 @@ import { ProseMirrorNode, TipTapEditor } from "../tiptap/tiptap-editor";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { IngredientInput } from "../create-recipe-input/ingredient-input";
-// import { handleImagePatch } from "@/services/image/imageUpload";
-// import { handleImagePatch } from "@/services/image/imageDelete";
+import { handleImageDelete } from "@/services/image/imageDelete";
+import { handleImageUpload } from "@/services/image/imageUpload";
 import { RecipeData, UserData } from "@/app/recipes/[id]/page";
 import {
   editRecipeSchema,
   EditRecipeSchema,
 } from "@/validation/editRecipeSchema";
-// import { handleRecipePatch } from "@/services/recipe/recipePatch";
+import { handleRecipePatch } from "@/services/recipe/recipePatch";
+import { ImageData } from "@/services/image/imageService";
 
 interface FormField {
   name: keyof EditRecipeSchema;
@@ -31,11 +32,13 @@ interface EditRecipeFormProps {
   recipeData: RecipeData;
   tags: { id: number; name: string }[];
   user: UserData;
+  imageData?: ImageData;
 }
 
 export default function EditRecipeForm({
   formFields,
   recipeData,
+  imageData,
   tags,
   user,
 }: EditRecipeFormProps) {
@@ -64,33 +67,41 @@ export default function EditRecipeForm({
     console.log("Starting form submission");
     const recipeId = recipeData.id;
 
-    // await handleRecipePatch({
-    //   data: { ...data, id: recipeData.id },
-    //   editorContent,
-    //   toast,
-    //   router,
-    //   userData: user,
-    // });
-
-    console.log("RecipeId after patch:", recipeId);
-
     if (coverImage) {
-      console.log("Sending image patch with:", {
-        recipeId,
-        imageId: recipeData.image_id,
-        title: data.title,
-      });
+      console.log("Handling image update");
+      const imageId = imageData?.id;
+      console.log("Current image_id:", imageId);
 
-      await handleImagePatch(
-        recipeId,
-        recipeData.image_id,
-        coverImage,
-        data.title,
-        toast,
-      );
+      if (imageId) {
+        console.log("Attempting to delete image with:", {
+          recipeId,
+          imageId,
+        });
+
+        const deleteImage = await handleImageDelete(recipeId, imageId, toast);
+
+        if (deleteImage === true) {
+          await handleImageUpload(recipeId, coverImage, data.title, toast);
+        } else {
+          console.error("Image deletion failed");
+          toast({
+            variant: "destructive",
+            title: "Fehler",
+            description: "Bild konnte nicht aktualisiert werden.",
+          });
+        }
+      } else {
+        await handleImageUpload(recipeId, coverImage, data.title, toast);
+      }
     }
 
-    console.log("Form-Daten nach dem Senden:", data);
+    await handleRecipePatch({
+      data: { ...data, id: recipeData.id },
+      editorContent,
+      toast,
+      router,
+      userData: user,
+    });
   };
 
   const singleInputs = formFields.filter(

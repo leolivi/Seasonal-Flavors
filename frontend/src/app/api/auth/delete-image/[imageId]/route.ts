@@ -49,7 +49,6 @@ export async function DELETE(
 
     return NextResponse.json({ message: "Bild erfolgreich gelöscht" });
   } catch (error) {
-    console.error("Image deletion failed: ", error);
     return NextResponse.json(
       { message: "Error deleting image" },
       { status: 400 },

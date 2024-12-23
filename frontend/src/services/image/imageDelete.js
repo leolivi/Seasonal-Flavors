@@ -1,8 +1,4 @@
 export const handleImageDelete = async (recipeId, imageId, toast) => {
-  console.log("handleImageDelete started with:", {
-    recipeId,
-    imageId,
-  });
   if (!recipeId || !imageId) {
     console.error("Invalid parameters for handleImageDelete:", {
       recipeId,
@@ -22,11 +18,6 @@ export const handleImageDelete = async (recipeId, imageId, toast) => {
       }),
     });
 
-    console.log(
-      "Image deletion request body:",
-      JSON.stringify({ recipe_id: recipeId }),
-    );
-
     const data = await response.json();
 
     if (!response.ok) {
@@ -37,11 +28,6 @@ export const handleImageDelete = async (recipeId, imageId, toast) => {
       });
       throw new Error(data.message || "Image deletion failed");
     }
-
-    toast({
-      title: "Erfolg",
-      description: "Bild wurde erfolgreich gelöscht.",
-    });
 
     return true;
   } catch (error) {

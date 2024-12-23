@@ -19,7 +19,7 @@ interface SeasonTag {
   name: string;
 }
 
-interface ImageData {
+export interface ImageData {
   id: number;
   file_path: string;
   alt_text: string;
