@@ -50,8 +50,8 @@ export const handleRecipePatch = async ({
       description: "Das Rezept wurde erfolgreich aktualisiert.",
     });
 
-    router.refresh();
     router.push("/my-recipes");
+    router.refresh();
     return recipeId;
   } catch (error) {
     console.error("Rezept-Aktualisierung fehlgeschlagen:", error);

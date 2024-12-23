@@ -71,7 +71,6 @@ class Recipe extends Model {
       'steps' => [$post ? 'required' : 'sometimes', 'json'],
       'ingredients' => [$post ? 'required' : 'sometimes', 'min:1', 'max:20000'], 
       'user_id' => [$post ? 'required' : 'sometimes', 'exists:users,id'],
-      // 'tags' => [$post ? 'required' : 'sometimes', 'array'], 
     ]);
   }
 }

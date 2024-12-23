@@ -63,7 +63,7 @@ class User extends Model {
         ]);
     }
 
-     /*
+    /*
     @desc Automatically hashes the password before saving the User model
     */
     static function booted() {
