@@ -1,4 +1,3 @@
-// src/services/recipe/recipeDetail.ts
 import { dataFetch } from "@/lib/data-fetch";
 
 export const getRecipeDetail = async (recipeId: number) => {

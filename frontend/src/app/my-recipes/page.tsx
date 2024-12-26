@@ -4,20 +4,12 @@ import { Typography } from "@/components/ui/typography";
 import { Button, ButtonSize } from "@/components/button/button";
 import Arrow from "src/assets/icons/arrow.svg";
 import { LayoutOptions } from "@/utils/layout-options";
-import { dataFetch, dataFetchWithToken } from "@/lib/data-fetch";
 import { getServerSession } from "next-auth";
 import { authConfig } from "@/auth";
 import Link from "next/link";
-
-interface Recipe {
-  id: number;
-  title: string;
-  prep_time: number;
-}
-
-interface SeasonTag {
-  name: string;
-}
+import { getCurrentUser } from "@/services/user/userService";
+import { getRecipeDetail } from "@/services/recipe/recipeDetail";
+import { getUserRecipes, Recipe } from "@/services/recipe/userRecipeService";
 
 export interface ImageData {
   id: number;
@@ -30,51 +22,34 @@ const MyRecipes = async () => {
 
   if (!session) return;
 
-  // Fetch the current user
-  const user = await dataFetchWithToken(
-    `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/user`,
-    session.accessToken,
-  );
+  // User-Fetch
+  const user = await getCurrentUser(session.accessToken);
+  if (!user) return;
 
-  // Fetch the recipe data of current user
-  const cardData = await dataFetch(
-    `${process.env.BACKEND_URL}/api/recipe?user_id=${user.id}`,
-  );
-
-  if (!Array.isArray(cardData)) {
-    console.error("Expected cardData to be an array, but got:", cardData);
+  const cardData = await getUserRecipes(user.id);
+  if (!cardData) {
     return;
-    // TODO: fehlermeldung für user
   }
 
   const formattedCardData = await Promise.all(
     cardData.map(async (recipe: Recipe) => {
-      // Fetch image data
-      const imageData: ImageData[] = await dataFetch(
-        `${process.env.BACKEND_URL}/api/images?type=recipe&recipe_id=${recipe.id}`,
-      );
-      // Fetch season data
-      const seasonData = await dataFetch(
-        `${process.env.BACKEND_URL}/api/recipes/${recipe.id}/tags`,
-      );
-
-      const firstImage = imageData[0] || {};
-
-      const seasonTags = seasonData
-        .map((tag: SeasonTag) => tag.name)
-        .join(", ");
+      const recipeDetails = await getRecipeDetail(recipe.id);
+      if (!recipeDetails) return null;
 
       return {
         id: recipe.id,
-        imageSrc: firstImage.file_path || "",
-        imageAlt: firstImage.alt_text || recipe.title,
-        imageId: firstImage.id || null,
+        imageSrc: recipeDetails.imageSrc,
+        imageAlt: recipeDetails.imageAlt,
+        imageId: recipeDetails.id,
         title: recipe.title,
         prepDuration: recipe.prep_time,
-        season: seasonTags,
+        season: recipeDetails.season.join(", "),
       };
     }),
   );
+
+  // Filter null values from failed fetches
+  const filteredCardData = formattedCardData.filter(Boolean);
 
   return (
     <div className="m-4">
@@ -88,12 +63,17 @@ const MyRecipes = async () => {
         </Link>
       </div>
 
-      {formattedCardData.length > 0 ? (
+      {filteredCardData.length > 0 ? (
         <>
           <CardListWrapper
-            cardData={formattedCardData.map((item) => ({
-              ...item,
-              imageId: item.imageId || 0,
+            cardData={filteredCardData.map((item) => ({
+              id: item!.id,
+              imageSrc: item!.imageSrc,
+              imageAlt: item!.imageAlt,
+              imageId: item!.imageId || 0,
+              title: item!.title,
+              prepDuration: item!.prepDuration,
+              season: item!.season,
             }))}
             showDetail={true}
             showEdit={true}

@@ -18,7 +18,7 @@ interface FormField {
 
 interface CreateRecipeInputProps<T extends FieldValues> {
   fields: FormField[];
-  control: Control<T>; // Generic Typ für react-hook-form
+  control: Control<T>;
   layout?: "row" | "column";
   onFileChange?: (fieldName: string, file: File | null) => void;
 }
@@ -46,15 +46,26 @@ export function CreateRecipeInput<T extends FieldValues>({
   };
 
   return (
-    <div className={layout === "row" ? "flex flex-row gap-4" : "space-y-6"}>
+    <div
+      data-testid="create-recipe-form"
+      className={layout === "row" ? "flex flex-row gap-4" : "space-y-6"}
+    >
       {fields.map((field) => (
         <FormField
           key={field.name}
           control={control}
           name={field.name as Path<T>}
           render={({ field: controllerField }) => (
-            <FormItem className={layout === "row" ? "flex-1" : ""}>
-              <FormLabel htmlFor={field.name}>{field.label}</FormLabel>
+            <FormItem
+              className={layout === "row" ? "flex-1" : ""}
+              data-testid={`form-item-${field.name}`}
+            >
+              <FormLabel
+                htmlFor={field.name}
+                data-testid={`form-label-${field.name}`}
+              >
+                {field.label}
+              </FormLabel>
               <FormControl>
                 {field.type === "file" ? (
                   <div className="flex flex-col items-center">
@@ -69,6 +80,7 @@ export function CreateRecipeInput<T extends FieldValues>({
                       }}
                       onBlur={controllerField.onBlur}
                       name={controllerField.name}
+                      data-testid={`input-${field.name}`}
                       ref={controllerField.ref}
                     />
                     {previewUrls[field.name] && (
@@ -102,6 +114,7 @@ export function CreateRecipeInput<T extends FieldValues>({
                           : e.target.value;
                       controllerField.onChange(value);
                     }}
+                    data-testid={`input-${field.name}`}
                   />
                 )}
               </FormControl>

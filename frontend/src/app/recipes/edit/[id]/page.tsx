@@ -2,7 +2,7 @@ import { getRecipeDetail } from "@/services/recipe/recipeDetail";
 import { getCurrentUser } from "@/services/user/userService";
 import { getTags } from "@/services/tag/tagService";
 import { notFound } from "next/navigation";
-import CreateRecipeFormWrapper from "@/components/create-recipe-form-wrapper/create-recipe-form-wrapper";
+import RecipeFormWrapper from "@/components/recipe-form-wrapper/recipe-form-wrapper";
 import { Typography } from "@/components/ui/typography";
 import ScrollButton from "@/components/scroll-button/scroll-button";
 import Link from "next/link";
@@ -43,7 +43,7 @@ export default async function EditRecipePage({
         </Typography>
       </div>
       <div className="flex justify-center">
-        <CreateRecipeFormWrapper
+        <RecipeFormWrapper
           recipeData={recipe}
           tags={tags}
           user={user}

@@ -2,13 +2,22 @@
 import { render, screen } from "@testing-library/react";
 import Card from "@/components/card/card";
 
+jest.mock("next/navigation", () => ({
+  useRouter: jest.fn(() => ({
+    push: jest.fn(),
+    refresh: jest.fn(),
+  })),
+}));
+
 jest.mock("src/assets/icons/clock.svg", () => () => <div>ClockMock</div>);
 jest.mock("src/assets/icons/bookmark.svg", () => () => <div>BookmarkMock</div>);
 
 describe("Card", () => {
   const defaultProps = {
+    id: 1,
     imageSrc: "/test-image.jpg",
     imageAlt: "Test Image",
+    imageId: 1,
     title: "Test Recipe",
     prepDuration: 30,
   };

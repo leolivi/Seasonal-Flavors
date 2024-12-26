@@ -1,18 +1,14 @@
-import { getServerSession } from "next-auth";
-import { authConfig } from "@/auth";
 import { dataFetchWithToken } from "@/lib/data-fetch";
 
-export const getCurrentUser = async () => {
+export const getCurrentUser = async (accessToken: string) => {
   try {
-    const session = await getServerSession(authConfig);
-
-    if (!session || !session.accessToken) {
+    if (!accessToken) {
       return null;
     }
 
     return await dataFetchWithToken(
       `${process.env.BACKEND_URL}/api/user`,
-      session.accessToken,
+      accessToken,
     );
   } catch (error) {
     console.error("Fehler beim Laden des Benutzers:", error);

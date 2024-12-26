@@ -2,7 +2,7 @@ import ScrollButton from "@/components/scroll-button/scroll-button";
 import { Typography } from "@/components/ui/typography";
 import ArrowLeft from "@/assets/icons/arrow-left.svg";
 import Link from "next/link";
-import CreateRecipeFormWrapper from "@/components/create-recipe-form-wrapper/create-recipe-form-wrapper";
+import RecipeFormWrapper from "@/components/recipe-form-wrapper/recipe-form-wrapper";
 import { getCurrentUser } from "@/services/user/userService";
 import { getTags } from "@/services/tag/tagService";
 import { notFound } from "next/navigation";
@@ -37,7 +37,7 @@ export default async function CreateRecipe() {
         </Typography>
       </div>
       <div className="flex justify-center">
-        <CreateRecipeFormWrapper user={user} tags={translatedTags} />
+        <RecipeFormWrapper user={user} tags={translatedTags} />
       </div>
     </div>
   );

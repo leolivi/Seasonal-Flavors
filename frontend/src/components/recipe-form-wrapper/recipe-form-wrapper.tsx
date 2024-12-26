@@ -13,19 +13,19 @@ interface FormField {
   type?: string;
 }
 
-interface CreateRecipeFormWrapperProps {
+interface RecipeFormWrapperProps {
   recipeData?: RecipeData;
   tags: { id: number; name: string }[];
   user: UserData;
   imageData?: ImageData;
 }
 
-export default function CreateRecipeFormWrapper({
+export default function RecipeFormWrapper({
   recipeData,
   tags,
   user,
   imageData,
-}: CreateRecipeFormWrapperProps) {
+}: RecipeFormWrapperProps) {
   const formFields: FormField[] = [
     { name: "title", label: "Rezepttitel", placeholder: "Rezepttitel" },
     {

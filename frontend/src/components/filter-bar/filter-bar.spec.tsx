@@ -14,7 +14,7 @@ jest.mock("src/assets/icons/bookmark.svg", () => () => (
 ));
 
 // Mock API calls
-jest.mock("@/utils/data-fetch", () => ({
+jest.mock("@/lib/data-fetch", () => ({
   dataFetchWithToken: jest.fn(),
   dataFetch: jest.fn(),
 }));

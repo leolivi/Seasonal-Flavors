@@ -19,7 +19,7 @@ const TestWrapper = () => {
 
   return (
     <FormProvider {...methods}>
-      <SeasonCheckbox control={methods.control} tags={mockTags} />
+      <SeasonCheckbox control={methods.control} tags={mockTags} name="tags" />
     </FormProvider>
   );
 };

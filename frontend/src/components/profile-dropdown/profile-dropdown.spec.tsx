@@ -3,7 +3,7 @@ import ProfileDropdown from "./profile-dropdown";
 
 const mockSignOut = jest.fn();
 
-jest.mock("@/utils/useMediaQuery", () => ({
+jest.mock("@/hooks/useMediaQuery", () => ({
   __esModule: true,
   default: jest.fn(() => true),
 }));
@@ -16,7 +16,6 @@ jest.mock("next-auth/react", () => ({
   signOut: jest.fn(() => mockSignOut()),
 }));
 
-// Mock für die Avatar-Komponente
 jest.mock("@/components/avatar/avatar", () => ({
   Avatar: ({ children }: { children: React.ReactNode }) => (
     <div>{children}</div>
