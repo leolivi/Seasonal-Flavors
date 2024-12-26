@@ -6,69 +6,29 @@ import { RecipeInfo } from "@/components/recipe-info/recipe-info";
 import { RecipeInstructions } from "@/components/recipe-instructions/recipe-instructions";
 import Heart from "@/components/ui/heart";
 import { getSeasonColor, translateSeason } from "@/utils/SeasonUtils";
-import { dataFetch } from "@/lib/data-fetch";
 import foodImage from "@/assets/images/food-image.jpg";
-
-export interface RecipeData {
-  id: number;
-  title: string;
-  cooking_time: number;
-  prep_time: number;
-  servings: number;
-  steps: string;
-  ingredients: string;
-  user_id: string;
-  image_id?: number;
-  imageSrc?: string;
-  imageAlt?: string;
-  season?: string;
-}
-
-interface SeasonTag {
-  name: string;
-}
-
-export interface UserData {
-  username: string;
-  id: number;
-}
+import { getRecipeDetail } from "@/utils/recipeDetail";
+import { getRecipeTags, TagData } from "@/services/tag/tagService";
+import { getAuthenticatedUser } from "@/utils/auth-user";
 
 export default async function Recipe({ params }: { params: { id: number } }) {
-  // Fetch the recipe data and related information
+  const user = await getAuthenticatedUser();
+  if (!user) return null;
+
   const recipeId = params.id;
 
-  const recipeData = await dataFetch(
-    `${process.env.BACKEND_URL}/api/recipe?id=${recipeId}`,
-  );
-  const recipe: RecipeData = Array.isArray(recipeData)
-    ? recipeData[0]
-    : recipeData;
+  const recipeDetails = await getRecipeDetail(recipeId);
+  if (!recipeDetails) return null;
 
-  // Fetch the image data
-  const imageData = await dataFetch(
-    `${process.env.BACKEND_URL}/api/images?recipe_id=${recipeId}`,
-  );
-  const firstImage = imageData[0] || {};
+  const seasonData = await getRecipeTags(recipeDetails.id);
 
-  // Fetch season data
-  const seasonData = await dataFetch(
-    `${process.env.BACKEND_URL}/api/recipes/${recipeId}/tags`,
-  );
-  const seasonTags = Array.isArray(seasonData)
-    ? seasonData.map((tag: SeasonTag) => tag.name).join(", ")
-    : "";
-
-  // fetch user data
-  const userData: UserData = await dataFetch(
-    `${process.env.BACKEND_URL}/api/user/${recipe.user_id}`,
-  );
-
-  const formattedRecipeData: RecipeData = {
-    ...recipe,
-    imageSrc: firstImage.file_path || "",
-    imageAlt: firstImage.alt_text || recipe.title,
-    season: seasonTags,
-  };
+  const seasonTags = recipeDetails.season
+    .map((tagId: number) => {
+      const tag = seasonData.find((t: TagData) => t.id === tagId);
+      return tag ? tag.name : "";
+    })
+    .filter(Boolean)
+    .join(", ");
 
   const seasonArray = seasonTags
     .split(",")
@@ -77,13 +37,10 @@ export default async function Recipe({ params }: { params: { id: number } }) {
   return (
     <div className="px-4 pb-16 pt-8 min-[640px]:p-8 min-[640px]:pb-24">
       <ScrollButton />
-      <RecipeHeader
-        title={formattedRecipeData.title}
-        username={userData.username}
-      />
+      <RecipeHeader title={recipeDetails.title} username={user.username} />
       <ImageContainer
-        src={formattedRecipeData.imageSrc || foodImage}
-        alt={`Rezept Titelbild, ${formattedRecipeData.imageAlt}`}
+        src={recipeDetails.imageSrc || foodImage}
+        alt={`Rezept Titelbild, ${recipeDetails.imageAlt}`}
         width={500}
         height={300}
       />
@@ -105,12 +62,12 @@ export default async function Recipe({ params }: { params: { id: number } }) {
       </div>
       <div className="custom-grid min-[640px]:gap-8flex items-left flex flex-col min-[640px]:grid min-[640px]:grid-cols-[auto_1fr] min-[640px]:items-start min-[640px]:gap-8">
         <RecipeInfo
-          prepTime={formattedRecipeData.prep_time}
-          cookingTime={formattedRecipeData.cooking_time}
-          servings={formattedRecipeData.servings}
-          ingredients={formattedRecipeData.ingredients}
+          prepTime={recipeDetails.prep_time}
+          cookingTime={recipeDetails.cooking_time}
+          servings={recipeDetails.servings}
+          ingredients={recipeDetails.ingredients}
         />
-        <RecipeInstructions steps={formattedRecipeData.steps} />
+        <RecipeInstructions steps={recipeDetails.steps} />
       </div>
     </div>
   );

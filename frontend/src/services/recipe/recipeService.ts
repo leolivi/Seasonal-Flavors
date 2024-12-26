@@ -16,7 +16,7 @@ export interface Recipe {
   season?: string;
 }
 
-export const getRecipes = async () => {
+export const getSeasonalRecipes = async () => {
   const seasonName = getCurrentSeason();
 
   try {
@@ -27,6 +27,23 @@ export const getRecipes = async () => {
   } catch (error) {
     console.error("Fehler beim Laden der Rezepte:", error);
     return [];
+  }
+};
+
+export const getRecipe = async (recipeId: number): Promise<Recipe | null> => {
+  try {
+    const recipeResponse = await dataFetch(
+      `${process.env.BACKEND_URL}/api/recipe?id=${recipeId}`,
+    );
+
+    if (!recipeResponse || recipeResponse.length === 0) {
+      return null;
+    }
+
+    return Array.isArray(recipeResponse) ? recipeResponse[0] : recipeResponse;
+  } catch (error) {
+    console.error("Fehler beim Laden des Rezepts:", error);
+    return null;
   }
 };
 

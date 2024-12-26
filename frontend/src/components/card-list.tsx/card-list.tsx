@@ -3,23 +3,16 @@ import Link from "next/link";
 import { LayoutOptions, LayoutOptionType } from "@/utils/layout-options";
 import React from "react";
 import foodImage from "@/assets/images/food-image.jpg";
+import { Recipe } from "@/services/recipe/recipeService";
 
 interface CardListProps {
-  cardData?: {
-    id: number;
-    imageSrc: string;
-    imageAlt: string;
-    imageId?: number;
-    title: string;
-    prepDuration?: number;
-    season?: string;
-  }[];
+  cardData?: Recipe[];
   showDetail?: boolean;
   showBookmark?: boolean;
   showEdit?: boolean;
   style?: LayoutOptionType;
   onBookmarkClick?: (e: React.MouseEvent) => void;
-  onEditClick: (e: React.MouseEvent, id: number) => void;
+  onEditClick?: (e: React.MouseEvent, id: number) => void;
 }
 
 // Component mapping through recipe Cards
@@ -41,15 +34,20 @@ export const CardList = ({
               id={item.id}
               imageSrc={item.imageSrc || foodImage.src}
               imageAlt={item.imageAlt}
-              imageId={item.imageId}
+              image_id={item.image_id}
               title={item.title}
-              prepDuration={item.prepDuration}
+              prep_time={item.prep_time}
               season={item.season}
               showDetail={showDetail}
               showBookmark={showBookmark}
               showEdit={showEdit}
               onBookmarkClick={onBookmarkClick}
-              onEditClick={(e) => onEditClick(e, item.id)}
+              onEditClick={(e) => onEditClick?.(e, item.id)}
+              cooking_time={0}
+              servings={0}
+              steps={""}
+              ingredients={""}
+              user_id={""}
             />
           </Link>
         </React.Fragment>

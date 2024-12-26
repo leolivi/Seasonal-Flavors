@@ -4,28 +4,17 @@ import { Typography } from "@/components/ui/typography";
 import { Button, ButtonSize } from "@/components/button/button";
 import Arrow from "src/assets/icons/arrow.svg";
 import { LayoutOptions } from "@/utils/layout-options";
-import { getServerSession } from "next-auth";
-import { authConfig } from "@/auth";
 import Link from "next/link";
-import { getCurrentUser } from "@/services/user/userService";
-import { getRecipeDetail } from "@/services/recipe/recipeDetail";
-import { getUserRecipes, Recipe } from "@/services/recipe/userRecipeService";
+import { getRecipeDetail } from "@/utils/recipeDetail";
+import { getUserRecipes, Recipe } from "@/services/recipe/recipeService";
+import { getRecipeTags, TagData } from "@/services/tag/tagService";
+import { getAuthenticatedUser } from "@/utils/auth-user";
 
-export interface ImageData {
-  id: number;
-  file_path: string;
-  alt_text: string;
-}
+const MyRecipesPage = async () => {
+  const user = await getAuthenticatedUser();
+  if (!user) return null;
 
-const MyRecipes = async () => {
-  const session = await getServerSession(authConfig);
-
-  if (!session) return;
-
-  // User-Fetch
-  const user = await getCurrentUser(session.accessToken);
-  if (!user) return;
-
+  // Recipe-Fetch (all recipes of the current user)
   const cardData = await getUserRecipes(user.id);
   if (!cardData) {
     return;
@@ -36,6 +25,16 @@ const MyRecipes = async () => {
       const recipeDetails = await getRecipeDetail(recipe.id);
       if (!recipeDetails) return null;
 
+      const seasonData = await getRecipeTags(recipe.id);
+
+      const seasonTags = recipeDetails.season
+        .map((tagId: number) => {
+          const tag = seasonData.find((t: TagData) => t.id === tagId);
+          return tag ? tag.name : "";
+        })
+        .filter(Boolean)
+        .join(", ");
+
       return {
         id: recipe.id,
         imageSrc: recipeDetails.imageSrc,
@@ -43,7 +42,7 @@ const MyRecipes = async () => {
         imageId: recipeDetails.id,
         title: recipe.title,
         prepDuration: recipe.prep_time,
-        season: recipeDetails.season.join(", "),
+        season: seasonTags,
       };
     }),
   );
@@ -103,4 +102,4 @@ const MyRecipes = async () => {
   );
 };
 
-export default MyRecipes;
+export default MyRecipesPage;

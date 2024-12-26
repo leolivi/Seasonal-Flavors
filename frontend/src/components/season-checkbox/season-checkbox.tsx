@@ -1,4 +1,4 @@
-import { Control, FieldValues } from "react-hook-form";
+import { Control, FieldValues, Path } from "react-hook-form";
 import Checkbox from "../ui/checkbox";
 import {
   FormControl,
@@ -11,7 +11,7 @@ import {
 
 interface SeasonCheckboxProps<T extends FieldValues> {
   control: Control<T>;
-  name: keyof T;
+  name: Path<T>;
   tags: { id: number; name: string }[];
 }
 
@@ -23,7 +23,7 @@ export function SeasonCheckbox<T extends FieldValues>({
   return (
     <FormField
       control={control}
-      name={name as any}
+      name={name}
       render={() => (
         <FormItem>
           <div className="mb-4">
@@ -41,7 +41,7 @@ export function SeasonCheckbox<T extends FieldValues>({
               <FormField
                 key={season.id}
                 control={control}
-                name={name as any}
+                name={name}
                 render={({ field }) => (
                   <FormItem className="flex flex-row items-center justify-start space-x-3 space-y-0">
                     <FormControl>

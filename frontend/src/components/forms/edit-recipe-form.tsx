@@ -13,13 +13,14 @@ import { useToast } from "@/hooks/use-toast";
 import { IngredientInput } from "../create-recipe-input/ingredient-input";
 import { handleImageDelete } from "@/services/image/imageDelete";
 import { handleImageUpload } from "@/services/image/imageUpload";
-import { RecipeData, UserData } from "@/app/recipes/[id]/page";
 import {
   editRecipeSchema,
   EditRecipeSchema,
 } from "@/validation/editRecipeSchema";
 import { handleRecipePatch } from "@/services/recipe/recipePatch";
 import { ImageData } from "@/services/image/imageService";
+import { Recipe } from "@/services/recipe/recipeService";
+import { UserData } from "@/services/user/userService";
 
 interface FormField {
   name: keyof EditRecipeSchema;
@@ -29,7 +30,7 @@ interface FormField {
 
 interface EditRecipeFormProps {
   formFields: FormField[];
-  recipeData: RecipeData;
+  recipeData: Recipe;
   tags: { id: number; name: string }[];
   user: UserData;
   imageData?: ImageData;
@@ -64,20 +65,12 @@ export default function EditRecipeForm({
   });
 
   const onSubmit = async (data: EditRecipeSchema) => {
-    console.log("Starting form submission");
     const recipeId = recipeData.id;
 
     if (coverImage) {
-      console.log("Handling image update");
       const imageId = imageData?.id;
-      console.log("Current image_id:", imageId);
 
       if (imageId) {
-        console.log("Attempting to delete image with:", {
-          recipeId,
-          imageId,
-        });
-
         const deleteImage = await handleImageDelete(recipeId, imageId, toast);
 
         if (deleteImage === true) {

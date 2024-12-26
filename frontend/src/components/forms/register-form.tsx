@@ -53,7 +53,6 @@ export const RegisterForm = ({ setForm }: RegisterFormProps) => {
     );
 
     if (response.status === 201) {
-      console.log("Signup successful: ", response);
       toast({
         variant: "default",
         title: "Erfolgreich registriert",
@@ -89,14 +88,12 @@ export const RegisterForm = ({ setForm }: RegisterFormProps) => {
           });
         });
       } else if (typeof response.errors === "string") {
-        console.log("Error message: ", response.errors);
         toast({
           variant: "destructive",
           title: "Fehler",
           description: response.errors,
         });
       } else {
-        console.log("Signup failed: ", response);
         toast({
           variant: "destructive",
           title: "Fehler",

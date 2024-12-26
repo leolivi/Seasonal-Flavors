@@ -9,18 +9,12 @@ import { handleRecipeDelete } from "@/services/recipe/recipeDelete";
 import { handleImageDelete } from "@/services/image/imageDelete";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/hooks/use-toast";
+import { Recipe } from "@/services/recipe/recipeService";
 
-interface CardProps {
-  id: number;
-  imageSrc: string;
-  imageAlt: string;
-  imageId?: number;
-  title: string;
-  prepDuration?: number;
+interface ExtendedRecipeProps extends Recipe {
   showDetail?: boolean;
   showBookmark?: boolean;
   showEdit?: boolean;
-  season?: string;
   onBookmarkClick?: (e: React.MouseEvent) => void;
   onEditClick?: (e: React.MouseEvent) => void;
 }
@@ -32,7 +26,7 @@ export default function Card({
   onBookmarkClick = () => {},
   onEditClick = () => {},
   ...props
-}: CardProps) {
+}: ExtendedRecipeProps) {
   const seasonColors = props.season
     ? props.season.split(",").map((s) => getSeasonColor(s.trim()))
     : [];
@@ -41,10 +35,8 @@ export default function Card({
   const { toast } = useToast();
 
   const deleteRecipe = async () => {
-    console.log("deleteRecipe called");
     if (props.id) {
-      console.log("Lösche Bild mit ID:", props.imageId);
-      await handleImageDelete(props.id, props.imageId, toast);
+      await handleImageDelete(props.id, props.image_id, toast);
     }
 
     await handleRecipeDelete(props.id, toast, router);
@@ -64,9 +56,8 @@ export default function Card({
         )}
         <Image
           className="pointer-events-none h-full w-full rounded-lg object-cover"
-          // loader={imageLoader}
-          src={props.imageSrc}
-          alt={props.imageAlt}
+          src={props.imageSrc || ""}
+          alt={props.imageAlt || props.title}
           width={500}
           height={300}
         />
@@ -83,7 +74,7 @@ export default function Card({
         <div className="mt-4 flex justify-between">
           <div className="flex items-center gap-2">
             <Clock data-testid="clock" />
-            <p className="text-sfblack">{props.prepDuration} Min. aktiv</p>
+            <p className="text-sfblack">{props.prep_time} Min. aktiv</p>
           </div>
           <div className="flex gap-1">
             {seasonColors.map((color, index) => (

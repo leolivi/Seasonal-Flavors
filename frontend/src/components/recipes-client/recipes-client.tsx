@@ -8,23 +8,15 @@ import { Typography } from "@/components/ui/typography";
 import { Button, ButtonSize } from "@/components/button/button";
 import Arrow from "src/assets/icons/arrow.svg";
 import { LayoutOptions } from "@/utils/layout-options";
-
-interface RecipeCard {
-  id: number;
-  imageSrc: string;
-  imageAlt: string;
-  title: string;
-  prepDuration: number;
-  season: string;
-}
+import { Recipe } from "@/services/recipe/recipeService";
 
 interface RecipesClientProps {
-  formattedCardData: RecipeCard[];
+  formattedCardData: Recipe[];
 }
 
 const RecipesClient: React.FC<RecipesClientProps> = ({ formattedCardData }) => {
   const [visibleItems, setVisibleItems] = useState(6);
-  const [favorites, setFavorites] = useState<RecipeCard[]>([]);
+  const [favorites, setFavorites] = useState<Recipe[]>([]);
   const [showFavorites, setShowFavorites] = useState(false);
 
   const showMore = () => {
@@ -36,7 +28,7 @@ const RecipesClient: React.FC<RecipesClientProps> = ({ formattedCardData }) => {
       <ScrollButton />
       <h1 className="h-0 opacity-0">Rezepte</h1>
       <FilterBar
-        onShowFavorites={(favs) => {
+        onShowFavorites={(favs: Recipe[]) => {
           setFavorites(favs);
           setShowFavorites(true);
         }}

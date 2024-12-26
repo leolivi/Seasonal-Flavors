@@ -1,4 +1,5 @@
 "use client";
+import { Recipe } from "@/services/recipe/recipeService";
 import { CardList } from "@/components/card-list.tsx/card-list";
 import { LayoutOptionType } from "@/utils/layout-options";
 import { useState } from "react";
@@ -7,15 +8,7 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
 interface CardListWrapperProps {
-  cardData: {
-    id: number;
-    imageSrc: string;
-    imageAlt: string;
-    imageId: number;
-    title: string;
-    prepDuration?: number;
-    season?: string;
-  }[];
+  cardData: Recipe[];
   showDetail?: boolean;
   showEdit?: boolean;
   showBookmark?: boolean;

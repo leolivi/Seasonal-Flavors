@@ -3,13 +3,13 @@ import { Typography } from "@/components/ui/typography";
 import ArrowLeft from "@/assets/icons/arrow-left.svg";
 import Link from "next/link";
 import RecipeFormWrapper from "@/components/recipe-form-wrapper/recipe-form-wrapper";
-import { getCurrentUser } from "@/services/user/userService";
+import { getAuthenticatedUser } from "@/utils/auth-user";
 import { getTags } from "@/services/tag/tagService";
 import { notFound } from "next/navigation";
 import { translateSeason } from "@/utils/SeasonUtils";
 
 export default async function CreateRecipe() {
-  const [user, tags] = await Promise.all([getCurrentUser(), getTags()]);
+  const [user, tags] = await Promise.all([getAuthenticatedUser(), getTags()]);
 
   if (!user) {
     return notFound();

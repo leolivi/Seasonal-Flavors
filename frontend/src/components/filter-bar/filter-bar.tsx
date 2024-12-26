@@ -5,12 +5,15 @@ import Magnifier from "src/assets/icons/magnifier.svg";
 import Bookmark from "src/assets/icons/bookmark.svg";
 import { Typography } from "../ui/typography";
 import { getSeasonColor } from "@/utils/SeasonUtils";
-import { dataFetch, dataFetchWithToken } from "@/lib/data-fetch";
 import { useSession } from "next-auth/react";
+import { Recipe } from "@/services/recipe/recipeService";
+import { getRecipeTags, TagData } from "@/services/tag/tagService";
+import { getCurrentUser, getUserFavorites } from "@/services/user/userService";
+import { getRecipeImage } from "@/services/image/imageService";
 
 interface FilterBarProps {
   title?: string;
-  onShowFavorites: (favorites: any[]) => void;
+  onShowFavorites: (favorites: Recipe[]) => void;
   onHideFavorites: () => void;
 }
 
@@ -40,40 +43,26 @@ const FilterBar = ({
     if (!session) return;
 
     try {
-      const user = await dataFetchWithToken(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/user`,
-        session.accessToken,
-      );
+      const user = await getCurrentUser(session.accessToken);
+      if (!user) return;
 
-      const favorites = await dataFetchWithToken(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/user/${user.id}/favorites`,
-        session.accessToken,
-      );
+      const favorites = await getUserFavorites(user.id, session.accessToken);
 
       const detailedFavorites = await Promise.all(
-        favorites.map(async (recipe: any) => {
-          const imageData = await dataFetch(
-            `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/images?recipe_id=${recipe.id}`,
-          );
-          const seasonData = await dataFetch(
-            `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/recipes/${recipe.id}/tags`,
-          );
-
-          const firstImage = imageData[0] || {};
-          const seasonTags = seasonData.map((tag: any) => tag.name).join(", ");
+        favorites.map(async (recipe: Recipe) => {
+          const imageData = await getRecipeImage(recipe.id);
+          const seasonData = await getRecipeTags(recipe.id);
 
           return {
-            id: recipe.id,
-            imageSrc: firstImage.file_path || "",
-            imageAlt: firstImage.alt_text || recipe.title,
-            title: recipe.title,
-            prepDuration: recipe.prep_time,
-            season: seasonTags,
+            ...recipe,
+            imageSrc: imageData[0]?.file_path || "",
+            imageAlt: imageData[0]?.alt_text || recipe.title,
+            season: seasonData.map((tag: TagData) => tag.name).join(", "),
           };
         }),
       );
 
-      onShowFavorites(detailedFavorites || []);
+      onShowFavorites(detailedFavorites);
       setIsFavoritesActive(true);
     } catch (error) {
       console.error("Error fetching detailed favorites:", error);

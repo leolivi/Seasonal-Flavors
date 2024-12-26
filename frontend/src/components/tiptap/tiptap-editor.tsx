@@ -18,7 +18,7 @@ export interface ProseMirrorNode {
 
 interface TipTapEditorProps {
   content: ProseMirrorNode | undefined;
-  onContentChange: (content: any) => void;
+  onContentChange: (content: ProseMirrorNode) => void;
 }
 
 export const TipTapEditor = ({

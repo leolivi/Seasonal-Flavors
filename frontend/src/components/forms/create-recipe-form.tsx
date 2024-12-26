@@ -17,7 +17,7 @@ import { useToast } from "@/hooks/use-toast";
 import { IngredientInput } from "../create-recipe-input/ingredient-input";
 import { handleImageUpload } from "@/services/image/imageUpload";
 import { handleCreateRecipe } from "@/services/recipe/recipeCreate";
-import { UserData } from "@/app/recipes/[id]/page";
+import { UserData } from "@/services/user/userService";
 
 interface FormField {
   name: keyof CreateRecipeSchema;

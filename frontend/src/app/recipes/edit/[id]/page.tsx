@@ -1,5 +1,5 @@
-import { getRecipeDetail } from "@/services/recipe/recipeDetail";
-import { getCurrentUser } from "@/services/user/userService";
+import { getRecipeDetail } from "@/utils/recipeDetail";
+import { getAuthenticatedUser } from "@/utils/auth-user";
 import { getTags } from "@/services/tag/tagService";
 import { notFound } from "next/navigation";
 import RecipeFormWrapper from "@/components/recipe-form-wrapper/recipe-form-wrapper";
@@ -7,7 +7,7 @@ import { Typography } from "@/components/ui/typography";
 import ScrollButton from "@/components/scroll-button/scroll-button";
 import Link from "next/link";
 import ArrowLeft from "@/assets/icons/arrow-left.svg";
-import { getCurrentImage } from "@/services/image/imageService";
+import { getRecipeImage } from "@/services/image/imageService";
 
 export default async function EditRecipePage({
   params,
@@ -18,12 +18,12 @@ export default async function EditRecipePage({
 
   const [recipe, user, tags, imageData] = await Promise.all([
     getRecipeDetail(recipeId),
-    getCurrentUser(),
+    getAuthenticatedUser(),
     getTags(),
-    getCurrentImage(recipeId),
+    getRecipeImage(recipeId),
   ]);
 
-  if (!recipe || !user || user.id !== recipe.user_id) {
+  if (!recipe || !user) {
     return notFound();
   }
 
@@ -32,14 +32,16 @@ export default async function EditRecipePage({
   return (
     <div className="px-4 pb-16 pt-8 min-[640px]:p-8 min-[640px]:pb-24">
       <ScrollButton />
-      <Link href="/my-recipes">
-        <button aria-label="Go back" className="mt-8 w-fit cursor-pointer">
-          <ArrowLeft />
-        </button>
-      </Link>
+      <div className="mt-8 w-fit cursor-pointer">
+        <Link href="/my-recipes">
+          <button aria-label="Go back">
+            <ArrowLeft />
+          </button>
+        </Link>
+      </div>
       <div className="flex items-center justify-center px-2 min-[640px]:px-6">
         <Typography variant="heading2" className="font-figtreeRegular">
-          Rezept bearbeiten
+          <h1>Rezept bearbeiten</h1>
         </Typography>
       </div>
       <div className="flex justify-center">

@@ -6,15 +6,10 @@ import { Button } from "../button/button";
 import { useRouter } from "next/navigation";
 import { CardList } from "../card-list.tsx/card-list";
 import { LayoutOptions } from "@/utils/layout-options";
+import { Recipe } from "@/services/recipe/recipeService";
 
 interface CardSliderProps {
-  cardData: {
-    id: number;
-    imageSrc: string;
-    imageAlt: string;
-    title: string;
-    season?: string;
-  }[];
+  cardData: Recipe[];
 }
 
 export const CardSlider = ({ cardData }: CardSliderProps) => {

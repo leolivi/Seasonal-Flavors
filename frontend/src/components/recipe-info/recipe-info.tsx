@@ -1,14 +1,8 @@
 import { getSeasonColor } from "@/utils/SeasonUtils";
 import { Typography } from "../ui/typography";
+import { Recipe } from "@/services/recipe/recipeService";
 
-interface RecipeInfoProps {
-  prepTime: number;
-  cookingTime: number;
-  servings: number;
-  ingredients: string;
-}
-
-export const RecipeInfo = ({ ...props }: RecipeInfoProps) => {
+export const RecipeInfo = ({ ...props }: Recipe) => {
   const ingredientsArray = props.ingredients
     .split(",")
     .map((item) => item.trim());
@@ -16,8 +10,8 @@ export const RecipeInfo = ({ ...props }: RecipeInfoProps) => {
   const seasonalColor = getSeasonColor();
 
   const recipeDetails = [
-    { label: "zubereiten", value: `${props.prepTime} min` },
-    { label: "kochen", value: `${props.cookingTime} min` },
+    { label: "zubereiten", value: `${props.prep_time} min` },
+    { label: "kochen", value: `${props.cooking_time} min` },
     { label: "Portionen", value: props.servings },
   ];
 
