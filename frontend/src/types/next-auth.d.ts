@@ -3,7 +3,13 @@ import "@auth/core/jwt";
 
 declare module "next-auth" {
   interface Session {
-    accessToken: string;
+    user?: {
+      id: number;
+      name?: string | null;
+      email?: string | null;
+      image?: string | null;
+    };
+    accessToken?: string;
   }
 
   interface User {

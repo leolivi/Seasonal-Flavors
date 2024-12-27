@@ -61,12 +61,7 @@ export default async function Recipe({ params }: { params: { id: number } }) {
         })}
       </div>
       <div className="custom-grid min-[640px]:gap-8flex items-left flex flex-col min-[640px]:grid min-[640px]:grid-cols-[auto_1fr] min-[640px]:items-start min-[640px]:gap-8">
-        <RecipeInfo
-          prepTime={recipeDetails.prep_time}
-          cookingTime={recipeDetails.cooking_time}
-          servings={recipeDetails.servings}
-          ingredients={recipeDetails.ingredients}
-        />
+        <RecipeInfo {...recipeDetails} season={seasonTags} />
         <RecipeInstructions steps={recipeDetails.steps} />
       </div>
     </div>

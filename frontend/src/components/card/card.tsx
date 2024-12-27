@@ -5,11 +5,11 @@ import Heart from "../ui/heart";
 import { getSeasonColor } from "@/utils/SeasonUtils";
 import BookmarkButton from "../ui/bookmark";
 import { Button, ButtonSize, ButtonStyle } from "../button/button";
-import { handleRecipeDelete } from "@/services/recipe/recipeDelete";
 import { handleImageDelete } from "@/services/image/imageDelete";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/hooks/use-toast";
 import { Recipe } from "@/services/recipe/recipeService";
+import { handleRecipeDelete } from "@/services/recipe/recipeDelete";
 
 interface ExtendedRecipeProps extends Recipe {
   showDetail?: boolean;
@@ -52,7 +52,11 @@ export default function Card({
     >
       <div className="min-[640px]:min-w-70 min-[1024px]:min-w-90 relative aspect-square min-w-56">
         {showBookmark && (
-          <BookmarkButton onClick={onBookmarkClick} data-testid="bookmark" />
+          <BookmarkButton
+            onClick={onBookmarkClick}
+            recipeId={props.id.toString()}
+            data-testid="bookmark"
+          />
         )}
         <Image
           className="pointer-events-none h-full w-full rounded-lg object-cover"

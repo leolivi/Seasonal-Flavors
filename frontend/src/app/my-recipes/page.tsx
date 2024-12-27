@@ -41,7 +41,7 @@ const MyRecipesPage = async () => {
         imageAlt: recipeDetails.imageAlt,
         imageId: recipeDetails.id,
         title: recipe.title,
-        prepDuration: recipe.prep_time,
+        prep_time: recipe.prep_time,
         season: seasonTags,
       };
     }),
@@ -71,8 +71,13 @@ const MyRecipesPage = async () => {
               imageAlt: item!.imageAlt,
               imageId: item!.imageId || 0,
               title: item!.title,
-              prepDuration: item!.prepDuration,
+              prep_time: item!.prep_time,
               season: item!.season,
+              cooking_time: 0,
+              servings: 0,
+              steps: "",
+              ingredients: "",
+              user_id: "",
             }))}
             showDetail={true}
             showEdit={true}

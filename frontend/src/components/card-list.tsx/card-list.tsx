@@ -11,7 +11,7 @@ interface CardListProps {
   showBookmark?: boolean;
   showEdit?: boolean;
   style?: LayoutOptionType;
-  onBookmarkClick?: (e: React.MouseEvent) => void;
+  onBookmarkClick?: (e: React.MouseEvent, recipeId: number) => void;
   onEditClick?: (e: React.MouseEvent, id: number) => void;
 }
 
@@ -41,7 +41,7 @@ export const CardList = ({
               showDetail={showDetail}
               showBookmark={showBookmark}
               showEdit={showEdit}
-              onBookmarkClick={onBookmarkClick}
+              onBookmarkClick={(e) => onBookmarkClick?.(e, item.id)}
               onEditClick={(e) => onEditClick?.(e, item.id)}
               cooking_time={0}
               servings={0}

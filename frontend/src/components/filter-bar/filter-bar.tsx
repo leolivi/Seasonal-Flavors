@@ -9,7 +9,8 @@ import { useSession } from "next-auth/react";
 import { Recipe } from "@/services/recipe/recipeService";
 import { getRecipeTags, TagData } from "@/services/tag/tagService";
 import { getCurrentUser, getUserFavorites } from "@/services/user/userService";
-import { getRecipeImage } from "@/services/image/imageService";
+import { getCurrentImage } from "@/services/image/imageService";
+import { useFavoritesStore } from "@/store/useFavoritesStore";
 
 interface FilterBarProps {
   title?: string;
@@ -26,10 +27,14 @@ const FilterBar = ({
   const [isFavoritesActive, setIsFavoritesActive] = useState(false);
   const seasonalColor = getSeasonColor();
   const { data: session } = useSession();
+  const loadFavorites = useFavoritesStore((state) => state.loadFavorites);
 
   useEffect(() => {
     setInputValue(title);
-  }, [title]);
+    if (session?.accessToken) {
+      loadFavorites(session.accessToken);
+    }
+  }, [title, session, loadFavorites]);
 
   const clearInput = () => setInputValue("");
 
@@ -41,28 +46,33 @@ const FilterBar = ({
     }
 
     if (!session) return;
-
     try {
-      const user = await getCurrentUser(session.accessToken);
+      const user = await getCurrentUser(session.accessToken!);
       if (!user) return;
 
-      const favorites = await getUserFavorites(user.id, session.accessToken);
+      const favorites = await getUserFavorites(user.id, session.accessToken!);
+      if (!favorites) return;
 
-      const detailedFavorites = await Promise.all(
-        favorites.map(async (recipe: Recipe) => {
-          const imageData = await getRecipeImage(recipe.id);
+      const detailedFavorites: Recipe[] = await Promise.all(
+        favorites.map(async (recipe) => {
+          const imageData = await getCurrentImage(recipe.id);
+
           const seasonData = await getRecipeTags(recipe.id);
+
+          const seasonTags = seasonData
+            .map((tag: TagData) => tag.name)
+            .join(", ");
 
           return {
             ...recipe,
-            imageSrc: imageData[0]?.file_path || "",
-            imageAlt: imageData[0]?.alt_text || recipe.title,
-            season: seasonData.map((tag: TagData) => tag.name).join(", "),
+            imageSrc: imageData?.file_path,
+            imageAlt: imageData?.alt_text,
+            season: seasonTags,
           };
         }),
       );
 
-      onShowFavorites(detailedFavorites);
+      onShowFavorites(detailedFavorites || []);
       setIsFavoritesActive(true);
     } catch (error) {
       console.error("Error fetching detailed favorites:", error);

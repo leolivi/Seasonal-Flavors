@@ -22,7 +22,7 @@ export const getTags = async () => {
 export const getRecipeTags = async (recipeId: number): Promise<TagData[]> => {
   try {
     const tagData = await dataFetch(
-      `${process.env.BACKEND_URL}/api/recipes/${recipeId}/tags`,
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/recipes/${recipeId}/tags`,
     );
     return tagData;
   } catch (error) {
