@@ -1,25 +1,28 @@
 export const deleteFavoriteRecipe = async ({ recipeId, toast }) => {
-  try {
-    const apiUrl = `/api/recipes/${recipeId}/favorite`;
-    console.log("RecipeId:", recipeId);
-    console.log("Vollständige URL:", window.location.origin + apiUrl);
+  if (!recipeId) {
+    console.error("Keine Rezept-ID angegeben");
+    return false;
+  }
 
-    const response = await fetch(apiUrl, {
+  try {
+    const response = await fetch(`/api/auth/delete-favorite/${recipeId}`, {
       method: "DELETE",
-      headers: {
-        Accept: "application/json",
-      },
     });
 
+    const data = await response.json();
+
     if (!response.ok) {
-      console.error("Server Status:", response.status);
-      console.error("Response Headers:", Object.fromEntries(response.headers));
-      throw new Error(`HTTP error! status: ${response.status}`);
+      toast({
+        variant: "destructive",
+        title: "Fehler",
+        description: data.message || "Favorit konnte nicht gelöscht werden.",
+      });
+      throw new Error(data.message || "Favorite deletion failed");
     }
 
     toast({
       variant: "default",
-      title: "Erfolgreich!",
+      title: "Erfolg",
       description: "Rezept wurde aus deinen Favoriten entfernt.",
     });
 

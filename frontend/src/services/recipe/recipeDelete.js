@@ -21,6 +21,7 @@ export const handleRecipeDelete = async (recipeId, toast, router) => {
     }
 
     toast({
+      variant: "default",
       title: "Erfolg",
       description: "Rezept wurde erfolgreich gelöscht.",
     });
