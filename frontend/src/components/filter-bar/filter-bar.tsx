@@ -7,9 +7,6 @@ import { Typography } from "../ui/typography";
 import { getSeasonColor } from "@/utils/SeasonUtils";
 import { useSession } from "next-auth/react";
 import { Recipe } from "@/services/recipe/recipeService";
-import { getRecipeTags, TagData } from "@/services/tag/tagService";
-import { getCurrentUser, getUserFavorites } from "@/services/user/userService";
-import { getCurrentImage } from "@/services/image/imageService";
 import { useFavoritesStore } from "@/store/useFavoritesStore";
 
 interface FilterBarProps {
@@ -27,7 +24,7 @@ const FilterBar = ({
   const [isFavoritesActive, setIsFavoritesActive] = useState(false);
   const seasonalColor = getSeasonColor();
   const { data: session } = useSession();
-  const loadFavorites = useFavoritesStore((state) => state.loadFavorites);
+  const { loadFavorites, getDetailedFavorites } = useFavoritesStore();
 
   useEffect(() => {
     setInputValue(title);
@@ -46,36 +43,13 @@ const FilterBar = ({
     }
 
     if (!session) return;
+
     try {
-      const user = await getCurrentUser(session.accessToken!);
-      if (!user) return;
-
-      const favorites = await getUserFavorites(user.id, session.accessToken!);
-      if (!favorites) return;
-
-      const detailedFavorites: Recipe[] = await Promise.all(
-        favorites.map(async (recipe) => {
-          const imageData = await getCurrentImage(recipe.id);
-
-          const seasonData = await getRecipeTags(recipe.id);
-
-          const seasonTags = seasonData
-            .map((tag: TagData) => tag.name)
-            .join(", ");
-
-          return {
-            ...recipe,
-            imageSrc: imageData?.file_path,
-            imageAlt: imageData?.alt_text,
-            season: seasonTags,
-          };
-        }),
-      );
-
-      onShowFavorites(detailedFavorites || []);
+      const detailedFavorites = await getDetailedFavorites();
+      onShowFavorites(detailedFavorites);
       setIsFavoritesActive(true);
     } catch (error) {
-      console.error("Error fetching detailed favorites:", error);
+      console.error("Error loading detailed favorites:", error);
     }
   };
 

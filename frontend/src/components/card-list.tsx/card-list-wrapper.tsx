@@ -6,9 +6,8 @@ import { useState, useEffect } from "react";
 import { RegisterBanner } from "../banner/register-banner";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { handleFavoriteRecipe } from "@/services/user/favoriteCreate";
 import { useToast } from "@/hooks/use-toast";
-import { getUserFavorites } from "@/services/user/userService";
+import { useFavoritesStore } from "@/store/useFavoritesStore";
 
 interface CardListWrapperProps {
   cardData: Recipe[];
@@ -16,6 +15,7 @@ interface CardListWrapperProps {
   showEdit?: boolean;
   showBookmark?: boolean;
   style?: LayoutOptionType;
+  onShowFavorites?: (favorites: Recipe[]) => void;
 }
 
 const CardListWrapper = ({
@@ -24,29 +24,19 @@ const CardListWrapper = ({
   showBookmark,
   showEdit,
   style,
+  onShowFavorites,
 }: CardListWrapperProps) => {
   const { status, data: session } = useSession();
   const router = useRouter();
   const [showRegisterBanner, setShowRegisterBanner] = useState(false);
   const { toast } = useToast();
-  const [userFavorites, setUserFavorites] = useState<number[]>([]);
+  const { loadFavorites, toggleFavorite } = useFavoritesStore();
 
   useEffect(() => {
-    const loadFavorites = async () => {
-      if (
-        status === "authenticated" &&
-        session?.accessToken &&
-        session.user?.id
-      ) {
-        const favorites = await getUserFavorites(
-          session.user.id,
-          session.accessToken,
-        );
-        setUserFavorites(favorites.map((f) => f.id));
-      }
-    };
-    loadFavorites();
-  }, [status, session]);
+    if (status === "authenticated" && session?.accessToken) {
+      loadFavorites(session.accessToken);
+    }
+  }, [status, session, loadFavorites]);
 
   const handleBookmarkClick = async (e: React.MouseEvent, recipeId: number) => {
     e.preventDefault();
@@ -54,21 +44,12 @@ const CardListWrapper = ({
 
     if (status === "unauthenticated") {
       setShowRegisterBanner(true);
-    } else {
-      const success = await handleFavoriteRecipe({
-        recipeId,
-        accessToken: session?.accessToken || "",
-        toast,
-        isFavorited: userFavorites.includes(recipeId),
-      });
+      return;
+    }
 
-      if (success) {
-        setUserFavorites((prev) =>
-          prev.includes(recipeId)
-            ? prev.filter((id) => id !== recipeId)
-            : [...prev, recipeId],
-        );
-      }
+    const recipe = cardData.find((r) => r.id === recipeId);
+    if (recipe) {
+      await toggleFavorite(recipe, toast, router, onShowFavorites);
     }
   };
 

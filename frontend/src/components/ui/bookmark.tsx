@@ -22,7 +22,7 @@ export default function BookmarkButton({
   return (
     <button
       onClick={onClick}
-      className="absolute right-4 top-4"
+      className="absolute right-4 top-4 hover:drop-shadow-xl"
       aria-label="Bookmark"
       data-testid={dataTestId}
     >
