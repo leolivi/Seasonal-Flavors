@@ -1,4 +1,4 @@
-export const deleteFavoriteRecipe = async ({ recipeId, toast }) => {
+export const deleteFavoriteRecipe = async ({ recipeId, toast, router }) => {
   if (!recipeId) {
     console.error("Keine Rezept-ID angegeben");
     return false;
@@ -26,6 +26,7 @@ export const deleteFavoriteRecipe = async ({ recipeId, toast }) => {
       description: "Rezept wurde aus deinen Favoriten entfernt.",
     });
 
+    router.refresh();
     return true;
   } catch (error) {
     console.error("Fehler beim Entfernen des Favoriten:", error);

@@ -1,21 +1,9 @@
-import { deleteFavoriteRecipe } from "./favoriteDelete";
-
-export const handleFavoriteRecipe = async ({
-  recipeId,
-  accessToken,
-  toast,
-  isFavorited,
-}) => {
-  if (isFavorited) {
-    return await deleteFavoriteRecipe({ recipeId, accessToken, toast });
-  }
-
+export const handleFavoriteRecipe = async ({ recipeId, toast, router }) => {
   try {
     const response = await fetch("/api/create-favorite", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${accessToken}`,
       },
       body: JSON.stringify({ recipeId }),
     });
@@ -37,6 +25,7 @@ export const handleFavoriteRecipe = async ({
       description: "Rezept wurde zu deinen Favoriten hinzugefügt.",
     });
 
+    router.refresh();
     return true;
   } catch (error) {
     console.error("Fehler beim Favorisieren des Rezepts:", error);
