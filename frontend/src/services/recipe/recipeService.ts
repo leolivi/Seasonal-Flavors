@@ -13,7 +13,7 @@ export interface Recipe {
   image_id?: number;
   imageSrc?: string;
   imageAlt?: string;
-  season?: string;
+  season?: string | number[];
 }
 
 export const getSeasonalRecipes = async () => {

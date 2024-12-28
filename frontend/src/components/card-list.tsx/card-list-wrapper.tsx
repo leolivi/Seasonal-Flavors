@@ -10,20 +10,26 @@ import { useToast } from "@/hooks/use-toast";
 import { useFavoritesStore } from "@/store/useFavoritesStore";
 
 interface CardListWrapperProps {
-  cardData: Recipe[];
+  cardData?: Recipe[];
   showDetail?: boolean;
   showEdit?: boolean;
   showBookmark?: boolean;
   style?: LayoutOptionType;
+  children?: React.ReactNode;
+  className?: string;
+  isInFavoriteView?: boolean;
   onShowFavorites?: (favorites: Recipe[]) => void;
 }
 
 const CardListWrapper = ({
-  cardData,
+  cardData = [],
   showDetail,
   showBookmark,
   showEdit,
   style,
+  children,
+  className,
+  isInFavoriteView = false,
   onShowFavorites,
 }: CardListWrapperProps) => {
   const { status, data: session } = useSession();
@@ -47,9 +53,9 @@ const CardListWrapper = ({
       return;
     }
 
-    const recipe = cardData.find((r) => r.id === recipeId);
+    const recipe = cardData.find((e) => e.id === recipeId);
     if (recipe) {
-      await toggleFavorite(recipe, toast, router, onShowFavorites);
+      await toggleFavorite(recipe, toast, isInFavoriteView, onShowFavorites);
     }
   };
 
@@ -66,16 +72,19 @@ const CardListWrapper = ({
   };
 
   return (
-    <div>
-      <CardList
-        onBookmarkClick={handleBookmarkClick}
-        onEditClick={(e, id) => handleEditClick(e, id)}
-        showEdit={showEdit}
-        cardData={cardData}
-        showDetail={showDetail}
-        showBookmark={showBookmark}
-        style={style}
-      />
+    <div className={className}>
+      {children}
+      {cardData.length > 0 && (
+        <CardList
+          onBookmarkClick={handleBookmarkClick}
+          onEditClick={(e, id) => handleEditClick(e, id)}
+          showEdit={showEdit}
+          cardData={cardData}
+          showDetail={showDetail}
+          showBookmark={showBookmark}
+          style={style}
+        />
+      )}
 
       {showRegisterBanner && (
         <div className="fixed left-1/2 top-1/2 z-50 -translate-x-1/2">

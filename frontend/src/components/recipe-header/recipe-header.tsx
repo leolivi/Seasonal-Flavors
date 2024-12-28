@@ -7,31 +7,50 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { RegisterBanner } from "../banner/register-banner";
 import { useSession } from "next-auth/react";
+import { useFavoritesStore } from "@/store/useFavoritesStore";
+import { getSeasonColor } from "@/utils/SeasonUtils";
+import { Recipe } from "@/services/recipe/recipeService";
+import { useToast } from "@/hooks/use-toast";
 
 interface RecipeHeaderProps {
   title: string;
   username: string;
+  recipe: Recipe;
 }
 
-export const RecipeHeader = ({ title, username }: RecipeHeaderProps) => {
+export const RecipeHeader = ({
+  title,
+  username,
+  recipe,
+}: RecipeHeaderProps) => {
   const router = useRouter();
-  const { data: session, status } = useSession();
+  // data: session
+  const { status } = useSession();
   const [showRegisterBanner, setShowRegisterBanner] = useState(false);
+  const { toggleFavorite } = useFavoritesStore();
+  const favorites = useFavoritesStore((state) => state.favorites);
+  const { toast } = useToast();
+  const seasonalColor = getSeasonColor();
+
+  const isFavorite = recipe?.id
+    ? favorites.some((favorite) => favorite.id === recipe.id)
+    : false;
 
   const handleBackClick = () => {
     router.back();
   };
 
-  const handleSaveClick = (e: React.MouseEvent) => {
+  const handleSaveClick = async (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
 
-    // If the user is not authenticated, show the register banner
     if (status === "unauthenticated") {
       setShowRegisterBanner(true);
-      // TODO: handle bookmark functionality for authenticated users here
-    } else {
-      console.log("Bookmark saved!");
+      return;
+    }
+
+    if (recipe) {
+      await toggleFavorite(recipe, toast);
     }
   };
 
@@ -50,17 +69,22 @@ export const RecipeHeader = ({ title, username }: RecipeHeaderProps) => {
         <Typography variant="heading1">
           <h1 className="mt-4 font-cordaBold text-sfblack">{title}</h1>
         </Typography>
-        {/* TODO: How do I fetch the userid when unauthenticated? */}
         <Typography variant="body">
           <small className="mt-2 text-sfblack">von {username}</small>
         </Typography>
-        {/* TODO: Implement "speichern" Function */}
 
         <Button
-          label="speichern"
-          iconLeft={<Bookmark className="h-6 w-auto" />}
+          label={isFavorite ? `gespeichert` : `speichern`}
+          iconLeft={
+            <Bookmark
+              className={`h-6 w-auto ${
+                isFavorite ? `fill-${seasonalColor}` : "fill-sfwhite"
+              }`}
+            />
+          }
           onClick={handleSaveClick}
         />
+
         {showRegisterBanner && (
           <div className="fixed left-1/2 top-1/2 z-50 -translate-x-1/2">
             <RegisterBanner

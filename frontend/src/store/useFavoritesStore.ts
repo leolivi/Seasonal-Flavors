@@ -15,16 +15,19 @@ interface FavoritesStore {
   toggleFavorite: (
     recipe: Recipe,
     toast: any,
-    router: any,
-    onFavoritesChange?: (favorites: Recipe[]) => void,
+    isInFavoriteView?: boolean,
+    onShowFavorites?: (favorites: Recipe[]) => void,
   ) => Promise<void>;
   loadFavorites: (accessToken: string) => Promise<void>;
   getDetailedFavorites: () => Promise<Recipe[]>;
+  isFavoritesActive: boolean;
+  setFavoritesActive: (isActive: boolean) => void;
 }
 
 export const useFavoritesStore = create<FavoritesStore>((set, get) => ({
   favorites: [],
-
+  isFavoritesActive: false,
+  setFavoritesActive: (isActive) => set({ isFavoritesActive: isActive }),
   setFavorites: (favorites) => set({ favorites }),
 
   addFavorite: (recipe) =>
@@ -37,19 +40,33 @@ export const useFavoritesStore = create<FavoritesStore>((set, get) => ({
       favorites: state.favorites.filter((recipe) => recipe.id !== recipeId),
     })),
 
-  toggleFavorite: async (recipe, toast, router, onFavoritesChange) => {
+  toggleFavorite: async (
+    recipe,
+    toast,
+    isInFavoriteView = false,
+    onShowFavorites,
+  ) => {
     const isFavorited = get().favorites.some((fav) => fav.id === recipe.id);
 
     try {
       const success = isFavorited
-        ? await deleteFavoriteRecipe({ recipeId: recipe.id, toast, router })
-        : await handleFavoriteRecipe({ recipeId: recipe.id, toast, router });
+        ? await deleteFavoriteRecipe({ recipeId: recipe.id, toast })
+        : await handleFavoriteRecipe({ recipeId: recipe.id, toast });
 
       if (success) {
         if (isFavorited) {
           get().removeFavorite(recipe.id);
+
+          if (isInFavoriteView && onShowFavorites) {
+            const detailedFavorites = await get().getDetailedFavorites();
+            onShowFavorites(detailedFavorites);
+          }
         } else {
           get().addFavorite(recipe);
+          if (isInFavoriteView && onShowFavorites) {
+            const detailedFavorites = await get().getDetailedFavorites();
+            onShowFavorites(detailedFavorites);
+          }
         }
       }
     } catch (error) {
@@ -59,10 +76,6 @@ export const useFavoritesStore = create<FavoritesStore>((set, get) => ({
         title: "Error",
         description: "An error occurred. Please try again.",
       });
-    }
-
-    if (onFavoritesChange) {
-      onFavoritesChange(get().favorites);
     }
   },
 
@@ -101,7 +114,7 @@ export const useFavoritesStore = create<FavoritesStore>((set, get) => ({
       return detailedFavorites;
     } catch (error) {
       console.error("Error getting detailed favorites:", error);
-      return favorites; // Fallback zu den basic favorites
+      return favorites;
     }
   },
 }));

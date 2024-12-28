@@ -46,7 +46,7 @@ const RecipesClient: React.FC<RecipesClientProps> = ({ formattedCardData }) => {
         ) : (
           <div className="flex h-[45vh] w-full flex-col items-center pt-10">
             <Typography variant="heading3">
-              <p className="text-sfblack">No Favorites Found</p>
+              <p className="text-sfblack">Keine Favoriten gefunden</p>
             </Typography>
           </div>
         )

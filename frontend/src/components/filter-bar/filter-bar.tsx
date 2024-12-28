@@ -8,6 +8,7 @@ import { getSeasonColor } from "@/utils/SeasonUtils";
 import { useSession } from "next-auth/react";
 import { Recipe } from "@/services/recipe/recipeService";
 import { useFavoritesStore } from "@/store/useFavoritesStore";
+import CardListWrapper from "../card-list.tsx/card-list-wrapper";
 
 interface FilterBarProps {
   title?: string;
@@ -21,23 +22,24 @@ const FilterBar = ({
   onHideFavorites,
 }: FilterBarProps) => {
   const [inputValue, setInputValue] = useState(title);
-  const [isFavoritesActive, setIsFavoritesActive] = useState(false);
   const seasonalColor = getSeasonColor();
   const { data: session } = useSession();
-  const { loadFavorites, getDetailedFavorites } = useFavoritesStore();
+  const { getDetailedFavorites, isFavoritesActive, setFavoritesActive } =
+    useFavoritesStore();
 
   useEffect(() => {
-    setInputValue(title);
-    if (session?.accessToken) {
-      loadFavorites(session.accessToken);
-    }
-  }, [title, session, loadFavorites]);
-
-  const clearInput = () => setInputValue("");
+    const initializeFavorites = async () => {
+      if (isFavoritesActive && session) {
+        const detailedFavorites = await getDetailedFavorites();
+        onShowFavorites(detailedFavorites);
+      }
+    };
+    initializeFavorites();
+  }, [session]);
 
   const toggleFavorites = async () => {
     if (isFavoritesActive) {
-      setIsFavoritesActive(false);
+      setFavoritesActive(false);
       onHideFavorites();
       return;
     }
@@ -47,14 +49,18 @@ const FilterBar = ({
     try {
       const detailedFavorites = await getDetailedFavorites();
       onShowFavorites(detailedFavorites);
-      setIsFavoritesActive(true);
+      setFavoritesActive(true);
     } catch (error) {
       console.error("Error loading detailed favorites:", error);
     }
   };
 
   return (
-    <div className="mb-4 flex justify-between gap-2 max-[640px]:mt-8 min-[640px]:pl-6 min-[640px]:pr-7">
+    <CardListWrapper
+      className="mb-4 flex justify-between gap-2 max-[640px]:mt-8 min-[640px]:pl-6 min-[640px]:pr-7"
+      isInFavoriteView={isFavoritesActive}
+      onShowFavorites={onShowFavorites}
+    >
       {/* Toggle Favorites Button */}
       <button
         data-testid="favorites-toggle-button"
@@ -88,7 +94,7 @@ const FilterBar = ({
         {inputValue ? (
           <button
             type="button"
-            onClick={clearInput}
+            onClick={() => setInputValue("")}
             className="ml-2 text-sfblack"
           >
             &#x2715;
@@ -99,7 +105,7 @@ const FilterBar = ({
           </button>
         )}
       </form>
-    </div>
+    </CardListWrapper>
   );
 };
 

@@ -1,4 +1,4 @@
-export const handleFavoriteRecipe = async ({ recipeId, toast, router }) => {
+export const handleFavoriteRecipe = async ({ recipeId, toast }) => {
   try {
     const response = await fetch("/api/create-favorite", {
       method: "POST",
@@ -25,7 +25,6 @@ export const handleFavoriteRecipe = async ({ recipeId, toast, router }) => {
       description: "Rezept wurde zu deinen Favoriten hinzugefügt.",
     });
 
-    router.refresh();
     return true;
   } catch (error) {
     console.error("Fehler beim Favorisieren des Rezepts:", error);

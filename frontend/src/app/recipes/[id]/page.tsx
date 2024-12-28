@@ -37,7 +37,11 @@ export default async function Recipe({ params }: { params: { id: number } }) {
   return (
     <div className="px-4 pb-16 pt-8 min-[640px]:p-8 min-[640px]:pb-24">
       <ScrollButton />
-      <RecipeHeader title={recipeDetails.title} username={user.username} />
+      <RecipeHeader
+        title={recipeDetails.title}
+        username={user.username}
+        recipe={recipeDetails}
+      />
       <ImageContainer
         src={recipeDetails.imageSrc || foodImage}
         alt={`Rezept Titelbild, ${recipeDetails.imageAlt}`}
