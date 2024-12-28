@@ -26,7 +26,7 @@ export const getRecipeImage = async (recipeId: number) => {
 export const getProfileImage = async (userId: number, accessToken: string) => {
   try {
     const response = await dataFetchWithToken(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/images?user_id=${userId}&type=profile`,
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/images?type=profile&user_id=${userId}`,
       accessToken,
     );
 

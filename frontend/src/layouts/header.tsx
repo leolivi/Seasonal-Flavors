@@ -8,10 +8,11 @@ import Logo from "@/components/ui/logo";
 import MobileNavigation from "@/components/mobile-navigation/mobile-navigation";
 import { usePathname } from "next/navigation";
 import { getSeasonColor } from "@/utils/SeasonUtils";
-import { useSession } from "next-auth/react";
+import { getSession, useSession } from "next-auth/react";
 import { MobileNavIcon } from "@/components/mobile-navigation/mobile-nav-icon";
 import { DesktopNav } from "@/components/desktop-nav/desktop-nav";
 import ProfileDropdown from "@/components/profile-dropdown/profile-dropdown";
+import { getCurrentUser, UserData } from "@/services/user/userService";
 
 interface HeaderContainerProps {
   color?: string;
@@ -37,6 +38,7 @@ const Header = () => {
   const { status } = useSession();
   const seasonalColor = getSeasonColor();
   const [isOpen, setIsOpen] = useState(false);
+  const [userData, setUserData] = useState<UserData | null>(null);
   const isDesktop = useMediaQuery("(min-width: 640px)");
   const pathname = usePathname();
   const ref = useRef<HTMLDivElement>(null);
@@ -44,24 +46,22 @@ const Header = () => {
 
   const toggleDropdown = () => setIsOpen(!isOpen);
 
-  // TODO: Add Profile Image here
   // Fetch the user profile image data once authenticated
-  // useEffect(() => {
-  //   const fetchUserData = async () => {
-  //     if (status === "authenticated") {
-  //       // Fetch user profile image
-  //       const response = await dataFetch(
-  //         `${process.env.BACKEND_URL}/api/images?profile=1&recipe_id=null`,
-  //       );
-  //       setUserData(response?.[0] || null); // Assume the first image is the profile image
-  //     }
-  //   };
+  useEffect(() => {
+    const fetchUserData = async () => {
+      if (status === "authenticated") {
+        const session = await getSession();
+        if (session?.accessToken) {
+          const userData = await getCurrentUser(session.accessToken);
+          setUserData(userData);
+        }
+      }
+    };
 
-  //   fetchUserData();
-  // }, [status]);
+    fetchUserData();
+  }, [status]);
 
   // Close modal on click away
-
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       const target = event.target as Node;
@@ -76,14 +76,14 @@ const Header = () => {
       setIsOpen(false); // Klick außerhalb
     };
 
+    // Event-Listener für Click-Outside
     document.addEventListener("mousedown", handleClickOutside);
+
+    // Cleanup
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, []);
-
-  // Close modal when the route changes
-  useEffect(() => setIsOpen(false), [pathname]);
+  }, [pathname]); // Pathname als Dependency hinzugefügt, schließt Modal auch bei Route-Änderungen
 
   const navigationItems = [
     {
@@ -102,7 +102,7 @@ const Header = () => {
     {
       icon:
         status === "authenticated" ? (
-          <ProfileDropdown ref={profileRef} />
+          <ProfileDropdown ref={profileRef} userData={userData} />
         ) : (
           <Profil className="w-5" />
         ),

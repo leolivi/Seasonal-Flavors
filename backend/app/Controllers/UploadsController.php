@@ -21,6 +21,9 @@ class UploadsController {
     
         if ($request->has('recipe_id')) {
             $query->where('recipe_id', $request->query('recipe_id'));
+        } elseif ($request->has('user_id') && $request->query('type') === 'profile') {
+            $query->where('user_id', $request->query('user_id'))
+                  ->whereNull('recipe_id');
         }
     
         $images = $query->get();

@@ -26,7 +26,8 @@ export const deleteFavoriteRecipe = async ({ recipeId, toast }) => {
       description: "Rezept wurde aus deinen Favoriten entfernt.",
     });
 
-    window.location.reload();
+    // TODO: fix reload issue (in favorite state unfavorised recipes should be removed in real time)
+    // window.location.reload();
     return true;
   } catch (error) {
     console.error("Fehler beim Entfernen des Favoriten:", error);

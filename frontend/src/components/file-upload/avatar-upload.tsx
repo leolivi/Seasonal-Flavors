@@ -7,6 +7,7 @@ import {
 import { FiTrash2 } from "react-icons/fi";
 import { FaUserCircle } from "react-icons/fa";
 import { getSeasonColor } from "@/utils/SeasonUtils";
+import { useState } from "react";
 
 interface AvatarUploadProps {
   avatarSrc: string;
@@ -18,11 +19,18 @@ export default function AvatarUpload({
   avatarFallback,
 }: AvatarUploadProps) {
   const seasonalColor = getSeasonColor();
+  const [imageLoaded, setImageLoaded] = useState(false);
 
   return (
     <div className="flex flex-col items-center">
       <Avatar size={AvatarSize.large}>
-        <AvatarImage src={avatarSrc} alt={avatarFallback} />
+        <AvatarImage
+          src={avatarSrc}
+          alt={avatarFallback}
+          onLoadingStatusChange={(status) =>
+            setImageLoaded(status === "loaded")
+          }
+        />
 
         <AvatarFallback>
           <FaUserCircle
@@ -32,7 +40,7 @@ export default function AvatarUpload({
           />
         </AvatarFallback>
       </Avatar>
-      {avatarSrc && (
+      {avatarSrc !== "" && imageLoaded && (
         <div className="relative -right-10 -top-20 w-fit cursor-pointer rounded-full bg-sfwhite-light p-1 hover:drop-shadow-lg">
           <FiTrash2 size={25} />
         </div>
