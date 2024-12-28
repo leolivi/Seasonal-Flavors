@@ -59,7 +59,11 @@ export default function EditRecipeForm({
       servings: recipeData.servings,
       steps: JSON.parse(recipeData.steps),
       ingredients: recipeData.ingredients,
-      tags: recipeData.season ? [parseInt(recipeData.season)] : [],
+      tags: recipeData.season
+        ? Array.isArray(recipeData.season)
+          ? recipeData.season
+          : [Number(recipeData.season)]
+        : [],
       cover_image: undefined,
     },
   });

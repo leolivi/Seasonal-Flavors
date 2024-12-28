@@ -26,7 +26,17 @@ export async function middleware(req: NextRequest) {
     return NextResponse.redirect(redirectUrl);
   }
 
-  // TODO: add middleware for edit recipe etc.
+  if (pathname.match(/^\/recipes\/edit\/[^\/]+$/) && !token) {
+    const redirectUrl = req.nextUrl.clone();
+    redirectUrl.pathname = "/session";
+    return NextResponse.redirect(redirectUrl);
+  }
+
+  if (pathname === "/recipes/create" && !token) {
+    const redirectUrl = req.nextUrl.clone();
+    redirectUrl.pathname = "/session";
+    return NextResponse.redirect(redirectUrl);
+  }
 
   // 5. continue with the request, if no other condition is met
   return NextResponse.next();

@@ -2,7 +2,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-
 import {
   Form,
   FormControl,
@@ -15,23 +14,21 @@ import { Input } from "@/components/ui/input";
 import { toast } from "@/hooks/use-toast";
 import { Button, ButtonSize } from "../button/button";
 import { ProfileSchema, profileSchema } from "@/validation/profileSchema";
+import { UserData } from "@/services/user/userService";
 
-interface ProfileFormProps {
-  name: string;
-  email: string;
-}
+type ProfileFormProps = Pick<UserData, "username" | "email">;
 
-export default function ProfileForm({ name, email }: ProfileFormProps) {
+export default function ProfileForm({ username, email }: ProfileFormProps) {
   const form = useForm<z.infer<typeof profileSchema>>({
     resolver: zodResolver(profileSchema),
     defaultValues: {
-      username: name,
+      username: username,
       email: email,
     },
   });
 
   const hasChanges = (data: ProfileSchema) => {
-    return data.username !== name || data.email !== email || data.picture;
+    return data.username !== username || data.email !== email || data.picture;
   };
 
   function onSubmit(data: z.infer<typeof profileSchema>) {
@@ -82,7 +79,7 @@ export default function ProfileForm({ name, email }: ProfileFormProps) {
             <FormItem>
               <FormLabel>Username</FormLabel>
               <FormControl>
-                <Input placeholder={name} {...field} />
+                <Input {...field} placeholder={username} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -95,7 +92,7 @@ export default function ProfileForm({ name, email }: ProfileFormProps) {
             <FormItem>
               <FormLabel>Email</FormLabel>
               <FormControl>
-                <Input placeholder={email} {...field} />
+                <Input {...field} placeholder={email} />
               </FormControl>
               <FormMessage />
             </FormItem>

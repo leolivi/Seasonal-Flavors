@@ -31,7 +31,10 @@ export default function ProfileCard({ userData }: ProfileCardProps) {
               avatarFallback="User's avatar"
             />
             <div className="w-full">
-              <ProfileForm name={userData.username} email={userData.email} />
+              <ProfileForm
+                username={userData.username}
+                email={userData.email}
+              />
             </div>
           </div>
         </div>
