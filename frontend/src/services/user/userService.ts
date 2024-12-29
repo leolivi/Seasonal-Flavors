@@ -32,9 +32,11 @@ export const getCurrentUser = async (
 
     return {
       ...profile,
-      imageSrc: userImage.file_path.startsWith("http")
-        ? userImage.file_path
-        : `${process.env.NEXT_PUBLIC_BACKEND_URL}/${userImage.file_path}`,
+      imageSrc: userImage?.file_path
+        ? userImage.file_path.startsWith("http")
+          ? userImage.file_path
+          : `${process.env.NEXT_PUBLIC_BACKEND_URL}/${userImage.file_path}`
+        : undefined,
     };
   } catch (error) {
     console.error("Fehler beim Laden des Benutzers:", error);

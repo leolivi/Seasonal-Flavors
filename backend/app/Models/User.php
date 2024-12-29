@@ -54,14 +54,6 @@ class User extends Model {
     @return array
     @desc Validates the request for creating/updating a User
     */
-    // static function validate(Request $request) {
-    //     $post = $request->method == 'POST'; 
-    //     return $request->validate([
-    //         'username' => [$post ? 'required' : 'sometimes', 'min:2', 'max:99', 'unique:users,username'],
-    //         'email' => [$post ? 'required' : 'sometimes', 'email', 'unique:users,email'],
-    //         'password' => [$post ? 'required' : 'sometimes', 'min:8', 'regex:/(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[@$!%*#?&])(?!.*\s)/']
-    //     ]);
-    // }
     static function validate(Request $request) {
         $post = $request->method == 'POST'; 
         $user = \Auth::user();

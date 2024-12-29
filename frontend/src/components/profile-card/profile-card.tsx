@@ -31,6 +31,8 @@ export default function ProfileCard({ userData, imageData }: ProfileCardProps) {
             <AvatarUpload
               avatarSrc={userData.imageSrc || ""}
               avatarFallback="User's avatar"
+              userId={userData.id}
+              imageId={imageData?.id}
             />
             <div className="w-full">
               <ProfileForm user={userData} image={imageData} />
@@ -43,6 +45,9 @@ export default function ProfileCard({ userData, imageData }: ProfileCardProps) {
             style={ButtonStyle.SIMPLERED}
             label="Profil löschen"
             size={ButtonSize.XS}
+            onClick={() => {
+              console.log("Profil löschen");
+            }}
           />
         </div>
       </div>
