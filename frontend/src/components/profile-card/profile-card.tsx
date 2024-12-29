@@ -7,6 +7,8 @@ import { AuthSession, SessionLoader } from "../auth-session/auth-session";
 import { Button, ButtonSize, ButtonStyle } from "../button/button";
 import { UserData } from "@/services/user/userService";
 import type { ImageData } from "@/services/image/imageService";
+import { handleUserDelete } from "@/services/user/userDelete";
+import { useToast } from "@/hooks/use-toast";
 
 export interface ProfileCardProps {
   userData: UserData | null;
@@ -14,6 +16,8 @@ export interface ProfileCardProps {
 }
 
 export default function ProfileCard({ userData, imageData }: ProfileCardProps) {
+  const { toast } = useToast();
+
   if (!userData) {
     return <SessionLoader />;
   }
@@ -40,14 +44,11 @@ export default function ProfileCard({ userData, imageData }: ProfileCardProps) {
           </div>
         </div>
         <div className="flex w-full justify-center">
-          {/* TODO: Add profile deletion */}
           <Button
             style={ButtonStyle.SIMPLERED}
             label="Profil löschen"
             size={ButtonSize.XS}
-            onClick={() => {
-              console.log("Profil löschen");
-            }}
+            onClick={() => handleUserDelete(userData.id, toast)}
           />
         </div>
       </div>
