@@ -16,10 +16,26 @@ export async function POST(request: NextRequest) {
   const formData = await request.formData();
 
   const recipeId = formData.get("recipe_id");
+  const userId = formData.get("user_id");
+  const type = formData.get("type");
 
-  if (!recipeId) {
+  if (!type) {
     return NextResponse.json(
-      { message: "Recipe ID is required for image uploads" },
+      { message: "Upload type is required" },
+      { status: 400 },
+    );
+  }
+
+  if (type === "recipe" && !recipeId) {
+    return NextResponse.json(
+      { message: "Recipe ID is required for recipe image uploads" },
+      { status: 400 },
+    );
+  }
+
+  if (type === "profile" && !userId) {
+    return NextResponse.json(
+      { message: "User ID is required for profile image uploads" },
       { status: 400 },
     );
   }
@@ -34,17 +50,23 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
 
+    // Konstruiere die URL basierend auf dem Upload-Typ
+    const baseUrl = `${process.env.BACKEND_URL}/api/uploads`;
+    const queryParams =
+      type === "recipe"
+        ? `type=recipe&recipe_id=${recipeId}`
+        : `type=profile&user_id=${userId}`;
+
+    const uploadUrl = `${baseUrl}?${queryParams}`;
+
     // send the request to the backend
-    const response = await fetch(
-      `${process.env.BACKEND_URL}/api/uploads?type=recipe&recipe_id=${recipeId}`,
-      {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${session.accessToken}`,
-        },
-        body: formData,
+    const response = await fetch(uploadUrl, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${session.accessToken}`,
       },
-    );
+      body: formData,
+    });
 
     const data = await response.text();
 

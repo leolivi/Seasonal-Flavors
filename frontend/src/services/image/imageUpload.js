@@ -1,11 +1,23 @@
-export const handleImageUpload = async (recipeId, coverImage, title, toast) => {
-  if (!coverImage) return null;
+export const handleImageUpload = async (
+  id,
+  image,
+  title,
+  toast,
+  type = "recipe",
+) => {
+  if (!image) return null;
 
   const formData = new FormData();
-  formData.append("file", coverImage);
-  formData.append("type", "recipe");
-  formData.append("alt_text", `Titelbild Rezept ${title}`);
-  formData.append("recipe_id", recipeId);
+  formData.append("file", image);
+  formData.append("type", type);
+
+  if (type === "recipe") {
+    formData.append("recipe_id", id);
+    formData.append("alt_text", `Titelbild Rezept ${title}`);
+  } else if (type === "profile") {
+    formData.append("user_id", id);
+    formData.append("alt_text", `Profilbild ${title}`);
+  }
 
   try {
     const response = await fetch("/api/upload-image", {

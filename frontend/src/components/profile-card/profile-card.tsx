@@ -6,12 +6,14 @@ import ProfileForm from "../forms/profile-form";
 import { AuthSession, SessionLoader } from "../auth-session/auth-session";
 import { Button, ButtonSize, ButtonStyle } from "../button/button";
 import { UserData } from "@/services/user/userService";
+import type { ImageData } from "@/services/image/imageService";
 
-interface ProfileCardProps {
+export interface ProfileCardProps {
   userData: UserData | null;
+  imageData: ImageData | undefined;
 }
 
-export default function ProfileCard({ userData }: ProfileCardProps) {
+export default function ProfileCard({ userData, imageData }: ProfileCardProps) {
   if (!userData) {
     return <SessionLoader />;
   }
@@ -31,14 +33,12 @@ export default function ProfileCard({ userData }: ProfileCardProps) {
               avatarFallback="User's avatar"
             />
             <div className="w-full">
-              <ProfileForm
-                username={userData.username}
-                email={userData.email}
-              />
+              <ProfileForm user={userData} image={imageData} />
             </div>
           </div>
         </div>
         <div className="flex w-full justify-center">
+          {/* TODO: Add profile deletion */}
           <Button
             style={ButtonStyle.SIMPLERED}
             label="Profil löschen"

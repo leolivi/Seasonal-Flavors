@@ -11,28 +11,85 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { toast } from "@/hooks/use-toast";
+import { useToast } from "@/hooks/use-toast";
 import { Button, ButtonSize } from "../button/button";
 import { ProfileSchema, profileSchema } from "@/validation/profileSchema";
-import { UserData } from "@/services/user/userService";
+import { ProfileCardProps } from "../profile-card/profile-card";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { handleUserPatch } from "@/services/user/userPatch";
+import { handleImageDelete } from "@/services/image/imageDelete";
+import { handleImageUpload } from "@/services/image/imageUpload";
+import type { ImageData } from "@/services/image/imageService";
 
-type ProfileFormProps = Pick<UserData, "username" | "email">;
+type ProfileFormProps = {
+  user: NonNullable<ProfileCardProps["userData"]>;
+  image: ImageData | undefined;
+};
 
-export default function ProfileForm({ username, email }: ProfileFormProps) {
+export default function ProfileForm({ user, image }: ProfileFormProps) {
+  const router = useRouter();
+  const [profileImage, setProfileImage] = useState<File | null>();
+  const { toast } = useToast();
+
   const form = useForm<z.infer<typeof profileSchema>>({
     resolver: zodResolver(profileSchema),
     defaultValues: {
-      username: username,
-      email: email,
+      username: user.username,
+      email: user.email,
+      profile_image: undefined,
     },
   });
 
   const hasChanges = (data: ProfileSchema) => {
-    return data.username !== username || data.email !== email || data.picture;
+    return (
+      data.username !== user.username ||
+      data.email !== user.email ||
+      data.profile_image
+    );
   };
 
-  function onSubmit(data: z.infer<typeof profileSchema>) {
+  async function onSubmit(data: z.infer<typeof profileSchema>) {
     if (hasChanges(data)) {
+      if (profileImage) {
+        if (image && image.id) {
+          const deleteImage = await handleImageDelete(user.id, image.id, toast);
+
+          if (deleteImage === true) {
+            await handleImageUpload(
+              user.id,
+              profileImage,
+              user.username,
+              toast,
+              "profile",
+            );
+          } else {
+            console.error("Image deletion failed");
+            toast({
+              variant: "destructive",
+              title: "Fehler",
+              description: "Bild konnte nicht aktualisiert werden.",
+            });
+            return;
+          }
+        } else {
+          await handleImageUpload(
+            user.id,
+            profileImage,
+            user.username,
+            toast,
+            "profile",
+          );
+        }
+      }
+
+      await handleUserPatch({
+        data: { ...data, id: user.id },
+        userData: user,
+        toast,
+        router,
+      });
+
       toast({
         title: "Daten gespeichert",
         description: "Dein Profil wurde erfolgreich angepasst.",
@@ -50,7 +107,7 @@ export default function ProfileForm({ username, email }: ProfileFormProps) {
       <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-6">
         <FormField
           control={form.control}
-          name="picture"
+          name="profile_image"
           render={({ field }) => (
             <FormItem>
               <FormLabel>Profilbild</FormLabel>
@@ -61,6 +118,7 @@ export default function ProfileForm({ username, email }: ProfileFormProps) {
                   onChange={(e) => {
                     const files = e.target.files;
                     if (files && files.length > 0) {
+                      setProfileImage(files[0]);
                       field.onChange(files[0]);
                     }
                   }}
@@ -79,7 +137,7 @@ export default function ProfileForm({ username, email }: ProfileFormProps) {
             <FormItem>
               <FormLabel>Username</FormLabel>
               <FormControl>
-                <Input {...field} placeholder={username} />
+                <Input {...field} placeholder={user.username} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -92,7 +150,7 @@ export default function ProfileForm({ username, email }: ProfileFormProps) {
             <FormItem>
               <FormLabel>Email</FormLabel>
               <FormControl>
-                <Input {...field} placeholder={email} />
+                <Input {...field} placeholder={user.email} />
               </FormControl>
               <FormMessage />
             </FormItem>

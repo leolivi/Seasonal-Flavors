@@ -12,21 +12,34 @@ const ACCEPTED_IMAGE_TYPES = [
 export const profileSchema = z.object({
   username: z.string().min(1, "Benutzername ist erforderlich"),
   email: z.string().email("Bitte eine gültige E-Mail-Adresse eingeben."),
-  picture: z
-    .any()
-    .optional()
+  profile_image: z
+    // .any()
+    // .optional()
+    // .refine(
+    //   (files) =>
+    //     !files || files.length === 0 || files[0]?.size <= MAX_FILE_SIZE,
+    //   `Maximale Dateigrösse ist 5MB.`,
+    // )
+    // .refine(
+    //   (files) =>
+    //     !files ||
+    //     files.length === 0 ||
+    //     ACCEPTED_IMAGE_TYPES.includes(files[0]?.type),
+    //   ".jpg, .jpeg, .png, .webp und .svg Dateien sind akzeptiert.",
+    // ),
+    .custom<File | null>()
+    .refine((file) => file !== null, "Bild ist erforderlich.")
     .refine(
-      (files) =>
-        !files || files.length === 0 || files[0]?.size <= MAX_FILE_SIZE,
-      `Maximale Dateigrösse ist 5MB.`,
+      (file) => file instanceof File || file === null,
+      "Ungültiges Dateiformat",
     )
-    .refine(
-      (files) =>
-        !files ||
-        files.length === 0 ||
-        ACCEPTED_IMAGE_TYPES.includes(files[0]?.type),
-      ".jpg, .jpeg, .png, .webp und .svg Dateien sind akzeptiert.",
-    ),
+    .refine((file) => !file || file.size <= MAX_FILE_SIZE, {
+      message: `Maximale Dateigröße ist ${MAX_FILE_SIZE / 1000000}MB.`,
+    })
+    .refine((file) => !file || ACCEPTED_IMAGE_TYPES.includes(file.type), {
+      message: ".jpg, .jpeg, .png, .webp und .svg Dateien sind akzeptiert.",
+    })
+    .optional(),
 });
 
 export type ProfileSchema = z.infer<typeof profileSchema>;

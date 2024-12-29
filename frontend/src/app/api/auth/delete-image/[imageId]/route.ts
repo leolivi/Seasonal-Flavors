@@ -9,11 +9,11 @@ export async function DELETE(
   const imageId = params.imageId;
 
   const body = await request.json();
-  const recipeId = body.recipe_id;
+  const entityId = body.entity_id;
 
-  if (!recipeId || !imageId) {
+  if (!entityId || !imageId) {
     return NextResponse.json(
-      { message: "Recipe ID and Image ID are required" },
+      { message: "Entity ID and Image ID are required" },
       { status: 400 },
     );
   }
@@ -34,7 +34,7 @@ export async function DELETE(
           Authorization: `Bearer ${session.accessToken}`,
         },
         body: JSON.stringify({
-          recipe_id: recipeId,
+          entity_id: entityId,
         }),
       },
     );
@@ -49,6 +49,7 @@ export async function DELETE(
 
     return NextResponse.json({ message: "Bild erfolgreich gelöscht" });
   } catch (error) {
+    console.error("Error deleting image:", error);
     return NextResponse.json(
       { message: "Error deleting image" },
       { status: 400 },
