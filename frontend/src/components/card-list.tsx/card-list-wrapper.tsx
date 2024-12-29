@@ -7,7 +7,7 @@ import { RegisterBanner } from "../banner/register-banner";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/hooks/use-toast";
-import { useFavoritesStore } from "@/store/useFavoritesStore";
+import { useFavoritesStore } from "@/stores/useFavoritesStore";
 
 interface CardListWrapperProps {
   cardData?: Recipe[];

@@ -1,6 +1,6 @@
 import { getSeasonColor } from "@/utils/SeasonUtils";
 import BookmarkIcon from "../../assets/icons/bookmark.svg";
-import { useFavoritesStore } from "@/store/useFavoritesStore";
+import { useFavoritesStore } from "@/stores/useFavoritesStore";
 
 interface BookmarkButtonProps {
   recipeId: string;

@@ -36,12 +36,12 @@ const Footer = () => {
     {
       icon: null,
       label: "Datenschutz",
-      href: "/datenschutz",
+      href: "/data-protection",
     },
     {
       icon: null,
       label: "Impressum",
-      href: "/impressum",
+      href: "/imprint",
     },
   ];
 

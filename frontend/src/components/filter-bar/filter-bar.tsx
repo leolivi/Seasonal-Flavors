@@ -7,7 +7,7 @@ import { Typography } from "../ui/typography";
 import { getSeasonColor } from "@/utils/SeasonUtils";
 import { useSession } from "next-auth/react";
 import { Recipe } from "@/services/recipe/recipeService";
-import { useFavoritesStore } from "@/store/useFavoritesStore";
+import { useFavoritesStore } from "@/stores/useFavoritesStore";
 import CardListWrapper from "../card-list.tsx/card-list-wrapper";
 
 interface FilterBarProps {

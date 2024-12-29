@@ -1,0 +1,13 @@
+{
+  "company": "Seasonal Flavors",
+  "representative": "Léonie Liviero",
+  "address": {
+    "street": "Musterstrasse 107",
+    "postalCode": "4053",
+    "city": "Basel"
+  },
+  "creator": {
+    "name": "Léonie Liviero",
+    "email": "kontakt@seasonalflavors.com"
+  }
+}

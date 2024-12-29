@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { RegisterBanner } from "../banner/register-banner";
 import { useSession } from "next-auth/react";
-import { useFavoritesStore } from "@/store/useFavoritesStore";
+import { useFavoritesStore } from "@/stores/useFavoritesStore";
 import { getSeasonColor } from "@/utils/SeasonUtils";
 import { Recipe } from "@/services/recipe/recipeService";
 import { useToast } from "@/hooks/use-toast";
