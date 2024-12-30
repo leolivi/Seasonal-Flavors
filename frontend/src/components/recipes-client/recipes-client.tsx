@@ -9,19 +9,16 @@ import { Button, ButtonSize } from "@/components/button/button";
 import Arrow from "src/assets/icons/arrow.svg";
 import { LayoutOptions } from "@/utils/layout-options";
 import { Recipe } from "@/services/recipe/recipeService";
+import { usePaginationStore } from "@/stores/paginationStore";
 
 interface RecipesClientProps {
   formattedCardData: Recipe[];
 }
 
 const RecipesClient: React.FC<RecipesClientProps> = ({ formattedCardData }) => {
-  const [visibleItems, setVisibleItems] = useState(6);
+  const { visibleItems, showMore } = usePaginationStore();
   const [favorites, setFavorites] = useState<Recipe[]>([]);
   const [showFavorites, setShowFavorites] = useState(false);
-
-  const showMore = () => {
-    setVisibleItems((prev) => prev + 3);
-  };
 
   return (
     <div className="m-4">
@@ -65,7 +62,7 @@ const RecipesClient: React.FC<RecipesClientProps> = ({ formattedCardData }) => {
                 size={ButtonSize.SMALL}
                 iconRight={<Arrow />}
                 onClick={showMore}
-              ></Button>
+              />
             </div>
           )}
         </>
