@@ -52,10 +52,7 @@ class UserController {
     $payload = User::validate($request);
     $user = User::create($payload);
     
-    \Mail::raw(
-      'Welcome to our app!',
-      fn($mail) => $mail->to($user->email)->subject('welcome')
-    );
+    $user->notify(new \App\Notifications\WelcomeNotification());
     
     return $user;
   }
