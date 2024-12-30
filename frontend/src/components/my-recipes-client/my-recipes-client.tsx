@@ -1,5 +1,7 @@
 "use client";
 
+import { useEffect } from "react";
+import { usePathname } from "next/navigation";
 import CardListWrapper from "@/components/card-list.tsx/card-list-wrapper";
 import ScrollButton from "@/components/scroll-button/scroll-button";
 import { Typography } from "@/components/ui/typography";
@@ -15,7 +17,12 @@ interface MyRecipesClientProps {
 }
 
 const MyRecipesClient: React.FC<MyRecipesClientProps> = ({ cardData }) => {
-  const { visibleItems, showMore } = usePaginationStore();
+  const { visibleItems, showMore, resetPagination } = usePaginationStore();
+  const pathname = usePathname();
+
+  useEffect(() => {
+    resetPagination();
+  }, [pathname, resetPagination]);
 
   return (
     <div className="m-4">

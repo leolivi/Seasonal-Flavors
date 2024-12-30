@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CardListWrapper from "@/components/card-list.tsx/card-list-wrapper";
 import ScrollButton from "@/components/scroll-button/scroll-button";
 import FilterBar from "@/components/filter-bar/filter-bar";
@@ -10,15 +10,21 @@ import Arrow from "src/assets/icons/arrow.svg";
 import { LayoutOptions } from "@/utils/layout-options";
 import { Recipe } from "@/services/recipe/recipeService";
 import { usePaginationStore } from "@/stores/paginationStore";
+import { usePathname } from "next/navigation";
 
 interface RecipesClientProps {
   formattedCardData: Recipe[];
 }
 
 const RecipesClient: React.FC<RecipesClientProps> = ({ formattedCardData }) => {
-  const { visibleItems, showMore } = usePaginationStore();
+  const { visibleItems, showMore, resetPagination } = usePaginationStore();
   const [favorites, setFavorites] = useState<Recipe[]>([]);
   const [showFavorites, setShowFavorites] = useState(false);
+  const pathname = usePathname();
+
+  useEffect(() => {
+    resetPagination();
+  }, [pathname, resetPagination]);
 
   return (
     <div className="m-4">

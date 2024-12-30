@@ -27,9 +27,7 @@ Route::get('/tags', [TagsController::class, 'index']);
 Route::get('/recipes/{recipe}/tags', [TagsController::class, 'showTags']);
 
 // Forgot password
-Route::get('/forgot-password', [MailController::class, 'showForgotPasswordForm']);
 Route::post('/forgot-password', [MailController::class, 'sendResetLinkEmail']);
-Route::get('/reset-password/{token}', [MailController::class, 'showResetPasswordForm']);
 Route::post('/reset-password', [MailController::class, 'resetPassword']);
 
 

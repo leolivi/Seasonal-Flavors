@@ -9,8 +9,6 @@ use Illuminate\Http\Request;
 use Illuminate\Notifications\Notifiable;
 
 class UserController {
-  // necessary for mails controller to work? 
-// TODO: test later...
   use Notifiable;
 
   /*
@@ -55,7 +53,7 @@ class UserController {
     $user = User::create($payload);
     
     \Mail::raw(
-      'welcome to our app',
+      'Welcome to our app!',
       fn($mail) => $mail->to($user->email)->subject('welcome')
     );
     

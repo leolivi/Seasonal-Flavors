@@ -3,17 +3,25 @@
 namespace App\Models;
 
 use Config\Model;
+use Illuminate\Auth\Passwords\CanResetPassword;
+use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 use WendellAdriel\Lift\Attributes\Column;
 use Illuminate\Http\Request;
+use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use WendellAdriel\Lift\Attributes\Hidden;
+use Illuminate\Auth\Authenticatable;
+use Illuminate\Contracts\Auth\Authenticatable as AuthenticatableContract;
+use Illuminate\Support\Facades\Hash;
 
-
-class User extends Model {
-    use HasApiTokens; 
+class User extends Model implements CanResetPasswordContract, AuthenticatableContract
+{
+    use HasApiTokens;
+    use Notifiable;
+    use CanResetPassword;
+    use Authenticatable;
 
     #[Column]
     public string $username;
@@ -24,6 +32,10 @@ class User extends Model {
     #[Column] #[Hidden]
     public string $password;
 
+    #[Column]
+    public ?string $remember_token = null;
+
+    protected $guarded = [];
 
     /*
     @return HasMany|Recipe
@@ -75,5 +87,15 @@ class User extends Model {
                 $user->setAttribute('password', \Hash::make($plain));
             }
         });
+    }
+
+    public function getEmailForPasswordReset()
+    {
+        return $this->email;
+    }
+
+    public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new \App\Notifications\ResetPasswordNotification($token));
     }
 }
