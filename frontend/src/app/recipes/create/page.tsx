@@ -8,7 +8,7 @@ import { getTags } from "@/services/tag/tagService";
 import { notFound } from "next/navigation";
 import { translateSeason } from "@/utils/SeasonUtils";
 
-export default async function CreateRecipe() {
+export default async function CreateRecipePage() {
   const [user, tags] = await Promise.all([getAuthenticatedUser(), getTags()]);
 
   if (!user) {

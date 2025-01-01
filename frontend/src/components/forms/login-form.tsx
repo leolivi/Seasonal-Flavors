@@ -19,6 +19,7 @@ import {
   FormMessage,
 } from "../ui/form";
 import { Input } from "../ui/input";
+import Link from "next/link";
 
 interface LoginFormProps {
   setForm: Dispatch<SetStateAction<SessionForm>>;
@@ -61,7 +62,6 @@ export const LoginForm = ({ setForm }: LoginFormProps) => {
         description: result.error,
       });
     } else {
-      console.log("Login successful, ", result);
       toast({
         variant: "default",
         title: "Herzlich Willkommen!",
@@ -126,6 +126,9 @@ export const LoginForm = ({ setForm }: LoginFormProps) => {
             style={ButtonStyle.SIMPLE}
             size={ButtonSize.SMALL}
           />
+        </div>
+        <div className="flex justify-center">
+          <Link href="/forgot-password">Passwort vergessen?</Link>
         </div>
       </form>
     </Form>

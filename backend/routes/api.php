@@ -18,10 +18,7 @@ Route::post('/auth/login', [AuthController::class, 'login']);
 // show recipes
 Route::get('/recipe', [RecipeController::class, 'read']);
 Route::get('/images', [UploadsController::class, 'index']);
-// TODO: do i need this?
-Route::get('storage/{path}', function($path) {
-    return response()->file(storage_path('app/public/' . $path));
-})->where('path', '.*');
+
 // show tags
 Route::get('/tags', [TagsController::class, 'index']);
 Route::get('/recipes/{recipe}/tags', [TagsController::class, 'showTags']);
@@ -29,7 +26,6 @@ Route::get('/recipes/{recipe}/tags', [TagsController::class, 'showTags']);
 // Forgot password
 Route::post('/forgot-password', [MailController::class, 'sendResetLinkEmail']);
 Route::post('/reset-password', [MailController::class, 'resetPassword']);
-
 
 Route::middleware(['auth:sanctum'])->group(function () {
     // User erstellen etc. 
@@ -56,6 +52,5 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     // uploads
     Route::post('/uploads', [UploadsController::class, 'create']);
-    Route::patch('/uploads/{id}', [UploadsController::class, 'update']);
     Route::delete('/uploads/{id}', [UploadsController::class, 'destroy']);
 });

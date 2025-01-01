@@ -89,13 +89,19 @@ class User extends Model implements CanResetPasswordContract, AuthenticatableCon
         });
     }
 
-    public function getEmailForPasswordReset()
-    {
+    /*
+    @return string
+    @desc Returns the email address for password reset
+    */
+    public function getEmailForPasswordReset() {
         return $this->email;
     }
 
-    public function sendPasswordResetNotification($token)
-    {
+    /*
+    @return void
+    @desc Sends a password reset notification
+    */
+    public function sendPasswordResetNotification($token) {
         $this->notify(new \App\Notifications\ResetPasswordNotification($token));
     }
 }

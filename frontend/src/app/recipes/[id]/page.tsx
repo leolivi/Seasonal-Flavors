@@ -11,7 +11,11 @@ import { getRecipeDetail } from "@/utils/recipeDetail";
 import { getRecipeTags, TagData } from "@/services/tag/tagService";
 import { getAuthenticatedUser } from "@/utils/auth-user";
 
-export default async function Recipe({ params }: { params: { id: number } }) {
+export default async function RecipePage({
+  params,
+}: {
+  params: { id: number };
+}) {
   const user = await getAuthenticatedUser();
   if (!user) return null;
 

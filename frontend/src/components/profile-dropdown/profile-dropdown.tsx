@@ -85,7 +85,7 @@ const ProfileDropdown = forwardRef<HTMLDivElement, ProfileDropdownProps>(
 
             <DropdownMenu.Item className="mb-2 flex items-center gap-2 px-2">
               <Link
-                href="/change-password"
+                href="/forgot-password"
                 className="flex w-full items-center"
               >
                 <Lock className="mr-2 h-4 w-4" />

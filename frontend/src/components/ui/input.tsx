@@ -27,7 +27,7 @@ const Input = React.forwardRef<HTMLInputElement, React.ComponentProps<"input">>(
         {/* Toggle password visibility */}
         {type === "password" && (
           <div
-            className="absolute right-3 top-3 cursor-pointer text-sfblack"
+            className="absolute right-3 top-3 cursor-pointer text-sfblack min-[1020px]:top-4"
             onClick={() => setShowPassword(!showPassword)}
           >
             {showPassword ? <IoEyeOff size={25} /> : <IoEye size={25} />}
