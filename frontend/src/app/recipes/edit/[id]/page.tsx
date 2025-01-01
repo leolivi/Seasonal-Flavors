@@ -27,8 +27,6 @@ export default async function EditRecipePage({
     return notFound();
   }
 
-  console.log("Fetched image data:", imageData);
-
   return (
     <div className="px-4 pb-16 pt-8 min-[640px]:p-8 min-[640px]:pb-24">
       <ScrollButton />

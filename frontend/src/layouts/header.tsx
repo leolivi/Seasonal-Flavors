@@ -70,20 +70,19 @@ const Header = () => {
         (ref.current && ref.current.contains(target)) ||
         (profileRef.current && profileRef.current.contains(target))
       ) {
-        return; // Klick innerhalb eines relevanten Bereichs
+        return;
       }
 
-      setIsOpen(false); // Klick außerhalb
+      setIsOpen(false);
     };
 
     // Event-Listener für Click-Outside
     document.addEventListener("mousedown", handleClickOutside);
 
-    // Cleanup
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [pathname]); // Pathname als Dependency hinzugefügt, schließt Modal auch bei Route-Änderungen
+  }, [pathname]);
 
   const navigationItems = [
     {

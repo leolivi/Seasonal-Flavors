@@ -9,6 +9,7 @@ import { UserData } from "@/services/user/userService";
 import type { ImageData } from "@/services/image/imageService";
 import { handleUserDelete } from "@/services/user/userDelete";
 import { useToast } from "@/hooks/use-toast";
+import { ToastAction } from "@radix-ui/react-toast";
 
 export interface ProfileCardProps {
   userData: UserData | null;
@@ -48,7 +49,27 @@ export default function ProfileCard({ userData, imageData }: ProfileCardProps) {
             style={ButtonStyle.SIMPLERED}
             label="Profil löschen"
             size={ButtonSize.XS}
-            onClick={() => handleUserDelete(userData.id, toast)}
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              toast({
+                variant: "destructive",
+                title: "Profil löschen",
+                description: "Möchtest du dein Profil wirklich löschen?",
+                action: (
+                  <ToastAction
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      handleUserDelete(userData.id, toast);
+                    }}
+                    altText="Profil löschen bestätigen"
+                  >
+                    Löschen
+                  </ToastAction>
+                ),
+              });
+            }}
           />
         </div>
       </div>

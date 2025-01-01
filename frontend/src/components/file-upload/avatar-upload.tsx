@@ -29,6 +29,7 @@ export default function AvatarUpload({
   const { toast } = useToast();
 
   const handleDelete = async () => {
+    // TODO: fix image deletion
     if (userId && imageId) {
       const deleteImage = await handleImageDelete(userId, imageId, toast);
       if (!deleteImage) {

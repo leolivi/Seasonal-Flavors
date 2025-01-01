@@ -10,6 +10,9 @@ import { useRouter } from "next/navigation";
 import { useToast } from "@/hooks/use-toast";
 import { Recipe } from "@/services/recipe/recipeService";
 import { handleRecipeDelete } from "@/services/recipe/recipeDelete";
+import { ImageData, getRecipeImage } from "@/services/image/imageService";
+import { useEffect, useState } from "react";
+import { ToastAction } from "@radix-ui/react-toast";
 
 interface ExtendedRecipeProps extends Recipe {
   showDetail?: boolean;
@@ -17,6 +20,7 @@ interface ExtendedRecipeProps extends Recipe {
   showEdit?: boolean;
   onBookmarkClick?: (e: React.MouseEvent) => void;
   onEditClick?: (e: React.MouseEvent) => void;
+  imageData?: ImageData;
 }
 
 export default function Card({
@@ -27,19 +31,45 @@ export default function Card({
   onEditClick = () => {},
   ...props
 }: ExtendedRecipeProps) {
-  const seasonColors = props.season
-    ? props.season.split(",").map((s) => getSeasonColor(s.trim()))
-    : [];
-
+  const [imageData, setImageData] = useState<ImageData | undefined>();
   const router = useRouter();
   const { toast } = useToast();
 
-  const deleteRecipe = async () => {
-    if (props.id) {
-      await handleImageDelete(props.id, props.image_id, toast);
-    }
+  useEffect(() => {
+    const fetchImageData = async () => {
+      if (props.id) {
+        const fetchedImageData = await getRecipeImage(props.id);
+        setImageData(fetchedImageData);
+      }
+    };
 
-    await handleRecipeDelete(props.id, toast, router);
+    fetchImageData();
+  }, [props.id]);
+  const seasonColors =
+    props.season && typeof props.season === "string"
+      ? props.season
+          .split(",")
+          .map((season: string) => getSeasonColor(season.trim()))
+      : [];
+
+  const deleteRecipe = async () => {
+    if (props.id && imageData?.id) {
+      const imageDeleted = await handleImageDelete(
+        props.id,
+        imageData.id,
+        toast,
+      );
+
+      if (imageDeleted === true) {
+        await handleRecipeDelete(props.id, toast, router);
+      } else {
+        toast({
+          variant: "destructive",
+          title: "Fehler",
+          description: "Bild konnte nicht gelöscht werden.",
+        });
+      }
+    }
   };
 
   return (
@@ -99,7 +129,23 @@ export default function Card({
             size={ButtonSize.XS}
             style={ButtonStyle.OUTLINERED}
             label="löschen"
-            onClick={deleteRecipe}
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              toast({
+                variant: "destructive",
+                title: "Rezept löschen",
+                description: "Möchtest du dieses Rezept wirklich löschen?",
+                action: (
+                  <ToastAction
+                    onClick={deleteRecipe}
+                    altText="Rezept löschen bestätigen"
+                  >
+                    Löschen
+                  </ToastAction>
+                ),
+              });
+            }}
           />
           <Button
             size={ButtonSize.XS}

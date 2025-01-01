@@ -29,7 +29,6 @@ export const handleImageDelete = async (entityId, imageId, toast) => {
       return false;
     }
 
-    window.location.reload();
     return true;
   } catch (error) {
     console.error("Bild-Löschung fehlgeschlagen:", error);

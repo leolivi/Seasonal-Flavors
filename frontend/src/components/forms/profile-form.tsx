@@ -21,6 +21,7 @@ import { handleUserPatch } from "@/services/user/userPatch";
 import { handleImageDelete } from "@/services/image/imageDelete";
 import { handleImageUpload } from "@/services/image/imageUpload";
 import type { ImageData } from "@/services/image/imageService";
+import { useUserImageStore } from "@/stores/userImageStore";
 
 type ProfileFormProps = {
   user: NonNullable<ProfileCardProps["userData"]>;
@@ -31,6 +32,7 @@ export default function ProfileForm({ user, image }: ProfileFormProps) {
   const router = useRouter();
   const [profileImage, setProfileImage] = useState<File | null>();
   const { toast } = useToast();
+  const { setImageUrl } = useUserImageStore();
 
   const form = useForm<z.infer<typeof profileSchema>>({
     resolver: zodResolver(profileSchema),
@@ -52,34 +54,56 @@ export default function ProfileForm({ user, image }: ProfileFormProps) {
   async function onSubmit(data: z.infer<typeof profileSchema>) {
     if (hasChanges(data)) {
       if (profileImage) {
-        if (image && image.id) {
-          const deleteImage = await handleImageDelete(user.id, image.id, toast);
+        try {
+          if (image && image.id) {
+            const deleteImage = await handleImageDelete(
+              user.id,
+              image.id,
+              toast,
+            );
 
-          if (deleteImage === true) {
-            await handleImageUpload(
+            if (deleteImage === true) {
+              const uploadResult = await handleImageUpload(
+                user.id,
+                profileImage,
+                user.username,
+                toast,
+                "profile",
+              );
+
+              if (uploadResult) {
+                // TODO: find another solution? depeding on "http://127.0.0.1:8000" rn...
+                const apiUrl =
+                  process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000";
+                const fullImageUrl = `${apiUrl}/uploads/${uploadResult}`;
+                setImageUrl(fullImageUrl);
+                router.refresh();
+              } else {
+                console.error("Upload Result ist leer");
+              }
+            }
+          } else {
+            const uploadResult = await handleImageUpload(
               user.id,
               profileImage,
               user.username,
               toast,
               "profile",
             );
-          } else {
-            console.error("Image deletion failed");
-            toast({
-              variant: "destructive",
-              title: "Fehler",
-              description: "Bild konnte nicht aktualisiert werden.",
-            });
-            return;
+
+            if (uploadResult) {
+              const apiUrl =
+                process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000";
+              const fullImageUrl = `${apiUrl}/uploads/${uploadResult}`;
+
+              setImageUrl(fullImageUrl);
+              router.refresh();
+            } else {
+              console.error("Upload Result ist leer");
+            }
           }
-        } else {
-          await handleImageUpload(
-            user.id,
-            profileImage,
-            user.username,
-            toast,
-            "profile",
-          );
+        } catch (error) {
+          console.error("Fehler beim Bild-Upload:", error);
         }
       }
 

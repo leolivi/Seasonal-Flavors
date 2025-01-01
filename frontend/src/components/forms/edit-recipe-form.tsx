@@ -21,6 +21,7 @@ import { handleRecipePatch } from "@/services/recipe/recipePatch";
 import { ImageData } from "@/services/image/imageService";
 import { Recipe } from "@/services/recipe/recipeService";
 import { UserData } from "@/services/user/userService";
+import Image from "next/image";
 
 interface FormField {
   name: keyof EditRecipeSchema;
@@ -128,6 +129,18 @@ export default function EditRecipeForm({
             form.trigger(fieldName as keyof EditRecipeSchema);
           }}
         />
+
+        {!coverImage && imageData?.file_path && (
+          <div className="flex flex-col items-center">
+            <Image
+              src={imageData?.file_path}
+              alt={recipeData.title}
+              width={100}
+              height={100}
+              className="static w-1/3 rounded-md object-contain"
+            />
+          </div>
+        )}
 
         <CreateRecipeInput
           fields={rowInputs}

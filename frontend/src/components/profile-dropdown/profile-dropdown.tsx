@@ -14,6 +14,8 @@ import { signOut } from "next-auth/react";
 import { Typography } from "../ui/typography";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import useMediaQuery from "@/hooks/useMediaQuery";
+import { useUserImageStore } from "@/stores/userImageStore";
+import { SessionLoader } from "../auth-session/auth-session";
 
 interface UserData {
   id: number;
@@ -30,6 +32,7 @@ const ProfileDropdown = forwardRef<HTMLDivElement, ProfileDropdownProps>(
   ({ userData }, ref) => {
     const seasonalColor = getSeasonColor();
     const isDesktop = useMediaQuery("(min-width: 640px)");
+    const { imageUrl, updateTimestamp } = useUserImageStore();
 
     const handleLogout = async () => {
       try {
@@ -52,11 +55,21 @@ const ProfileDropdown = forwardRef<HTMLDivElement, ProfileDropdownProps>(
       }
     };
 
+    if (!userData) {
+      return <SessionLoader />;
+    }
+
     return (
       <DropdownMenu.Root>
         <DropdownMenu.Trigger asChild>
           <Avatar size={AvatarSize.small}>
-            <AvatarImage src={userData?.imageSrc} alt="User's avatar" />
+            <AvatarImage
+              key={`${imageUrl}-${updateTimestamp}`}
+              src={imageUrl || userData?.imageSrc}
+              alt="User's avatar"
+              style={{ backgroundImage: "none" }}
+              loading="eager"
+            />
             <AvatarFallback>
               <FaUserCircle
                 size={100}
