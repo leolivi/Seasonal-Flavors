@@ -3,48 +3,29 @@ import { RegisterBanner } from "@/components/banner/register-banner";
 import registerImage from "../assets/images/register-image.jpg";
 import Image from "next/image";
 import ScrollButton from "@/components/scroll-button/scroll-button";
-import { dataFetch } from "@/lib/data-fetch";
 import { InspirationText } from "@/components/inspiration-text/inspiration-text";
 import { CardSliderWrapper } from "@/components/card-slider/card-slider-wrapper";
 import { getCurrentSeason } from "@/utils/SeasonUtils";
-
-interface Recipe {
-  id: number;
-  title: string;
-  prep_time: number;
-}
-
-interface SeasonTag {
-  name: string;
-}
+import { getSeasonalRecipes, Recipe } from "@/services/recipe/recipeService";
+import { getRecipeImage } from "@/services/image/imageService";
+import { getRecipeTags } from "@/services/tag/tagService";
 
 // Home component that renders the main content of the page
 const Home = async () => {
   const seasonName = getCurrentSeason();
-  const cardData = await dataFetch(
-    `${process.env.BACKEND_URL}/api/recipe?tags[]=all_year&tags[]=${seasonName}`,
-  );
+  const cardData = await getSeasonalRecipes();
 
   // Format the card data to match the expected structure
-  const formattedCardData = await Promise.all(
+  const formattedCardData: Recipe[] = await Promise.all(
     cardData.map(async (recipe: Recipe) => {
-      const imageData = await dataFetch(
-        `${process.env.BACKEND_URL}/api/images?recipe_id=${recipe.id}`,
-      );
-      const seasonData = await dataFetch(
-        `${process.env.BACKEND_URL}/api/recipes/${recipe.id}/tags`,
-      );
-      const firstImage = imageData[0] || {};
-      const seasonTags = seasonData
-        .map((tag: SeasonTag) => tag.name)
-        .join(", ");
+      const imageData = await getRecipeImage(recipe.id);
+      const seasonData = await getRecipeTags(recipe.id);
+
       return {
-        id: recipe.id,
-        imageSrc: firstImage.file_path || "",
-        imageAlt: firstImage.alt_text || recipe.title,
-        title: recipe.title,
-        prepDuration: recipe.prep_time,
-        season: seasonTags,
+        ...recipe,
+        imageSrc: imageData?.file_path,
+        imageAlt: imageData?.alt_text,
+        season: seasonData.map((tag) => tag.name).join(", "),
       };
     }),
   );

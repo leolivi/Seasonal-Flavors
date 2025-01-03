@@ -25,7 +25,7 @@ interface FormField {
   type?: string;
 }
 
-interface CreateRecipeFormProps {
+export interface CreateRecipeFormProps {
   formFields: FormField[];
   tags: { id: number; name: string }[];
   user: UserData;

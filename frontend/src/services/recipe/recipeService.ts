@@ -21,7 +21,7 @@ export const getSeasonalRecipes = async () => {
 
   try {
     const recipes: Recipe[] = await dataFetch(
-      `${process.env.BACKEND_URL}/api/recipe?tags[]=all_year&tags[]=${seasonName}`,
+      `${process.env.BACKEND_URL}/api/recipe?tags[]=all_year&tags[]=${seasonName}&limit=10`,
     );
     return recipes;
   } catch (error) {

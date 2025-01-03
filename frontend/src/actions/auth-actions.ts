@@ -42,7 +42,7 @@ export async function handleSignup(
 
     return {
       ...data,
-      status: response.status, // include the response status code in the response
+      status: response.status,
     };
   } catch (error) {
     if (error instanceof Error) {

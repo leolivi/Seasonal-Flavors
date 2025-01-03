@@ -10,6 +10,7 @@ import { getSeasonColor } from "@/utils/SeasonUtils";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { handleImageDelete } from "@/services/image/imageDelete";
+import { useUserImageStore } from "@/stores/userImageStore";
 
 interface AvatarUploadProps {
   avatarSrc: string;
@@ -27,12 +28,13 @@ export default function AvatarUpload({
   const seasonalColor = getSeasonColor();
   const [imageLoaded, setImageLoaded] = useState(false);
   const { toast } = useToast();
+  const { setImageUrl } = useUserImageStore();
 
   const handleDelete = async () => {
-    // TODO: fix image deletion
     if (userId && imageId) {
       const deleteImage = await handleImageDelete(userId, imageId, toast);
       if (!deleteImage) {
+        setImageUrl(undefined);
         console.error("Image deletion failed");
         toast({
           variant: "destructive",

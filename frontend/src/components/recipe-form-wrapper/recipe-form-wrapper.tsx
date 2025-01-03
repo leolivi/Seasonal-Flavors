@@ -7,10 +7,10 @@ import { Recipe } from "@/services/recipe/recipeService";
 
 type FormFieldName = keyof CreateRecipeSchema;
 
-interface FormField {
+export interface FormField {
   name: FormFieldName;
   label: string;
-  placeholder: string;
+  placeholder?: string;
   type?: string;
 }
 

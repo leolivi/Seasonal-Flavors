@@ -1,15 +1,9 @@
 import React from "react";
 import { CardSlider } from "./card-slider";
+import { Recipe } from "@/services/recipe/recipeService";
 
 interface CardSliderWrapperProps {
-  cardData: {
-    id: number;
-    imageSrc: string;
-    imageAlt: string;
-    title: string;
-    prepDuration?: number;
-    season?: string;
-  }[];
+  cardData: Recipe[];
 }
 
 // Client component to handle routing and dragging logic

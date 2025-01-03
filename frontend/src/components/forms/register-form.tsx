@@ -53,6 +53,7 @@ export const RegisterForm = ({ setForm }: RegisterFormProps) => {
     );
 
     if (response.status === 201) {
+      console.log("Signup successful: ", response);
       toast({
         variant: "default",
         title: "Erfolgreich registriert",
@@ -70,6 +71,7 @@ export const RegisterForm = ({ setForm }: RegisterFormProps) => {
         setForm(SessionForm.LOGIN);
       }, 2000);
     } else {
+      console.log("Signup failed: ", response);
       if (Array.isArray(response.errors)) {
         response.errors.forEach((error) => {
           form.setError(error.field as keyof RegisterFormInputs, {

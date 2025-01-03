@@ -47,11 +47,12 @@ export default function ProfileForm({ user, image }: ProfileFormProps) {
     return (
       data.username !== user.username ||
       data.email !== user.email ||
-      data.profile_image
+      data.profile_image !== undefined
     );
   };
 
   async function onSubmit(data: z.infer<typeof profileSchema>) {
+    console.log("Form submitted with data:", data);
     if (hasChanges(data)) {
       if (profileImage) {
         try {
@@ -142,6 +143,7 @@ export default function ProfileForm({ user, image }: ProfileFormProps) {
                   onChange={(e) => {
                     const files = e.target.files;
                     if (files && files.length > 0) {
+                      console.log("File selected:", files[0]);
                       setProfileImage(files[0]);
                       field.onChange(files[0]);
                     }
