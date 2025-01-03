@@ -9,14 +9,14 @@ export const handleLogout = async () => {
     toast({
       variant: "default",
       title: "Abgemeldet",
-      description: "Sie wurden erfolgreich abgemeldet.",
+      description: "Du wurdest erfolgreich abgemeldet.",
     });
     await signOut({ redirect: true, callbackUrl: "/session" });
   } catch (error) {
     toast({
       variant: "destructive",
       title: "Fehler",
-      description: "Abmeldung fehlgeschlagen. Bitte versuchen Sie es erneut.",
+      description: "Abmeldung fehlgeschlagen. Bitte versuche es erneut.",
     });
     console.error("Logout failed: ", error);
   }

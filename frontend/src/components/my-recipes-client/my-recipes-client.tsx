@@ -11,6 +11,7 @@ import { LayoutOptions } from "@/utils/layout-options";
 import Link from "next/link";
 import { Recipe } from "@/services/recipe/recipeService";
 import { usePaginationStore } from "@/stores/paginationStore";
+import NoRecipesImage from "@/assets/images/no-recipes-image.svg";
 
 interface MyRecipesClientProps {
   cardData: Recipe[];
@@ -57,9 +58,10 @@ const MyRecipesClient: React.FC<MyRecipesClientProps> = ({ cardData }) => {
         </>
       ) : (
         <div className="flex h-[45vh] w-full flex-col items-center pt-10">
-          <Typography variant="heading3">
-            <p className="text-sfblack">OOPS!</p>
-          </Typography>
+          <div className="fit-cover h-60 w-96">
+            <NoRecipesImage className="h-full w-full fill-sfred" />
+          </div>
+
           <Typography variant="body">
             <span className="text-sfblack">
               Du hast noch keine eigenen Rezepte erstellt.

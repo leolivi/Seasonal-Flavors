@@ -19,26 +19,6 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Überprüfen Sie zuerst, ob die E-Mail existiert
-    // const userCheckResponse = await fetch(
-    //   `${process.env.BACKEND_URL}/api/users/check-email`,
-    //   {
-    //     method: "POST",
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //     },
-    //     body: JSON.stringify({ email }),
-    //   },
-    // );
-
-    // if (!userCheckResponse.ok) {
-    //   return NextResponse.json(
-    //     { message: "Diese E-Mail-Adresse existiert nicht" },
-    //     { status: 404 },
-    //   );
-    // }
-
-    // Wenn die E-Mail existiert, senden Sie die Passwort-Reset-Anfrage
     const response = await fetch(
       `${process.env.BACKEND_URL}/api/forgot-password`,
       {

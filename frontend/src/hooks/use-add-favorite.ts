@@ -1,4 +1,3 @@
-import dataFetch from "@/lib/data-fetch";
 import { useState } from "react";
 
 export const useAddFavorite = () => {
@@ -9,10 +8,13 @@ export const useAddFavorite = () => {
     setIsFavoriting(true);
     setError(null);
     try {
-      const response = await dataFetch(
+      const response = await fetch(
         `${process.env.BACKEND_URL}/api/recipes/${recipeId}/favorite`,
         {
           method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
         },
       );
       if (!response.ok) {

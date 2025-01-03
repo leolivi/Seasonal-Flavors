@@ -1,6 +1,6 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
-import useMediaQuery from "@/hooks/useMediaQuery";
+import useMediaQuery from "@/hooks/use-media-query";
 import Home from "../assets/icons/home.svg";
 import Soup from "../assets/icons/soup.svg";
 import Profil from "../assets/icons/profil.svg";

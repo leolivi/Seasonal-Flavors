@@ -88,6 +88,13 @@ export const RecipeHeader = ({
         {showRegisterBanner && (
           <div className="fixed left-1/2 top-1/2 z-50 -translate-x-1/2">
             <RegisterBanner
+              content={
+                <>
+                  erstelle deine eigene
+                  <br />
+                  Rezeptesammlung!
+                </>
+              }
               label="anmelden"
               showCloseBtn={true}
               onClose={handleCloseBanner}

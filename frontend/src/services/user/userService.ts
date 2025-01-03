@@ -1,4 +1,4 @@
-import { dataFetchWithToken } from "@/lib/data-fetch";
+import { dataFetch, dataFetchWithToken } from "@/utils/data-fetch";
 import { getProfileImage } from "@/services/image/imageService";
 import { Recipe } from "../recipe/recipeService";
 
@@ -38,6 +38,17 @@ export const getCurrentUser = async (
           : `${process.env.NEXT_PUBLIC_BACKEND_URL}/${userImage.file_path}`
         : undefined,
     };
+  } catch (error) {
+    console.error("Fehler beim Laden des Benutzers:", error);
+    return null;
+  }
+};
+
+export const getUser = async (userId: number): Promise<UserData | null> => {
+  try {
+    return await dataFetch(
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/user/${userId}`,
+    );
   } catch (error) {
     console.error("Fehler beim Laden des Benutzers:", error);
     return null;

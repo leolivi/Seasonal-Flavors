@@ -1,4 +1,4 @@
-import { dataFetch } from "@/lib/data-fetch";
+import { dataFetch } from "@/utils/data-fetch";
 import { getCurrentSeason } from "@/utils/SeasonUtils";
 
 export interface Recipe {

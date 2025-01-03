@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import Magnifier from "src/assets/icons/magnifier.svg";
+import Cross from "@/assets/icons/cross.svg";
 import Bookmark from "src/assets/icons/bookmark.svg";
 import { Typography } from "../ui/typography";
 import { getSeasonColor } from "@/utils/SeasonUtils";
@@ -9,6 +10,8 @@ import { useSession } from "next-auth/react";
 import { Recipe } from "@/services/recipe/recipeService";
 import { useFavoritesStore } from "@/stores/useFavoritesStore";
 import CardListWrapper from "../card-list.tsx/card-list-wrapper";
+import { RegisterBanner } from "../banner/register-banner";
+import { useRouter } from "next/navigation";
 
 interface FilterBarProps {
   title?: string;
@@ -26,6 +29,16 @@ const FilterBar = ({
   const { data: session } = useSession();
   const { getDetailedFavorites, isFavoritesActive, setFavoritesActive } =
     useFavoritesStore();
+  const [showRegisterBanner, setShowRegisterBanner] = useState(false);
+  const router = useRouter();
+
+  useEffect(() => {
+    const searchParams = new URLSearchParams(window.location.search);
+    const titleFromQuery = searchParams.get("title");
+    if (titleFromQuery) {
+      setInputValue(titleFromQuery);
+    }
+  }, []);
 
   useEffect(() => {
     const initializeFavorites = async () => {
@@ -44,7 +57,10 @@ const FilterBar = ({
       return;
     }
 
-    if (!session) return;
+    if (!session) {
+      setShowRegisterBanner(true);
+      return;
+    }
 
     try {
       const detailedFavorites = await getDetailedFavorites();
@@ -53,6 +69,10 @@ const FilterBar = ({
     } catch (error) {
       console.error("Error loading detailed favorites:", error);
     }
+  };
+
+  const handleCloseBanner = () => {
+    setShowRegisterBanner(false);
   };
 
   return (
@@ -91,13 +111,15 @@ const FilterBar = ({
             className="bg-transparent text-sfblack outline-none focus:border-none active:border-none max-[540px]:w-[10rem] max-[480px]:w-[5rem]"
           />
         </Typography>
-        {inputValue ? (
+        {inputValue && setInputValue ? (
           <button
             type="button"
-            onClick={() => setInputValue("")}
+            onClick={() => {
+              setInputValue("");
+            }}
             className="ml-2 text-sfblack"
           >
-            &#x2715;
+            <Cross className="m-2 w-6 cursor-pointer stroke-sfblack stroke-2" />
           </button>
         ) : (
           <button type="submit" className="ml-2">
@@ -105,6 +127,22 @@ const FilterBar = ({
           </button>
         )}
       </form>
+      {showRegisterBanner && (
+        <div className="fixed left-1/2 top-1/2 z-50 -translate-x-1/2">
+          <RegisterBanner
+            content={
+              <>
+                erstelle deine eigene
+                <br />
+                Rezeptesammlung!
+              </>
+            }
+            label="anmelden"
+            showCloseBtn={true}
+            onClose={handleCloseBanner}
+          />
+        </div>
+      )}
     </CardListWrapper>
   );
 };

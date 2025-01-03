@@ -16,6 +16,7 @@ import {
   FormControl,
   FormField,
   FormItem,
+  FormLabel,
   FormMessage,
 } from "../ui/form";
 import { Input } from "../ui/input";
@@ -113,6 +114,7 @@ export const RegisterForm = ({ setForm }: RegisterFormProps) => {
           name="username"
           render={({ field }) => (
             <FormItem>
+              <FormLabel>Username</FormLabel>
               <FormControl>
                 <Input placeholder="Username" {...field} />
               </FormControl>
@@ -125,6 +127,7 @@ export const RegisterForm = ({ setForm }: RegisterFormProps) => {
           name="email"
           render={({ field }) => (
             <FormItem>
+              <FormLabel>Email</FormLabel>
               <FormControl>
                 <Input placeholder="Email" {...field} />
               </FormControl>
@@ -137,8 +140,9 @@ export const RegisterForm = ({ setForm }: RegisterFormProps) => {
           name="password"
           render={({ field }) => (
             <FormItem>
+              <FormLabel>Passwort</FormLabel>
               <FormControl>
-                <Input type="password" placeholder="Password" {...field} />
+                <Input type="password" placeholder="Passwort" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -159,7 +163,7 @@ export const RegisterForm = ({ setForm }: RegisterFormProps) => {
           >
             Ich akzeptiere die{" "}
             <a
-              href="/datenschutz"
+              href="/data-protection"
               className="font-figtreeRegular text-sfred-dark"
             >
               Datenschutzerklärung

@@ -2,7 +2,7 @@ import React from "react";
 import { render, screen, fireEvent, act } from "@testing-library/react";
 import { SessionProvider } from "next-auth/react";
 import FilterBar from "./filter-bar";
-import { dataFetch, dataFetchWithToken } from "@/lib/data-fetch";
+import { dataFetch, dataFetchWithToken } from "@/utils/data-fetch";
 import { Session } from "next-auth";
 
 // Mock dependencies
@@ -29,6 +29,7 @@ describe("FilterBar Component", () => {
 
   const mockSession: Session = {
     user: {
+      id: 1,
       name: "Test User",
       email: "test@example.com",
       image: "https://example.com/test-user.jpg",

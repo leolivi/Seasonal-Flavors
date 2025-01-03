@@ -1,14 +1,16 @@
 "use client";
 import Cross from "@/assets/icons/cross.svg";
-import { Button } from "../button/button";
+import { Button, ButtonSize } from "../button/button";
 import { Typography } from "../ui/typography";
 import { useRouter } from "next/navigation";
 import { getSeasonColor } from "@/utils/SeasonUtils";
+import { ReactNode } from "react";
 
 interface RegisterBannerProps {
   onClose?: () => void;
   showCloseBtn?: boolean;
   label: string;
+  content?: ReactNode;
 }
 
 //  Component to display The register Banner
@@ -16,6 +18,13 @@ export const RegisterBanner = ({
   onClose,
   showCloseBtn = false,
   label = "jetzt registrieren",
+  content = (
+    <>
+      erstelle eigene
+      <br />
+      saisonale Rezepte!
+    </>
+  ),
 }: RegisterBannerProps) => {
   const router = useRouter();
   const seasonalColor = getSeasonColor();
@@ -39,11 +48,11 @@ export const RegisterBanner = ({
       )}
       <Typography variant="body">
         <p className="text-center font-figtreeRegular text-sfwhite">
-          erstelle eigene <br /> saisonale Rezepte!
+          {content}
         </p>
       </Typography>
 
-      <Button label={label} onClick={handleClick} />
+      <Button label={label} onClick={handleClick} size={ButtonSize.SMALL} />
     </div>
   );
 };

@@ -1,5 +1,5 @@
 import * as React from "react";
-import { cn } from "@/lib/utils";
+import { cn } from "@/utils/clsx";
 import { getSeasonColor } from "@/utils/SeasonUtils";
 import { Typography } from "./typography";
 import { IoEye, IoEyeOff } from "react-icons/io5";
@@ -17,7 +17,7 @@ const Input = React.forwardRef<HTMLInputElement, React.ComponentProps<"input">>(
           <input
             type={type === "password" && showPassword ? "text" : type}
             className={cn(
-              `flex w-full border-2 border-${seasonalColor}-dark bg-${seasonalColor}-light rounded-md px-3 py-2 font-figtreeRegular text-sfblack file:border-0 file:bg-transparent file:text-sm placeholder:text-sfblack focus:bg-sfwhite focus-visible:outline-none disabled:cursor-not-allowed ${error && `border-2 border-sfred`}`,
+              `flex w-full border-2 border-${seasonalColor}-dark bg-${seasonalColor}-light rounded-md px-3 py-2 font-figtreeRegular text-sfblack file:border-0 file:bg-transparent file:text-sm placeholder:text-gray-500 focus:bg-sfwhite focus-visible:outline-none disabled:cursor-not-allowed ${error && `border-2 border-sfred`}`,
               className,
             )}
             ref={ref}

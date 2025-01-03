@@ -1,7 +1,7 @@
 // components/NavItem.js
 import Link from "next/link";
 import { Typography } from "../ui/typography";
-import useMediaQuery from "@/hooks/useMediaQuery";
+import useMediaQuery from "@/hooks/use-media-query";
 import { getSeasonColor } from "@/utils/SeasonUtils";
 import { useSession } from "next-auth/react";
 

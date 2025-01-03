@@ -15,7 +15,7 @@ export default function Session() {
 
   return (
     <div className="flex flex-col items-center">
-      <h1 className="opacity-0">
+      <h1 className="h-0 opacity-0">
         {form === SessionForm.LOGIN ? SessionForm.LOGIN : SessionForm.REGISTER}
       </h1>
       <Typography variant="body">

@@ -15,7 +15,9 @@ export const handleFavoriteRecipe = async ({ recipeId, toast }) => {
         description: "Rezept konnte nicht favorisiert werden.",
       });
       const error = await response.json();
-      console.error("Fehler beim Favorisieren des Rezepts:", error);
+      console.error(
+        "Fehler beim Favorisieren des Rezepts. Bitte erneut versuchen.",
+      );
       return false;
     }
 

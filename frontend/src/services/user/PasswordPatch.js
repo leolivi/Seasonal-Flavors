@@ -16,7 +16,7 @@ export const handleForgotPassword = async ({ data, toast, router }) => {
       toast({
         variant: "destructive",
         title: "Fehler",
-        description: "Passwort konnte nicht gesendet werden.",
+        description: "Email konnte nicht gesendet werden.",
       });
       const error = await response.json();
       console.error("Fehler beim Senden der Email:", error);
@@ -40,7 +40,7 @@ export const handleForgotPassword = async ({ data, toast, router }) => {
       variant: "destructive",
       title: "Fehler",
       description:
-        "Passwort konnte nicht gesendet werden. Bitte erneut versuchen.",
+        "Email konnte nicht gesendet werden. Bitte erneut versuchen.",
     });
   }
 };

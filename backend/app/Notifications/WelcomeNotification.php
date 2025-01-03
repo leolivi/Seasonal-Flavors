@@ -19,6 +19,6 @@ class WelcomeNotification extends Notification
             ->greeting('Hallo ' . $notifiable->username . '!')
             ->line('Willkommen bei unserer App! Wir freuen uns, dich dabei zu haben.')
             ->action('Jetzt einloggen', env('FRONTEND_URL'))
-            ->line('Viel Spaß beim Kochen!');
+            ->line('Viel Spass beim Kochen!');
     }
 } 

@@ -1,6 +1,6 @@
 export const handleUserPatch = async ({ data, userData, toast, router }) => {
   if (!userData) {
-    console.error("Benutzerdaten sind nicht verfügbar");
+    console.error("BeUserdaten sind nicht verfügbar");
     return;
   }
 
@@ -23,10 +23,10 @@ export const handleUserPatch = async ({ data, userData, toast, router }) => {
       toast({
         variant: "destructive",
         title: "Fehler",
-        description: "Rezept-Aktualisierung fehlgeschlagen.",
+        description: "User konnte nicht aktualisiert werden.",
       });
       const error = await response.json();
-      console.error("Fehler beim Aktualisieren des Rezepts:", error);
+      console.error("Fehler beim Aktualisieren des Users:", error);
       return;
     }
 
@@ -36,7 +36,7 @@ export const handleUserPatch = async ({ data, userData, toast, router }) => {
     toast({
       variant: "default",
       title: "Erfolgreich!",
-      description: "Das Rezept wurde erfolgreich aktualisiert.",
+      description: "Der User wurde erfolgreich aktualisiert.",
     });
 
     router.refresh();
@@ -47,7 +47,7 @@ export const handleUserPatch = async ({ data, userData, toast, router }) => {
       variant: "destructive",
       title: "Fehler",
       description:
-        "Rezept-Aktualisierung fehlgeschlagen. Bitte erneut versuchen.",
+        "User konnte nicht aktualisiert werden. Bitte erneut versuchen.",
     });
   }
 };

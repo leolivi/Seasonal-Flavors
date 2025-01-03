@@ -1,4 +1,4 @@
-import { dataFetch, dataFetchWithToken } from "@/lib/data-fetch";
+import { dataFetch, dataFetchWithToken } from "@/utils/data-fetch";
 
 export interface ImageData {
   id: number;

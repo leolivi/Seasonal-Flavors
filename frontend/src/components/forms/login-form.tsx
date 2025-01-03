@@ -16,6 +16,7 @@ import {
   FormControl,
   FormField,
   FormItem,
+  FormLabel,
   FormMessage,
 } from "../ui/form";
 import { Input } from "../ui/input";
@@ -59,7 +60,7 @@ export const LoginForm = ({ setForm }: LoginFormProps) => {
       toast({
         variant: "destructive",
         title: "Fehler",
-        description: result.error,
+        description: "Login fehlgeschlagen, bitte versuche es erneut.",
       });
     } else {
       toast({
@@ -82,6 +83,7 @@ export const LoginForm = ({ setForm }: LoginFormProps) => {
           name="email"
           render={({ field }) => (
             <FormItem>
+              <FormLabel>Email</FormLabel>
               <FormControl>
                 <Input placeholder="Email" {...field} />
               </FormControl>
@@ -94,8 +96,9 @@ export const LoginForm = ({ setForm }: LoginFormProps) => {
           name="password"
           render={({ field }) => (
             <FormItem>
+              <FormLabel>Passwort</FormLabel>
               <FormControl>
-                <Input type="password" placeholder="Password" {...field} />
+                <Input type="password" placeholder="Passwort" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -116,7 +119,7 @@ export const LoginForm = ({ setForm }: LoginFormProps) => {
             size={ButtonSize.SMALL}
           />
         </div>
-        <div className="mb-8 mt-1 flex items-center justify-center gap-1 max-[400px]:flex-col">
+        <div className="mb-2 mt-1 flex items-center justify-center gap-1 max-[400px]:flex-col">
           <Typography variant="small">
             <p className="pr-2 text-sfblack">Du hast noch keinen Account?</p>
           </Typography>
@@ -127,7 +130,7 @@ export const LoginForm = ({ setForm }: LoginFormProps) => {
             size={ButtonSize.SMALL}
           />
         </div>
-        <div className="flex justify-center">
+        <div className="mb-4 flex justify-center hover:text-sfred-dark">
           <Link href="/forgot-password">Passwort vergessen?</Link>
         </div>
       </form>

@@ -13,7 +13,7 @@ import { toast } from "@/hooks/use-toast";
 import { signOut } from "next-auth/react";
 import { Typography } from "../ui/typography";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
-import useMediaQuery from "@/hooks/useMediaQuery";
+import useMediaQuery from "@/hooks/use-media-query";
 import { useUserImageStore } from "@/stores/userImageStore";
 import { SessionLoader } from "../auth-session/auth-session";
 
@@ -39,7 +39,7 @@ const ProfileDropdown = forwardRef<HTMLDivElement, ProfileDropdownProps>(
         toast({
           variant: "default",
           title: "Abgemeldet",
-          description: "Sie wurden erfolgreich abgemeldet.",
+          description: "Du wurdest erfolgreich abgemeldet.",
         });
 
         await new Promise((resolve) => setTimeout(resolve, 2000));
@@ -48,8 +48,7 @@ const ProfileDropdown = forwardRef<HTMLDivElement, ProfileDropdownProps>(
         toast({
           variant: "destructive",
           title: "Fehler",
-          description:
-            "Abmeldung fehlgeschlagen. Bitte versuchen Sie es erneut.",
+          description: "Abmeldung fehlgeschlagen. Bitte versuche es erneut.",
         });
         console.error("Logout failed: ", error);
       }

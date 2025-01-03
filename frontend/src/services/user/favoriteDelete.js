@@ -15,7 +15,7 @@ export const deleteFavoriteRecipe = async ({ recipeId, toast }) => {
       toast({
         variant: "destructive",
         title: "Fehler",
-        description: data.message || "Favorit konnte nicht gelöscht werden.",
+        description: "Favorit konnte nicht gelöscht werden.",
       });
       throw new Error(data.message || "Favorite deletion failed");
     }

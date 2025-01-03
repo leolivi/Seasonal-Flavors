@@ -9,20 +9,23 @@ import { getSeasonColor, translateSeason } from "@/utils/SeasonUtils";
 import foodImage from "@/assets/images/food-image.jpg";
 import { getRecipeDetail } from "@/utils/recipeDetail";
 import { getRecipeTags, TagData } from "@/services/tag/tagService";
-import { getAuthenticatedUser } from "@/utils/auth-user";
+import { getUser } from "@/services/user/userService";
 
 export default async function RecipePage({
   params,
 }: {
   params: { id: number };
 }) {
-  const user = await getAuthenticatedUser();
-  if (!user) return null;
-
   const recipeId = params.id;
-
   const recipeDetails = await getRecipeDetail(recipeId);
   if (!recipeDetails) return null;
+
+  const userId =
+    typeof recipeDetails.user_id === "string"
+      ? Number(recipeDetails.user_id)
+      : recipeDetails.user_id;
+  const user = await getUser(userId);
+  if (!user) return null;
 
   const seasonData = await getRecipeTags(recipeDetails.id);
 
