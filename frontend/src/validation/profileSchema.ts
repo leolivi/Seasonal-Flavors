@@ -13,20 +13,6 @@ export const profileSchema = z.object({
   username: z.string().min(1, "Benutzername ist erforderlich"),
   email: z.string().email("Bitte eine gültige E-Mail-Adresse eingeben."),
   profile_image: z
-    // .any()
-    // .optional()
-    // .refine(
-    //   (files) =>
-    //     !files || files.length === 0 || files[0]?.size <= MAX_FILE_SIZE,
-    //   `Maximale Dateigrösse ist 5MB.`,
-    // )
-    // .refine(
-    //   (files) =>
-    //     !files ||
-    //     files.length === 0 ||
-    //     ACCEPTED_IMAGE_TYPES.includes(files[0]?.type),
-    //   ".jpg, .jpeg, .png, .webp und .svg Dateien sind akzeptiert.",
-    // ),
     .custom<File | null>()
     .refine((file) => file !== null, "Bild ist erforderlich.")
     .refine(

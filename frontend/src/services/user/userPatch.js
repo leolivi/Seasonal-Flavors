@@ -1,7 +1,11 @@
 export const handleUserPatch = async ({ data, userData, toast, router }) => {
   if (!userData) {
-    console.error("BeUserdaten sind nicht verfügbar");
-    return;
+    console.error("Userdaten sind nicht verfügbar");
+    return {
+      errors: [
+        { field: "general", message: "Benutzerdaten sind nicht verfügbar" },
+      ],
+    };
   }
 
   try {
@@ -19,19 +23,18 @@ export const handleUserPatch = async ({ data, userData, toast, router }) => {
       body: JSON.stringify(payload),
     });
 
-    if (!response.ok) {
-      toast({
-        variant: "destructive",
-        title: "Fehler",
-        description: "User konnte nicht aktualisiert werden.",
-      });
-      const error = await response.json();
-      console.error("Fehler beim Aktualisieren des Users:", error);
-      return;
-    }
-
     const responseData = await response.json();
-    const recipeId = responseData.recipe?.id;
+
+    if (!response.ok) {
+      return {
+        errors: [
+          {
+            field: responseData.field || "username",
+            message: responseData.message || "Ein Fehler ist aufgetreten",
+          },
+        ],
+      };
+    }
 
     toast({
       variant: "default",
@@ -40,14 +43,16 @@ export const handleUserPatch = async ({ data, userData, toast, router }) => {
     });
 
     router.refresh();
-    return recipeId;
+    return { success: true };
   } catch (error) {
     console.error("Rezept-Aktualisierung fehlgeschlagen:", error);
-    toast({
-      variant: "destructive",
-      title: "Fehler",
-      description:
-        "User konnte nicht aktualisiert werden. Bitte erneut versuchen.",
-    });
+    return {
+      errors: [
+        {
+          field: "general",
+          message: "Ein unerwarteter Fehler ist aufgetreten",
+        },
+      ],
+    };
   }
 };

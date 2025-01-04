@@ -45,8 +45,8 @@ export default function ProfileForm({ user, image }: ProfileFormProps) {
 
   const hasChanges = (data: ProfileSchema) => {
     return (
-      data.username !== user.username ||
-      data.email !== user.email ||
+      (data.username !== user.username && data.username !== undefined) ||
+      (data.email !== user.email && data.email !== undefined) ||
       data.profile_image !== undefined
     );
   };
@@ -73,7 +73,6 @@ export default function ProfileForm({ user, image }: ProfileFormProps) {
               );
 
               if (uploadResult) {
-                // TODO: find another solution? depeding on "http://127.0.0.1:8000" rn...
                 const apiUrl =
                   process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000";
                 const fullImageUrl = `${apiUrl}/uploads/${uploadResult}`;
@@ -93,6 +92,7 @@ export default function ProfileForm({ user, image }: ProfileFormProps) {
             );
 
             if (uploadResult) {
+              // TODO: finding another solution to update the state, rn depends on the router.refresh() and "http://127.0.0.1:8000"
               const apiUrl =
                 process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000";
               const fullImageUrl = `${apiUrl}/uploads/${uploadResult}`;
@@ -108,17 +108,45 @@ export default function ProfileForm({ user, image }: ProfileFormProps) {
         }
       }
 
-      await handleUserPatch({
-        data: { ...data, id: user.id },
-        userData: user,
-        toast,
-        router,
-      });
+      try {
+        const response = await handleUserPatch({
+          data: { ...data, id: user.id },
+          userData: user,
+          toast,
+          router,
+        });
 
-      toast({
-        title: "Daten gespeichert",
-        description: "Dein Profil wurde erfolgreich angepasst.",
-      });
+        if (Array.isArray(response.errors)) {
+          response.errors.forEach(
+            (error: { field: string; message: string }) => {
+              form.setError(
+                error.field as keyof z.infer<typeof profileSchema>,
+                {
+                  type: "manual",
+                  message: error.message,
+                },
+              );
+            },
+          );
+          toast({
+            variant: "destructive",
+            title: "Fehler",
+            description: "Dein Profil konnte nicht aktualisiert werden.",
+          });
+        } else if (response.success) {
+          toast({
+            title: "Daten gespeichert",
+            description: "Dein Profil wurde erfolgreich angepasst.",
+          });
+        }
+      } catch (error) {
+        console.error("Fehler beim Aktualisieren der Benutzerdaten:", error);
+        toast({
+          variant: "destructive",
+          title: "Fehler",
+          description: "Dein Profil konnte nicht aktualisiert werden.",
+        });
+      }
     } else {
       toast({
         title: "Keine Änderungen",

@@ -4,7 +4,7 @@ import { Typography } from "@/components/ui/typography";
 
 export default function NotFound() {
   return (
-    <div style={{ textAlign: "center", padding: "50px" }}>
+    <div className="px-4 pb-8 text-center min-[640px]:px-8">
       <div className="flex justify-center">
         <Image src={NotFoundImage} alt="404 Image" width={300} height={100} />
       </div>
