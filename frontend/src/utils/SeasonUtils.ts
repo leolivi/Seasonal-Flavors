@@ -29,7 +29,3 @@ export const translateSeason = (season: string): string => {
       return season;
   }
 };
-
-// const seasonName = getCurrentSeason();
-// const seasonalColor = getSeasonColor(seasonName);
-// const translatedSeason = translateSeason(seasonName);

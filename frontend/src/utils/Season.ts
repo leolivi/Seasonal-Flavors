@@ -22,6 +22,11 @@ class Season {
     }
   }
 
+  // Hardcoded season for testing -> leave this in for testing!!
+  // public static getSeason(): string {
+  //   return "winter";
+  // }
+
   getColor(season?: string) {
     const currentSeason = season || this.season;
 
