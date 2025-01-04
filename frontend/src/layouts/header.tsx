@@ -48,6 +48,7 @@ const Header = () => {
 
   // Fetch the user profile image data once authenticated
   useEffect(() => {
+    // Funktion zum Abrufen der Benutzerdaten
     const fetchUserData = async () => {
       if (status === "authenticated") {
         const session = await getSession();
@@ -58,11 +59,7 @@ const Header = () => {
       }
     };
 
-    fetchUserData();
-  }, [status]);
-
-  // Close modal on click away
-  useEffect(() => {
+    // Funktion zum Schließen des Modals bei Klick außerhalb
     const handleClickOutside = (event: MouseEvent) => {
       const target = event.target as Node;
 
@@ -76,13 +73,20 @@ const Header = () => {
       setIsOpen(false);
     };
 
+    // Abrufen der Benutzerdaten
+    fetchUserData();
+
     // Event-Listener für Click-Outside
     document.addEventListener("mousedown", handleClickOutside);
 
+    // Schließe das MobileNavigation-Element, wenn sich der Pfad ändert
+    setIsOpen(false);
+
+    // Cleanup-Funktion
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, [pathname]);
+  }, [status, pathname]);
 
   const navigationItems = [
     {

@@ -29,8 +29,8 @@ export const handleUserPatch = async ({ data, userData, toast, router }) => {
       return {
         errors: [
           {
-            field: responseData.field || "username",
-            message: responseData.message || "Ein Fehler ist aufgetreten",
+            field: responseData.field || "email",
+            message: responseData.message,
           },
         ],
       };

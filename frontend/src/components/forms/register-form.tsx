@@ -94,7 +94,7 @@ export const RegisterForm = ({ setForm }: RegisterFormProps) => {
         toast({
           variant: "destructive",
           title: "Fehler",
-          description: response.errors,
+          description: "Fehler beim Registrieren.",
         });
       } else {
         toast({

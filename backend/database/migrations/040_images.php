@@ -11,8 +11,8 @@ return new class extends Migration {
       $table->id();
       $table->string('file_path');
       $table->string('alt_text')->nullable();
-      $table->foreignId('recipe_id')->nullable()->constrained()->onDelete('cascade');
-      $table->foreignId('user_id')->nullable()->constrained()->onDelete('cascade');
+      $table->foreignId('recipe_id')->nullable()->constrained()->cascadeOnDelete();
+      $table->foreignId('user_id')->nullable()->constrained()->cascadeOnDelete();
       $table->timestamps();
     });
   }

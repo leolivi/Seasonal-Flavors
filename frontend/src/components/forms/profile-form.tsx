@@ -52,7 +52,6 @@ export default function ProfileForm({ user, image }: ProfileFormProps) {
   };
 
   async function onSubmit(data: z.infer<typeof profileSchema>) {
-    console.log("Form submitted with data:", data);
     if (hasChanges(data)) {
       if (profileImage) {
         try {
@@ -128,11 +127,6 @@ export default function ProfileForm({ user, image }: ProfileFormProps) {
               );
             },
           );
-          toast({
-            variant: "destructive",
-            title: "Fehler",
-            description: "Dein Profil konnte nicht aktualisiert werden.",
-          });
         } else if (response.success) {
           toast({
             title: "Daten gespeichert",
@@ -171,7 +165,6 @@ export default function ProfileForm({ user, image }: ProfileFormProps) {
                   onChange={(e) => {
                     const files = e.target.files;
                     if (files && files.length > 0) {
-                      console.log("File selected:", files[0]);
                       setProfileImage(files[0]);
                       field.onChange(files[0]);
                     }
@@ -187,26 +180,30 @@ export default function ProfileForm({ user, image }: ProfileFormProps) {
         <FormField
           control={form.control}
           name="username"
-          render={({ field }) => (
+          render={({ field, fieldState }) => (
             <FormItem>
               <FormLabel>Username</FormLabel>
               <FormControl>
                 <Input {...field} placeholder="Username" />
               </FormControl>
-              <FormMessage />
+              <FormMessage>
+                {fieldState.error ? fieldState.error.message : null}
+              </FormMessage>
             </FormItem>
           )}
         />
         <FormField
           control={form.control}
           name="email"
-          render={({ field }) => (
+          render={({ field, fieldState }) => (
             <FormItem>
               <FormLabel>Email</FormLabel>
               <FormControl>
                 <Input {...field} placeholder="Email" />
               </FormControl>
-              <FormMessage />
+              <FormMessage>
+                {fieldState.error ? fieldState.error.message : null}
+              </FormMessage>
             </FormItem>
           )}
         />

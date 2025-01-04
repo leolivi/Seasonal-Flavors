@@ -157,7 +157,7 @@ export default function EditRecipeForm({
         <FormField
           control={form.control}
           name="steps"
-          render={({ field }) => (
+          render={({ field, fieldState }) => (
             <>
               <TipTapEditor
                 content={field.value}
@@ -166,7 +166,9 @@ export default function EditRecipeForm({
                   field.onChange(newContent);
                 }}
               />
-              <FormMessage />
+              <FormMessage>
+                {fieldState.error ? fieldState.error.message : null}
+              </FormMessage>
             </>
           )}
         />

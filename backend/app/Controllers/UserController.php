@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Notifications\Notifiable;
+use Storage;
 
 class UserController {
   use Notifiable;
@@ -56,18 +57,7 @@ class UserController {
     
     return $user;
   }
-
-
-  /*
-  @return User
-  @desc DELETE: Deletes the currently authenticated user
-  */
-  function destroy(Request $request): User {
-    $user = \Auth::user();
-    $user->delete();
-    return $user;
-  }
-
+  
   /*
   @return User
   @desc PATCH: Updates the currently authenticated user
@@ -78,4 +68,34 @@ class UserController {
     $user->update($payload);
     return $user;
   }
+
+  /*
+  @return User
+  @desc DELETE: Deletes the currently authenticated user
+  */
+  function destroy(Request $request): JsonResponse {
+    $user = \Auth::user();
+
+    $images = \App\Models\Image::where('user_id', $user->id)->get();
+
+    foreach ($images as $image) {
+        $storagePath = 'uploads/' . $image->file_path;
+
+        if (Storage::exists($storagePath)) {
+            Storage::delete($storagePath);
+        }
+
+        $image->delete();
+    }
+
+    $user->recipes()->each(function ($recipe) {
+        $recipe->delete();
+    });
+
+    $user->delete();
+
+    return response()->json(['message' => 'Benutzer und alle zugehörigen Bilder wurden gelöscht'], 200);
+  }
+
+
 }
