@@ -7,7 +7,7 @@ export const handleUserDelete = async (userId, toast) => {
   }
 
   try {
-    const response = await fetch(`/api/auth/delete-user`, {
+    const response = await fetch(`/api/delete-user`, {
       method: "DELETE",
     });
 

@@ -5,7 +5,7 @@ export const deleteFavoriteRecipe = async ({ recipeId, toast }) => {
   }
 
   try {
-    const response = await fetch(`/api/auth/delete-favorite/${recipeId}`, {
+    const response = await fetch(`/api/delete-favorite/${recipeId}`, {
       method: "DELETE",
     });
 

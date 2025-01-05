@@ -8,7 +8,7 @@ export const handleImageDelete = async (entityId, imageId, toast) => {
   }
 
   try {
-    const response = await fetch(`/api/auth/delete-image/${imageId}`, {
+    const response = await fetch(`/api/delete-image/${imageId}`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",

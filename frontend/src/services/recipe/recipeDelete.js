@@ -5,7 +5,7 @@ export const handleRecipeDelete = async (recipeId, toast, router) => {
   }
 
   try {
-    const response = await fetch(`/api/auth/delete-recipe/${recipeId}`, {
+    const response = await fetch(`/api/delete-recipe/${recipeId}`, {
       method: "DELETE",
     });
 
