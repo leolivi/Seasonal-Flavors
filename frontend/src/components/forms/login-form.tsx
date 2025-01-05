@@ -105,8 +105,8 @@ export const LoginForm = ({ setForm }: LoginFormProps) => {
           )}
         />
         {error && (
-          <Typography variant="small">
-            <p className="text-center font-figtreeRegular text-sfred-dark">
+          <Typography variant="xs">
+            <p className="mt-4 text-center font-figtreeRegular text-sfred">
               {error}
             </p>
           </Typography>
@@ -130,7 +130,10 @@ export const LoginForm = ({ setForm }: LoginFormProps) => {
             size={ButtonSize.SMALL}
           />
         </div>
-        <div className="mb-4 flex justify-center hover:text-sfred-dark">
+        <div
+          style={{ marginBottom: "2rem" }}
+          className="flex justify-center hover:text-sfred-dark"
+        >
           <Link href="/forgot-password">Passwort vergessen?</Link>
         </div>
       </form>

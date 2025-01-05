@@ -9,6 +9,7 @@ type Variant =
   | "body"
   | "small"
   | "xs"
+  | "xxs"
   | "btnL"
   | "btnS";
 
@@ -28,6 +29,7 @@ const tags: Record<Variant, ElementType> = {
   body: "div",
   small: "div",
   xs: "small",
+  xxs: "small",
   btnL: "div",
   btnS: "div",
 };
@@ -56,6 +58,8 @@ const sizes: Record<Variant, string> = {
     "min-[0px]:text-[15px] min-[640px]:text-[16px] min-[1024px]:text-[18px] min-[1280px]:text-[20px]",
   //   extra-small
   xs: "min-[0px]:text-[15px] min-[640px]:text-[16px] min-[1024px]:text-[18px] min-[1280px]:text-[20px]",
+  //   extra-extra-small
+  xxs: "text-[14px]",
   //   Button lagrge
   btnL: "min-[0px]:text-[22px] min-[640px]:text-[28px] min-[1024px]:text-[30px] min-[1280px]:text-[32px]",
   //   Button small

@@ -17,28 +17,32 @@ export const createRecipeSchema = z.object({
   cooking_time: z
     .preprocess(
       (val) => (val === "" ? null : Number(val)),
-      z.number().nullable(),
+      z.number({ required_error: "Kochzeit ist erforderlich." }).nullable(),
     )
     .refine(
-      (val) => val === null || (val > 0 && val <= 1440),
+      (val) => val !== null && val > 0 && val <= 1440,
       "Kochzeit muss eine positive Zahl sein und darf maximal 1440 Minuten betragen.",
     ),
   prep_time: z
     .preprocess(
       (val) => (val === "" ? null : Number(val)),
-      z.number().nullable(),
+      z
+        .number({ required_error: "Vorbereitungszeit ist erforderlich." })
+        .nullable(),
     )
     .refine(
-      (val) => val === null || (val > 0 && val <= 1440),
+      (val) => val !== null && val > 0 && val <= 1440,
       "Vorbereitungszeit muss eine positive Zahl sein und darf maximal 1440 Minuten betragen.",
     ),
   servings: z
     .preprocess(
       (val) => (val === "" ? null : Number(val)),
-      z.number().nullable(),
+      z
+        .number({ required_error: "Anzahl der Portionen ist erforderlich." })
+        .nullable(),
     )
     .refine(
-      (val) => val === null || (val > 0 && val <= 100),
+      (val) => val !== null && val > 0 && val <= 100,
       "Anzahl der Portionen muss eine positive Zahl sein und maximal 100 betragen.",
     ),
   steps: z

@@ -1,7 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import { FieldErrors, useForm } from "react-hook-form";
 import { Form, FormField, FormMessage } from "@/components/ui/form";
 import { Button, ButtonSize, ButtonStyle } from "../button/button";
 import { SeasonCheckbox } from "../season-checkbox/season-checkbox";
@@ -54,7 +54,7 @@ export default function EditRecipeForm({
   const form = useForm<EditRecipeSchema>({
     resolver: zodResolver(editRecipeSchema),
     defaultValues: {
-      title: recipeData.title,
+      title: recipeData.title || "",
       cooking_time: recipeData.cooking_time,
       prep_time: recipeData.prep_time,
       servings: recipeData.servings,
@@ -102,6 +102,16 @@ export default function EditRecipeForm({
     });
   };
 
+  const handleError = (errors: FieldErrors<EditRecipeSchema>) => {
+    if (Object.keys(errors).length > 0) {
+      toast({
+        variant: "destructive",
+        title: "Validierungsfehler",
+        description: "Bitte überprüfe die Eingabefelder auf Fehler.",
+      });
+    }
+  };
+
   const singleInputs = formFields.filter(
     (field) =>
       !["cooking_time", "prep_time", "servings", "steps"].includes(field.name),
@@ -114,7 +124,7 @@ export default function EditRecipeForm({
   return (
     <Form {...form}>
       <form
-        onSubmit={form.handleSubmit(onSubmit)}
+        onSubmit={form.handleSubmit(onSubmit, handleError)}
         className="w-full space-y-6 min-[640px]:w-5/6 min-[1020px]:w-2/3 min-[1240px]:w-1/2"
       >
         <CreateRecipeInput<EditRecipeSchema>

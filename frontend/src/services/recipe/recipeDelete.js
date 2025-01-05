@@ -15,7 +15,7 @@ export const handleRecipeDelete = async (recipeId, toast, router) => {
       toast({
         variant: "destructive",
         title: "Fehler",
-        description: data.message || "Rezept konnte nicht gelöscht werden.",
+        description: "Rezept konnte nicht gelöscht werden.",
       });
       throw new Error(data.message || "Recipe deletion failed");
     }

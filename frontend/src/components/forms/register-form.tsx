@@ -54,7 +54,6 @@ export const RegisterForm = ({ setForm }: RegisterFormProps) => {
     );
 
     if (response.status === 201) {
-      console.log("Signup successful: ", response);
       toast({
         variant: "default",
         title: "Erfolgreich registriert",
@@ -72,7 +71,6 @@ export const RegisterForm = ({ setForm }: RegisterFormProps) => {
         setForm(SessionForm.LOGIN);
       }, 2000);
     } else {
-      console.log("Signup failed: ", response);
       if (Array.isArray(response.errors)) {
         response.errors.forEach((error) => {
           form.setError(error.field as keyof RegisterFormInputs, {
@@ -155,7 +153,7 @@ export const RegisterForm = ({ setForm }: RegisterFormProps) => {
             type="checkbox"
             id="acceptDataPolicy"
             {...form.register("acceptDataPolicy", { required: true })}
-            className="h-6 w-6 appearance-none rounded-sm border-2 border-sfred-dark bg-sfwhite accent-sfgreen checked:appearance-auto checked:border-0 checked:bg-sfgreen"
+            className="h-6 w-6 appearance-none rounded-sm border-2 border-sfred bg-sfwhite accent-sfgreen checked:appearance-auto checked:border-0 checked:bg-sfgreen"
           />
           <label
             htmlFor="acceptDataPolicy"
@@ -173,8 +171,8 @@ export const RegisterForm = ({ setForm }: RegisterFormProps) => {
 
         {/* Error message for Data Policy */}
         {form.formState.errors.acceptDataPolicy && (
-          <Typography variant="xs">
-            <p className="text-sfred-dark">
+          <Typography variant="xxs">
+            <p className="font-figtreeRegular text-sfred">
               {form.formState.errors.acceptDataPolicy.message}
             </p>
           </Typography>

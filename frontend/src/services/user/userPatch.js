@@ -26,13 +26,24 @@ export const handleUserPatch = async ({ data, userData, toast, router }) => {
     const responseData = await response.json();
 
     if (!response.ok) {
+      const errors = responseData.errors || {};
+      const errorMessages = Object.entries(errors).map(([field, messages]) => ({
+        field,
+        message: messages.join(", "),
+      }));
+
       return {
-        errors: [
-          {
-            field: responseData.field || "email",
-            message: responseData.message,
-          },
-        ],
+        errors:
+          errorMessages.length > 0
+            ? errorMessages
+            : [
+                {
+                  field: "general",
+                  message:
+                    responseData.message ||
+                    "Ein unbekannter Fehler ist aufgetreten",
+                },
+              ],
       };
     }
 

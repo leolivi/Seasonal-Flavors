@@ -52,7 +52,7 @@ export const RegisterBanner = ({
         </p>
       </Typography>
 
-      <Button label={label} onClick={handleClick} size={ButtonSize.SMALL} />
+      <Button label={label} onClick={handleClick} size={ButtonSize.LARGE} />
     </div>
   );
 };

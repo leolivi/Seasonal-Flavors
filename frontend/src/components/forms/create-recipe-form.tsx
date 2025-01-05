@@ -1,7 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import { useForm, FieldErrors } from "react-hook-form";
 import { Form, FormField, FormMessage } from "@/components/ui/form";
 import { Button, ButtonSize, ButtonStyle } from "../button/button";
 import {
@@ -71,6 +71,16 @@ export default function CreateRecipeForm({
     }
   };
 
+  const handleError = (errors: FieldErrors<CreateRecipeSchema>) => {
+    if (Object.keys(errors).length > 0) {
+      toast({
+        variant: "destructive",
+        title: "Validierungsfehler",
+        description: "Bitte überprüfe die Eingabefelder auf Fehler.",
+      });
+    }
+  };
+
   const singleInputs = formFields.filter(
     (field) =>
       !["cooking_time", "prep_time", "servings", "steps"].includes(field.name),
@@ -83,7 +93,7 @@ export default function CreateRecipeForm({
   return (
     <Form {...form}>
       <form
-        onSubmit={form.handleSubmit(onSubmit)}
+        onSubmit={form.handleSubmit(onSubmit, handleError)}
         className="w-full space-y-6 min-[640px]:w-5/6 min-[1020px]:w-2/3 min-[1240px]:w-1/2"
       >
         <CreateRecipeInput<CreateRecipeSchema>

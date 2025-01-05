@@ -22,6 +22,7 @@ import { handleImageDelete } from "@/services/image/imageDelete";
 import { handleImageUpload } from "@/services/image/imageUpload";
 import type { ImageData } from "@/services/image/imageService";
 import { useUserImageStore } from "@/stores/userImageStore";
+import { Typography } from "../ui/typography";
 
 type ProfileFormProps = {
   user: NonNullable<ProfileCardProps["userData"]>;
@@ -33,6 +34,9 @@ export default function ProfileForm({ user, image }: ProfileFormProps) {
   const [profileImage, setProfileImage] = useState<File | null>();
   const { toast } = useToast();
   const { setImageUrl } = useUserImageStore();
+  const [formErrors, setFormErrors] = useState<
+    { field: string; message: string }[]
+  >([]);
 
   const form = useForm<z.infer<typeof profileSchema>>({
     resolver: zodResolver(profileSchema),
@@ -52,6 +56,8 @@ export default function ProfileForm({ user, image }: ProfileFormProps) {
   };
 
   async function onSubmit(data: z.infer<typeof profileSchema>) {
+    setFormErrors([]);
+
     if (hasChanges(data)) {
       if (profileImage) {
         try {
@@ -115,18 +121,15 @@ export default function ProfileForm({ user, image }: ProfileFormProps) {
           router,
         });
 
-        if (Array.isArray(response.errors)) {
-          response.errors.forEach(
-            (error: { field: string; message: string }) => {
-              form.setError(
-                error.field as keyof z.infer<typeof profileSchema>,
-                {
-                  type: "manual",
-                  message: error.message,
-                },
-              );
-            },
-          );
+        if (response.errors) {
+          setFormErrors(response.errors);
+          response.errors.forEach((error) => {
+            console.error(`Fehler im Feld ${error.field}: ${error.message}`);
+            form.setError(error.field as keyof z.infer<typeof profileSchema>, {
+              type: "manual",
+              message: error.message,
+            });
+          });
         } else if (response.success) {
           toast({
             title: "Daten gespeichert",
@@ -180,33 +183,38 @@ export default function ProfileForm({ user, image }: ProfileFormProps) {
         <FormField
           control={form.control}
           name="username"
-          render={({ field, fieldState }) => (
+          render={({ field }) => (
             <FormItem>
               <FormLabel>Username</FormLabel>
               <FormControl>
                 <Input {...field} placeholder="Username" />
               </FormControl>
-              <FormMessage>
-                {fieldState.error ? fieldState.error.message : null}
-              </FormMessage>
+              <FormMessage />
             </FormItem>
           )}
         />
         <FormField
           control={form.control}
           name="email"
-          render={({ field, fieldState }) => (
+          render={({ field }) => (
             <FormItem>
               <FormLabel>Email</FormLabel>
               <FormControl>
                 <Input {...field} placeholder="Email" />
               </FormControl>
-              <FormMessage>
-                {fieldState.error ? fieldState.error.message : null}
-              </FormMessage>
+              <FormMessage />
             </FormItem>
           )}
         />
+        {formErrors.length > 0 && (
+          <div className="font-figtreeRegular text-sfred">
+            {formErrors.map((error, index) => (
+              <Typography variant="xxs" key={index}>
+                <p key={index}>{error.message}</p>
+              </Typography>
+            ))}
+          </div>
+        )}
         <div className="flex w-full justify-center">
           <Button type="submit" label="speichern" size={ButtonSize.SMALL} />
         </div>
