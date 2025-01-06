@@ -6,6 +6,7 @@ interface ImageSectionProps {
   alt: string;
   width: number;
   height: number;
+  priority?: boolean;
 }
 
 // component for an image (full screen and responsive)
@@ -17,6 +18,7 @@ const ImageContainer = ({ ...props }: ImageSectionProps) => (
       alt={props.alt}
       width={props.width}
       height={props.height}
+      priority={true}
     />
   </div>
 );

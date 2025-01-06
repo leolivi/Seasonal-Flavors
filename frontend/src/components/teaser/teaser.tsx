@@ -25,13 +25,14 @@ const Heading = () => (
 // homepage teaser component containing heading and Teaser Image
 export default function Teaser() {
   return (
-    <div className="teaser-container px-4 py-8 min-[640px]:p-8">
+    <div className="teaser-container static px-4 py-8 min-[640px]:p-8">
       <Heading />
       <ImageContainer
         src={foodImage}
         alt="Leckeres Essen"
         width={500}
         height={300}
+        priority
       />
       <SeasonAnimation />
     </div>

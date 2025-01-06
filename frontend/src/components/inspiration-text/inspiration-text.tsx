@@ -16,7 +16,7 @@ export const InspirationText = ({ seasonName }: InspirationTextProps) => {
   const x = useTransform(scrollYProgress, [0.1, 0.6], [-200, 0]);
 
   return (
-    <div className="mb-5 mt-14 flex justify-center">
+    <div className="relative mb-5 mt-14 flex justify-center">
       <Typography variant="heading3">
         <motion.p
           className={`seasontext font-figtreeMedium text-${seasonalColor}-dark`}

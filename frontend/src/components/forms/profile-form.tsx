@@ -121,6 +121,7 @@ export default function ProfileForm({ user, image }: ProfileFormProps) {
           router,
         });
 
+        // TODO: Fix this error handling, this solution is not ideal
         if (response.errors) {
           setFormErrors(response.errors);
           response.errors.forEach((error) => {

@@ -27,7 +27,7 @@ export const CardList = ({
 }: CardListProps) => {
   return (
     <div className={style}>
-      {cardData.map((item) => (
+      {cardData.map((item, index) => (
         <React.Fragment key={item.id}>
           <Link href={`/recipes/${item.id}`} className="cursor-pointer">
             <Card
@@ -48,6 +48,7 @@ export const CardList = ({
               steps={""}
               ingredients={""}
               user_id={""}
+              priority={index < 3}
             />
           </Link>
         </React.Fragment>

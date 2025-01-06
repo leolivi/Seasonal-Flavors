@@ -29,7 +29,7 @@ export const handleImageDelete = async (entityId, imageId, toast) => {
       return false;
     }
 
-    // Fix this reload state issue
+    //TODO: Fix this reload state issue
     window.location.reload();
     toast({
       variant: "default",

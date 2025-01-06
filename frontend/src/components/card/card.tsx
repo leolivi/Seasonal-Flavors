@@ -21,6 +21,7 @@ interface ExtendedRecipeProps extends Recipe {
   onBookmarkClick?: (e: React.MouseEvent) => void;
   onEditClick?: (e: React.MouseEvent) => void;
   imageData?: ImageData;
+  priority?: boolean;
 }
 
 export default function Card({
@@ -94,6 +95,7 @@ export default function Card({
           alt={props.imageAlt || props.title}
           width={500}
           height={300}
+          priority={props.priority}
         />
       </div>
       <div className="py-3 min-[640px]:min-h-24">

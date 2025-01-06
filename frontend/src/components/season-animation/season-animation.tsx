@@ -39,7 +39,10 @@ export default function SeasonAnimation() {
   const x = useTransform(scrollYProgress, [0, 0.5], [-200, 0]);
 
   return (
-    <div ref={container} className="mt-20 flex items-center justify-center">
+    <div
+      ref={container}
+      className="relative mt-20 flex items-center justify-center"
+    >
       <motion.div
         style={{ rotate, x }}
         className="motiondiv h-auto w-full min-[640px]:w-2/5"
