@@ -1,5 +1,5 @@
 import { render, screen, fireEvent } from "@testing-library/react";
-import { CreateRecipeInput } from "./create-recipe-input";
+import { RecipeInput } from "./recipe-input";
 import { useForm, FormProvider } from "react-hook-form";
 import { CreateRecipeSchema } from "@/validation/createRecipeSchema";
 
@@ -7,7 +7,7 @@ const TestWrapper = () => {
   const methods = useForm<CreateRecipeSchema>();
   return (
     <FormProvider {...methods}>
-      <CreateRecipeInput
+      <RecipeInput
         fields={[
           { name: "title" as keyof CreateRecipeSchema, label: "Test Label" },
         ]}
@@ -18,7 +18,7 @@ const TestWrapper = () => {
   );
 };
 
-describe("CreateRecipeInput", () => {
+describe("RecipeInput", () => {
   const mockOnFileChange = jest.fn();
 
   beforeEach(() => {

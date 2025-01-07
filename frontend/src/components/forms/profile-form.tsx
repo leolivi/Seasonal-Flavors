@@ -23,6 +23,8 @@ import { handleImageUpload } from "@/services/image/imageUpload";
 import type { ImageData } from "@/services/image/imageService";
 import { useUserImageStore } from "@/stores/userImageStore";
 import { Typography } from "../ui/typography";
+import Image from "next/image";
+import Cross from "@/assets/icons/cross.svg";
 
 type ProfileFormProps = {
   user: NonNullable<ProfileCardProps["userData"]>;
@@ -37,6 +39,7 @@ export default function ProfileForm({ user, image }: ProfileFormProps) {
   const [formErrors, setFormErrors] = useState<
     { field: string; message: string }[]
   >([]);
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
 
   const form = useForm<z.infer<typeof profileSchema>>({
     resolver: zodResolver(profileSchema),
@@ -153,6 +156,36 @@ export default function ProfileForm({ user, image }: ProfileFormProps) {
     }
   }
 
+  const handleFileChange = (file: File | null) => {
+    if (file) {
+      const url = URL.createObjectURL(file);
+      setPreviewUrl(url);
+      setProfileImage(file);
+    } else {
+      if (previewUrl) {
+        URL.revokeObjectURL(previewUrl);
+      }
+      setPreviewUrl(null);
+      setProfileImage(null);
+    }
+  };
+
+  const clearFileInput = () => {
+    if (previewUrl) {
+      URL.revokeObjectURL(previewUrl);
+    }
+    setPreviewUrl(null);
+    setProfileImage(null);
+    form.setValue("profile_image", undefined);
+
+    const fileInput = document.querySelector(
+      'input[type="file"]',
+    ) as HTMLInputElement;
+    if (fileInput) {
+      fileInput.value = "";
+    }
+  };
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-6">
@@ -163,19 +196,45 @@ export default function ProfileForm({ user, image }: ProfileFormProps) {
             <FormItem>
               <FormLabel>Profilbild</FormLabel>
               <FormControl>
-                <Input
-                  type="file"
-                  accept="image/*"
-                  onChange={(e) => {
-                    const files = e.target.files;
-                    if (files && files.length > 0) {
-                      setProfileImage(files[0]);
-                      field.onChange(files[0]);
-                    }
-                  }}
-                  placeholder="Profilbild hochladen"
-                  name={field.name}
-                />
+                <div className="flex flex-col items-center">
+                  <div className="relative w-full">
+                    <Input
+                      type="file"
+                      accept="image/*"
+                      onChange={(e) => {
+                        const files = e.target.files;
+                        const file = files?.[0] || null;
+                        handleFileChange(file);
+                        field.onChange(file);
+                      }}
+                      placeholder="Profilbild hochladen"
+                      name={field.name}
+                    />
+                    {(previewUrl || field.value) && (
+                      <button
+                        type="button"
+                        onClick={clearFileInput}
+                        className="absolute right-2 top-1/2 -translate-y-1/2 rounded-full bg-sfwhite p-1 hover:bg-sfwhite-light"
+                      >
+                        <Cross
+                          className="h-4 w-4 cursor-pointer stroke-sfred-dark stroke-2"
+                          aria-label="Close Register Banner"
+                        />
+                      </button>
+                    )}
+                  </div>
+                  {previewUrl && (
+                    <div className="relative mt-2">
+                      <Image
+                        src={previewUrl}
+                        alt="Profilbild Vorschau"
+                        width={200}
+                        height={200}
+                        className="rounded-md object-cover"
+                      />
+                    </div>
+                  )}
+                </div>
               </FormControl>
               <FormMessage />
             </FormItem>

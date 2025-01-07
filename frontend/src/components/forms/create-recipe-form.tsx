@@ -10,7 +10,7 @@ import {
 } from "@/validation/createRecipeSchema";
 import { SeasonCheckbox } from "../season-checkbox/season-checkbox";
 import { useRouter } from "next/navigation";
-import { CreateRecipeInput } from "../create-recipe-input/create-recipe-input";
+import { RecipeInput } from "../create-recipe-input/recipe-input";
 import { ProseMirrorNode, TipTapEditor } from "../tiptap/tiptap-editor";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
@@ -96,7 +96,7 @@ export default function CreateRecipeForm({
         onSubmit={form.handleSubmit(onSubmit, handleError)}
         className="w-full space-y-6 min-[640px]:w-5/6 min-[1020px]:w-2/3 min-[1240px]:w-1/2"
       >
-        <CreateRecipeInput<CreateRecipeSchema>
+        <RecipeInput<CreateRecipeSchema>
           fields={singleInputs}
           control={form.control}
           layout="column"
@@ -109,11 +109,7 @@ export default function CreateRecipeForm({
           }}
         />
 
-        <CreateRecipeInput
-          control={form.control}
-          fields={rowInputs}
-          layout="row"
-        />
+        <RecipeInput control={form.control} fields={rowInputs} layout="row" />
 
         <IngredientInput control={form.control} name="ingredients" />
 

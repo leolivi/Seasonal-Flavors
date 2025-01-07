@@ -6,7 +6,7 @@ import { Form, FormField, FormMessage } from "@/components/ui/form";
 import { Button, ButtonSize, ButtonStyle } from "../button/button";
 import { SeasonCheckbox } from "../season-checkbox/season-checkbox";
 import { useRouter } from "next/navigation";
-import { CreateRecipeInput } from "../create-recipe-input/create-recipe-input";
+import { RecipeInput } from "../create-recipe-input/recipe-input";
 import { ProseMirrorNode, TipTapEditor } from "../tiptap/tiptap-editor";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
@@ -127,11 +127,11 @@ export default function EditRecipeForm({
         onSubmit={form.handleSubmit(onSubmit, handleError)}
         className="w-full space-y-6 min-[640px]:w-5/6 min-[1020px]:w-2/3 min-[1240px]:w-1/2"
       >
-        <CreateRecipeInput<EditRecipeSchema>
+        <RecipeInput<EditRecipeSchema>
           fields={singleInputs}
           control={form.control}
           layout="column"
-          onFileChange={(fieldName, file) => {
+          onFileChange={(fieldName: string, file: File | null) => {
             if (fieldName === "cover_image") {
               setCoverImage(file);
             }
@@ -152,11 +152,7 @@ export default function EditRecipeForm({
           </div>
         )}
 
-        <CreateRecipeInput
-          fields={rowInputs}
-          control={form.control}
-          layout="row"
-        />
+        <RecipeInput fields={rowInputs} control={form.control} layout="row" />
 
         <IngredientInput
           control={form.control}

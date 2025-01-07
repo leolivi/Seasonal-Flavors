@@ -9,6 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Control, FieldValues, Path } from "react-hook-form";
 import { useState } from "react";
 import Image from "next/image";
+import Cross from "@/assets/icons/cross.svg";
 
 interface FormField {
   name: string;
@@ -16,19 +17,19 @@ interface FormField {
   type?: string;
 }
 
-interface CreateRecipeInputProps<T extends FieldValues> {
+interface RecipeInputProps<T extends FieldValues> {
   fields: FormField[];
   control: Control<T>;
   layout?: "row" | "column";
   onFileChange?: (fieldName: string, file: File | null) => void;
 }
 
-export function CreateRecipeInput<T extends FieldValues>({
+export function RecipeInput<T extends FieldValues>({
   fields,
   control,
   layout = "column",
   onFileChange,
-}: CreateRecipeInputProps<T>) {
+}: RecipeInputProps<T>) {
   const [previewUrls, setPreviewUrls] = useState<Record<string, string>>({});
 
   const handleFileChange = (fieldName: string, file: File | null) => {
@@ -43,6 +44,28 @@ export function CreateRecipeInput<T extends FieldValues>({
       });
     }
     if (onFileChange) onFileChange(fieldName, file);
+  };
+
+  const clearFileInput = (
+    fieldName: string,
+    controllerField: { onChange: (value: File | null) => void },
+  ) => {
+    if (previewUrls[fieldName]) {
+      URL.revokeObjectURL(previewUrls[fieldName]);
+    }
+    setPreviewUrls((prev) => {
+      const updated = { ...prev };
+      delete updated[fieldName];
+      return updated;
+    });
+    controllerField.onChange(null);
+
+    const fileInput = document.querySelector(
+      `input[name="${fieldName}"]`,
+    ) as HTMLInputElement;
+    if (fileInput) {
+      fileInput.value = "";
+    }
   };
 
   return (
@@ -69,20 +92,36 @@ export function CreateRecipeInput<T extends FieldValues>({
               <FormControl>
                 {field.type === "file" ? (
                   <div className="flex flex-col items-center">
-                    <Input
-                      id={field.name}
-                      type="file"
-                      accept="image/*"
-                      onChange={(e) => {
-                        const file = e.target.files?.[0] || null;
-                        handleFileChange(field.name, file);
-                        controllerField.onChange(file);
-                      }}
-                      onBlur={controllerField.onBlur}
-                      name={controllerField.name}
-                      data-testid={`input-${field.name}`}
-                      ref={controllerField.ref}
-                    />
+                    <div className="relative w-full">
+                      <Input
+                        id={field.name}
+                        type="file"
+                        accept="image/*"
+                        onChange={(e) => {
+                          const file = e.target.files?.[0] || null;
+                          handleFileChange(field.name, file);
+                          controllerField.onChange(file);
+                        }}
+                        onBlur={controllerField.onBlur}
+                        name={controllerField.name}
+                        data-testid={`input-${field.name}`}
+                        ref={controllerField.ref}
+                      />
+                      {(previewUrls[field.name] || controllerField.value) && (
+                        <button
+                          type="button"
+                          onClick={() =>
+                            clearFileInput(field.name, controllerField)
+                          }
+                          className="absolute right-2 top-1/2 -translate-y-1/2 rounded-full bg-sfwhite p-1 hover:bg-sfwhite-light"
+                        >
+                          <Cross
+                            className="h-4 w-4 cursor-pointer stroke-sfred-dark stroke-2"
+                            aria-label="Close Register Banner"
+                          />
+                        </button>
+                      )}
+                    </div>
                     {previewUrls[field.name] && (
                       <div className="mt-2">
                         <Image
