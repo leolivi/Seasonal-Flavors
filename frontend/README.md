@@ -39,14 +39,9 @@ This is the frontend for the **Seasonal Flavors** project, a web application tha
 
 3. **Environment variables:**
 
-   create a .env.local file in the frontend folder and add the following variables:
+   Adjust the .env.example file in the frontend folder to your needs.
 
-   ```
-   BACKEND_URL=http://127.0.0.1:8000
-   NEXT_PUBLIC_BACKEND_URL=http://127.0.0.1:8000
-   AUTH_URL=http://localhost:3000
-   AUTH_SECRET={your-secret-token}
-   ```
+   ❗️ For this school project, the .env. file is already set up - will be deleted later ❗️
 
 4. **Start the development server:**
 

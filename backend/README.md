@@ -34,13 +34,17 @@ This is the backend for the **Seasonal Flavors** web application project, which 
    composer install
    ```
 
-3. Modify .env file:
-   If you prefer to use another database driver such as MySQL or PostgreSQL, you can update your .env configuration file to use the appropriate database.
+3. Modify .env.example file:
+
+   Adjust the .env.example file in the backend folder to your needs.
+
+   ❗️ For this school project, the .env. file is already set up - will be deleted later ❗️
 
 4. Run the migrations to set up the SQLite database:
 
    ```
    php artisan migrate
+   php artisan seed
    ```
 
 5. Start the Laravel development server:
