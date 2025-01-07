@@ -1,6 +1,6 @@
 import Teaser from "@/components/teaser/teaser";
 import { RegisterBanner } from "@/components/banner/register-banner";
-import registerImage from "../assets/images/register-image.jpg";
+import registerImage from "@/assets/images/register-image.jpg";
 import Image from "next/image";
 import ScrollButton from "@/components/scroll-button/scroll-button";
 import { InspirationText } from "@/components/inspiration-text/inspiration-text";
@@ -41,8 +41,8 @@ const Home = async () => {
           className="h-full w-full rounded-lg object-cover"
           src={registerImage}
           alt="Leckeres Essen"
-          width={500}
-          height={300}
+          width={2000}
+          height={2000}
         />
         <div className="absolute flex items-center justify-center">
           <RegisterBanner label="jetzt registrieren" />

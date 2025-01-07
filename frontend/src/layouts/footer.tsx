@@ -30,7 +30,7 @@ interface FooterProps {
 
 const Footer = () => {
   const seasonalColor = getSeasonColor();
-  const isDesktop = useMediaQuery("(min-width: 640px)");
+  const isDesktop = useMediaQuery("(min-width: 720px)");
 
   const footerItems = [
     {

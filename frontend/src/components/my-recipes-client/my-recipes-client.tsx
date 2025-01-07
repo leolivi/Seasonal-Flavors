@@ -58,11 +58,11 @@ const MyRecipesClient: React.FC<MyRecipesClientProps> = ({ cardData }) => {
         </>
       ) : (
         <div className="flex h-[45vh] w-full flex-col items-center pt-10">
-          <div className="fit-cover h-60 w-96">
-            <NoRecipesImage className="h-full w-full fill-sfred" />
+          <div className="fit-cover w-76 h-40 min-[640px]:h-60 min-[640px]:w-96">
+            <NoRecipesImage className="h-full w-full" />
           </div>
 
-          <Typography variant="body">
+          <Typography variant="small" className="mt-2 text-center">
             <span className="text-sfblack">
               Du hast noch keine eigenen Rezepte erstellt.
             </span>
