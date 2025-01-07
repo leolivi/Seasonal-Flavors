@@ -90,7 +90,7 @@ export default function Card({
           />
         )}
         <Image
-          className="pointer-events-none h-full w-full rounded-lg object-cover"
+          className="pointer-events-none h-full w-full rounded-lg object-cover object-center"
           src={props.imageSrc || ""}
           alt={props.imageAlt || props.title}
           width={500}
