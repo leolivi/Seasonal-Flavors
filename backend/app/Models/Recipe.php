@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use Config\Model;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use WendellAdriel\Lift\Attributes\Column;
@@ -12,26 +12,26 @@ use Laravel\Sanctum\HasApiTokens;
 class Recipe extends Model {
   use HasApiTokens; 
 
-  #[Column]
-  public string $title;
+  protected $fillable = [
+    'title', 
+    'prep_time', 
+    'cooking_time', 
+    'servings', 
+    'steps', 
+    'ingredients', 
+    'user_id'
+  ];
 
-  #[Column]
-  public int $prep_time;
-
-  #[Column]
-  public int $cooking_time;
-
-  #[Column]
-  public int $servings;
-
-  #[Column]
-  public string $steps;
-
-  #[Column]
-  public string $ingredients;
-
-  #[Column]
-  public int $user_id;
+  // Typisierung der Felder über casts
+  protected $casts = [
+    'title' => 'string',
+    'prep_time' => 'integer',
+    'cooking_time' => 'integer',
+    'servings' => 'integer',
+    'steps' => 'string', 
+    'ingredients' => 'string',
+    'user_id' => 'integer',
+  ];
 
   /*
   @return BelongsToMany

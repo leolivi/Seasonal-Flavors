@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use Config\Model;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Auth\Passwords\CanResetPassword;
 use Illuminate\Contracts\Auth\CanResetPassword as CanResetPasswordContract;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -23,19 +23,16 @@ class User extends Model implements CanResetPasswordContract, AuthenticatableCon
     use CanResetPassword;
     use Authenticatable;
 
-    #[Column]
-    public string $username;
+    protected $fillable = ['username', 'email', 'password', 'remember_token'];
 
-    #[Column]
-    public string $email;
+    protected $casts = [
+        'username' => 'string',
+        'email' => 'string',
+        'password' => 'string',
+        'remember_token' => 'string',
+    ];
 
-    #[Column] #[Hidden]
-    public string $password;
-
-    #[Column]
-    public ?string $remember_token = null;
-
-    protected $guarded = [];
+    protected $hidden = ['password', 'remember_token'];
 
     /*
     @return HasMany|Recipe

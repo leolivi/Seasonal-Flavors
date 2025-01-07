@@ -2,18 +2,19 @@
 
 namespace App\Models;
 
-use Config\Model;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Http\Request;
 use WendellAdriel\Lift\Attributes\Column;
 
 
 class Tag extends Model {
-    #[Column]
-    public string $name;
+    protected $fillable = ['name', 'category'];
 
-    #[Column]
-    public string $category;
+    protected $casts = [
+        'name' => 'string',
+        'category' => 'string',
+    ];
 
     /*
     @return BelongsToMany

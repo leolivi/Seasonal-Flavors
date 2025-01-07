@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use Config\Model;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use WendellAdriel\Lift\Attributes\Column;
 use Laravel\Sanctum\HasApiTokens;
@@ -10,11 +10,12 @@ use Laravel\Sanctum\HasApiTokens;
 class Image extends Model {
   use HasApiTokens; 
 
-  #[Column]
-  public string $file_path;
+  protected $fillable = ['file_path', 'alt_text', 'user_id', 'recipe_id']; // Mass assignment
 
-  #[Column]
-  public string $alt_text;
+  protected $casts = [
+    'file_path' => 'string',
+    'alt_text' => 'string',
+  ];
 
   /*
   @return BelongsTo
