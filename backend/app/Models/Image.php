@@ -10,7 +10,7 @@ use Laravel\Sanctum\HasApiTokens;
 class Image extends Model {
   use HasApiTokens; 
 
-  protected $fillable = ['file_path', 'alt_text', 'user_id', 'recipe_id']; // Mass assignment
+  protected $fillable = ['file_path', 'alt_text', 'user_id', 'recipe_id']; 
 
   protected $casts = [
     'file_path' => 'string',

@@ -70,7 +70,7 @@ class UploadsController {
             $uniqueFilename = $filename . '_' . Str::random(16) . '.' . $extension;
             $filePath = $user->id . '/' . $uniqueFilename; 
     
-            Storage::putFileAs(
+            Storage::disk('public')->putFileAs(
                 'uploads/' . $user->id,
                 $file,
                 $uniqueFilename
