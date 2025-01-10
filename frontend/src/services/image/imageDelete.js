@@ -21,24 +21,23 @@ export const handleImageDelete = async (entityId, imageId, toast) => {
     const data = await response.json();
 
     if (!response.ok) {
+      setCurrentImageId(null);
       toast({
         variant: "destructive",
         title: "Fehler",
-        description: data.message || "Profilbild konnte nicht gelöscht werden.",
+        description: data.message || "Bild konnte nicht gelöscht werden.",
       });
       return false;
     }
 
-    //TODO: Fix this reload state issue
-    window.location.reload();
     toast({
       variant: "default",
       title: "Erfolg",
-      description: "Profilbild wurde erfolgreich gelöscht.",
+      description: "Bild wurde erfolgreich gelöscht.",
     });
     return true;
   } catch (error) {
-    console.error("Profilbild-Löschung fehlgeschlagen:", error);
+    console.error("Bild-Löschung fehlgeschlagen:", error);
     return false;
   }
 };

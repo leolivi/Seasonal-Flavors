@@ -76,21 +76,33 @@ export default function EditRecipeForm({
       const imageId = imageData?.id;
 
       if (imageId) {
-        const deleteImage = await handleImageDelete(recipeId, imageId, toast);
-
-        if (deleteImage === true) {
-          await handleImageUpload(recipeId, coverImage, data.title, toast);
-        } else {
-          console.error("Image deletion failed");
-          toast({
-            variant: "destructive",
-            title: "Fehler",
-            description: "Bild konnte nicht aktualisiert werden.",
-          });
-        }
+        await handleImageDelete(recipeId, imageId, toast);
       } else {
-        await handleImageUpload(recipeId, coverImage, data.title, toast);
+        console.error("Image deletion failed");
+        toast({
+          variant: "destructive",
+          title: "Fehler",
+          description: "Bild konnte nicht aktualisiert werden.",
+        });
       }
+      await handleImageUpload(recipeId, coverImage, data.title, toast);
+
+      // if (imageId) {
+      //   const deleteImage = await handleImageDelete(recipeId, imageId, toast);
+
+      //   if (deleteImage === true) {
+      //     await handleImageUpload(recipeId, coverImage, data.title, toast);
+      //   } else {
+      //     console.error("Image deletion failed");
+      //     toast({
+      //       variant: "destructive",
+      //       title: "Fehler",
+      //       description: "Bild konnte nicht aktualisiert werden.",
+      //     });
+      //   }
+      // } else {
+      //   await handleImageUpload(recipeId, coverImage, data.title, toast);
+      // }
     }
 
     await handleRecipePatch({
