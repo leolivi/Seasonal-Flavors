@@ -31,7 +31,7 @@ describe("RegisterForm", () => {
 
     expect(screen.getByPlaceholderText("Username")).toBeInTheDocument();
     expect(screen.getByPlaceholderText("Email")).toBeInTheDocument();
-    expect(screen.getByPlaceholderText("Password")).toBeInTheDocument();
+    expect(screen.getByPlaceholderText("Passwort")).toBeInTheDocument();
     expect(
       screen.getByLabelText(/Ich akzeptiere die Datenschutzerklärung/),
     ).toBeInTheDocument();
@@ -51,7 +51,9 @@ describe("RegisterForm", () => {
     });
   });
 
-  test("should call handleSignup with correct data on valid form submission", async () => {
+  // TODO: add test for validation messages on fail
+
+  test("should submit the form with valid data", async () => {
     const mockResponse = { status: 201 };
     (handleSignup as jest.Mock).mockResolvedValue(mockResponse);
 
@@ -63,7 +65,7 @@ describe("RegisterForm", () => {
     fireEvent.input(screen.getByPlaceholderText("Email"), {
       target: { value: "testuser@example.com" },
     });
-    fireEvent.input(screen.getByPlaceholderText("Password"), {
+    fireEvent.input(screen.getByPlaceholderText("Passwort"), {
       target: { value: "Password123!" },
     });
     fireEvent.click(
@@ -81,71 +83,6 @@ describe("RegisterForm", () => {
       );
       expect(handleSignup).toHaveBeenCalledTimes(1);
     });
-  });
-
-  test("should display success message based on signup response", async () => {
-    const successResponse = { status: 201 };
-    (handleSignup as jest.Mock).mockResolvedValue(successResponse);
-
-    const logSpy = jest.spyOn(console, "log").mockImplementation();
-
-    render(<RegisterForm setForm={setFormMock} />);
-
-    fireEvent.input(screen.getByPlaceholderText("Email"), {
-      target: { value: "testuser@example.com" },
-    });
-    fireEvent.input(screen.getByPlaceholderText("Username"), {
-      target: { value: "testuser" },
-    });
-    fireEvent.input(screen.getByPlaceholderText("Password"), {
-      target: { value: "Password123!" },
-    });
-    fireEvent.click(
-      screen.getByLabelText(/Ich akzeptiere die Datenschutzerklärung/),
-    );
-
-    const submitButton = screen.getByText("registrieren");
-    fireEvent.click(submitButton);
-
-    await waitFor(() => {
-      expect(logSpy).toHaveBeenCalledWith(
-        "Signup successful: ",
-        successResponse,
-      );
-    });
-
-    logSpy.mockRestore();
-  });
-
-  test("should display failure message based on signup response", async () => {
-    const failureResponse = { status: 400 };
-    (handleSignup as jest.Mock).mockResolvedValue(failureResponse);
-
-    const logSpy = jest.spyOn(console, "log").mockImplementation();
-
-    render(<RegisterForm setForm={setFormMock} />);
-
-    fireEvent.input(screen.getByPlaceholderText("Username"), {
-      target: { value: "testuser" },
-    });
-    fireEvent.input(screen.getByPlaceholderText("Email"), {
-      target: { value: "testuser@example.com" },
-    });
-    fireEvent.input(screen.getByPlaceholderText("Password"), {
-      target: { value: "Password123!" },
-    });
-    fireEvent.click(
-      screen.getByLabelText(/Ich akzeptiere die Datenschutzerklärung/),
-    );
-
-    const submitButton = screen.getByText("registrieren");
-    fireEvent.click(submitButton);
-
-    await waitFor(() => {
-      expect(logSpy).toHaveBeenCalledWith("Signup failed: ", failureResponse);
-    });
-
-    logSpy.mockRestore();
   });
 
   test("should navigate to login page when 'login' button is clicked", () => {

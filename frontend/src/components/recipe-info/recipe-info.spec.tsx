@@ -8,8 +8,12 @@ describe("RecipeInfo Component", () => {
   test("displays prep time, cooking time, and servings correctly", () => {
     render(
       <RecipeInfo
-        prepTime={15}
-        cookingTime={30}
+        id={1}
+        title={"Test"}
+        steps={"Test"}
+        user_id={"Test"}
+        prep_time={15}
+        cooking_time={30}
         servings={4}
         ingredients="Tomato, Basil, Mozzarella"
       />,
@@ -26,8 +30,12 @@ describe("RecipeInfo Component", () => {
   test("renders each ingredient in the ingredients list", () => {
     render(
       <RecipeInfo
-        prepTime={15}
-        cookingTime={30}
+        id={1}
+        title={"Test"}
+        steps={"Test"}
+        user_id={"Test"}
+        prep_time={15}
+        cooking_time={30}
         servings={4}
         ingredients="Tomato, Basil, Mozzarella"
       />,
@@ -48,8 +56,12 @@ describe("RecipeInfo Component", () => {
 
     render(
       <RecipeInfo
-        prepTime={15}
-        cookingTime={30}
+        id={1}
+        title={"Test"}
+        steps={"Test"}
+        user_id={"Test"}
+        prep_time={15}
+        cooking_time={30}
         servings={4}
         ingredients="Tomato, Basil, Mozzarella"
       />,

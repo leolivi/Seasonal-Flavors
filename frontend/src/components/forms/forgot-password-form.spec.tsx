@@ -39,7 +39,7 @@ describe("ForgotPasswordForm", () => {
     expect(submitButton).toBeInTheDocument();
   });
 
-  test("should render the form and submits with valid email", async () => {
+  test("should submits with valid email", async () => {
     render(<ForgotPasswordForm />);
 
     const emailInput = screen.getByPlaceholderText("Email");

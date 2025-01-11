@@ -9,23 +9,28 @@ import { Toaster } from "@/components/toaster/toaster";
 const cordaRegular = localFont({
   src: "./fonts/corda/Corda-Regular.ttf",
   variable: "--font-corda-regular",
+  preload: false,
 });
 const cordaMedium = localFont({
   src: "./fonts/corda/Corda-Medium.ttf",
   variable: "--font-corda-medium",
   weight: "600",
+  preload: false,
 });
 const cordaBold = localFont({
   src: "./fonts/corda/Corda-Bold.ttf",
   variable: "--font-corda-bold",
+  preload: false,
 });
 const figTreeRegular = localFont({
   src: "./fonts/figtree/Figtree-Regular.ttf",
   variable: "--font-figtree-regular",
+  preload: false,
 });
 const figTreeMedium = localFont({
   src: "./fonts/figtree/Figtree-Medium.ttf",
   variable: "--font-figtree-medium",
+  preload: false,
 });
 
 export const metadata: Metadata = {

@@ -28,7 +28,7 @@ describe("LoginForm", () => {
     render(<LoginForm setForm={setFormMock} />);
 
     const emailInput = screen.getByPlaceholderText("Email");
-    const passwordInput = screen.getByPlaceholderText("Password");
+    const passwordInput = screen.getByPlaceholderText("Passwort");
     const submitButton = screen.getByRole("button", { name: /anmelden/i });
 
     expect(emailInput).toBeInTheDocument();
@@ -42,7 +42,7 @@ describe("LoginForm", () => {
     render(<LoginForm setForm={setFormMock} />);
 
     const emailInput = screen.getByPlaceholderText("Email");
-    const passwordInput = screen.getByPlaceholderText("Password");
+    const passwordInput = screen.getByPlaceholderText("Passwort");
     const submitButton = screen.getByRole("button", { name: /anmelden/i });
 
     fireEvent.change(emailInput, { target: { value: "test@example.com" } });
@@ -67,7 +67,7 @@ describe("LoginForm", () => {
     render(<LoginForm setForm={setFormMock} />);
 
     const emailInput = screen.getByPlaceholderText("Email");
-    const passwordInput = screen.getByPlaceholderText("Password");
+    const passwordInput = screen.getByPlaceholderText("Passwort");
     const submitButton = screen.getByRole("button", { name: /anmelden/i });
 
     fireEvent.change(emailInput, { target: { value: "test@example.com" } });

@@ -3,7 +3,7 @@ import ProfileDropdown from "./profile-dropdown";
 
 const mockSignOut = jest.fn();
 
-jest.mock("@/hooks/useMediaQuery", () => ({
+jest.mock("@/hooks/use-media-query", () => ({
   __esModule: true,
   default: jest.fn(() => true),
 }));
@@ -52,6 +52,12 @@ jest.mock("@radix-ui/react-dropdown-menu", () => ({
   Separator: () => <div />,
 }));
 
+const userData = {
+  id: 1,
+  username: "testuser",
+  email: "test@test.com",
+};
+
 describe("ProfileDropdown", () => {
   beforeEach(() => {
     mockSignOut.mockClear();
@@ -59,7 +65,7 @@ describe("ProfileDropdown", () => {
   });
 
   test("should render correctly", () => {
-    render(<ProfileDropdown />);
+    render(<ProfileDropdown userData={userData} />);
 
     expect(
       screen.getByRole("img", { name: "User's avatar" }),
@@ -67,7 +73,7 @@ describe("ProfileDropdown", () => {
   });
 
   test("should open the dropdown menu when clicked", async () => {
-    render(<ProfileDropdown />);
+    render(<ProfileDropdown userData={userData} />);
 
     const avatarButton = screen.getByRole("img", { name: "User's avatar" });
     fireEvent.click(avatarButton);

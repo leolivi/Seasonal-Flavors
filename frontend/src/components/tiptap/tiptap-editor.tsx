@@ -104,7 +104,7 @@ export const TipTapEditor = ({
         </div>
       </ToggleGroup>
 
-      <EditorContent editor={editor} />
+      <EditorContent editor={editor} data-testid="tiptap-editor" />
     </>
   );
 };

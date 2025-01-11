@@ -5,7 +5,7 @@ import NavItem, { NavStyle } from "./nav-item";
 import { useSession } from "next-auth/react";
 
 jest.mock("@/utils/Season");
-jest.mock("@/hooks/useMediaQuery");
+jest.mock("@/hooks/use-media-query");
 
 jest.mock("next-auth/react", () => ({
   useSession: jest.fn(() => ({ status: "unauthenticated" })),

@@ -247,7 +247,7 @@ export default function ProfileForm({ user, image }: ProfileFormProps) {
             <FormItem>
               <FormLabel>Username</FormLabel>
               <FormControl>
-                <Input {...field} placeholder="Username" />
+                <Input {...field} placeholder="username" />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -260,7 +260,7 @@ export default function ProfileForm({ user, image }: ProfileFormProps) {
             <FormItem>
               <FormLabel>Email</FormLabel>
               <FormControl>
-                <Input {...field} placeholder="Email" />
+                <Input {...field} placeholder="email" />
               </FormControl>
               <FormMessage />
             </FormItem>

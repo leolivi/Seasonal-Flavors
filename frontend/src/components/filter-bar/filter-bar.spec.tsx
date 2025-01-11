@@ -5,18 +5,28 @@ import FilterBar from "./filter-bar";
 import { dataFetch, dataFetchWithToken } from "@/utils/data-fetch";
 import { Session } from "next-auth";
 
-// Mock dependencies
-jest.mock("src/assets/icons/magnifier.svg", () => () => (
-  <span>MagnifierMock</span>
-));
-jest.mock("src/assets/icons/bookmark.svg", () => () => (
-  <span>BookmarkMock</span>
-));
+jest.mock("src/assets/icons/magnifier.svg", () => {
+  const MagnifierMock = () => <span>Magnifier</span>;
+  MagnifierMock.displayName = "MagnifierMock";
+  return MagnifierMock;
+});
+jest.mock("src/assets/icons/bookmark.svg", () => {
+  const BookmarkMock = () => <span>Bookmark</span>;
+  BookmarkMock.displayName = "BookmarkMock";
+  return BookmarkMock;
+});
 
-// Mock API calls
-jest.mock("@/lib/data-fetch", () => ({
+jest.mock("@/utils/data-fetch", () => ({
   dataFetchWithToken: jest.fn(),
   dataFetch: jest.fn(),
+}));
+
+jest.mock("next/navigation", () => ({
+  useRouter: () => ({
+    push: jest.fn(),
+    replace: jest.fn(),
+    prefetch: jest.fn(),
+  }),
 }));
 
 const mockOnShowFavorites = jest.fn();
@@ -87,7 +97,7 @@ describe("FilterBar Component", () => {
     fireEvent.change(input, { target: { value: "Some Input" } });
     expect(input).toHaveValue("Some Input");
 
-    const clearButton = screen.getByText("✕");
+    const clearButton = screen.getByTestId("clear-button");
 
     fireEvent.click(clearButton);
     expect(input).toHaveValue("");
@@ -132,13 +142,11 @@ describe("FilterBar Component", () => {
 
     const favoritesButton = screen.getByText("Favoriten");
 
-    // Simulate first click to activate favorites
     await act(async () => {
       fireEvent.click(favoritesButton);
     });
     expect(mockOnShowFavorites).toHaveBeenCalledTimes(1);
 
-    // Simulate second click to deactivate favorites
     await act(async () => {
       fireEvent.click(favoritesButton);
     });
@@ -156,11 +164,24 @@ describe("FilterBar Component", () => {
 
     const favoritesButton = screen.getByText("Favoriten");
 
-    // Simulate a click without a session
     fireEvent.click(favoritesButton);
 
-    // Ensure no callbacks are invoked
     expect(mockOnShowFavorites).not.toHaveBeenCalled();
-    expect(mockOnHideFavorites).not.toHaveBeenCalled();
+  });
+
+  test("shows register banner when session is missing", async () => {
+    renderWithSession(
+      <FilterBar
+        onShowFavorites={mockOnShowFavorites}
+        onHideFavorites={mockOnHideFavorites}
+      />,
+      null,
+    );
+
+    const favoritesButton = screen.getByText("Favoriten");
+    fireEvent.click(favoritesButton);
+
+    expect(screen.getByText(/erstelle deine eigene/i)).toBeInTheDocument();
+    expect(mockOnShowFavorites).not.toHaveBeenCalled();
   });
 });

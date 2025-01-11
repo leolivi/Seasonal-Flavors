@@ -114,6 +114,7 @@ const FilterBar = ({
         {inputValue && setInputValue ? (
           <button
             type="button"
+            data-testid="clear-button"
             onClick={() => {
               setInputValue("");
             }}
