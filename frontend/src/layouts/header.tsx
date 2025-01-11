@@ -49,6 +49,7 @@ const Header = () => {
   // Fetch the user profile image data once authenticated
   useEffect(() => {
     // Funktion zum Abrufen der Benutzerdaten
+    // TODO: Server session und server component
     const fetchUserData = async () => {
       if (status === "authenticated") {
         const session = await getSession();
