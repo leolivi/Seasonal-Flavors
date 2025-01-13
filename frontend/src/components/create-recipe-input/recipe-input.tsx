@@ -3,18 +3,26 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-  FormField,
+  FormField as RHFFormField,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Control, FieldValues, Path } from "react-hook-form";
 import { useState } from "react";
 import Image from "next/image";
 import Cross from "@/assets/icons/cross.svg";
+import {
+  Tooltip,
+  TooltipTrigger,
+  TooltipContent,
+  TooltipProvider,
+} from "@/components/ui/tooltip";
+import { LuInfo } from "react-icons/lu";
 
 interface FormField {
   name: string;
   label: string;
   type?: string;
+  tooltip?: string;
 }
 
 interface RecipeInputProps<T extends FieldValues> {
@@ -71,10 +79,12 @@ export function RecipeInput<T extends FieldValues>({
   return (
     <div
       data-testid="create-recipe-form"
-      className={layout === "row" ? "flex flex-row gap-4" : "space-y-6"}
+      className={
+        layout === "row" ? "flex flex-row items-end gap-4" : "space-y-6"
+      }
     >
       {fields.map((field) => (
-        <FormField
+        <RHFFormField
           key={field.name}
           control={control}
           name={field.name as Path<T>}
@@ -87,7 +97,21 @@ export function RecipeInput<T extends FieldValues>({
                 htmlFor={field.name}
                 data-testid={`form-label-${field.name}`}
               >
-                {field.label}
+                <div className="flex items-center">
+                  {field.label}
+                  {field.tooltip && (
+                    <TooltipProvider>
+                      <Tooltip>
+                        <TooltipTrigger>
+                          <LuInfo className="ml-2 cursor-pointer text-sfblack transition-all hover:text-sfred" />
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          <p>{field.tooltip}</p>
+                        </TooltipContent>
+                      </Tooltip>
+                    </TooltipProvider>
+                  )}
+                </div>
               </FormLabel>
               <FormControl>
                 {field.type === "file" ? (

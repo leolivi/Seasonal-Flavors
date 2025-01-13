@@ -52,7 +52,7 @@ const sizes: Record<Variant, string> = {
   heading3:
     "min-[0px]:text-[25px] min-[640px]:text-[30px] min-[1024px]:text-[33px] min-[1280px]:text-[35px]",
   //   body text
-  body: "min-[0px]:text-[18px] min-[640px]:text-[20px] min-[1024px]:text-[25px] min-[1280px]:text-[28px]",
+  body: "min-[0px]:text-[16px] min-[640px]:text-[18px] min-[1024px]:text-[20px] min-[1280px]:text-[24px]",
   //   small
   small:
     "min-[0px]:text-[15px] min-[640px]:text-[16px] min-[1024px]:text-[18px] min-[1280px]:text-[20px]",

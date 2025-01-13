@@ -18,7 +18,7 @@ export const RecipeInfo = ({ ...props }: Recipe) => {
   return (
     <div
       data-testid="recipe-info-container"
-      className={`max-w-fit rounded border-2 border-${seasonalColor} bg-${seasonalColor}-light p-4`}
+      className={`max-w-fit rounded border-2 font-figtreeRegular border-${seasonalColor} bg-${seasonalColor}-light p-4`}
     >
       <Typography variant="heading2" className="pt-2">
         <h2 className="text-sfblack">Zutaten</h2>

@@ -7,6 +7,13 @@ import { ToggleGroup, ToggleGroupItem } from "../ui/toggle-group";
 import ListItem from "@tiptap/extension-list-item";
 import { getSeasonColor } from "@/utils/SeasonUtils";
 import { FormLabel, useFormField } from "../ui/form";
+import {
+  Tooltip,
+  TooltipTrigger,
+  TooltipContent,
+  TooltipProvider,
+} from "@/components/ui/tooltip";
+import { LuInfo } from "react-icons/lu";
 
 export interface ProseMirrorNode {
   type: string;
@@ -62,7 +69,19 @@ export const TipTapEditor = ({
         className="mt-6 justify-between gap-5"
       >
         <FormLabel htmlFor="steps" className="font-figtreeRegular">
-          Zubereitung
+          <div className="flex items-end">
+            Zubereitung
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger>
+                  <LuInfo className="ml-2 cursor-pointer text-sfblack transition-all hover:text-sfred" />
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Beschreibe hier den Zubereitungsvorgang</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          </div>
         </FormLabel>
         <div className="flex gap-2">
           <ToggleGroupItem

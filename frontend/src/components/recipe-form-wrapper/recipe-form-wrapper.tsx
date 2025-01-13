@@ -10,6 +10,7 @@ type FormFieldName = keyof CreateRecipeSchema;
 export interface FormField {
   name: FormFieldName;
   label: string;
+  tooltip?: string;
   placeholder?: string;
   type?: string;
 }
@@ -32,18 +33,21 @@ export default function RecipeFormWrapper({
     {
       name: "cooking_time",
       label: "zubereiten",
-      placeholder: "Kochzeit in Minuten",
+      tooltip: "Zubereitungszeit in Minuten",
+      placeholder: "Vorbereitungszeit in Minuten",
       type: "number",
     },
     {
       name: "prep_time",
       label: "kochen",
-      placeholder: "Vorbereitungszeit in Minuten",
+      tooltip: "Kochzeit in Minuten",
+      placeholder: "Kochzeit in Minuten",
       type: "number",
     },
     {
       name: "servings",
       label: "Portionen",
+      tooltip: "Wie viele Portionen das Rezept ergibt",
       placeholder: "Portionen",
       type: "number",
     },
