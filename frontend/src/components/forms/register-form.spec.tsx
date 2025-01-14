@@ -33,6 +33,9 @@ describe("RegisterForm", () => {
     expect(screen.getByPlaceholderText("Email")).toBeInTheDocument();
     expect(screen.getByPlaceholderText("Passwort")).toBeInTheDocument();
     expect(
+      screen.getByPlaceholderText("Passwort bestätigen"),
+    ).toBeInTheDocument();
+    expect(
       screen.getByLabelText(/Ich akzeptiere die Datenschutzerklärung/),
     ).toBeInTheDocument();
     expect(screen.getByText("registrieren")).toBeInTheDocument();
@@ -68,6 +71,9 @@ describe("RegisterForm", () => {
     fireEvent.input(screen.getByPlaceholderText("Passwort"), {
       target: { value: "Password123!" },
     });
+    fireEvent.input(screen.getByPlaceholderText("Passwort bestätigen"), {
+      target: { value: "Password123!" },
+    });
     fireEvent.click(
       screen.getByLabelText(/Ich akzeptiere die Datenschutzerklärung/),
     );
@@ -77,9 +83,10 @@ describe("RegisterForm", () => {
 
     await waitFor(() => {
       expect(handleSignup).toHaveBeenCalledWith(
+        "testuser",
         "testuser@example.com",
         "Password123!",
-        "testuser",
+        "Password123!",
       );
       expect(handleSignup).toHaveBeenCalledTimes(1);
     });
