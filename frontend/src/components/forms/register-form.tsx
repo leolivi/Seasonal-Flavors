@@ -28,6 +28,7 @@ interface RegisterFormProps {
 interface RegisterFormInputs {
   email: string;
   password: string;
+  password_confirmation: string;
   username: string;
   acceptDataPolicy: boolean;
 }
@@ -39,6 +40,7 @@ export const RegisterForm = ({ setForm }: RegisterFormProps) => {
       username: "",
       email: "",
       password: "",
+      password_confirmation: "",
     },
     mode: "onSubmit",
     reValidateMode: "onBlur",
@@ -47,6 +49,14 @@ export const RegisterForm = ({ setForm }: RegisterFormProps) => {
   const { toast } = useToast();
 
   const onSubmit: SubmitHandler<RegisterFormInputs> = async (data) => {
+    if (data.password !== data.password_confirmation) {
+      form.setError("password_confirmation", {
+        type: "manual",
+        message: "Passwörter stimmen nicht überein",
+      });
+      return;
+    }
+
     const response: SignUpResponse = await handleSignup(
       data.email,
       data.password,
@@ -147,7 +157,24 @@ export const RegisterForm = ({ setForm }: RegisterFormProps) => {
           )}
         />
 
-        {/* Checkbox for Data Policy */}
+        <FormField
+          control={form.control}
+          name="password_confirmation"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Passwort bestätigen</FormLabel>
+              <FormControl>
+                <Input
+                  type="password"
+                  placeholder="Passwort bestätigen"
+                  {...field}
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
         <div className="flex items-center space-x-2">
           <input
             type="checkbox"
