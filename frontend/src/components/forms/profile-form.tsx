@@ -42,7 +42,6 @@ export default function ProfileForm({ user, image }: ProfileFormProps) {
   >([]);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
 
-  // TODO: fix error when image is undefined
   const form = useForm<z.infer<typeof profileSchema>>({
     resolver: zodResolver(profileSchema),
     defaultValues: {
