@@ -4,6 +4,7 @@ import { LayoutOptions, LayoutOptionType } from "@/utils/layout-options";
 import React from "react";
 import foodImage from "@/assets/images/food-image.jpg";
 import { Recipe } from "@/services/recipe/recipeService";
+import { UserData } from "@/services/user/userService";
 
 interface CardListProps {
   cardData?: Recipe[];
@@ -13,6 +14,7 @@ interface CardListProps {
   style?: LayoutOptionType;
   onBookmarkClick?: (e: React.MouseEvent, recipeId: number) => void;
   onEditClick?: (e: React.MouseEvent, id: number) => void;
+  user?: UserData;
 }
 
 // Component mapping through recipe Cards
@@ -24,6 +26,7 @@ export const CardList = ({
   cardData = [],
   onBookmarkClick,
   onEditClick,
+  user,
 }: CardListProps) => {
   return (
     <div className={style}>
@@ -47,7 +50,8 @@ export const CardList = ({
               servings={0}
               steps={""}
               ingredients={""}
-              user_id={""}
+              user={user || ({} as UserData)}
+              user_id={item.user_id}
               priority={index < 3}
             />
           </Link>

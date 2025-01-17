@@ -8,11 +8,12 @@ import { Button, ButtonSize, ButtonStyle } from "../button/button";
 import { handleImageDelete } from "@/services/image/imageDelete";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/hooks/use-toast";
-import { Recipe } from "@/services/recipe/recipeService";
+import { getUserRecipes, Recipe } from "@/services/recipe/recipeService";
 import { handleRecipeDelete } from "@/services/recipe/recipeDelete";
 import { ImageData, getRecipeImage } from "@/services/image/imageService";
 import { useEffect, useState } from "react";
 import { ToastAction } from "@radix-ui/react-toast";
+import { UserData } from "@/services/user/userService";
 
 interface ExtendedRecipeProps extends Recipe {
   showDetail?: boolean;
@@ -22,6 +23,7 @@ interface ExtendedRecipeProps extends Recipe {
   onEditClick?: (e: React.MouseEvent) => void;
   imageData?: ImageData;
   priority?: boolean;
+  user?: UserData;
 }
 
 export default function Card({
@@ -46,6 +48,7 @@ export default function Card({
 
     fetchImageData();
   }, [props.id]);
+
   const seasonColors =
     props.season && typeof props.season === "string"
       ? props.season
@@ -70,6 +73,13 @@ export default function Card({
           description: "Bild konnte nicht gelöscht werden.",
         });
       }
+    }
+
+    if (props.user && props.user.id) {
+      // TODO: check 404 error
+      await getUserRecipes(props.user.id);
+    } else {
+      console.error("User or User ID is undefined");
     }
   };
 

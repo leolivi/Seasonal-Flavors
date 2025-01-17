@@ -18,6 +18,7 @@ import { IngredientInput } from "../create-recipe-input/ingredient-input";
 import { handleImageUpload } from "@/services/image/imageUpload";
 import { handleCreateRecipe } from "@/services/recipe/recipeCreate";
 import { UserData } from "@/services/user/userService";
+import { getUserRecipes } from "@/services/recipe/recipeService";
 
 interface FormField {
   name: keyof CreateRecipeSchema;
@@ -69,6 +70,8 @@ export default function CreateRecipeForm({
     if (recipeId && coverImage) {
       await handleImageUpload(recipeId, coverImage, data.title, toast);
     }
+
+    await getUserRecipes(user.id);
   };
 
   const handleError = (errors: FieldErrors<CreateRecipeSchema>) => {

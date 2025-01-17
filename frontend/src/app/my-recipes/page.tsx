@@ -6,6 +6,7 @@ import MyRecipesClient from "@/components/my-recipes-client/my-recipes-client";
 
 const MyRecipesPage = async () => {
   const user = await getAuthenticatedUser();
+
   if (!user) return null;
 
   const cardData = await getUserRecipes(user.id);
@@ -37,7 +38,7 @@ const MyRecipesPage = async () => {
     )
   ).filter((recipe): recipe is NonNullable<typeof recipe> => recipe !== null);
 
-  return <MyRecipesClient cardData={formattedCardData} />;
+  return <MyRecipesClient cardData={formattedCardData} user={user} />;
 };
 
 export default MyRecipesPage;

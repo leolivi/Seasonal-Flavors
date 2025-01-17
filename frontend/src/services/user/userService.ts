@@ -1,6 +1,7 @@
 import { dataFetch, dataFetchWithToken } from "@/utils/data-fetch";
 import { getProfileImage } from "@/services/image/imageService";
 import { Recipe } from "../recipe/recipeService";
+import { handleLogout } from "@/components/auth-session/handle-logout";
 
 export interface UserData {
   id: number;
@@ -23,6 +24,7 @@ export const getCurrentUser = async (
     );
 
     if (!profile) {
+      await handleLogout();
       return null;
     }
 

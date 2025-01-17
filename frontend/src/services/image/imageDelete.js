@@ -30,11 +30,6 @@ export const handleImageDelete = async (entityId, imageId, toast) => {
       return false;
     }
 
-    toast({
-      variant: "default",
-      title: "Erfolg",
-      description: "Bild wurde erfolgreich gelöscht.",
-    });
     return true;
   } catch (error) {
     console.error("Bild-Löschung fehlgeschlagen:", error);

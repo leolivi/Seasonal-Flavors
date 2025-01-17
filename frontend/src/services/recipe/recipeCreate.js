@@ -50,7 +50,7 @@ export const handleCreateRecipe = async ({
     });
 
     router.push("/my-recipes");
-    router.refresh();
+
     return recipeId;
   } catch (error) {
     console.error("Rezept-Erstellung fehlgeschlagen:", error);

@@ -27,7 +27,7 @@ export const handleRecipeDelete = async (recipeId, toast, router) => {
     });
 
     router.push("/my-recipes");
-    router.refresh();
+
     return true;
   } catch (error) {
     console.error("Rezept-Löschung fehlgeschlagen:", error);

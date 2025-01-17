@@ -8,6 +8,7 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/hooks/use-toast";
 import { useFavoritesStore } from "@/stores/useFavoritesStore";
+import { UserData } from "@/services/user/userService";
 
 interface CardListWrapperProps {
   cardData?: Recipe[];
@@ -19,6 +20,7 @@ interface CardListWrapperProps {
   className?: string;
   isInFavoriteView?: boolean;
   onShowFavorites?: (favorites: Recipe[]) => void;
+  user?: UserData;
 }
 
 const CardListWrapper = ({
@@ -31,6 +33,7 @@ const CardListWrapper = ({
   className,
   isInFavoriteView = false,
   onShowFavorites,
+  user,
 }: CardListWrapperProps) => {
   const { status, data: session } = useSession();
   const router = useRouter();
@@ -83,6 +86,7 @@ const CardListWrapper = ({
           showDetail={showDetail}
           showBookmark={showBookmark}
           style={style}
+          user={user}
         />
       )}
 

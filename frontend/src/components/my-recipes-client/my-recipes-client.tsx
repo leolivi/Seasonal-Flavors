@@ -12,12 +12,17 @@ import Link from "next/link";
 import { Recipe } from "@/services/recipe/recipeService";
 import { usePaginationStore } from "@/stores/paginationStore";
 import NoRecipesImage from "@/assets/images/no-recipes-image.svg";
+import { UserData } from "@/services/user/userService";
 
 interface MyRecipesClientProps {
   cardData: Recipe[];
+  user: UserData;
 }
 
-const MyRecipesClient: React.FC<MyRecipesClientProps> = ({ cardData }) => {
+const MyRecipesClient: React.FC<MyRecipesClientProps> = ({
+  cardData,
+  user,
+}) => {
   const { visibleItems, showMore, resetPagination } = usePaginationStore();
   const pathname = usePathname();
 
@@ -44,6 +49,7 @@ const MyRecipesClient: React.FC<MyRecipesClientProps> = ({ cardData }) => {
             showDetail={true}
             showEdit={true}
             style={LayoutOptions.GRID}
+            user={user}
           />
           {visibleItems < cardData.length && (
             <div className="flex w-full justify-center">
