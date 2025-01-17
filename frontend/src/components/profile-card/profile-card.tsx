@@ -10,6 +10,7 @@ import type { ImageData } from "@/services/image/imageService";
 import { handleUserDelete } from "@/services/user/userDelete";
 import { useToast } from "@/hooks/use-toast";
 import { ToastAction } from "@radix-ui/react-toast";
+import { useUserImageStore } from "@/stores/userImageStore";
 
 export interface ProfileCardProps {
   userData: UserData | null;
@@ -18,6 +19,7 @@ export interface ProfileCardProps {
 
 export default function ProfileCard({ userData, imageData }: ProfileCardProps) {
   const { toast } = useToast();
+  const { imageUrl, updateTimestamp } = useUserImageStore();
 
   if (!userData) {
     return <SessionLoader />;
@@ -34,10 +36,12 @@ export default function ProfileCard({ userData, imageData }: ProfileCardProps) {
           </div>
           <div className="flex flex-col items-center gap-6">
             <AvatarUpload
-              avatarSrc={userData.imageSrc || ""}
+              avatarSrc={userData.imageSrc || imageUrl || ""}
+              // avatarSrc={imageUrl || ""}
               avatarFallback="User's avatar"
               userId={userData.id}
               imageId={imageData?.id}
+              key={`${imageUrl}-${updateTimestamp}`}
             />
             <div className="w-full">
               <ProfileForm user={userData} image={imageData} />

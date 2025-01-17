@@ -66,7 +66,6 @@ const ProfileDropdown = forwardRef<HTMLDivElement, ProfileDropdownProps>(
               key={`${imageUrl}-${updateTimestamp}`}
               src={imageUrl || userData?.imageSrc}
               alt="User's avatar"
-              style={{ backgroundImage: "none" }}
               loading="eager"
             />
             <AvatarFallback>

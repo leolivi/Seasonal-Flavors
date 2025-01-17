@@ -16,7 +16,6 @@ import { Button, ButtonSize } from "../button/button";
 import { ProfileSchema, profileSchema } from "@/validation/profileSchema";
 import { ProfileCardProps } from "../profile-card/profile-card";
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import { handleUserPatch } from "@/services/user/userPatch";
 import { handleImageDelete } from "@/services/image/imageDelete";
 import { handleImageUpload } from "@/services/image/imageUpload";
@@ -25,6 +24,8 @@ import { useUserImageStore } from "@/stores/userImageStore";
 import { Typography } from "../ui/typography";
 import Image from "next/image";
 import Cross from "@/assets/icons/cross.svg";
+import { getProfileImage } from "@/services/image/imageService";
+import { useSession } from "next-auth/react";
 
 type ProfileFormProps = {
   user: NonNullable<ProfileCardProps["userData"]>;
@@ -32,7 +33,7 @@ type ProfileFormProps = {
 };
 
 export default function ProfileForm({ user, image }: ProfileFormProps) {
-  const router = useRouter();
+  const session = useSession();
   const [profileImage, setProfileImage] = useState<File | null>();
   const { toast } = useToast();
   const { setImageUrl } = useUserImageStore();
@@ -41,6 +42,7 @@ export default function ProfileForm({ user, image }: ProfileFormProps) {
   >([]);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
 
+  // TODO: fix error when image is undefined
   const form = useForm<z.infer<typeof profileSchema>>({
     resolver: zodResolver(profileSchema),
     defaultValues: {
@@ -64,52 +66,44 @@ export default function ProfileForm({ user, image }: ProfileFormProps) {
     if (hasChanges(data)) {
       if (profileImage) {
         try {
+          let uploadResult: string | undefined;
+
           if (image && image.id) {
             const deleteImage = await handleImageDelete(
               user.id,
               image.id,
               toast,
             );
-
-            if (deleteImage === true) {
-              const uploadResult = await handleImageUpload(
+            if (deleteImage) {
+              uploadResult = await handleImageUpload(
                 user.id,
                 profileImage,
                 user.username,
                 toast,
                 "profile",
               );
-
-              if (uploadResult) {
-                const apiUrl =
-                  process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000";
-                const fullImageUrl = `${apiUrl}/uploads/${uploadResult}`;
-                setImageUrl(fullImageUrl);
-                router.refresh();
-              } else {
-                console.error("Upload Result ist leer");
-              }
             }
           } else {
-            const uploadResult = await handleImageUpload(
+            uploadResult = await handleImageUpload(
               user.id,
               profileImage,
               user.username,
               toast,
               "profile",
             );
+          }
 
-            if (uploadResult) {
-              // TODO: finding another solution to update the state, rn depends on the router.refresh() and "http://127.0.0.1:8000"
-              const apiUrl =
-                process.env.NEXT_PUBLIC_API_URL || "http://127.0.0.1:8000";
-              const fullImageUrl = `${apiUrl}/uploads/${uploadResult}`;
-
-              setImageUrl(fullImageUrl);
-              router.refresh();
-            } else {
-              console.error("Upload Result ist leer");
-            }
+          if (uploadResult) {
+            const localImageUrl = URL.createObjectURL(profileImage);
+            setImageUrl(localImageUrl);
+            const updatedImageData = await getProfileImage(
+              user.id,
+              session?.data?.accessToken || "",
+            );
+            setImageUrl(updatedImageData?.imageUrl || localImageUrl);
+            setPreviewUrl(null);
+          } else {
+            console.error("Bild-Upload fehlgeschlagen");
           }
         } catch (error) {
           console.error("Fehler beim Bild-Upload:", error);
@@ -121,14 +115,11 @@ export default function ProfileForm({ user, image }: ProfileFormProps) {
           data: { ...data, id: user.id },
           userData: user,
           toast,
-          router,
         });
 
-        // TODO: Fix this error handling, this solution is not ideal
         if (response.errors) {
           setFormErrors(response.errors);
           response.errors.forEach((error) => {
-            console.error(`Fehler im Feld ${error.field}: ${error.message}`);
             form.setError(error.field as keyof z.infer<typeof profileSchema>, {
               type: "manual",
               message: error.message,

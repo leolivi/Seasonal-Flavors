@@ -1,4 +1,4 @@
-export const handleUserPatch = async ({ data, userData, toast, router }) => {
+export const handleUserPatch = async ({ data, userData, toast }) => {
   if (!userData) {
     console.error("Userdaten sind nicht verfügbar");
     return {
@@ -53,7 +53,7 @@ export const handleUserPatch = async ({ data, userData, toast, router }) => {
       description: "Der User wurde erfolgreich aktualisiert.",
     });
 
-    router.refresh();
+    // router.push("/profile");
     return { success: true };
   } catch (error) {
     console.error("Rezept-Aktualisierung fehlgeschlagen:", error);

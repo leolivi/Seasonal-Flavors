@@ -92,7 +92,7 @@ class UploadsController {
     
         } catch (\Exception $e) {
             return response()->json([
-                'message' => 'There was an error in the upload. Please ensure that the image is max. 8MB.',
+                'message' => 'There was an error in the upload. Please ensure that the image is max. 2MB.',
             ], 400);
         }
     }

@@ -11,6 +11,8 @@ import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { handleImageDelete } from "@/services/image/imageDelete";
 import { useUserImageStore } from "@/stores/userImageStore";
+import { getProfileImage } from "@/services/image/imageService";
+import { useSession } from "next-auth/react";
 
 interface AvatarUploadProps {
   avatarSrc: string;
@@ -28,13 +30,26 @@ export default function AvatarUpload({
   const seasonalColor = getSeasonColor();
   const [imageLoaded, setImageLoaded] = useState(false);
   const { toast } = useToast();
+  const session = useSession();
   const { setImageUrl } = useUserImageStore();
 
   const handleDelete = async () => {
     if (userId && imageId) {
       const deleteImage = await handleImageDelete(userId, imageId, toast);
-      if (!deleteImage) {
+      if (deleteImage) {
         setImageUrl(undefined);
+
+        const profileImage = await getProfileImage(
+          userId,
+          session?.data?.accessToken || "",
+        );
+        setImageUrl(profileImage?.file_path);
+        toast({
+          variant: "default",
+          title: "Erfolg",
+          description: "Bild wurde erfolgreich gelöscht.",
+        });
+      } else {
         console.error("Image deletion failed");
         toast({
           variant: "destructive",
