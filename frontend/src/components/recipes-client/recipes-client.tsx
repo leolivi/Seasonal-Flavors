@@ -1,30 +1,55 @@
 "use client";
-
 import { useEffect, useState } from "react";
 import CardListWrapper from "@/components/card-list.tsx/card-list-wrapper";
 import ScrollButton from "@/components/scroll-button/scroll-button";
 import FilterBar from "@/components/filter-bar/filter-bar";
 import { Typography } from "@/components/ui/typography";
-import { Button, ButtonSize } from "@/components/button/button";
-import Arrow from "src/assets/icons/arrow.svg";
 import { LayoutOptions } from "@/utils/layout-options";
 import { Recipe } from "@/services/recipe/recipeService";
-import { usePaginationStore } from "@/stores/paginationStore";
 import { usePathname } from "next/navigation";
+import InfinityScroll from "../infinity-scroll/infinity-scroll";
+import useMediaQuery from "@/hooks/use-media-query";
 
 interface RecipesClientProps {
   formattedCardData: Recipe[];
 }
 
 const RecipesClient: React.FC<RecipesClientProps> = ({ formattedCardData }) => {
-  const { visibleItems, showMore, resetPagination } = usePaginationStore();
+  const [visibleItems, setVisibleItems] = useState<Recipe[]>([]);
+  const [hasMore, setHasMore] = useState(true);
   const [favorites, setFavorites] = useState<Recipe[]>([]);
   const [showFavorites, setShowFavorites] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const pathname = usePathname();
+  const isDesktop = useMediaQuery("(min-width: 640px)");
+
+  const resetItems = () => {
+    const initialItems = isDesktop ? 6 : 3;
+    setVisibleItems(formattedCardData.slice(0, initialItems));
+    setHasMore(formattedCardData.length > initialItems);
+  };
 
   useEffect(() => {
-    resetPagination();
-  }, [pathname, resetPagination]);
+    resetItems();
+  }, [pathname, formattedCardData, isDesktop]);
+
+  const loadMore = () => {
+    if (!isLoading) {
+      setIsLoading(true);
+      const currentLength = visibleItems.length;
+      const batchSize = isDesktop ? 6 : 3;
+      const more = formattedCardData.slice(
+        currentLength,
+        currentLength + batchSize,
+      );
+
+      requestAnimationFrame(() => {
+        setVisibleItems((prev) => [...prev, ...more]);
+        setHasMore(currentLength + more.length < formattedCardData.length);
+        setIsLoading(false);
+      });
+    }
+  };
 
   return (
     <div className="m-4">
@@ -35,13 +60,15 @@ const RecipesClient: React.FC<RecipesClientProps> = ({ formattedCardData }) => {
           setFavorites(favs);
           setShowFavorites(true);
         }}
-        onHideFavorites={() => setShowFavorites(false)}
+        onHideFavorites={() => {
+          setShowFavorites(false);
+          resetItems();
+        }}
       />
-
       {showFavorites ? (
         favorites.length > 0 ? (
           <CardListWrapper
-            cardData={favorites.slice(0, visibleItems)}
+            cardData={favorites}
             showDetail={true}
             showBookmark={true}
             style={LayoutOptions.GRID}
@@ -54,24 +81,18 @@ const RecipesClient: React.FC<RecipesClientProps> = ({ formattedCardData }) => {
           </div>
         )
       ) : formattedCardData.length > 0 ? (
-        <>
+        <InfinityScroll
+          loadMore={loadMore}
+          hasMore={hasMore}
+          className="transition-opacity duration-500"
+        >
           <CardListWrapper
-            cardData={formattedCardData.slice(0, visibleItems)}
+            cardData={visibleItems}
             showDetail={true}
             showBookmark={true}
             style={LayoutOptions.GRID}
           />
-          {visibleItems < formattedCardData.length && (
-            <div className="flex w-full justify-center">
-              <Button
-                label="mehr"
-                size={ButtonSize.SMALL}
-                iconRight={<Arrow />}
-                onClick={showMore}
-              />
-            </div>
-          )}
-        </>
+        </InfinityScroll>
       ) : (
         <div className="flex h-[45vh] w-full flex-col items-center pt-10">
           <Typography variant="heading3">
