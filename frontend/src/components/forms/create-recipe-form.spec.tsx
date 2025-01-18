@@ -131,66 +131,6 @@ describe("CreateRecipeForm", () => {
     });
   });
 
-  //   TODO: fix this test
-  //   test("should submit the form with valid data", async () => {
-  //     (handleCreateRecipe as jest.Mock).mockResolvedValueOnce(1);
-  //     (handleImageUpload as jest.Mock).mockResolvedValueOnce(true);
-
-  //     render(
-  //       <CreateRecipeForm
-  //         formFields={mockFormFields as FormField[]}
-  //         tags={mockTags}
-  //         user={mockUser}
-  //       />,
-  //     );
-
-  //     console.log(
-  //       (screen.getByTestId("input-cover_image") as HTMLInputElement).type,
-  //     );
-
-  //     // Fülle das Formular aus
-  //     fireEvent.input(screen.getByLabelText("Titel"), {
-  //       target: { value: "Leckeres Rezept" },
-  //     });
-
-  //     // Verwende getByTestId, um das tatsächliche Eingabefeld für Zutaten zu finden
-  //     fireEvent.input(screen.getByTestId("ingredient-input-0"), {
-  //       target: { value: "Tomaten, Basilikum, Mozzarella" },
-  //     });
-
-  //     // Simuliere das Hochladen eines Bildes
-  //     const fileInput = screen.getByTestId("input-cover_image");
-  //     const file = new File(["test content"], "test-image.jpg", {
-  //       type: "image/jpg",
-  //     });
-  //     fireEvent.change(fileInput, { target: { files: [file] } });
-
-  //     // Klicke auf den Speichern-Button
-  //     const submitButton = screen.getByRole("button", { name: /speichern/i });
-  //     fireEvent.click(submitButton);
-
-  //     // Warte auf den Aufruf von handleCreateRecipe
-  //     await waitFor(() => {
-  //       expect(handleCreateRecipe).toHaveBeenCalledWith({
-  //         data: expect.objectContaining({
-  //           title: "Leckeres Rezept",
-  //           ingredients: "Tomaten, Basilikum, Mozzarella",
-  //         }),
-  //         userData: mockUser,
-  //         editorContent: expect.anything(),
-  //         toast: expect.any(Function),
-  //         router: expect.any(Object),
-  //       });
-
-  //       expect(handleImageUpload).toHaveBeenCalledWith(
-  //         1,
-  //         expect.any(File),
-  //         "Leckeres Rezept",
-  //         expect.any(Function),
-  //       );
-  //     });
-  //   });
-
   test("renders TipTapEditor", () => {
     const TipTapEditorWrapper = () => {
       const methods = useForm({

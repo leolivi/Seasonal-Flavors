@@ -55,7 +55,7 @@ export default function ProfileForm({ user, image }: ProfileFormProps) {
     return (
       (data.username !== user.username && data.username !== undefined) ||
       (data.email !== user.email && data.email !== undefined) ||
-      data.profile_image !== undefined
+      (data.profile_image !== undefined && data.profile_image !== null)
     );
   };
 

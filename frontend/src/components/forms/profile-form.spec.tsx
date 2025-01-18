@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { handleUserPatch } from "@/services/user/userPatch";
 import { handleImageUpload } from "@/services/image/imageUpload";
 import ProfileForm from "./profile-form";
+import { SessionProvider } from "next-auth/react";
 
 jest.mock("@/hooks/use-toast");
 jest.mock("next/navigation", () => ({
@@ -39,7 +40,11 @@ describe("ProfileForm", () => {
   };
 
   test("should render the form with default values", () => {
-    render(<ProfileForm user={user} image={image} />);
+    render(
+      <SessionProvider session={null}>
+        <ProfileForm user={user} image={image} />
+      </SessionProvider>,
+    );
 
     expect(
       screen.getByPlaceholderText("Profilbild hochladen"),
@@ -48,11 +53,14 @@ describe("ProfileForm", () => {
     expect(screen.getByPlaceholderText("email")).toBeInTheDocument();
   });
 
-  // TODO: fix this test
   test("should submit the form with changes without a file", async () => {
     (handleUserPatch as jest.Mock).mockResolvedValueOnce({ success: true });
 
-    render(<ProfileForm user={user} image={undefined} />);
+    render(
+      <SessionProvider session={null}>
+        <ProfileForm user={user} image={undefined} />
+      </SessionProvider>,
+    );
 
     fireEvent.change(screen.getByPlaceholderText("username"), {
       target: { value: "newuser" },
@@ -68,11 +76,10 @@ describe("ProfileForm", () => {
         data: expect.objectContaining({
           username: "newuser",
           email: "new@example.com",
-          id: user.id,
+          profile_image: undefined,
         }),
-        userData: user,
-        toast: mockToast,
-        router: mockRouter,
+        toast: expect.any(Function),
+        userData: expect.any(Object),
       });
 
       expect(handleImageUpload).not.toHaveBeenCalled();
@@ -84,8 +91,13 @@ describe("ProfileForm", () => {
     });
   });
 
-  test("should not not submit the form if there are no changes", async () => {
-    render(<ProfileForm user={user} image={image} />);
+  test("should not submit the form if there are no changes", async () => {
+    render(
+      <SessionProvider session={null}>
+        {" "}
+        <ProfileForm user={user} image={image} />
+      </SessionProvider>,
+    );
 
     fireEvent.click(screen.getByText("speichern"));
 

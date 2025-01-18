@@ -145,6 +145,4 @@ describe("EditRecipeForm", () => {
       expect(screen.getByText(/titel ist erforderlich/i)).toBeInTheDocument();
     });
   });
-
-  //   TODO: add submit test
 });

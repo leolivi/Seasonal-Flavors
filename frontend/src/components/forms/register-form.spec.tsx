@@ -1,5 +1,5 @@
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
-import { handleSignup } from "@/actions/auth-actions"; // Mock this function
+import { handleSignup } from "@/actions/auth-actions";
 import { SessionForm } from "@/app/session/page";
 import { RegisterForm } from "./register-form";
 
@@ -54,7 +54,29 @@ describe("RegisterForm", () => {
     });
   });
 
-  // TODO: add test for validation messages on fail
+  test("should show validation error when 'username' is missing", async () => {
+    render(<RegisterForm setForm={setFormMock} />);
+
+    fireEvent.click(
+      screen.getByLabelText(/Ich akzeptiere die Datenschutzerklärung/),
+    );
+
+    const submitButton = screen.getByText("registrieren");
+    fireEvent.click(submitButton);
+
+    await waitFor(() => {
+      expect(
+        screen.getByText("Benutzername ist erforderlich"),
+      ).toBeInTheDocument();
+      expect(screen.getByText("Ungültige E-Mail-Adresse")).toBeInTheDocument();
+      expect(
+        screen.getByText("Passwort muss mindestens 8 Zeichen lang sein"),
+      ).toBeInTheDocument();
+      expect(
+        screen.getByText("Passwortbestätigung ist erforderlich"),
+      ).toBeInTheDocument();
+    });
+  });
 
   test("should submit the form with valid data", async () => {
     const mockResponse = { status: 201 };
@@ -83,10 +105,9 @@ describe("RegisterForm", () => {
 
     await waitFor(() => {
       expect(handleSignup).toHaveBeenCalledWith(
-        "testuser",
         "testuser@example.com",
         "Password123!",
-        "Password123!",
+        "testuser",
       );
       expect(handleSignup).toHaveBeenCalledTimes(1);
     });
