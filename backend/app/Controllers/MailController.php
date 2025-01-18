@@ -40,6 +40,14 @@ class MailController {
             'password' => ['required', 'confirmed', PasswordRules::defaults()],
         ]);
 
+        $tokenData = \DB::table('password_reset_tokens')
+        ->where('email', $request->email)
+        ->first();
+
+        if (!$tokenData || now()->diffInMinutes($tokenData->created_at) > 60) {
+            return response()->json(['message' => 'Token abgelaufen oder ungültig'], 400);
+        }
+
         $status = Password::reset(
             $request->only('email', 'password', 'password_confirmation', 'token'),
             function (User $user, string $password) {
@@ -48,12 +56,21 @@ class MailController {
                 $user->save();
 
                 event(new PasswordReset($user));
+                $user->tokens()->delete();
             }
         );
+
+        if ($status !== Password::PASSWORD_RESET) {
+            return response()->json([
+                'status' => false,
+                'message' => __($status),
+            ], 400);
+        }
 
         return response()->json([
             'status' => $status === Password::PASSWORD_RESET,
             'message' => __($status)
         ]);
+
     }
 }

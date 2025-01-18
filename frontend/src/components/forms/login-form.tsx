@@ -85,7 +85,7 @@ export const LoginForm = ({ setForm }: LoginFormProps) => {
             <FormItem>
               <FormLabel>Email</FormLabel>
               <FormControl>
-                <Input placeholder="Email" {...field} />
+                <Input placeholder="Email" autoComplete="email" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -98,7 +98,12 @@ export const LoginForm = ({ setForm }: LoginFormProps) => {
             <FormItem>
               <FormLabel>Passwort</FormLabel>
               <FormControl>
-                <Input type="password" placeholder="Passwort" {...field} />
+                <Input
+                  type="password"
+                  placeholder="Passwort"
+                  autoComplete="new-password"
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>

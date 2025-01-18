@@ -68,8 +68,8 @@ class User extends Model implements CanResetPasswordContract, AuthenticatableCon
         $user = \Auth::user();
     
         return $request->validate([
-            'username' => [$post ? 'required' : 'sometimes', 'min:2', 'max:99', 'unique:users,username,' . ($user ? $user->id : '')],
-            'email' => [$post ? 'required' : 'sometimes', 'email', 'unique:users,email,' . ($user ? $user->id : '')],
+            'username' => [$post ? 'required' : 'sometimes', 'alpha_num', 'min:2', 'max:100', 'unique:users,username,' . ($user ? $user->id : '')],
+            'email' => [$post ? 'required' : 'sometimes', 'email', 'max:255', 'unique:users,email,' . ($user ? $user->id : '')],
             'password' => [$post ? 'required' : 'sometimes', 'min:8', 'regex:/(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[@$!%*#?&])(?!.*\s)/']
         ]);
     }

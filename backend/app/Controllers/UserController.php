@@ -51,6 +51,8 @@ class UserController {
   */
   function create (Request $request): User {
     $payload = User::validate($request);
+    $payload['username'] = strip_tags($payload['username']);
+    $payload['email'] = filter_var($payload['email'], FILTER_SANITIZE_EMAIL);
     $user = User::create($payload);
     
     $user->notify(new \App\Notifications\WelcomeNotification());

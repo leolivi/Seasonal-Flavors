@@ -64,7 +64,7 @@ class Recipe extends Model {
   static function validate(Request $request): array {
     $post = $request->method == 'POST'; 
     return $request->validate([
-      'title' => [$post ? 'required' : 'sometimes', 'min:1', 'max:255'],
+      'title' => [$post ? 'required' : 'sometimes', 'min:1', 'max:100'],
       'prep_time' => [$post ? 'required' : 'sometimes', 'integer'],
       'cooking_time' => [$post ? 'required' : 'sometimes', 'integer'],
       'servings' => [$post ? 'required' : 'sometimes', 'integer'],

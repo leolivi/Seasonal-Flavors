@@ -13,7 +13,8 @@ export const createRecipeSchema = z.object({
   title: z
     .string()
     .min(1, "Titel ist erforderlich.")
-    .max(100, "Titel darf maximal 100 Zeichen lang sein."),
+    .max(100, "Titel darf maximal 100 Zeichen lang sein.")
+    .regex(/^[^<>/]*$/, "Titel darf keine Sonderzeichen enthalten"),
   cooking_time: z
     .preprocess(
       (val) => (val === "" ? null : Number(val)),
@@ -67,7 +68,8 @@ export const createRecipeSchema = z.object({
   ingredients: z
     .string()
     .min(1, "Zutaten sind erforderlich.")
-    .max(2000, "Zutaten dürfen maximal 2000 Zeichen lang sein."),
+    .max(2000, "Zutaten dürfen maximal 2000 Zeichen lang sein.")
+    .regex(/^[^<>/]*$/, "Zutaten darf keine Sonderzeichen enthalten"),
   tags: z.array(z.number()).refine((value) => value.some((item) => item), {
     message: "Du musst mindestens eine Saison auswählen.",
   }),

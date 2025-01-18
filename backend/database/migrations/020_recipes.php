@@ -9,7 +9,7 @@ return new class extends Migration {
     // create a Recipes Schema
     Schema::create('recipes', function (Blueprint $table) {
         $table->id();
-        $table->string('title');
+        $table->string('title', 100)->index();
         $table->integer('cooking_time');
         $table->integer('prep_time');
         $table->integer('servings');

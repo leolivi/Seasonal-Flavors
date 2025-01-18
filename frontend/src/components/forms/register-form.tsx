@@ -124,7 +124,7 @@ export const RegisterForm = ({ setForm }: RegisterFormProps) => {
             <FormItem>
               <FormLabel>Username</FormLabel>
               <FormControl>
-                <Input placeholder="Username" {...field} />
+                <Input placeholder="Username" autoComplete="off" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -137,7 +137,7 @@ export const RegisterForm = ({ setForm }: RegisterFormProps) => {
             <FormItem>
               <FormLabel>Email</FormLabel>
               <FormControl>
-                <Input placeholder="Email" {...field} />
+                <Input placeholder="Email" autoComplete="off" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -150,7 +150,12 @@ export const RegisterForm = ({ setForm }: RegisterFormProps) => {
             <FormItem>
               <FormLabel>Passwort</FormLabel>
               <FormControl>
-                <Input type="password" placeholder="Passwort" {...field} />
+                <Input
+                  type="password"
+                  placeholder="Passwort"
+                  autoComplete="new-password"
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -167,6 +172,7 @@ export const RegisterForm = ({ setForm }: RegisterFormProps) => {
                 <Input
                   type="password"
                   placeholder="Passwort bestätigen"
+                  autoComplete="new-password"
                   {...field}
                 />
               </FormControl>

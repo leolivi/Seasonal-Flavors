@@ -14,6 +14,7 @@ export const editRecipeSchema = z.object({
     .string()
     .min(1, "Titel ist erforderlich.")
     .max(100, "Titel darf maximal 100 Zeichen lang sein.")
+    .regex(/^[^<>/]*$/, "Titel darf keine Sonderzeichen enthalten")
     .optional(),
   cooking_time: z
     .preprocess(
@@ -70,6 +71,7 @@ export const editRecipeSchema = z.object({
     .string()
     .min(1, "Zutaten sind erforderlich.")
     .max(2000, "Zutaten dürfen maximal 2000 Zeichen lang sein.")
+    .regex(/^[^<>/]*$/, "Zutaten darf keine Sonderzeichen enthalten")
     .optional(),
   tags: z
     .array(z.number())
