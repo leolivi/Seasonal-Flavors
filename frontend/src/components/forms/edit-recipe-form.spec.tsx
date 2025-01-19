@@ -1,10 +1,7 @@
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import EditRecipeForm from "./edit-recipe-form";
 import { useRouter } from "next/navigation";
-import { handleRecipePatch } from "@/services/recipe/recipePatch";
 import { FormField } from "../recipe-form-wrapper/recipe-form-wrapper";
-import { TipTapEditor } from "../tiptap/tiptap-editor";
-import { useForm, FormProvider } from "react-hook-form";
 
 jest.mock("src/assets/icons/cross.svg", () => {
   const CrossMock = () => <span>CrossMock</span>;

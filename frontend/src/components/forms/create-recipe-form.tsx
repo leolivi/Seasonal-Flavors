@@ -18,7 +18,6 @@ import { IngredientInput } from "../create-recipe-input/ingredient-input";
 import { handleImageUpload } from "@/services/image/imageUpload";
 import { handleCreateRecipe } from "@/services/recipe/recipeCreate";
 import { UserData } from "@/services/user/userService";
-import { getUserRecipes } from "@/services/recipe/recipeService";
 
 interface FormField {
   name: keyof CreateRecipeSchema;

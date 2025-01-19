@@ -11,7 +11,6 @@ import { Recipe } from "@/services/recipe/recipeService";
 import { useFavoritesStore } from "@/stores/useFavoritesStore";
 import CardListWrapper from "../card-list.tsx/card-list-wrapper";
 import { RegisterBanner } from "../banner/register-banner";
-import { useRouter } from "next/navigation";
 
 interface FilterBarProps {
   title?: string;
@@ -30,7 +29,6 @@ const FilterBar = ({
   const { getDetailedFavorites, isFavoritesActive, setFavoritesActive } =
     useFavoritesStore();
   const [showRegisterBanner, setShowRegisterBanner] = useState(false);
-  const router = useRouter();
 
   useEffect(() => {
     const searchParams = new URLSearchParams(window.location.search);

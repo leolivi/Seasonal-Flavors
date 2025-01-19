@@ -2,7 +2,6 @@
 
 import { Dispatch, SetStateAction, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { SessionForm } from "@/app/session/page";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { Button, ButtonSize, ButtonStyle } from "../button/button";
@@ -21,6 +20,7 @@ import {
 } from "../ui/form";
 import { Input } from "../ui/input";
 import Link from "next/link";
+import { SessionForm } from "@/utils/enum";
 
 interface LoginFormProps {
   setForm: Dispatch<SetStateAction<SessionForm>>;

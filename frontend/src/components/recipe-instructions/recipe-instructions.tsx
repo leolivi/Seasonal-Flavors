@@ -12,9 +12,11 @@ export const RecipeInstructions = ({ steps }: RecipeInstructionsProps) => {
 
     if (parsedSteps?.content) {
       instructions = parsedSteps.content.map(
+        /* eslint-disable @typescript-eslint/no-explicit-any */
         (item: { type: string; content?: any[] }, index: number) => {
           if (item.type === "paragraph" && item.content) {
             const paragraphContent = item.content.map(
+              /* eslint-disable @typescript-eslint/no-explicit-any */
               (innerItem: { text?: string; marks?: any[] }) => {
                 if (innerItem.text) {
                   const text = innerItem.marks?.some(

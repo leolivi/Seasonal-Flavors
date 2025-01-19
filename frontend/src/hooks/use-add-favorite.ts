@@ -8,6 +8,7 @@ export const useAddFavorite = () => {
     setIsFavoriting(true);
     setError(null);
     try {
+      // TODO: outsource
       const response = await fetch(
         `${process.env.BACKEND_URL}/api/recipes/${recipeId}/favorite`,
         {
@@ -20,7 +21,6 @@ export const useAddFavorite = () => {
       if (!response.ok) {
         throw new Error("Error favoriting recipe");
       }
-      console.log("Recipe favorited successfully!");
     } catch (err) {
       console.error(err);
       setError("Failed to add to favorites");

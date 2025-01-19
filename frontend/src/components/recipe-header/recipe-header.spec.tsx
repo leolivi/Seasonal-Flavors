@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { render, screen, fireEvent } from "@testing-library/react";
 import { useRouter } from "next/navigation";
 import { RecipeHeader } from "./recipe-header";
@@ -7,9 +8,11 @@ jest.mock("next/navigation", () => ({
   useRouter: jest.fn(),
 }));
 
-jest.mock("src/assets/icons/arrow-left.svg", () => () => (
-  <div>ArrowLeftMock</div>
-));
+jest.mock("src/assets/icons/arrow-left.svg", () => {
+  const ArrowLeftMock = () => <div>ArrowLeftMock</div>;
+  ArrowLeftMock.displayName = "ArrowLeftMock";
+  return ArrowLeftMock;
+});
 
 jest.mock("next-auth/react", () => ({
   ...jest.requireActual("next-auth/react"),

@@ -1,8 +1,6 @@
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import CreateRecipeForm from "./create-recipe-form";
 import { useRouter } from "next/navigation";
-import { handleCreateRecipe } from "@/services/recipe/recipeCreate";
-import { handleImageUpload } from "@/services/image/imageUpload";
 import { FormField } from "../recipe-form-wrapper/recipe-form-wrapper";
 import { TipTapEditor } from "../tiptap/tiptap-editor";
 import { useForm, FormProvider } from "react-hook-form";

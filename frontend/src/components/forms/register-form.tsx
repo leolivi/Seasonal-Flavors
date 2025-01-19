@@ -1,6 +1,5 @@
 "use client";
 
-import { SessionForm } from "@/app/session/page";
 import { Dispatch, SetStateAction } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { handleSignup, SignUpResponse } from "@/actions/auth-actions";
@@ -20,6 +19,7 @@ import {
   FormMessage,
 } from "../ui/form";
 import { Input } from "../ui/input";
+import { SessionForm } from "@/utils/enum";
 
 interface RegisterFormProps {
   setForm: Dispatch<SetStateAction<SessionForm>>;

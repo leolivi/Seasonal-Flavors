@@ -16,20 +16,23 @@ jest.mock("next-auth/react", () => ({
   signOut: jest.fn(() => mockSignOut()),
 }));
 
-jest.mock("@/components/avatar/avatar", () => ({
-  Avatar: ({ children }: { children: React.ReactNode }) => (
-    <div>{children}</div>
-  ),
-  AvatarImage: ({ src, alt }: { src: string; alt: string }) => (
-    <img src={src} alt={alt} />
-  ),
-  AvatarFallback: ({ children }: { children: React.ReactNode }) => (
-    <div>{children}</div>
-  ),
-  AvatarSize: {
-    small: "small",
-  },
-}));
+jest.mock("@/components/avatar/avatar", () => {
+  const Image = jest.requireActual("next/image").default;
+  return {
+    Avatar: ({ children }: { children: React.ReactNode }) => (
+      <div>{children}</div>
+    ),
+    AvatarImage: ({ src, alt }: { src: string; alt: string }) => (
+      <Image src={src} alt={alt} width={40} height={40} />
+    ),
+    AvatarFallback: ({ children }: { children: React.ReactNode }) => (
+      <div>{children}</div>
+    ),
+    AvatarSize: {
+      small: "small",
+    },
+  };
+});
 
 jest.mock("@radix-ui/react-dropdown-menu", () => ({
   Root: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
