@@ -31,7 +31,7 @@ export const CardList = ({
   return (
     <div className={style}>
       {cardData.map((item, index) => (
-        <React.Fragment key={item.id}>
+        <React.Fragment key={`${item.id}-${index}`}>
           <Link href={`/recipes/${item.id}`} className="cursor-pointer">
             <Card
               id={item.id}

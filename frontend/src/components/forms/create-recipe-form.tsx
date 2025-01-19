@@ -70,8 +70,6 @@ export default function CreateRecipeForm({
     if (recipeId && coverImage) {
       await handleImageUpload(recipeId, coverImage, data.title, toast);
     }
-
-    await getUserRecipes(user.id);
   };
 
   const handleError = (errors: FieldErrors<CreateRecipeSchema>) => {

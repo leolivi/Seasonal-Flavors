@@ -1,4 +1,3 @@
-// RecipeHeader.test.tsx
 import { render, screen, fireEvent } from "@testing-library/react";
 import { useRouter } from "next/navigation";
 import { RecipeHeader } from "./recipe-header";
@@ -33,7 +32,13 @@ describe("RecipeHeader Component", () => {
   });
 
   test("renders header with title, username, and save button", () => {
-    render(<RecipeHeader title="Test Recipe" username="Testuser" />);
+    render(
+      <RecipeHeader
+        title="Test Recipe"
+        username="Testuser"
+        recipe={null as any}
+      />,
+    );
 
     expect(screen.getByText("Test Recipe")).toBeInTheDocument();
     expect(screen.getByText(/Testuser/i)).toBeInTheDocument();
@@ -41,7 +46,13 @@ describe("RecipeHeader Component", () => {
   });
 
   test("calls router.back() when the ArrowLeft is clicked", () => {
-    render(<RecipeHeader title="Test Recipe" username="Testuser" />);
+    render(
+      <RecipeHeader
+        title="Test Recipe"
+        username="Testuser"
+        recipe={null as any}
+      />,
+    );
 
     const backButton = screen.getByRole("button", { name: /go back/i });
     fireEvent.click(backButton);
@@ -50,7 +61,13 @@ describe("RecipeHeader Component", () => {
   });
 
   test("displays a 'speichern' button with a bookmark icon", () => {
-    render(<RecipeHeader title="Test Recipe" username="Testuser" />);
+    render(
+      <RecipeHeader
+        title="Test Recipe"
+        username="Testuser"
+        recipe={null as any}
+      />,
+    );
 
     const saveButton = screen.getByRole("button", { name: /speichern/i });
     expect(saveButton).toBeInTheDocument();

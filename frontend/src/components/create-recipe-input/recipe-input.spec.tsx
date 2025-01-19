@@ -26,14 +26,12 @@ describe("RecipeInput", () => {
   });
 
   test("should render correctly", () => {
-    const { debug } = render(<TestWrapper />);
+    render(<TestWrapper />);
 
     expect(screen.getByTestId("create-recipe-form")).toBeInTheDocument();
     expect(screen.getByTestId("form-item-title")).toBeInTheDocument();
     expect(screen.getByTestId("form-label-title")).toBeInTheDocument();
     expect(screen.getByTestId("input-title")).toBeInTheDocument();
-
-    debug();
   });
 
   test("should handle text input correctly", () => {

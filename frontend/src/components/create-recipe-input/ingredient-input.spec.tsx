@@ -21,14 +21,13 @@ const TestWrapper: React.FC = () => {
 
 describe("IngredientInput", () => {
   test("should render correctly", () => {
-    const { debug } = render(<TestWrapper />);
+    render(<TestWrapper />);
 
     expect(screen.getByTestId("ingredient-form-item")).toBeInTheDocument();
     expect(screen.getByTestId("ingredient-label")).toBeInTheDocument();
     expect(screen.getByTestId("ingredient-input-0")).toBeInTheDocument();
     expect(screen.getByTestId("remove-ingredient-0")).toBeInTheDocument();
     expect(screen.getByText("+ Zutat hinzufügen")).toBeInTheDocument();
-    debug();
   });
 
   test("should remove ingredient inputfield", () => {
