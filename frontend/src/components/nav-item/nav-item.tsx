@@ -27,7 +27,7 @@ const NavItem = ({ icon, label, href, style }: NavItemProps) => {
   return (
     <li
       // styling depends on screen width
-      className={`cursor-pointer items-center justify-center px-4 py-1 transition-all duration-300 ease-in-out last:self-center last:px-2 hover:rounded-full hover:drop-shadow-lg ${
+      className={`cursor-pointer items-center justify-center px-4 py-1 transition-all duration-300 ease-in-out last:self-center hover:rounded-full hover:drop-shadow-lg ${
         isFooter
           ? ""
           : isDesktop
@@ -36,7 +36,7 @@ const NavItem = ({ icon, label, href, style }: NavItemProps) => {
       } ${status === "authenticated" && `last:hover:bg-transparent`} min-[640px]:mt-0`}
     >
       <Typography variant={isFooter ? "xs" : "btnS"} className="text-sfblack">
-        <Link className="flex flex-row gap-3" href={href}>
+        <Link className="flex flex-row items-center gap-3" href={href}>
           {icon}
           {label}
         </Link>

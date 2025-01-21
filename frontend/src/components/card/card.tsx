@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { Typography } from "../ui/typography";
-import Clock from "../../assets/icons/clock.svg";
+import { FaRegClock } from "react-icons/fa6";
 import Heart from "../ui/heart";
 import { getSeasonColor } from "@/utils/SeasonUtils";
 import BookmarkButton from "../ui/bookmark";
@@ -109,19 +109,20 @@ export default function Card({
           priority={props.priority}
         />
       </div>
-      <div className="py-3 min-[640px]:min-h-24">
+      <div className="py-3 min-[640px]:h-20">
         <Typography
           variant={showDetail ? "heading3" : "body"}
-          className="text-wrap font-cordaMedium text-2xl font-semibold text-sfblack"
+          className="line-clamp-2 overflow-hidden text-wrap font-cordaMedium text-2xl font-semibold text-sfblack"
         >
           {props.title}
         </Typography>
       </div>
+
       {showDetail && (
         <div className="mt-4 flex justify-between">
           <div className="flex items-center gap-2">
-            <Clock data-testid="clock" />
-            <p className="text-sfblack">{props.prep_time} Min. aktiv</p>
+            <FaRegClock size={20} />
+            <p className="text-sfblack">{props.prep_time} Minuten</p>
           </div>
           <div className="flex gap-1">
             {seasonColors.map((color, index) => (

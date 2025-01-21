@@ -1,9 +1,9 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
 import useMediaQuery from "@/hooks/use-media-query";
-import Home from "../assets/icons/home.svg";
-import Soup from "../assets/icons/soup.svg";
-import Profil from "../assets/icons/profil.svg";
+import { BiHomeHeart } from "react-icons/bi";
+import { PiBowlSteamFill } from "react-icons/pi";
+import { IoPersonSharp } from "react-icons/io5";
 import Logo from "@/components/ui/logo";
 import MobileNavigation from "@/components/mobile-navigation/mobile-navigation";
 import { usePathname } from "next/navigation";
@@ -90,7 +90,7 @@ const Header = () => {
 
   const navigationItems = [
     {
-      icon: <Soup className="w-5" />,
+      icon: <PiBowlSteamFill size={24} width={20} />,
       label: "Rezepte",
       href: "/recipes",
     },
@@ -107,7 +107,7 @@ const Header = () => {
         status === "authenticated" ? (
           <ProfileDropdown ref={profileRef} userData={userData} />
         ) : (
-          <Profil className="w-5" />
+          <IoPersonSharp size={20} width={20} />
         ),
       label: status === "authenticated" ? "" : "anmelden",
       href: status === "authenticated" ? "" : "/session",
@@ -116,7 +116,7 @@ const Header = () => {
 
   if (!isDesktop) {
     navigationItems.unshift({
-      icon: <Home className="w-5" />,
+      icon: <BiHomeHeart size={24} width={20} />,
       label: "Home",
       href: "/",
     });

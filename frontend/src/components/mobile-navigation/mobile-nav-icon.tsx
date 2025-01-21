@@ -1,4 +1,4 @@
-import MobileNav from "@/assets/icons/mobile-nav.svg";
+import { CgMenu } from "react-icons/cg";
 
 interface MobileNavIconProps {
   onClick: () => void;
@@ -8,12 +8,10 @@ interface MobileNavIconProps {
 // component for mobile nav icon
 export const MobileNavIcon = ({ onClick, color }: MobileNavIconProps) => (
   <li
-    className="absolute right-4 cursor-pointer min-[640px]:right-0"
+    className={`absolute right-4 flex h-12 w-12 cursor-pointer items-center justify-center rounded-full bg-${color}-light min-[640px]:right-0`}
     data-testid="mobile-nav-icon"
+    onClick={onClick}
   >
-    <MobileNav
-      onClick={onClick}
-      className={`bg-${color}-light h-12 w-auto rounded-full`}
-    />
+    <CgMenu onClick={onClick} size={25} />
   </li>
 );

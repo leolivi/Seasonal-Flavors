@@ -1,4 +1,3 @@
-// components/MobileNavigation.test.js
 import { render, screen, fireEvent } from "@testing-library/react";
 import MobileNavigation from "./mobile-navigation";
 import { Season } from "../../utils/Season";

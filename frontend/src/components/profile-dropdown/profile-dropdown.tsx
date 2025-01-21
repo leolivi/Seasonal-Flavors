@@ -7,7 +7,9 @@ import {
   AvatarSize,
 } from "@/components/avatar/avatar";
 import { FaUserCircle } from "react-icons/fa";
-import { Lock, LogOut, User } from "lucide-react";
+import { FaLock } from "react-icons/fa6";
+import { IoPersonSharp } from "react-icons/io5";
+import { PiSignOutBold } from "react-icons/pi";
 import { getSeasonColor } from "@/utils/SeasonUtils";
 import { toast } from "@/hooks/use-toast";
 import { signOut } from "next-auth/react";
@@ -87,7 +89,8 @@ const ProfileDropdown = forwardRef<HTMLDivElement, ProfileDropdownProps>(
           >
             <DropdownMenu.Item className="mb-2 flex items-center gap-2 px-2">
               <Link href="/profile" className="flex w-full items-center">
-                <User className="mr-2 h-4 w-4" />
+                {/* <User className="mr-2 h-4 w-4" /> */}
+                <IoPersonSharp className="mr-2 h-4 w-4" />
                 <Typography variant="small">
                   <span className="text-sfblack">Mein Profil</span>
                 </Typography>
@@ -99,7 +102,7 @@ const ProfileDropdown = forwardRef<HTMLDivElement, ProfileDropdownProps>(
                 href="/forgot-password"
                 className="flex w-full items-center"
               >
-                <Lock className="mr-2 h-4 w-4" />
+                <FaLock className="mr-2 h-4 w-4" />
                 <Typography variant="small">
                   <span className="text-sfblack">Passwort ändern</span>
                 </Typography>
@@ -112,7 +115,7 @@ const ProfileDropdown = forwardRef<HTMLDivElement, ProfileDropdownProps>(
               className="flex cursor-pointer items-center gap-2 px-2"
               onSelect={handleLogout}
             >
-              <LogOut className="mr-2 h-4 w-4" />
+              <PiSignOutBold className="mr-2 h-4 w-4" />
               <Typography variant="small">
                 <span className="text-sfblack">Abmelden</span>
               </Typography>

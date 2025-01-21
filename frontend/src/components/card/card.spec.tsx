@@ -10,8 +10,7 @@ jest.mock("next/navigation", () => ({
   })),
 }));
 
-jest.mock("src/assets/icons/clock.svg", () => () => <div>ClockMock</div>);
-jest.mock("src/assets/icons/bookmark.svg", () => () => <div>BookmarkMock</div>);
+jest.mock("../ui/bookmark", () => () => <div>BookmarkMock</div>);
 
 beforeEach(() => {
   fetchMock.resetMocks();
@@ -58,7 +57,7 @@ describe("Card", () => {
     expect(screen.getByText("Test Recipe")).toBeInTheDocument();
   });
 
-  test("does not render Bookmark and Clock icons when showDetail is false", () => {
+  test("does not render Bookmark and cooking time when showDetail is false", () => {
     render(
       <Card
         cooking_time={0}
@@ -72,26 +71,27 @@ describe("Card", () => {
       />,
     );
 
-    expect(screen.queryByText("30 Min. aktiv")).not.toBeInTheDocument();
-    expect(screen.queryByTestId("bookmark-icon")).not.toBeInTheDocument();
+    expect(screen.queryByText("30 Minuten")).not.toBeInTheDocument();
+    expect(screen.queryByText("BookmarkMock")).not.toBeInTheDocument();
   });
 
-  test("renders Bookmark and Clock icons when showDetail is true", () => {
+  test("renders Bookmark and cooking time when showDetail is true", () => {
     render(
       <Card
-        cooking_time={0}
-        prep_time={0}
+        cooking_time={30}
+        prep_time={30}
         servings={0}
         steps={""}
         ingredients={""}
         user_id={""}
         {...defaultProps}
         showDetail={true}
+        showBookmark={true} // Setze showBookmark auf true
       />,
     );
 
-    const bookmarks = screen.getAllByText("BookmarkMock");
-    expect(bookmarks.length).toBeGreaterThan(0);
-    expect(screen.getByText("0 Min. aktiv")).toBeInTheDocument();
+    const bookmarks = screen.getByText("BookmarkMock");
+    expect(bookmarks).toBeInTheDocument();
+    expect(screen.getByText("30 Minuten")).toBeInTheDocument();
   });
 });
