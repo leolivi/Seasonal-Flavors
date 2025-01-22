@@ -16,36 +16,44 @@ export const createRecipeSchema = z.object({
     .max(100, "Titel darf maximal 100 Zeichen lang sein.")
     .regex(/^[^<>/]*$/, "Titel darf keine Sonderzeichen enthalten"),
   cooking_time: z
-    .preprocess(
-      (val) => (val === "" ? null : Number(val)),
-      z.number({ required_error: "Kochzeit ist erforderlich." }).nullable(),
-    )
-    .refine(
-      (val) => val !== null && val > 0 && val <= 200,
-      "Kochzeit muss eine positive Zahl sein und darf maximal 200 Minuten betragen.",
-    ),
+    .number({
+      required_error: "Kochzeit ist erforderlich.",
+      invalid_type_error: "Kochzeit muss eine Zahl sein.",
+    })
+    .nullable()
+    .refine((val) => val !== null, {
+      message: "Kochzeit ist erforderlich.",
+    })
+    .refine((val) => val !== null && val > 0 && val <= 200, {
+      message:
+        "Kochzeit muss eine positive Zahl sein und darf maximal 200 Minuten betragen.",
+    }),
   prep_time: z
-    .preprocess(
-      (val) => (val === "" ? null : Number(val)),
-      z
-        .number({ required_error: "Vorbereitungszeit ist erforderlich." })
-        .nullable(),
-    )
-    .refine(
-      (val) => val !== null && val > 0 && val <= 200,
-      "Vorbereitungszeit muss eine positive Zahl sein und darf maximal 200 Minuten betragen.",
-    ),
+    .number({
+      required_error: "Vorbereitungszeit ist erforderlich.",
+      invalid_type_error: "Vorbereitungszeit muss eine Zahl sein.",
+    })
+    .nullable()
+    .refine((val) => val !== null, {
+      message: "Vorbereitungszeit ist erforderlich.",
+    })
+    .refine((val) => val !== null && val > 0 && val <= 200, {
+      message:
+        "Vorbereitungszeit muss eine positive Zahl sein und darf maximal 200 Minuten betragen.",
+    }),
   servings: z
-    .preprocess(
-      (val) => (val === "" ? null : Number(val)),
-      z
-        .number({ required_error: "Anzahl der Portionen ist erforderlich." })
-        .nullable(),
-    )
-    .refine(
-      (val) => val !== null && val > 0 && val <= 100,
-      "Anzahl der Portionen muss eine positive Zahl sein und maximal 100 betragen.",
-    ),
+    .number({
+      required_error: "Anzahl der Portionen ist erforderlich.",
+      invalid_type_error: "Anzahl der Portionen muss eine Zahl sein.",
+    })
+    .nullable()
+    .refine((val) => val !== null, {
+      message: "Anzahl der Portionen ist erforderlich.",
+    })
+    .refine((val) => val !== null && val > 0 && val <= 100, {
+      message:
+        "Anzahl der Portionen muss eine positive Zahl sein und maximal 100 betragen.",
+    }),
   steps: z
     .object({
       type: z.literal("doc"),

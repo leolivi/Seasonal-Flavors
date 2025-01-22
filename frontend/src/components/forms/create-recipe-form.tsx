@@ -47,9 +47,9 @@ export default function CreateRecipeForm({
     resolver: zodResolver(createRecipeSchema),
     defaultValues: {
       title: "",
-      cooking_time: null,
-      prep_time: null,
-      servings: null,
+      cooking_time: undefined,
+      prep_time: undefined,
+      servings: undefined,
       steps: { type: "doc", content: [] },
       ingredients: "",
       tags: [],
@@ -95,6 +95,7 @@ export default function CreateRecipeForm({
       <form
         onSubmit={form.handleSubmit(onSubmit, handleError)}
         className="w-full space-y-6 min-[640px]:w-5/6 min-[1020px]:w-2/3 min-[1240px]:w-1/2"
+        noValidate
       >
         <RecipeInput<CreateRecipeSchema>
           fields={singleInputs}

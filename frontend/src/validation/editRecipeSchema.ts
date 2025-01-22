@@ -14,12 +14,13 @@ export const editRecipeSchema = z.object({
     .string()
     .min(1, "Titel ist erforderlich.")
     .max(100, "Titel darf maximal 100 Zeichen lang sein.")
-    .regex(/^[^<>/]*$/, "Titel darf keine Sonderzeichen enthalten")
-    .optional(),
+    .regex(/^[^<>/]*$/, "Titel darf keine Sonderzeichen enthalten"),
+  // .optional(),
   cooking_time: z
     .preprocess(
       (val) => (val === "" ? null : Number(val)),
-      z.number({ required_error: "Kochzeit ist erforderlich." }).nullable(),
+      z.number({ required_error: "Kochzeit ist erforderlich." }),
+      // .nullable(),
     )
     .refine(
       (val) => val !== null && val > 0 && val <= 200,
@@ -28,9 +29,8 @@ export const editRecipeSchema = z.object({
   prep_time: z
     .preprocess(
       (val) => (val === "" ? null : Number(val)),
-      z
-        .number({ required_error: "Vorbereitungszeit ist erforderlich." })
-        .nullable(),
+      z.number({ required_error: "Vorbereitungszeit ist erforderlich." }),
+      // .nullable(),
     )
     .refine(
       (val) => val !== null && val > 0 && val <= 200,
@@ -65,20 +65,18 @@ export const editRecipeSchema = z.object({
       {
         message: "Zubereitungsschritte müssen Text enthalten.",
       },
-    )
-    .optional(),
+    ),
+  // .optional(),
   ingredients: z
     .string()
     .min(1, "Zutaten sind erforderlich.")
     .max(2000, "Zutaten dürfen maximal 2000 Zeichen lang sein.")
     .regex(/^[^<>/]*$/, "Zutaten darf keine Sonderzeichen enthalten")
     .optional(),
-  tags: z
-    .array(z.number())
-    .refine((value) => value.some((item) => item), {
-      message: "Du musst mindestens eine Saison auswählen.",
-    })
-    .optional(),
+  tags: z.array(z.number()).refine((value) => value.some((item) => item), {
+    message: "Du musst mindestens eine Saison auswählen.",
+  }),
+  // .optional(),
   cover_image: z
     .custom<File | null>()
     .refine((file) => file !== null, "Bild ist erforderlich.")
@@ -91,8 +89,8 @@ export const editRecipeSchema = z.object({
     })
     .refine((file) => !file || ACCEPTED_IMAGE_TYPES.includes(file.type), {
       message: ".jpg, .jpeg, .png, .webp und .svg Dateien sind akzeptiert.",
-    })
-    .optional(),
+    }),
+  // .optional(),
 });
 
 export type EditRecipeSchema = z.infer<typeof editRecipeSchema>;

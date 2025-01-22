@@ -168,6 +168,7 @@ export function RecipeInput<T extends FieldValues>({
                   <Input
                     id={field.name}
                     type={field.type || "text"}
+                    min="0"
                     value={
                       typeof controllerField.value === "string" ||
                       typeof controllerField.value === "number"

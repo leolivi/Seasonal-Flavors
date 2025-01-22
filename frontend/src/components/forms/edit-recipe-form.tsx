@@ -121,6 +121,7 @@ export default function EditRecipeForm({
       <form
         onSubmit={form.handleSubmit(onSubmit, handleError)}
         className="w-full space-y-6 min-[640px]:w-5/6 min-[1020px]:w-2/3 min-[1240px]:w-1/2"
+        noValidate
       >
         <RecipeInput<EditRecipeSchema>
           fields={singleInputs}
