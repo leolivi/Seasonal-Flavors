@@ -80,7 +80,7 @@ export function RecipeInput<T extends FieldValues>({
     <div
       data-testid="create-recipe-form"
       className={
-        layout === "row" ? "flex flex-row items-end gap-4" : "space-y-6"
+        layout === "row" ? "flex flex-row items-start gap-4" : "space-y-6"
       }
     >
       {fields.map((field) => (
@@ -102,8 +102,14 @@ export function RecipeInput<T extends FieldValues>({
                   {field.tooltip && (
                     <TooltipProvider>
                       <Tooltip>
-                        <TooltipTrigger>
-                          <LuInfo className="ml-2 cursor-pointer text-sfblack transition-all hover:text-sfred" />
+                        <TooltipTrigger asChild>
+                          <button
+                            type="button"
+                            onClick={(e) => e.preventDefault()}
+                            className="ml-2"
+                          >
+                            <LuInfo className="cursor-pointer text-sfblack transition-all hover:text-sfred" />
+                          </button>
                         </TooltipTrigger>
                         <TooltipContent>
                           <p>{field.tooltip}</p>

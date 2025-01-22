@@ -22,8 +22,8 @@ export const editRecipeSchema = z.object({
       z.number({ required_error: "Kochzeit ist erforderlich." }).nullable(),
     )
     .refine(
-      (val) => val !== null && val > 0 && val <= 1440,
-      "Kochzeit muss eine positive Zahl sein und darf maximal 1440 Minuten betragen.",
+      (val) => val !== null && val > 0 && val <= 200,
+      "Kochzeit muss eine positive Zahl sein und darf maximal 200 Minuten betragen.",
     ),
   prep_time: z
     .preprocess(
@@ -33,8 +33,8 @@ export const editRecipeSchema = z.object({
         .nullable(),
     )
     .refine(
-      (val) => val !== null && val > 0 && val <= 1440,
-      "Vorbereitungszeit muss eine positive Zahl sein und darf maximal 1440 Minuten betragen.",
+      (val) => val !== null && val > 0 && val <= 200,
+      "Vorbereitungszeit muss eine positive Zahl sein und darf maximal 200 Minuten betragen.",
     ),
   servings: z
     .preprocess(

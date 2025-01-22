@@ -96,30 +96,6 @@ export const TipTapEditor = ({
           >
             <Italic />
           </ToggleGroupItem>
-          <ToggleGroupItem
-            value="heading1"
-            onClick={() =>
-              editor.chain().focus().toggleHeading({ level: 1 }).run()
-            }
-          >
-            <Heading1 />
-          </ToggleGroupItem>
-          <ToggleGroupItem
-            value="heading2"
-            onClick={() =>
-              editor.chain().focus().toggleHeading({ level: 2 }).run()
-            }
-          >
-            <Heading2 />
-          </ToggleGroupItem>
-          <ToggleGroupItem
-            value="heading3"
-            onClick={() =>
-              editor.chain().focus().toggleHeading({ level: 3 }).run()
-            }
-          >
-            <Heading3 />
-          </ToggleGroupItem>
         </div>
       </ToggleGroup>
 
