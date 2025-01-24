@@ -12,7 +12,8 @@ export const resetPasswordSchema = z
         /[a-z]/,
         "Passwort muss mindestens einen Kleinbuchstaben enthalten",
       )
-      .regex(/[\W_]/, "Passwort muss mindestens ein Sonderzeichen enthalten"),
+      .regex(/[\W_]/, "Passwort muss mindestens ein Sonderzeichen enthalten")
+      .regex(/[0-9]/, "Passwort muss mindestens eine Zahl enthalten"),
     password_confirmation: z.string(),
   })
   .refine((data) => data.password === data.password_confirmation, {
