@@ -32,15 +32,17 @@ export default function RecipeFormWrapper({
     { name: "title", label: "Rezepttitel", placeholder: "Rezepttitel" },
     {
       name: "cooking_time",
-      label: "zubereiten",
-      tooltip: "Zubereitungszeit in Minuten",
+      label: "vorbereiten (min)",
+      tooltip:
+        "Zeit für das Vorbereiten der Zutaten, z.B. Waschen, Schneiden, Abwiegen",
       placeholder: "Vorbereitungszeit in Minuten",
       type: "number",
     },
     {
       name: "prep_time",
-      label: "kochen",
-      tooltip: "Kochzeit in Minuten",
+      label: "kochen (min)",
+      tooltip:
+        "Aktive Zeit am Herd oder im Ofen, ohne Vorbereitungs- oder Ruhezeiten",
       placeholder: "Kochzeit in Minuten",
       type: "number",
     },

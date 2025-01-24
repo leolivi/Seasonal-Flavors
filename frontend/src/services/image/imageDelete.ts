@@ -1,4 +1,12 @@
-export const handleImageDelete = async (entityId, imageId, toast) => {
+export const handleImageDelete = async (
+  entityId: number,
+  imageId: number,
+  toast: (options: {
+    variant: "default" | "destructive";
+    title: string;
+    description: string;
+  }) => void,
+) => {
   if (!entityId || !imageId) {
     console.error("Invalid parameters for handleImageDelete:", {
       entityId,
@@ -21,7 +29,8 @@ export const handleImageDelete = async (entityId, imageId, toast) => {
     const data = await response.json();
 
     if (!response.ok) {
-      setCurrentImageId(null);
+      // TODO: do i need this?
+      // setCurrentImageId(null);
       toast({
         variant: "destructive",
         title: "Fehler",

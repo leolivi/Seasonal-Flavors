@@ -16,9 +16,6 @@ import { Button, ButtonSize } from "../button/button";
 import { ProfileSchema, profileSchema } from "@/validation/profileSchema";
 import { ProfileCardProps } from "../profile-card/profile-card";
 import { useState } from "react";
-import { handleUserPatch } from "@/services/user/userPatch";
-import { handleImageDelete } from "@/services/image/imageDelete";
-import { handleImageUpload } from "@/services/image/imageUpload";
 import type { ImageData } from "@/services/image/imageService";
 import { useUserImageStore } from "@/stores/userImageStore";
 import { Typography } from "../ui/typography";
@@ -26,6 +23,9 @@ import Image from "next/image";
 import Cross from "@/assets/icons/cross.svg";
 import { getProfileImage } from "@/services/image/imageService";
 import { useSession } from "next-auth/react";
+import { handleImageDelete } from "@/services/image/imageDelete";
+import { handleImageUpload } from "@/services/image/imageUpload";
+import { handleUserPatch } from "@/services/user/userPatch";
 
 type ProfileFormProps = {
   user: NonNullable<ProfileCardProps["userData"]>;

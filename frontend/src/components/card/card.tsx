@@ -5,15 +5,15 @@ import Heart from "../ui/heart";
 import { getSeasonColor } from "@/utils/SeasonUtils";
 import BookmarkButton from "../ui/bookmark";
 import { Button, ButtonSize, ButtonStyle } from "../button/button";
-import { handleImageDelete } from "@/services/image/imageDelete";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/hooks/use-toast";
 import { getUserRecipes, Recipe } from "@/services/recipe/recipeService";
-import { handleRecipeDelete } from "@/services/recipe/recipeDelete";
 import { ImageData, getRecipeImage } from "@/services/image/imageService";
 import { useEffect, useState } from "react";
 import { ToastAction } from "@radix-ui/react-toast";
 import { UserData } from "@/services/user/userService";
+import { handleImageDelete } from "@/services/image/imageDelete";
+import { handleRecipeDelete } from "@/services/recipe/recipeDelete";
 
 interface ExtendedRecipeProps extends Recipe {
   showDetail?: boolean;

@@ -2,9 +2,9 @@ import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { useToast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
 import { handleUserPatch } from "@/services/user/userPatch";
-import { handleImageUpload } from "@/services/image/imageUpload";
 import ProfileForm from "./profile-form";
 import { SessionProvider } from "next-auth/react";
+import { handleImageUpload } from "@/services/image/imageUpload";
 
 jest.mock("@/hooks/use-toast");
 jest.mock("next/navigation", () => ({

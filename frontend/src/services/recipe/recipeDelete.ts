@@ -1,4 +1,14 @@
-export const handleRecipeDelete = async (recipeId, toast, router) => {
+export const handleRecipeDelete = async (
+  recipeId: number,
+  toast: (options: {
+    variant: "default" | "destructive";
+    title: string;
+    description: string;
+  }) => void,
+  router: {
+    push: (path: string) => void;
+  },
+) => {
   if (!recipeId) {
     console.error("Keine Rezept-ID angegeben");
     return false;

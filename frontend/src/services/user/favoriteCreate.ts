@@ -1,4 +1,14 @@
-export const handleFavoriteRecipe = async ({ recipeId, toast }) => {
+export const handleFavoriteRecipe = async ({
+  recipeId,
+  toast,
+}: {
+  recipeId: number;
+  toast: (options: {
+    variant: "default" | "destructive";
+    title: string;
+    description: string;
+  }) => void;
+}) => {
   try {
     const response = await fetch("/api/create-favorite", {
       method: "POST",

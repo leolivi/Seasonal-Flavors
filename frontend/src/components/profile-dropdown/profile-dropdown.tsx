@@ -18,6 +18,7 @@ import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import useMediaQuery from "@/hooks/use-media-query";
 import { useUserImageStore } from "@/stores/userImageStore";
 import { SessionLoader } from "../auth-session/auth-session";
+import { FaBookmark } from "react-icons/fa";
 
 interface UserData {
   id: number;
@@ -89,10 +90,18 @@ const ProfileDropdown = forwardRef<HTMLDivElement, ProfileDropdownProps>(
           >
             <DropdownMenu.Item className="mb-2 flex items-center gap-2 px-2">
               <Link href="/profile" className="flex w-full items-center">
-                {/* <User className="mr-2 h-4 w-4" /> */}
                 <IoPersonSharp className="mr-2 h-4 w-4" />
                 <Typography variant="small">
                   <span className="text-sfblack">Mein Profil</span>
+                </Typography>
+              </Link>
+            </DropdownMenu.Item>
+
+            <DropdownMenu.Item className="mb-2 flex items-center gap-2 px-2">
+              <Link href="/recipes" className="flex w-full items-center">
+                <FaBookmark className="mr-2 h-4 w-4" />
+                <Typography variant="small">
+                  <span className="text-sfblack">Favoriten</span>
                 </Typography>
               </Link>
             </DropdownMenu.Item>

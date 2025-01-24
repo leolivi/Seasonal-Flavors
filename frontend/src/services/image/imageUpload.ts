@@ -1,8 +1,12 @@
 export const handleImageUpload = async (
-  id,
-  image,
-  title,
-  toast,
+  id: string | number,
+  image: File,
+  title: string,
+  toast: (options: {
+    variant: "default" | "destructive";
+    title: string;
+    description: string;
+  }) => void,
   type = "recipe",
 ) => {
   if (!image) return null;
@@ -12,10 +16,10 @@ export const handleImageUpload = async (
   formData.append("type", type);
 
   if (type === "recipe") {
-    formData.append("recipe_id", id);
+    formData.append("recipe_id", id.toString());
     formData.append("alt_text", `Titelbild Rezept ${title}`);
   } else if (type === "profile") {
-    formData.append("user_id", id);
+    formData.append("user_id", id.toString());
     formData.append("alt_text", `Profilbild ${title}`);
   }
 

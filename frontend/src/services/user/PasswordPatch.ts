@@ -1,4 +1,18 @@
-export const handleForgotPassword = async ({ data, toast, router }) => {
+import { NextRouter } from "next/router";
+
+export const handleForgotPassword = async ({
+  data,
+  toast,
+  router,
+}: {
+  data: import("./userService").UserData;
+  toast: (options: {
+    variant: "default" | "destructive";
+    title: string;
+    description: string;
+  }) => void;
+  router: NextRouter;
+}) => {
   try {
     const payload = {
       email: data.email,
@@ -45,7 +59,22 @@ export const handleForgotPassword = async ({ data, toast, router }) => {
   }
 };
 
-export const handleResetPassword = async ({ data, toast, router }) => {
+export const handleResetPassword = async ({
+  data,
+  toast,
+  router,
+}: {
+  data: {
+    password: string;
+    token: string;
+  };
+  toast: (options: {
+    variant: "default" | "destructive";
+    title: string;
+    description: string;
+  }) => void;
+  router: NextRouter;
+}) => {
   try {
     const response = await fetch("/api/reset-password", {
       method: "POST",

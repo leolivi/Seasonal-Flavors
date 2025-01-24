@@ -15,9 +15,9 @@ import { ProseMirrorNode, TipTapEditor } from "../tiptap/tiptap-editor";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { IngredientInput } from "../create-recipe-input/ingredient-input";
-import { handleImageUpload } from "@/services/image/imageUpload";
 import { handleCreateRecipe } from "@/services/recipe/recipeCreate";
 import { UserData } from "@/services/user/userService";
+import { handleImageUpload } from "@/services/image/imageUpload";
 
 interface FormField {
   name: keyof CreateRecipeSchema;
@@ -58,10 +58,14 @@ export default function CreateRecipeForm({
   });
 
   const onSubmit = async (data: CreateRecipeSchema) => {
+    const formData = {
+      ...data,
+      steps: JSON.stringify(editorContent),
+    };
+
     const recipeId = await handleCreateRecipe({
-      data,
+      data: formData,
       userData: user,
-      editorContent,
       toast,
       router,
     });
@@ -105,8 +109,10 @@ export default function CreateRecipeForm({
             if (fieldName === "cover_image") {
               setCoverImage(file);
             }
-            form.setValue(fieldName as keyof CreateRecipeSchema, file);
-            form.trigger(fieldName as keyof CreateRecipeSchema);
+            if (file) {
+              form.setValue(fieldName as keyof CreateRecipeSchema, file);
+              form.trigger(fieldName as keyof CreateRecipeSchema);
+            }
           }}
         />
 

@@ -8,6 +8,7 @@ export interface UserData {
   username: string;
   email: string;
   imageSrc?: string;
+  accessToken?: string;
 }
 
 export const getCurrentUser = async (

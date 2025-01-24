@@ -1,4 +1,20 @@
-export const handleUserPatch = async ({ data, userData, toast }) => {
+import { UserData } from "./userService";
+
+interface HandleUserPatchParams {
+  data: Partial<Pick<UserData, "id" | "username" | "email">>;
+  userData: UserData;
+  toast: (options: {
+    variant: "default" | "destructive";
+    title: string;
+    description: string;
+  }) => void;
+}
+
+export const handleUserPatch = async ({
+  data,
+  userData,
+  toast,
+}: HandleUserPatchParams) => {
   if (!userData) {
     console.error("Userdaten sind nicht verfügbar");
     return {
@@ -29,7 +45,9 @@ export const handleUserPatch = async ({ data, userData, toast }) => {
       const errors = responseData.errors || {};
       const errorMessages = Object.entries(errors).map(([field, messages]) => ({
         field,
-        message: messages.join(", "),
+        message: Array.isArray(messages)
+          ? messages.join(", ")
+          : String(messages),
       }));
 
       return {

@@ -11,17 +11,18 @@ import { ProseMirrorNode, TipTapEditor } from "../tiptap/tiptap-editor";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { IngredientInput } from "../create-recipe-input/ingredient-input";
-import { handleImageDelete } from "@/services/image/imageDelete";
-import { handleImageUpload } from "@/services/image/imageUpload";
 import {
   editRecipeSchema,
   EditRecipeSchema,
 } from "@/validation/editRecipeSchema";
-import { handleRecipePatch } from "@/services/recipe/recipePatch";
+
 import { ImageData } from "@/services/image/imageService";
 import { Recipe } from "@/services/recipe/recipeService";
 import { UserData } from "@/services/user/userService";
 import Image from "next/image";
+import { handleImageDelete } from "@/services/image/imageDelete";
+import { handleImageUpload } from "@/services/image/imageUpload";
+import { handleRecipePatch } from "@/services/recipe/recipePatch";
 
 interface FormField {
   name: keyof EditRecipeSchema;
@@ -70,6 +71,14 @@ export default function EditRecipeForm({
   });
 
   const onSubmit = async (data: EditRecipeSchema) => {
+    const formData = {
+      ...data,
+      id: recipeData.id,
+      servings: data.servings ?? 1,
+      ingredients: data.ingredients ?? "",
+      steps: JSON.stringify(editorContent),
+    };
+
     const recipeId = recipeData.id;
 
     if (coverImage) {
@@ -89,8 +98,7 @@ export default function EditRecipeForm({
     }
 
     await handleRecipePatch({
-      data: { ...data, id: recipeData.id },
-      editorContent,
+      data: formData,
       toast,
       router,
       userData: user,

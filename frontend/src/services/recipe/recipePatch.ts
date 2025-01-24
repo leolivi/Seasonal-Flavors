@@ -1,9 +1,28 @@
+import { UserData } from "../user/userService";
+import { Recipe } from "./recipeService";
+import { TagData } from "../tag/tagService";
+
+export type EditRecipeInput = Omit<Recipe, "user_id"> & {
+  tags: TagData["id"][];
+  id?: number;
+};
+
 export const handleRecipePatch = async ({
   data,
   userData,
-  editorContent,
   toast,
   router,
+}: {
+  data: EditRecipeInput;
+  userData: UserData;
+  toast: (options: {
+    variant: "default" | "destructive";
+    title: string;
+    description: string;
+  }) => void;
+  router: {
+    push: (path: string) => void;
+  };
 }) => {
   if (!userData) {
     console.error("Benutzerdaten sind nicht verfügbar");
@@ -13,13 +32,7 @@ export const handleRecipePatch = async ({
   try {
     const payload = {
       ...data,
-      id: data.id,
-      cooking_time: data.cooking_time,
-      prep_time: data.prep_time,
-      servings: data.servings,
-      steps: JSON.stringify(editorContent),
       user_id: userData.id,
-      tags: data.tags,
     };
 
     const response = await fetch("/api/edit-recipe", {

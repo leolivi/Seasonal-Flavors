@@ -1,4 +1,14 @@
-export const deleteFavoriteRecipe = async ({ recipeId, toast }) => {
+export const deleteFavoriteRecipe = async ({
+  recipeId,
+  toast,
+}: {
+  recipeId: number;
+  toast: (options: {
+    variant: "default" | "destructive";
+    title: string;
+    description: string;
+  }) => void;
+}) => {
   if (!recipeId) {
     console.error("Keine Rezept-ID angegeben");
     return false;

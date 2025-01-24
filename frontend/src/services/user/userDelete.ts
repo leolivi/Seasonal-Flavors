@@ -1,6 +1,13 @@
 import { signOut } from "next-auth/react";
 
-export const handleUserDelete = async (userId, toast) => {
+export const handleUserDelete = async (
+  userId: number,
+  toast: (options: {
+    variant: "default" | "destructive";
+    title: string;
+    description: string;
+  }) => void,
+) => {
   if (!userId) {
     console.error("Keine User-ID angegeben");
     return false;

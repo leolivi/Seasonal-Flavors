@@ -2,10 +2,10 @@
 import { create } from "zustand";
 import { Recipe } from "@/services/recipe/recipeService";
 import { getCurrentUser, getUserFavorites } from "@/services/user/userService";
-import { handleFavoriteRecipe } from "@/services/user/favoriteCreate";
-import { deleteFavoriteRecipe } from "@/services/user/favoriteDelete";
 import { getCurrentImage } from "@/services/image/imageService";
 import { getRecipeTags, TagData } from "@/services/tag/tagService";
+import { deleteFavoriteRecipe } from "@/services/user/favoriteDelete";
+import { handleFavoriteRecipe } from "@/services/user/favoriteCreate";
 
 interface FavoritesStore {
   favorites: Recipe[];
