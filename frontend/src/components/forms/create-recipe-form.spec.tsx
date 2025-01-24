@@ -116,14 +116,10 @@ describe("CreateRecipeForm", () => {
 
     await waitFor(() => {
       expect(
-        screen.getByText(
-          "Kochzeit muss eine positive Zahl sein und darf maximal 1440 Minuten betragen.",
-        ),
+        screen.getByText("Kochzeit ist erforderlich."),
       ).toBeInTheDocument();
       expect(
-        screen.getByText(
-          "Vorbereitungszeit muss eine positive Zahl sein und darf maximal 1440 Minuten betragen.",
-        ),
+        screen.getByText("Vorbereitungszeit ist erforderlich."),
       ).toBeInTheDocument();
       expect(screen.getByText("Titel ist erforderlich.")).toBeInTheDocument();
     });

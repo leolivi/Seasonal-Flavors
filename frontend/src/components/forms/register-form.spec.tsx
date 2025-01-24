@@ -1,7 +1,7 @@
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { handleSignup } from "@/actions/auth-actions";
-import { SessionForm } from "@/app/session/page";
 import { RegisterForm } from "./register-form";
+import { SessionForm } from "@/utils/enum";
 
 jest.mock("src/assets/icons/eye-close.svg", () => {
   const EyeCloseMock = () => <span>EyeCloseMock</span>;

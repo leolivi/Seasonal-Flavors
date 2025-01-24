@@ -19,7 +19,7 @@ describe("RecipeInfo Component", () => {
       />,
     );
 
-    expect(screen.getByText(/zubereiten/i)).toBeInTheDocument();
+    expect(screen.getByText(/vorbereiten/i)).toBeInTheDocument();
     expect(screen.getByText("15 min")).toBeInTheDocument();
     expect(screen.getByText(/kochen/i)).toBeInTheDocument();
     expect(screen.getByText("30 min")).toBeInTheDocument();
