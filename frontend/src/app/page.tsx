@@ -9,11 +9,14 @@ import { getCurrentSeason } from "@/utils/SeasonUtils";
 import { getSeasonalRecipes, Recipe } from "@/services/recipe/recipeService";
 import { getRecipeImage } from "@/services/image/imageService";
 import { getRecipeTags } from "@/services/tag/tagService";
+import { getServerSession } from "next-auth";
+import { authConfig } from "@/auth";
 
 // Home component that renders the main content of the page
 const Home = async () => {
   const seasonName = getCurrentSeason();
   const cardData = await getSeasonalRecipes();
+  const session = await getServerSession(authConfig);
 
   // Format the card data to match the expected structure
   const formattedCardData: Recipe[] = await Promise.all(
@@ -36,18 +39,21 @@ const Home = async () => {
       <Teaser />
       <InspirationText seasonName={seasonName} />
       <CardSliderWrapper cardData={formattedCardData} />
-      <div className="h-1/8 relative my-24 flex items-center justify-center px-4 min-[640px]:h-80 min-[640px]:px-8 min-[1024px]:h-96">
-        <Image
-          className="h-full w-full rounded-lg object-cover"
-          src={registerImage}
-          alt="Leckeres Essen"
-          width={2000}
-          height={2000}
-        />
-        <div className="absolute flex items-center justify-center">
-          <RegisterBanner label="jetzt registrieren" />
+      {!session && (
+        <div className="h-1/8 relative my-24 flex items-center justify-center px-4 min-[640px]:h-80 min-[640px]:px-8 min-[1024px]:h-96">
+          <Image
+            className="h-full w-full rounded-lg object-cover"
+            src={registerImage}
+            alt="Leckeres Essen"
+            width={2000}
+            height={2000}
+          />
+          <div className="absolute flex items-center justify-center">
+            <RegisterBanner label="jetzt registrieren" />
+          </div>
         </div>
-      </div>
+      )}
+      {/* TODO: add an explanation of the seasons here if logged in */}
     </main>
   );
 };

@@ -5,9 +5,16 @@ import { RegisterForm } from "@/components/forms/register-form";
 import { Typography } from "@/components/ui/typography";
 import { SessionForm } from "@/utils/enum";
 import { useState } from "react";
+import { useSearchParams } from "next/navigation";
 
 export default function Session() {
-  const [form, setForm] = useState<SessionForm>(SessionForm.LOGIN);
+  const searchParams = useSearchParams();
+  const initialForm =
+    searchParams.get("form") === "register"
+      ? SessionForm.REGISTER
+      : SessionForm.LOGIN;
+
+  const [form, setForm] = useState<SessionForm>(initialForm);
 
   return (
     <div className="flex flex-col items-center">

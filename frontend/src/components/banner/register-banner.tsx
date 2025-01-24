@@ -31,7 +31,7 @@ export const RegisterBanner = ({
 
   // Function to handle button click, navigating to the login page
   const handleClick = () => {
-    router.push("/session");
+    router.push("/session?form=register");
   };
 
   return (
