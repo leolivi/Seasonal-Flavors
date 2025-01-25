@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import CardListWrapper from "@/components/card-list.tsx/card-list-wrapper";
 import ScrollButton from "@/components/scroll-button/scroll-button";
 import FilterBar from "@/components/filter-bar/filter-bar";
@@ -23,15 +23,15 @@ const RecipesClient: React.FC<RecipesClientProps> = ({ formattedCardData }) => {
   const pathname = usePathname();
   const isDesktop = useMediaQuery("(min-width: 640px)");
 
-  const resetItems = () => {
+  const resetItems = useCallback(() => {
     const initialItems = isDesktop ? 6 : 3;
     setVisibleItems(formattedCardData.slice(0, initialItems));
     setHasMore(formattedCardData.length > initialItems);
-  };
+  }, [formattedCardData, isDesktop]);
 
   useEffect(() => {
     resetItems();
-  }, [pathname, formattedCardData, isDesktop]);
+  }, [pathname, resetItems]);
 
   const loadMore = () => {
     if (!isLoading) {

@@ -19,8 +19,13 @@ export const getSeasonalRecipes = async () => {
   const seasonName = getCurrentSeason();
 
   try {
+    const params = new URLSearchParams();
+    params.append("tags[]", "all_year");
+    params.append("tags[]", seasonName);
+    params.append("limit", "10");
+
     const response = await fetch(
-      `${process.env.BACKEND_URL}/api/recipe?season=${seasonName}&limit=10`,
+      `${process.env.BACKEND_URL}/api/recipe?${params.toString()}`,
     );
     const data = await response.json();
 
@@ -90,10 +95,14 @@ export const getFilteredRecipes = async (
   title?: string,
 ): Promise<Recipe[] | null> => {
   try {
-    const url = `${process.env.BACKEND_URL}/api/recipe?season=${seasonName}${
-      title ? `&title=${encodeURIComponent(title)}` : ""
-    }`;
+    const params = new URLSearchParams();
+    params.append("tags[]", "all_year");
+    params.append("tags[]", seasonName);
+    if (title) {
+      params.append("title", encodeURIComponent(title));
+    }
 
+    const url = `${process.env.BACKEND_URL}/api/recipe?${params.toString()}`;
     const response = await fetch(url);
     const data = await response.json();
 

@@ -9,10 +9,10 @@ const RecipesPage = async ({
 }: {
   searchParams?: { title?: string };
 }) => {
-  const seasonName = getCurrentSeason();
+  const currentSeason = getCurrentSeason();
   const title = searchParams?.title || "";
 
-  const recipes = await getFilteredRecipes(seasonName, title);
+  const recipes = await getFilteredRecipes(currentSeason, title);
   if (!recipes) return <div>Keine Rezepte gefunden</div>;
 
   const formattedRecipes: Recipe[] = await Promise.all(
