@@ -2,10 +2,10 @@
 import { create } from "zustand";
 import { Recipe } from "@/services/recipe/recipeService";
 import { getCurrentUser, getUserFavorites } from "@/services/user/userService";
-import { getCurrentImage } from "@/services/image/imageService";
 import { getRecipeTags, TagData } from "@/services/tag/tagService";
 import { deleteFavoriteRecipe } from "@/services/user/favoriteDelete";
 import { handleFavoriteRecipe } from "@/services/user/favoriteCreate";
+import { getRecipeImage } from "@/services/image/imageService";
 
 interface FavoritesStore {
   favorites: Recipe[];
@@ -96,7 +96,7 @@ export const useFavoritesStore = create<FavoritesStore>((set, get) => ({
     try {
       const detailedFavorites = await Promise.all(
         favorites.map(async (recipe) => {
-          const imageData = await getCurrentImage(recipe.id);
+          const imageData = await getRecipeImage(recipe.id);
           const seasonData = await getRecipeTags(recipe.id);
           const seasonTags = seasonData
             .map((tag: TagData) => tag.name)

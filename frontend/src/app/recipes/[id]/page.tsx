@@ -50,8 +50,9 @@ export default async function RecipePage({
         recipe={recipeDetails}
       />
       <ImageContainer
-        src={recipeDetails.imageSrc || foodImage}
-        alt={`Rezept Titelbild, ${recipeDetails.imageAlt}`}
+        recipeId={recipeId}
+        fallbackSrc={foodImage}
+        alt={`Rezept Titelbild, ${recipeDetails.title}`}
         width={500}
         height={300}
       />

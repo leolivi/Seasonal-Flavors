@@ -1,17 +1,15 @@
-import { NextRouter } from "next/router";
-
 export const handleForgotPassword = async ({
   data,
   toast,
   router,
 }: {
-  data: import("./userService").UserData;
+  data: { email: string };
   toast: (options: {
     variant: "default" | "destructive";
     title: string;
     description: string;
   }) => void;
-  router: NextRouter;
+  router: { push: (path: string) => void };
 }) => {
   try {
     const payload = {
@@ -73,7 +71,7 @@ export const handleResetPassword = async ({
     title: string;
     description: string;
   }) => void;
-  router: NextRouter;
+  router: { push: (path: string) => void };
 }) => {
   try {
     const response = await fetch("/api/reset-password", {

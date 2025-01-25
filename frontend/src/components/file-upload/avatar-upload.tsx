@@ -10,15 +10,14 @@ import { getSeasonColor } from "@/utils/SeasonUtils";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { handleImageDelete } from "@/services/image/imageDelete";
-import { useUserImageStore } from "@/stores/userImageStore";
-import { getProfileImage } from "@/services/image/imageService";
-import { useSession } from "next-auth/react";
+import { ImageData, getProfileImage } from "@/services/image/imageService";
 
 interface AvatarUploadProps {
   avatarSrc: string;
   avatarFallback: string;
   userId?: number;
   imageId?: number;
+  onImageUpdate: (newImageData: ImageData | undefined) => void;
 }
 
 export default function AvatarUpload({
@@ -26,24 +25,22 @@ export default function AvatarUpload({
   avatarFallback,
   userId,
   imageId,
+  onImageUpdate,
 }: AvatarUploadProps) {
   const seasonalColor = getSeasonColor();
   const [imageLoaded, setImageLoaded] = useState(false);
   const { toast } = useToast();
-  const session = useSession();
-  const { setImageUrl } = useUserImageStore();
 
   const handleDelete = async () => {
     if (userId && imageId) {
       const deleteImage = await handleImageDelete(userId, imageId, toast);
       if (deleteImage) {
-        setImageUrl(undefined);
+        const updatedImageData = await getProfileImage(userId);
+        onImageUpdate(updatedImageData);
 
-        const profileImage = await getProfileImage(
-          userId,
-          session?.data?.accessToken || "",
-        );
-        setImageUrl(profileImage?.file_path);
+        // Dispatch Event für andere Komponenten
+        window.dispatchEvent(new Event("profileImageUpdate"));
+
         toast({
           variant: "default",
           title: "Erfolg",
@@ -70,7 +67,6 @@ export default function AvatarUpload({
             setImageLoaded(status === "loaded")
           }
         />
-
         <AvatarFallback>
           <FaUserCircle
             size={100}

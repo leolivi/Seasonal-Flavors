@@ -1,5 +1,3 @@
-import { dataFetch, dataFetchWithToken } from "@/utils/data-fetch";
-
 export interface ImageData {
   id: number;
   file_path: string;
@@ -8,52 +6,42 @@ export interface ImageData {
 
 export const getRecipeImage = async (recipeId: number) => {
   try {
-    const response = await dataFetch(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/images?recipe_id=${recipeId}&type=recipe`,
-    );
+    const response = await fetch(`/api/get-recipe-image?recipe_id=${recipeId}`);
 
-    if (Array.isArray(response) && response.length > 0) {
-      return response[0];
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.message || "Fehler beim Laden des Rezeptbildes");
+    }
+
+    if (Array.isArray(data) && data.length > 0) {
+      return data[0];
     }
 
     return undefined;
   } catch (error) {
-    console.error("Fehler beim Laden des Bildes:", error);
+    console.error("Fehler beim Laden des Rezeptbildes:", error);
     return undefined;
   }
 };
 
-export const getProfileImage = async (userId: number, accessToken: string) => {
+export const getProfileImage = async (userId: number) => {
   try {
-    const response = await dataFetchWithToken(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/images?type=profile&user_id=${userId}`,
-      accessToken,
-    );
+    const response = await fetch(`/api/get-profile-image?user_id=${userId}`);
 
-    if (Array.isArray(response) && response.length > 0) {
-      return response[0];
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.message || "Fehler beim Laden des Profilbildes");
+    }
+
+    if (Array.isArray(data) && data.length > 0) {
+      return data[0];
     }
 
     return undefined;
   } catch (error) {
-    console.error("Fehler beim Laden des Bildes:", error);
-    return undefined;
-  }
-};
-
-export const getCurrentImage = async (recipeId: number) => {
-  try {
-    const response = await dataFetch(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/images?recipe_id=${recipeId}`,
-    );
-
-    if (Array.isArray(response) && response.length > 0) {
-      return response[0];
-    }
-
-    return undefined;
-  } catch (error) {
-    console.error("Fehler beim Laden des Bildes:", error);
+    console.error("Fehler beim Laden des Profilbildes:", error);
     return undefined;
   }
 };

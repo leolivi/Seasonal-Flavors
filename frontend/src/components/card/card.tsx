@@ -102,8 +102,8 @@ export default function Card({
         )}
         <Image
           className="pointer-events-none h-full w-full rounded-lg object-cover object-center"
-          src={props.imageSrc || ""}
-          alt={props.imageAlt || props.title}
+          src={imageData?.file_path || props.imageSrc || ""}
+          alt={imageData?.alt_text || props.imageAlt || props.title}
           width={500}
           height={300}
           priority={props.priority}

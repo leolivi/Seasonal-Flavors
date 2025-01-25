@@ -6,20 +6,34 @@ import ProfileForm from "../forms/profile-form";
 import { AuthSession, SessionLoader } from "../auth-session/auth-session";
 import { Button, ButtonSize, ButtonStyle } from "../button/button";
 import { UserData } from "@/services/user/userService";
-import type { ImageData } from "@/services/image/imageService";
+import { ImageData, getProfileImage } from "@/services/image/imageService";
 import { handleUserDelete } from "@/services/user/userDelete";
 import { useToast } from "@/hooks/use-toast";
 import { ToastAction } from "@radix-ui/react-toast";
-import { useUserImageStore } from "@/stores/userImageStore";
+import { useEffect, useState } from "react";
 
 export interface ProfileCardProps {
   userData: UserData | null;
-  imageData: ImageData | undefined;
 }
 
-export default function ProfileCard({ userData, imageData }: ProfileCardProps) {
+export default function ProfileCard({ userData }: ProfileCardProps) {
   const { toast } = useToast();
-  const { imageUrl, updateTimestamp } = useUserImageStore();
+  const [imageData, setImageData] = useState<ImageData | undefined>();
+
+  useEffect(() => {
+    const fetchImage = async () => {
+      if (userData?.id) {
+        const fetchedImageData = await getProfileImage(userData.id);
+        setImageData(fetchedImageData);
+      }
+    };
+
+    fetchImage();
+  }, [userData?.id]);
+
+  const handleImageUpdate = (newImageData: ImageData | undefined) => {
+    setImageData(newImageData);
+  };
 
   if (!userData) {
     return <SessionLoader />;
@@ -36,15 +50,18 @@ export default function ProfileCard({ userData, imageData }: ProfileCardProps) {
           </div>
           <div className="flex flex-col items-center gap-6">
             <AvatarUpload
-              avatarSrc={userData.imageSrc || imageUrl || ""}
-              // avatarSrc={imageUrl || ""}
+              avatarSrc={imageData?.file_path || ""}
               avatarFallback="User's avatar"
               userId={userData.id}
               imageId={imageData?.id}
-              key={`${imageUrl}-${updateTimestamp}`}
+              onImageUpdate={handleImageUpdate}
             />
             <div className="w-full">
-              <ProfileForm user={userData} image={imageData} />
+              <ProfileForm
+                user={userData}
+                image={imageData}
+                onImageUpdate={handleImageUpdate}
+              />
             </div>
           </div>
         </div>

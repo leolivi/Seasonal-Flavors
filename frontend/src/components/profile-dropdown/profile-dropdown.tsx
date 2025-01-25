@@ -1,4 +1,5 @@
-import React, { forwardRef } from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
+import React, { forwardRef, useEffect, useState } from "react";
 import Link from "next/link";
 import {
   Avatar,
@@ -16,16 +17,10 @@ import { signOut } from "next-auth/react";
 import { Typography } from "../ui/typography";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import useMediaQuery from "@/hooks/use-media-query";
-import { useUserImageStore } from "@/stores/userImageStore";
 import { SessionLoader } from "../auth-session/auth-session";
 import { FaBookmark } from "react-icons/fa";
-
-interface UserData {
-  id: number;
-  username: string;
-  email: string;
-  imageSrc?: string;
-}
+import { ImageData, getProfileImage } from "@/services/image/imageService";
+import { UserData } from "@/services/user/userService";
 
 interface ProfileDropdownProps {
   userData: UserData | null;
@@ -35,7 +30,30 @@ const ProfileDropdown = forwardRef<HTMLDivElement, ProfileDropdownProps>(
   ({ userData }, ref) => {
     const seasonalColor = getSeasonColor();
     const isDesktop = useMediaQuery("(min-width: 640px)");
-    const { imageUrl, updateTimestamp } = useUserImageStore();
+    const [imageData, setImageData] = useState<ImageData | undefined>();
+
+    const fetchProfileImage = async () => {
+      if (userData?.id) {
+        const fetchedImageData = await getProfileImage(userData.id);
+        setImageData(fetchedImageData);
+      }
+    };
+
+    useEffect(() => {
+      fetchProfileImage();
+    }, [userData?.id]);
+
+    useEffect(() => {
+      const handleImageUpdate = () => {
+        fetchProfileImage();
+      };
+
+      window.addEventListener("profileImageUpdate", handleImageUpdate);
+
+      return () => {
+        window.removeEventListener("profileImageUpdate", handleImageUpdate);
+      };
+    }, [userData?.id]);
 
     const handleLogout = async () => {
       try {
@@ -66,8 +84,7 @@ const ProfileDropdown = forwardRef<HTMLDivElement, ProfileDropdownProps>(
         <DropdownMenu.Trigger asChild>
           <Avatar size={AvatarSize.small}>
             <AvatarImage
-              key={`${imageUrl}-${updateTimestamp}`}
-              src={imageUrl || userData?.imageSrc}
+              src={imageData?.file_path || ""}
               alt="User's avatar"
               loading="eager"
             />

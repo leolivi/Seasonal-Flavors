@@ -1,6 +1,6 @@
+import { getRecipeImage } from "@/services/image/imageService";
 import { getRecipe } from "@/services/recipe/recipeService";
 import { getRecipeTags } from "@/services/tag/tagService";
-import { getRecipeImage } from "@/services/image/imageService";
 
 export const getRecipeDetail = async (recipeId: number) => {
   try {

@@ -17,12 +17,10 @@ import { ProfileSchema, profileSchema } from "@/validation/profileSchema";
 import { ProfileCardProps } from "../profile-card/profile-card";
 import { useState } from "react";
 import type { ImageData } from "@/services/image/imageService";
-import { useUserImageStore } from "@/stores/userImageStore";
 import { Typography } from "../ui/typography";
 import Image from "next/image";
 import Cross from "@/assets/icons/cross.svg";
 import { getProfileImage } from "@/services/image/imageService";
-import { useSession } from "next-auth/react";
 import { handleImageDelete } from "@/services/image/imageDelete";
 import { handleImageUpload } from "@/services/image/imageUpload";
 import { handleUserPatch } from "@/services/user/userPatch";
@@ -30,13 +28,16 @@ import { handleUserPatch } from "@/services/user/userPatch";
 type ProfileFormProps = {
   user: NonNullable<ProfileCardProps["userData"]>;
   image: ImageData | undefined;
+  onImageUpdate: (newImageData: ImageData | undefined) => void;
 };
 
-export default function ProfileForm({ user, image }: ProfileFormProps) {
-  const session = useSession();
+export default function ProfileForm({
+  user,
+  image,
+  onImageUpdate,
+}: ProfileFormProps) {
   const [profileImage, setProfileImage] = useState<File | null>();
   const { toast } = useToast();
-  const { setImageUrl } = useUserImageStore();
   const [formErrors, setFormErrors] = useState<
     { field: string; message: string }[]
   >([]);
@@ -93,13 +94,12 @@ export default function ProfileForm({ user, image }: ProfileFormProps) {
           }
 
           if (uploadResult) {
-            const localImageUrl = URL.createObjectURL(profileImage);
-            setImageUrl(localImageUrl);
-            const updatedImageData = await getProfileImage(
-              user.id,
-              session?.data?.accessToken || "",
-            );
-            setImageUrl(updatedImageData?.imageUrl || localImageUrl);
+            const updatedImageData = await getProfileImage(user.id);
+            onImageUpdate(updatedImageData);
+
+            // Dispatch Event für andere Komponenten
+            window.dispatchEvent(new Event("profileImageUpdate"));
+
             setPreviewUrl(null);
           } else {
             console.error("Bild-Upload fehlgeschlagen");

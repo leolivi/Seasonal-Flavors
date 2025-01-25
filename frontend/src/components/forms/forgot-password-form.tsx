@@ -30,7 +30,7 @@ export const ForgotPasswordForm = () => {
 
   async function onSubmit(formData: z.infer<typeof forgotPasswordSchema>) {
     await handleForgotPassword({
-      data: formData,
+      data: { email: formData.email },
       toast,
       router,
     });

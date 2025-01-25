@@ -1,5 +1,5 @@
 "use client";
-import foodImage from "../../assets/images/food-image.jpg";
+import foodImage from "@/assets/images/food-image.jpg";
 import SeasonAnimation from "../season-animation/season-animation";
 import { Typography } from "../ui/typography";
 import ImageContainer from "../ui/image-container";
@@ -28,7 +28,7 @@ export default function Teaser() {
     <div className="teaser-container static px-4 py-8 min-[640px]:p-8">
       <Heading />
       <ImageContainer
-        src={foodImage}
+        fallbackSrc={foodImage}
         alt="Leckeres Essen"
         width={500}
         height={300}
