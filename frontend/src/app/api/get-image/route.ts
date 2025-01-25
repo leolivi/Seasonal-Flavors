@@ -32,8 +32,6 @@ export async function GET(request: NextRequest) {
       url = `${process.env.BACKEND_URL}/api/images?type=${type}&recipe_id=${recipeId}`;
     }
 
-    console.log("Backend URL:", url);
-
     const response = await fetch(url, { headers });
     const data = await response.json();
 

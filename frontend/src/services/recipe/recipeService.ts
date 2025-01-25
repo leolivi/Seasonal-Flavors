@@ -1,4 +1,3 @@
-import { dataFetch } from "@/utils/data-fetch";
 import { getCurrentSeason } from "@/utils/SeasonUtils";
 
 export interface Recipe {
@@ -20,10 +19,18 @@ export const getSeasonalRecipes = async () => {
   const seasonName = getCurrentSeason();
 
   try {
-    const recipes: Recipe[] = await dataFetch(
-      `${process.env.BACKEND_URL}/api/recipe?tags[]=all_year&tags[]=${seasonName}&limit=10`,
+    const response = await fetch(
+      `${process.env.BACKEND_URL}/api/recipe?season=${seasonName}&limit=10`,
     );
-    return recipes;
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(
+        data.message || "Fehler beim Laden der saisonalen Rezepte",
+      );
+    }
+
+    return data;
   } catch (error) {
     console.error("Fehler beim Laden der Rezepte:", error);
     return [];
@@ -32,15 +39,21 @@ export const getSeasonalRecipes = async () => {
 
 export const getRecipe = async (recipeId: number): Promise<Recipe | null> => {
   try {
-    const recipeResponse = await dataFetch(
+    const response = await fetch(
       `${process.env.BACKEND_URL}/api/recipe?id=${recipeId}`,
     );
 
-    if (!recipeResponse || recipeResponse.length === 0) {
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.message || "Fehler beim Laden des Rezepts");
+    }
+
+    if (!data || (Array.isArray(data) && data.length === 0)) {
       return null;
     }
 
-    return Array.isArray(recipeResponse) ? recipeResponse[0] : recipeResponse;
+    return Array.isArray(data) ? data[0] : data;
   } catch (error) {
     console.error("Fehler beim Laden des Rezepts:", error);
     return null;
@@ -51,16 +64,21 @@ export const getUserRecipes = async (
   userId: number,
 ): Promise<Recipe[] | null> => {
   try {
-    const recipes = await dataFetch(
+    const response = await fetch(
       `${process.env.BACKEND_URL}/api/recipe?user_id=${userId}`,
     );
+    const data = await response.json();
 
-    if (!Array.isArray(recipes)) {
-      console.error("Erwartetes Array von Rezepten nicht erhalten:", recipes);
+    if (!response.ok) {
+      throw new Error(data.message || "Fehler beim Laden der Benutzer-Rezepte");
+    }
+
+    if (!Array.isArray(data)) {
+      console.error("Erwartetes Array von Rezepten nicht erhalten:", data);
       return null;
     }
 
-    return recipes;
+    return data;
   } catch (error) {
     console.error("Fehler beim Laden der Benutzer-Rezepte:", error);
     return null;
@@ -72,18 +90,25 @@ export const getFilteredRecipes = async (
   title?: string,
 ): Promise<Recipe[] | null> => {
   try {
-    const recipes = await dataFetch(
-      `${process.env.BACKEND_URL}/api/recipe?tags[]=all_year&tags[]=${seasonName}${
-        title ? `&title=${encodeURIComponent(title)}` : ""
-      }`,
-    );
+    const url = `${process.env.BACKEND_URL}/api/recipe?season=${seasonName}${
+      title ? `&title=${encodeURIComponent(title)}` : ""
+    }`;
 
-    if (!Array.isArray(recipes)) {
-      console.error("Erwartetes Array von Rezepten nicht erhalten:", recipes);
+    const response = await fetch(url);
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(
+        data.message || "Fehler beim Laden der gefilterten Rezepte",
+      );
+    }
+
+    if (!Array.isArray(data)) {
+      console.error("Erwartetes Array von Rezepten nicht erhalten:", data);
       return null;
     }
 
-    return recipes;
+    return data;
   } catch (error) {
     console.error("Fehler beim Laden der gefilterten Rezepte:", error);
     return null;
