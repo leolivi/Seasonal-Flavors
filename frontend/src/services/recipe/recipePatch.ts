@@ -35,7 +35,7 @@ export const handleRecipePatch = async ({
       user_id: userData.id,
     };
 
-    const response = await fetch("/api/edit-recipe", {
+    const response = await fetch(`/api/edit-recipe/${data.id}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",

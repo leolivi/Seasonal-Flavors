@@ -2,14 +2,11 @@ import { authConfig } from "@/auth";
 import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 
-export async function PATCH(request: NextRequest) {
-  // Überprüfe die Methode
-  if (request.method !== "PATCH") {
-    return NextResponse.json(
-      { message: "Method not allowed" },
-      { status: 405 },
-    );
-  }
+export async function PATCH(
+  request: NextRequest,
+  { params }: { params: { recipeId: string } },
+) {
+  const recipeId = params.recipeId;
 
   // Session abrufen
   const session = await getServerSession(authConfig);
@@ -20,15 +17,6 @@ export async function PATCH(request: NextRequest) {
 
   // Body auslesen
   const body = await request.json();
-
-  // Sicherstellen, dass die Rezept-ID vorhanden ist
-  const recipeId = body.id;
-  if (!recipeId) {
-    return NextResponse.json(
-      { message: "Recipe ID is missing in the request body" },
-      { status: 400 },
-    );
-  }
 
   // Anfrage an das Backend senden
   try {

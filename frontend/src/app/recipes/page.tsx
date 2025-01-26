@@ -24,7 +24,9 @@ const RecipesPage = async ({
         ...recipe,
         imageSrc: imageData?.file_path,
         imageAlt: imageData?.alt_text,
-        season: seasonData.map((tag) => tag.name).join(", "),
+        season: Array.isArray(seasonData)
+          ? seasonData.map((tag) => tag.name).join(", ")
+          : "",
       };
     }),
   );
