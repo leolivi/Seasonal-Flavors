@@ -26,7 +26,6 @@ export default function RecipeFormWrapper({
   recipeData,
   tags,
   user,
-  imageData,
 }: RecipeFormWrapperProps) {
   const formFields: FormField[] = [
     { name: "title", label: "Rezepttitel", placeholder: "Rezepttitel" },
@@ -67,7 +66,6 @@ export default function RecipeFormWrapper({
       recipeData={recipeData}
       tags={tags || []}
       user={user}
-      imageData={imageData}
     />
   ) : (
     <CreateRecipeForm formFields={formFields} tags={tags || []} user={user} />

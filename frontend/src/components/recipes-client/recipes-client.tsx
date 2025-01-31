@@ -31,7 +31,7 @@ const RecipesClient: React.FC<RecipesClientProps> = ({ formattedCardData }) => {
 
   useEffect(() => {
     resetItems();
-  }, [pathname, resetItems]);
+  }, [pathname, resetItems, formattedCardData]);
 
   const loadMore = () => {
     if (!isLoading) {

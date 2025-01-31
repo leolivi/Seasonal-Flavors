@@ -2,7 +2,7 @@
 
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
-import { Bold, Heading1, Heading2, Heading3, Italic } from "lucide-react";
+import { Bold, Italic } from "lucide-react";
 import { ToggleGroup, ToggleGroupItem } from "../ui/toggle-group";
 import ListItem from "@tiptap/extension-list-item";
 import { getSeasonColor } from "@/utils/SeasonUtils";

@@ -30,7 +30,7 @@ export const getCurrentUser = async (
     }
 
     const userImage = profile.id
-      ? await getProfileImage(profile.id, accessToken)
+      ? await getProfileImage(profile.id)
       : undefined;
 
     return {
