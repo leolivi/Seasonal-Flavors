@@ -1,6 +1,7 @@
 import { Recipe } from "./recipeService";
 import { UserData } from "../user/userService";
 import { TagData } from "../tag/tagService";
+import { useRecipesStore } from "@/stores/useRecipesStore";
 
 type CreateRecipeInput = Omit<Recipe, "id" | "user_id"> & {
   tags: TagData["id"][];
@@ -56,6 +57,10 @@ export const handleCreateRecipe = async ({
 
     const responseData = await response.json();
     const recipeId = responseData.recipe?.id;
+
+    if (responseData.recipe) {
+      useRecipesStore.getState().addRecipe(responseData.recipe);
+    }
 
     toast({
       variant: "default",

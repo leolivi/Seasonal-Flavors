@@ -17,11 +17,11 @@ interface RecipesClientProps {
 const RecipesClient: React.FC<RecipesClientProps> = ({ formattedCardData }) => {
   const [visibleItems, setVisibleItems] = useState<Recipe[]>([]);
   const [hasMore, setHasMore] = useState(true);
-  const [favorites, setFavorites] = useState<Recipe[]>([]);
-  const [showFavorites, setShowFavorites] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const pathname = usePathname();
   const isDesktop = useMediaQuery("(min-width: 640px)");
+  const [favorites, setFavorites] = useState<Recipe[]>([]);
+  const [showFavorites, setShowFavorites] = useState(false);
 
   const resetItems = useCallback(() => {
     const initialItems = isDesktop ? 6 : 3;

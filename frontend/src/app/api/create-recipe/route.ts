@@ -1,6 +1,7 @@
 import { authConfig } from "@/auth";
 import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
+import { revalidatePath } from "next/cache";
 
 export async function POST(request: NextRequest) {
   if (request.method !== "POST") {
@@ -42,6 +43,8 @@ export async function POST(request: NextRequest) {
         { status: response.status },
       );
     }
+
+    revalidatePath("/my-recipes");
 
     return NextResponse.json(data, { status: 201 });
   } catch (error) {

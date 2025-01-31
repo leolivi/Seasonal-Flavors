@@ -5,10 +5,11 @@ import { LayoutOptionType } from "@/utils/layout-options";
 import { useState, useEffect } from "react";
 import { RegisterBanner } from "../banner/register-banner";
 import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import { useToast } from "@/hooks/use-toast";
 import { useFavoritesStore } from "@/stores/useFavoritesStore";
 import { UserData } from "@/services/user/userService";
+import { useRecipesStore } from "@/stores/useRecipesStore";
 
 interface CardListWrapperProps {
   cardData?: Recipe[];
@@ -37,15 +38,40 @@ const CardListWrapper = ({
 }: CardListWrapperProps) => {
   const { status, data: session } = useSession();
   const router = useRouter();
+  const pathname = usePathname();
   const [showRegisterBanner, setShowRegisterBanner] = useState(false);
   const { toast } = useToast();
   const { loadFavorites, toggleFavorite } = useFavoritesStore();
+  const { recipes, setRecipes } = useRecipesStore();
+
+  const isMyRecipesPage = pathname === "/my-recipes";
+  const isRecipesPage = pathname === "/recipes";
+  const displayData = isMyRecipesPage ? recipes : cardData;
 
   useEffect(() => {
     if (status === "authenticated" && session?.accessToken) {
       loadFavorites(session.accessToken);
     }
   }, [status, session, loadFavorites]);
+
+  useEffect(() => {
+    if (isMyRecipesPage || isRecipesPage) {
+      if (cardData.length > 0) {
+        const cardDataIds = new Set(cardData.map((item) => item.id));
+        const recipesIds = new Set(recipes.map((item) => item.id));
+
+        const hasNewRecipes = cardData.some((item) => !recipesIds.has(item.id));
+        const hasDeletedRecipes = recipes.some(
+          (item) => !cardDataIds.has(item.id),
+        );
+
+        if (hasNewRecipes || hasDeletedRecipes) {
+          setRecipes(cardData);
+        }
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [cardData, isMyRecipesPage, isRecipesPage]);
 
   const handleBookmarkClick = async (e: React.MouseEvent, recipeId: number) => {
     e.preventDefault();
@@ -56,7 +82,7 @@ const CardListWrapper = ({
       return;
     }
 
-    const recipe = cardData.find((e) => e.id === recipeId);
+    const recipe = displayData.find((e) => e.id === recipeId);
     if (recipe) {
       await toggleFavorite(recipe, toast, isInFavoriteView, onShowFavorites);
     }
@@ -77,12 +103,12 @@ const CardListWrapper = ({
   return (
     <div className={className}>
       {children}
-      {cardData.length > 0 && (
+      {displayData.length > 0 && (
         <CardList
           onBookmarkClick={handleBookmarkClick}
           onEditClick={(e, id) => handleEditClick(e, id)}
           showEdit={showEdit}
-          cardData={cardData}
+          cardData={displayData}
           showDetail={showDetail}
           showBookmark={showBookmark}
           style={style}
