@@ -1,3 +1,5 @@
+import { useRecipesStore } from "@/stores/useRecipesStore";
+
 export const handleRecipeDelete = async (
   recipeId: number,
   toast: (options: {
@@ -29,6 +31,8 @@ export const handleRecipeDelete = async (
       });
       throw new Error(data.message || "Recipe deletion failed");
     }
+
+    useRecipesStore.getState().deleteRecipe(recipeId);
 
     toast({
       variant: "default",

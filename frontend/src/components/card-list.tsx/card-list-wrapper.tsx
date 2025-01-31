@@ -42,7 +42,8 @@ const CardListWrapper = ({
   const [showRegisterBanner, setShowRegisterBanner] = useState(false);
   const { toast } = useToast();
   const { loadFavorites, toggleFavorite } = useFavoritesStore();
-  const { recipes, setRecipes } = useRecipesStore();
+  const recipes = useRecipesStore((state) => state.recipes);
+  const setRecipes = useRecipesStore((state) => state.setRecipes);
 
   const isMyRecipesPage = pathname === "/my-recipes";
   const isRecipesPage = pathname === "/recipes";

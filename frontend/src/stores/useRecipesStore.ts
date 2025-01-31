@@ -6,6 +6,7 @@ interface RecipesStore {
   setRecipes: (recipes: Recipe[]) => void;
   addRecipe: (recipe: Recipe) => void;
   deleteRecipe: (recipeId: number) => void;
+  updateRecipe: (updatedRecipe: Recipe) => void;
 }
 
 export const useRecipesStore = create<RecipesStore>((set) => ({
@@ -18,5 +19,11 @@ export const useRecipesStore = create<RecipesStore>((set) => ({
   deleteRecipe: (recipeId) =>
     set((state) => ({
       recipes: state.recipes.filter((recipe) => recipe.id !== recipeId),
+    })),
+  updateRecipe: (updatedRecipe) =>
+    set((state) => ({
+      recipes: state.recipes.map((recipe) =>
+        recipe.id === updatedRecipe.id ? updatedRecipe : recipe,
+      ),
     })),
 }));

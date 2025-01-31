@@ -40,11 +40,12 @@ interface EditRecipeFormProps {
 
 export default function EditRecipeForm({
   formFields,
-  recipeData,
+  recipeData: initialRecipeData,
   tags,
   user,
 }: EditRecipeFormProps) {
   const router = useRouter();
+  const [recipeData, setRecipeData] = useState<Recipe>(initialRecipeData);
   const [editorContent, setEditorContent] = useState<
     ProseMirrorNode | undefined
   >(undefined);
@@ -128,12 +129,19 @@ export default function EditRecipeForm({
       }
     }
 
-    await handleRecipePatch({
+    const updatedRecipe = await handleRecipePatch({
       data: formData,
       toast,
       router,
       userData: user,
     });
+
+    if (updatedRecipe) {
+      setRecipeData((prev) => ({
+        ...prev,
+        ...formData,
+      }));
+    }
   };
 
   const handleError = (errors: FieldErrors<EditRecipeSchema>) => {

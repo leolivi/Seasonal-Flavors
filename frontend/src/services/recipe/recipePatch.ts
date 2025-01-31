@@ -1,6 +1,7 @@
 import { UserData } from "../user/userService";
 import { Recipe } from "./recipeService";
 import { TagData } from "../tag/tagService";
+import { useRecipesStore } from "@/stores/useRecipesStore";
 
 export type EditRecipeInput = Omit<Recipe, "user_id"> & {
   tags: TagData["id"][];
@@ -55,7 +56,11 @@ export const handleRecipePatch = async ({
     }
 
     const responseData = await response.json();
-    const recipeId = responseData.recipe?.id;
+    const updatedRecipe = responseData.recipe;
+
+    if (updatedRecipe) {
+      useRecipesStore.getState().updateRecipe(updatedRecipe);
+    }
 
     toast({
       variant: "default",
@@ -64,7 +69,7 @@ export const handleRecipePatch = async ({
     });
 
     router.push("/my-recipes");
-    return recipeId;
+    return updatedRecipe;
   } catch (error) {
     console.error("Rezept-Aktualisierung fehlgeschlagen:", error);
     toast({

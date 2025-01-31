@@ -7,7 +7,7 @@ import BookmarkButton from "../ui/bookmark";
 import { Button, ButtonSize, ButtonStyle } from "../button/button";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/hooks/use-toast";
-import { getUserRecipes, Recipe } from "@/services/recipe/recipeService";
+import { Recipe } from "@/services/recipe/recipeService";
 import { ImageData, getRecipeImage } from "@/services/image/imageService";
 import { useEffect, useState } from "react";
 import { ToastAction } from "@radix-ui/react-toast";
@@ -73,13 +73,6 @@ export default function Card({
           description: "Bild konnte nicht gelöscht werden.",
         });
       }
-    }
-
-    if (props.user && props.user.id) {
-      // TODO: check 404 error
-      await getUserRecipes(props.user.id);
-    } else {
-      console.error("User or User ID is undefined");
     }
   };
 
