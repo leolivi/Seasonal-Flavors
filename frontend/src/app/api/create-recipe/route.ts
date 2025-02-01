@@ -40,6 +40,8 @@ export async function POST(request: NextRequest) {
 
     revalidatePath("/my-recipes");
     revalidatePath("/recipes");
+    revalidatePath(`/recipes/${data.recipe.id}`);
+    revalidatePath(`/recipes/edit/${data.recipe.id}`);
 
     return NextResponse.json(data, { status: 201 });
   } catch (error) {

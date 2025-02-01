@@ -15,7 +15,6 @@ import {
   editRecipeSchema,
   EditRecipeSchema,
 } from "@/validation/editRecipeSchema";
-
 import { ImageData } from "@/services/image/imageService";
 import { Recipe } from "@/services/recipe/recipeService";
 import { UserData } from "@/services/user/userService";
@@ -24,6 +23,7 @@ import { handleImageDelete } from "@/services/image/imageDelete";
 import { handleImageUpload } from "@/services/image/imageUpload";
 import { handleRecipePatch } from "@/services/recipe/recipePatch";
 import { getRecipeImage } from "@/services/image/imageService";
+import { useRecipesStore } from "@/stores/useRecipesStore";
 
 interface FormField {
   name: keyof EditRecipeSchema;
@@ -45,7 +45,7 @@ export default function EditRecipeForm({
   user,
 }: EditRecipeFormProps) {
   const router = useRouter();
-  const [recipeData, setRecipeData] = useState<Recipe>(initialRecipeData);
+  const updateRecipe = useRecipesStore((state) => state.updateRecipe);
   const [editorContent, setEditorContent] = useState<
     ProseMirrorNode | undefined
   >(undefined);
@@ -55,28 +55,28 @@ export default function EditRecipeForm({
 
   useEffect(() => {
     const fetchImage = async () => {
-      if (recipeData?.id) {
-        const fetchedImageData = await getRecipeImage(recipeData.id);
+      if (initialRecipeData?.id) {
+        const fetchedImageData = await getRecipeImage(initialRecipeData.id);
         setImageData(fetchedImageData);
       }
     };
 
     fetchImage();
-  }, [recipeData?.id]);
+  }, [initialRecipeData?.id]);
 
   const form = useForm<EditRecipeSchema>({
     resolver: zodResolver(editRecipeSchema),
     defaultValues: {
-      title: recipeData.title || "",
-      cooking_time: recipeData.cooking_time,
-      prep_time: recipeData.prep_time,
-      servings: recipeData.servings,
-      steps: JSON.parse(recipeData.steps),
-      ingredients: recipeData.ingredients,
-      tags: recipeData.season
-        ? Array.isArray(recipeData.season)
-          ? recipeData.season
-          : [Number(recipeData.season)]
+      title: initialRecipeData.title || "",
+      cooking_time: initialRecipeData.cooking_time,
+      prep_time: initialRecipeData.prep_time,
+      servings: initialRecipeData.servings,
+      steps: JSON.parse(initialRecipeData.steps),
+      ingredients: initialRecipeData.ingredients,
+      tags: initialRecipeData.season
+        ? Array.isArray(initialRecipeData.season)
+          ? initialRecipeData.season
+          : [Number(initialRecipeData.season)]
         : [],
       cover_image: undefined,
     },
@@ -85,13 +85,13 @@ export default function EditRecipeForm({
   const onSubmit = async (data: EditRecipeSchema) => {
     const formData = {
       ...data,
-      id: recipeData.id,
+      id: initialRecipeData.id,
       servings: data.servings ?? 1,
       ingredients: data.ingredients ?? "",
       steps: JSON.stringify(editorContent),
     };
 
-    const recipeId = recipeData.id;
+    const recipeId = initialRecipeData.id;
 
     if (coverImage) {
       try {
@@ -137,10 +137,7 @@ export default function EditRecipeForm({
     });
 
     if (updatedRecipe) {
-      setRecipeData((prev) => ({
-        ...prev,
-        ...formData,
-      }));
+      updateRecipe(formData as unknown as Recipe);
     }
   };
 
@@ -187,7 +184,7 @@ export default function EditRecipeForm({
           <div className="flex flex-col items-center">
             <Image
               src={imageData.file_path}
-              alt={recipeData.title}
+              alt={initialRecipeData.title}
               width={100}
               height={100}
               className="static w-1/3 rounded-md object-contain"
@@ -200,7 +197,7 @@ export default function EditRecipeForm({
         <IngredientInput
           control={form.control}
           name="ingredients"
-          defaultValue={recipeData.ingredients}
+          defaultValue={initialRecipeData.ingredients}
         />
 
         <FormField

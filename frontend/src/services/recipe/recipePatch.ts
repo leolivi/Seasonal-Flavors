@@ -59,7 +59,14 @@ export const handleRecipePatch = async ({
     const updatedRecipe = responseData.recipe;
 
     if (updatedRecipe) {
-      useRecipesStore.getState().updateRecipe(updatedRecipe);
+      const normalizedRecipe = {
+        ...updatedRecipe,
+        ingredients: updatedRecipe.ingredients || "",
+        steps: updatedRecipe.steps || "[]",
+        season: data.tags,
+      };
+
+      useRecipesStore.getState().updateRecipe(normalizedRecipe);
     }
 
     toast({

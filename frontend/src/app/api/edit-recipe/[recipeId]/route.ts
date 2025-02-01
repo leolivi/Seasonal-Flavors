@@ -44,6 +44,8 @@ export async function PATCH(
 
     revalidatePath("/my-recipes");
     revalidatePath("/recipes");
+    revalidatePath(`/recipes/${recipeId}`);
+    revalidatePath(`/recipes/edit/${recipeId}`);
 
     const data = await response.json();
     return NextResponse.json(data, { status: 200 });
