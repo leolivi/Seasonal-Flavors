@@ -42,15 +42,10 @@ export function RecipePageClient({
   const displayRecipe = storeRecipe || recipeDetails;
 
   useEffect(() => {
-    if (
-      !storeRecipe ||
-      JSON.stringify(storeRecipe) !== JSON.stringify(recipeDetails)
-    ) {
-      updateRecipe({
-        ...recipeDetails,
-        season: seasonArray as unknown as number[],
-      });
-    }
+    updateRecipe({
+      ...recipeDetails,
+      season: seasonArray as unknown as number[],
+    });
   }, [recipeDetails, storeRecipe, updateRecipe, seasonArray]);
 
   return (

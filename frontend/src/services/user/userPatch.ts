@@ -1,4 +1,4 @@
-import { UserData } from "./userService";
+import { getCurrentUser, UserData } from "./userService";
 
 interface HandleUserPatchParams {
   data: Partial<Pick<UserData, "id" | "username" | "email">>;
@@ -36,6 +36,7 @@ export const handleUserPatch = async ({
       headers: {
         "Content-Type": "application/json",
       },
+      cache: "no-store",
       body: JSON.stringify(payload),
     });
 
@@ -70,6 +71,12 @@ export const handleUserPatch = async ({
       title: "Erfolgreich!",
       description: "Der User wurde erfolgreich aktualisiert.",
     });
+
+    const updatedUser = await getCurrentUser(userData.accessToken!);
+    return {
+      success: true,
+      updatedUser,
+    };
 
     // router.push("/profile");
     return { success: true };

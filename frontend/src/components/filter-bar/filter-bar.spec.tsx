@@ -27,6 +27,7 @@ jest.mock("next/navigation", () => ({
     replace: jest.fn(),
     prefetch: jest.fn(),
   }),
+  usePathname: jest.fn(() => "/"),
 }));
 
 const mockOnShowFavorites = jest.fn();

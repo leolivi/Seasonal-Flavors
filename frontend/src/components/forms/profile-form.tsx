@@ -24,12 +24,14 @@ import { getProfileImage } from "@/services/image/imageService";
 import { handleImageDelete } from "@/services/image/imageDelete";
 import { handleImageUpload } from "@/services/image/imageUpload";
 import { handleUserPatch } from "@/services/user/userPatch";
+import { UserData } from "@/services/user/userService";
 
 type ProfileFormProps = {
   user: NonNullable<ProfileCardProps["userData"]>;
   image: ImageData | undefined;
   onImageUpdate: (newImageData: ImageData | undefined) => void;
   setUserData: (userData: ProfileCardProps["userData"]) => void;
+  onUserUpdate: (newUserData: UserData) => void;
 };
 
 export default function ProfileForm({
@@ -37,6 +39,7 @@ export default function ProfileForm({
   image,
   onImageUpdate,
   setUserData,
+  onUserUpdate,
 }: ProfileFormProps) {
   const [profileImage, setProfileImage] = useState<File | null>();
   const { toast } = useToast();
@@ -135,6 +138,14 @@ export default function ProfileForm({
             });
           });
         } else if (response.success) {
+          const updatedUserData = {
+            ...user,
+            username: data.username,
+            email: data.email,
+          };
+
+          setUserData(updatedUserData);
+          onUserUpdate(updatedUserData);
           toast({
             title: "Daten gespeichert",
             description: "Dein Profil wurde erfolgreich angepasst.",

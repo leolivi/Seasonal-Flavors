@@ -48,6 +48,6 @@ describe("RegisterBanner Component", () => {
     const buttonElement = screen.getByText(/jetzt registrieren/i);
     buttonElement.click();
 
-    expect(mockRouterPush).toHaveBeenCalledWith("/session");
+    expect(mockRouterPush).toHaveBeenCalledWith("/session?form=register");
   });
 });

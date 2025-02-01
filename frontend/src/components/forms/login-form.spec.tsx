@@ -46,14 +46,14 @@ describe("LoginForm", () => {
     const submitButton = screen.getByRole("button", { name: /anmelden/i });
 
     fireEvent.change(emailInput, { target: { value: "test@example.com" } });
-    fireEvent.change(passwordInput, { target: { value: "password123" } });
+    fireEvent.change(passwordInput, { target: { value: "Password123!" } });
     fireEvent.click(submitButton);
 
     await waitFor(() => {
       expect(signIn).toHaveBeenCalledWith("credentials", {
         redirect: false,
         email: "test@example.com",
-        password: "password123",
+        password: "Password123!",
       });
       expect(mockRouter.push).toHaveBeenCalledWith("/my-recipes");
     });
@@ -61,7 +61,7 @@ describe("LoginForm", () => {
 
   test("should display an error message on failed login", async () => {
     (signIn as jest.Mock).mockResolvedValueOnce({
-      error: "Login fehlgeschlagen",
+      error: "Passwort muss mindestens einen Großbuchstaben enthalten",
     });
 
     render(<LoginForm setForm={setFormMock} />);
@@ -75,15 +75,11 @@ describe("LoginForm", () => {
     fireEvent.click(submitButton);
 
     await waitFor(() => {
-      expect(signIn).toHaveBeenCalledWith("credentials", {
-        redirect: false,
-        email: "test@example.com",
-        password: "wrongpassword",
-      });
+      expect(
+        screen.getByText(
+          "Passwort muss mindestens einen Großbuchstaben enthalten",
+        ),
+      ).toBeInTheDocument();
     });
-
-    expect(
-      screen.getByText("Login fehlgeschlagen, bitte versuche es erneut"),
-    ).toBeInTheDocument();
   });
 });

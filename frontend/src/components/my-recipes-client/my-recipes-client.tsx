@@ -12,6 +12,7 @@ import NoRecipesImage from "@/assets/images/no-recipes-image.svg";
 import InfinityScroll from "../infinity-scroll/infinity-scroll";
 import { LayoutOptions } from "@/utils/layout-options";
 import useMediaQuery from "@/hooks/use-media-query";
+import { useRecipesStore } from "@/stores/useRecipesStore";
 
 interface MyRecipesClientProps {
   cardData: Recipe[];
@@ -27,12 +28,14 @@ const MyRecipesClient: React.FC<MyRecipesClientProps> = ({
   const [isLoading, setIsLoading] = useState(false);
   const pathname = usePathname();
   const isDesktop = useMediaQuery("(min-width: 640px)");
+  const setRecipes = useRecipesStore((state) => state.setRecipes);
 
   useEffect(() => {
+    setRecipes(cardData);
     const initialItems = isDesktop ? 6 : 3;
     setVisibleItems(cardData.slice(0, initialItems));
     setHasMore(cardData.length > initialItems);
-  }, [cardData, pathname, isDesktop]);
+  }, [cardData, pathname, isDesktop, setRecipes]);
 
   const loadMore = () => {
     if (!isLoading) {

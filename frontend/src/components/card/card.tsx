@@ -14,6 +14,7 @@ import { ToastAction } from "@radix-ui/react-toast";
 import { UserData } from "@/services/user/userService";
 import { handleImageDelete } from "@/services/image/imageDelete";
 import { handleRecipeDelete } from "@/services/recipe/recipeDelete";
+import { useRecipesStore } from "@/stores/useRecipesStore";
 
 interface ExtendedRecipeProps extends Recipe {
   showDetail?: boolean;
@@ -37,6 +38,8 @@ export default function Card({
   const [imageData, setImageData] = useState<ImageData | undefined>();
   const router = useRouter();
   const { toast } = useToast();
+  const setRecipes = useRecipesStore((state) => state.setRecipes);
+  const recipes = useRecipesStore((state) => state.recipes);
 
   useEffect(() => {
     const fetchImageData = async () => {
@@ -66,6 +69,10 @@ export default function Card({
 
       if (imageDeleted === true) {
         await handleRecipeDelete(props.id, toast, router);
+        const updatedRecipes = recipes.filter(
+          (recipe) => recipe.id !== props.id,
+        );
+        setRecipes(updatedRecipes);
       } else {
         toast({
           variant: "destructive",

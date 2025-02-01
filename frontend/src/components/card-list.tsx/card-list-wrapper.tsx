@@ -58,17 +58,7 @@ const CardListWrapper = ({
   useEffect(() => {
     if (isMyRecipesPage || isRecipesPage) {
       if (cardData.length > 0) {
-        const cardDataIds = new Set(cardData.map((item) => item.id));
-        const recipesIds = new Set(recipes.map((item) => item.id));
-
-        const hasNewRecipes = cardData.some((item) => !recipesIds.has(item.id));
-        const hasDeletedRecipes = recipes.some(
-          (item) => !cardDataIds.has(item.id),
-        );
-
-        if (hasNewRecipes || hasDeletedRecipes) {
-          setRecipes(cardData);
-        }
+        setRecipes(cardData);
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

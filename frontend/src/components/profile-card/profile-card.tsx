@@ -42,6 +42,10 @@ export default function ProfileCard({
     setImageData(newImageData);
   };
 
+  const handleUserUpdate = (newUserData: UserData) => {
+    setUserData(newUserData);
+  };
+
   if (!userData) {
     return <SessionLoader />;
   }
@@ -68,6 +72,7 @@ export default function ProfileCard({
                 user={userData}
                 image={imageData}
                 onImageUpdate={handleImageUpdate}
+                onUserUpdate={handleUserUpdate}
                 setUserData={setUserData}
               />
             </div>
