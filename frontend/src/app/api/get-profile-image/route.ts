@@ -35,6 +35,12 @@ export async function GET(request: NextRequest) {
       );
     }
 
+    if (Array.isArray(data) && data.length > 0) {
+      data[0].file_path = data[0].file_path.startsWith("http")
+        ? data[0].file_path
+        : `${process.env.BACKEND_URL}/${data[0].file_path}`;
+    }
+
     return NextResponse.json(data);
   } catch (error) {
     console.error("Fehler beim Laden des Profilbildes:", error);

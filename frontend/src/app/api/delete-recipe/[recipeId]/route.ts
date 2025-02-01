@@ -33,8 +33,9 @@ export async function DELETE(
       );
     }
 
+    const data = await response.json();
     return NextResponse.json(
-      { message: "Rezept erfolgreich gelöscht" },
+      { data, message: "Rezept erfolgreich gelöscht" },
       { status: 200 },
     );
   } catch (error) {

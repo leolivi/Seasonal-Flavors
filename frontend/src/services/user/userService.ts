@@ -1,4 +1,3 @@
-import { dataFetch, dataFetchWithToken } from "@/utils/data-fetch";
 import { getProfileImage } from "@/services/image/imageService";
 import { Recipe } from "../recipe/recipeService";
 import { handleLogout } from "@/components/auth-session/handle-logout";
@@ -19,27 +18,29 @@ export const getCurrentUser = async (
       return null;
     }
 
-    const profile = await dataFetchWithToken(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/user`,
-      accessToken,
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_APP_URL}/api/get-user`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+        cache: "no-store",
+      },
     );
 
-    if (!profile) {
+    const data = await response.json();
+
+    if (!response.ok) {
       await handleLogout();
-      return null;
+      throw new Error(data.message || "Fehler beim Laden des Benutzers");
     }
 
-    const userImage = profile.id
-      ? await getProfileImage(profile.id)
-      : undefined;
+    const userImage = data.id ? await getProfileImage(data.id) : undefined;
 
     return {
-      ...profile,
-      imageSrc: userImage?.file_path
-        ? userImage.file_path.startsWith("http")
-          ? userImage.file_path
-          : `${process.env.NEXT_PUBLIC_BACKEND_URL}/${userImage.file_path}`
-        : undefined,
+      ...data,
+      imageSrc: userImage?.file_path || undefined,
     };
   } catch (error) {
     console.error("Fehler beim Laden des Benutzers:", error);
@@ -49,9 +50,21 @@ export const getCurrentUser = async (
 
 export const getUser = async (userId: number): Promise<UserData | null> => {
   try {
-    return await dataFetch(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/user/${userId}`,
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_APP_URL}/api/get-user?user_id=${userId}`,
     );
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.message || "Fehler beim Laden des Benutzers");
+    }
+
+    const userImage = await getProfileImage(userId);
+
+    return {
+      ...data,
+      imageSrc: userImage?.file_path || undefined,
+    };
   } catch (error) {
     console.error("Fehler beim Laden des Benutzers:", error);
     return null;
@@ -63,10 +76,22 @@ export const getUserFavorites = async (
   accessToken: string,
 ): Promise<Recipe[]> => {
   try {
-    return await dataFetchWithToken(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/user/${userId}/favorites`,
-      accessToken,
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_APP_URL}/api/get-user-favorites?user_id=${userId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      },
     );
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.message || "Fehler beim Laden der Favoriten");
+    }
+
+    return data;
   } catch (error) {
     console.error("Fehler beim Laden der Favoriten:", error);
     return [];

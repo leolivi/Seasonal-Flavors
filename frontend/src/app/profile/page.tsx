@@ -5,6 +5,7 @@ import { authConfig } from "@/auth";
 
 const ProfilePage = async () => {
   const session = await getServerSession(authConfig);
+
   const userData = session?.accessToken
     ? await getCurrentUser(session.accessToken)
     : null;

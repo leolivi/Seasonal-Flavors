@@ -32,6 +32,7 @@ export const handleRecipeDelete = async (
       throw new Error(data.message || "Recipe deletion failed");
     }
 
+    // TODO: optimize delete process
     useRecipesStore.getState().deleteRecipe(recipeId);
 
     toast({

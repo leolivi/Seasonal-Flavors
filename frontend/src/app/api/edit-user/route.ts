@@ -1,5 +1,6 @@
 import { authConfig } from "@/auth";
 import { getServerSession } from "next-auth";
+import { revalidatePath } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function PATCH(request: NextRequest) {
@@ -49,6 +50,8 @@ export async function PATCH(request: NextRequest) {
         { status: response.status },
       );
     }
+
+    revalidatePath("/profile");
 
     const data = await response.json();
     return NextResponse.json(data, { status: 200 });

@@ -16,9 +16,16 @@ export interface ProfileCardProps {
   userData: UserData | null;
 }
 
-export default function ProfileCard({ userData }: ProfileCardProps) {
+export default function ProfileCard({
+  userData: initialUserData,
+}: ProfileCardProps) {
   const { toast } = useToast();
   const [imageData, setImageData] = useState<ImageData | undefined>();
+  const [userData, setUserData] = useState<UserData | null>(initialUserData);
+
+  useEffect(() => {
+    setUserData(initialUserData);
+  }, [initialUserData]);
 
   useEffect(() => {
     const fetchImage = async () => {
@@ -61,6 +68,7 @@ export default function ProfileCard({ userData }: ProfileCardProps) {
                 user={userData}
                 image={imageData}
                 onImageUpdate={handleImageUpdate}
+                setUserData={setUserData}
               />
             </div>
           </div>

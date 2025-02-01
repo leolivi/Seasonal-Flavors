@@ -15,7 +15,7 @@ import { useToast } from "@/hooks/use-toast";
 import { Button, ButtonSize } from "../button/button";
 import { ProfileSchema, profileSchema } from "@/validation/profileSchema";
 import { ProfileCardProps } from "../profile-card/profile-card";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import type { ImageData } from "@/services/image/imageService";
 import { Typography } from "../ui/typography";
 import Image from "next/image";
@@ -29,12 +29,14 @@ type ProfileFormProps = {
   user: NonNullable<ProfileCardProps["userData"]>;
   image: ImageData | undefined;
   onImageUpdate: (newImageData: ImageData | undefined) => void;
+  setUserData: (userData: ProfileCardProps["userData"]) => void;
 };
 
 export default function ProfileForm({
   user,
   image,
   onImageUpdate,
+  setUserData,
 }: ProfileFormProps) {
   const [profileImage, setProfileImage] = useState<File | null>();
   const { toast } = useToast();
@@ -46,11 +48,17 @@ export default function ProfileForm({
   const form = useForm<z.infer<typeof profileSchema>>({
     resolver: zodResolver(profileSchema),
     defaultValues: {
-      username: user.username,
-      email: user.email,
-      profile_image: undefined,
+      username: user.username || "",
+      email: user.email || "",
     },
   });
+
+  useEffect(() => {
+    form.reset({
+      username: user.username || "",
+      email: user.email || "",
+    });
+  }, [user, form]);
 
   const hasChanges = (data: ProfileSchema) => {
     return (
@@ -94,12 +102,14 @@ export default function ProfileForm({
           }
 
           if (uploadResult) {
+            setUserData({
+              ...user,
+              username: data.username,
+              email: data.email,
+            });
             const updatedImageData = await getProfileImage(user.id);
             onImageUpdate(updatedImageData);
-
-            // Dispatch Event für andere Komponenten
             window.dispatchEvent(new Event("profileImageUpdate"));
-
             setPreviewUrl(null);
           } else {
             console.error("Bild-Upload fehlgeschlagen");
