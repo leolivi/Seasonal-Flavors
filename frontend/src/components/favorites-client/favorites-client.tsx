@@ -30,6 +30,7 @@ const FavoritesClient = () => {
     };
 
     initializeFavorites();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [session]);
 
   const onShowFavorites = async (updatedFavorites: Recipe[]) => {

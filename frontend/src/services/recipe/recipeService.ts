@@ -90,36 +90,32 @@ export const getUserRecipes = async (
   }
 };
 
-export const getFilteredRecipes = async (
-  seasonName: string,
-  title?: string,
-): Promise<Recipe[] | null> => {
+export const getFilteredRecipes = async (season: string, title?: string) => {
   try {
     const params = new URLSearchParams();
-    params.append("tags[]", "all_year");
-    params.append("tags[]", seasonName);
+
+    if (season && season !== "all_year") {
+      params.append("tags[]", season);
+    } else {
+      params.append("tags[]", "all_year");
+    }
+
     if (title) {
       params.append("title", encodeURIComponent(title));
     }
 
-    const url = `${process.env.BACKEND_URL}/api/recipe?${params.toString()}`;
-    const response = await fetch(url);
+    const response = await fetch(
+      `${process.env.BACKEND_URL}/api/recipe?${params.toString()}`,
+    );
     const data = await response.json();
 
     if (!response.ok) {
-      throw new Error(
-        data.message || "Fehler beim Laden der gefilterten Rezepte",
-      );
+      throw new Error(data.message || "Fehler beim Laden der Rezepte");
     }
 
-    if (!Array.isArray(data)) {
-      console.error("Erwartetes Array von Rezepten nicht erhalten:", data);
-      return null;
-    }
-
-    return data;
+    return Array.isArray(data) ? data : [];
   } catch (error) {
-    console.error("Fehler beim Laden der gefilterten Rezepte:", error);
-    return null;
+    console.error("Fehler beim Laden der Rezepte:", error);
+    return [];
   }
 };
