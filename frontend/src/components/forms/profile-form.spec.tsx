@@ -42,7 +42,13 @@ describe("ProfileForm", () => {
   test("should render the form with default values", () => {
     render(
       <SessionProvider session={null}>
-        <ProfileForm user={user} image={image} />
+        <ProfileForm
+          user={user}
+          image={image}
+          onImageUpdate={() => {}}
+          setUserData={() => {}}
+          onUserUpdate={() => {}}
+        />
       </SessionProvider>,
     );
 
@@ -58,7 +64,13 @@ describe("ProfileForm", () => {
 
     render(
       <SessionProvider session={null}>
-        <ProfileForm user={user} image={undefined} />
+        <ProfileForm
+          user={user}
+          image={undefined}
+          onImageUpdate={() => {}}
+          setUserData={() => {}}
+          onUserUpdate={() => {}}
+        />
       </SessionProvider>,
     );
 
@@ -94,8 +106,13 @@ describe("ProfileForm", () => {
   test("should not submit the form if there are no changes", async () => {
     render(
       <SessionProvider session={null}>
-        {" "}
-        <ProfileForm user={user} image={image} />
+        <ProfileForm
+          user={user}
+          image={image}
+          onImageUpdate={() => {}}
+          setUserData={() => {}}
+          onUserUpdate={() => {}}
+        />
       </SessionProvider>,
     );
 

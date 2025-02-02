@@ -6,7 +6,6 @@ import Cross from "@/assets/icons/cross.svg";
 import { Typography } from "../ui/typography";
 import { getCurrentSeason, getSeasonColor } from "@/utils/SeasonUtils";
 import CardListWrapper from "../card-list.tsx/card-list-wrapper";
-import { RegisterBanner } from "../banner/register-banner";
 import {
   Select,
   SelectContent,
@@ -32,7 +31,6 @@ const seasons = [
 
 const FilterBar = ({ title = "" }: FilterBarProps) => {
   const seasonalColor = getSeasonColor();
-  const [showRegisterBanner, setShowRegisterBanner] = useState(false);
   const router = useRouter();
   const searchParams = useSearchParams();
 
@@ -50,10 +48,6 @@ const FilterBar = ({ title = "" }: FilterBarProps) => {
     router.push(`/recipes?${params.toString()}`, { scroll: false });
   }, [inputValue, selectedSeason]);
 
-  const handleCloseBanner = () => {
-    setShowRegisterBanner(false);
-  };
-
   return (
     <CardListWrapper className="mb-4 flex cursor-pointer justify-between gap-2 max-[640px]:mt-8 min-[640px]:pl-6 min-[640px]:pr-7">
       {/* Saison-Filter */}
@@ -64,16 +58,17 @@ const FilterBar = ({ title = "" }: FilterBarProps) => {
       >
         <SelectTrigger
           className={`relative w-fit border-b-2 border-${seasonalColor} inline-flex items-center justify-center gap-2 rounded-t-md border-x-0 px-2 data-[state=open]:bg-${seasonalColor}-light focus:outline-none hover:bg-${seasonalColor}-light rounded-t-md`}
+          data-testid="season-select-trigger"
         >
           <Typography
-            variant="small"
+            variant="body"
             className="flex items-center justify-center gap-1 font-figtreeRegular"
           >
             {selectedSeason ? (
               <>
                 <Heart
-                  width={20}
-                  height={20}
+                  width={25}
+                  height={25}
                   color={
                     seasons.find((s) => s.value === selectedSeason)?.color ||
                     "sfblack"
@@ -96,7 +91,7 @@ const FilterBar = ({ title = "" }: FilterBarProps) => {
               <SelectItem
                 key={season.value}
                 value={season.value}
-                className={`cursor-pointer hover:bg-${seasonalColor}-light rounded px-2 py-1.5 outline-none data-[highlighted]:bg-${seasonalColor}-light flex items-center gap-2 data-[highlighted]:text-sfblack`}
+                className={`cursor-pointer font-figtreeRegular hover:bg-${seasonalColor}-light rounded px-2 py-1.5 outline-none data-[highlighted]:bg-${seasonalColor}-light flex items-center gap-2 data-[highlighted]:text-sfblack`}
               >
                 <Heart width={20} height={20} color={season.color} />
                 {season.label}
@@ -137,23 +132,6 @@ const FilterBar = ({ title = "" }: FilterBarProps) => {
           </button>
         )}
       </form>
-
-      {showRegisterBanner && (
-        <div className="fixed left-1/2 top-1/2 z-50 -translate-x-1/2">
-          <RegisterBanner
-            content={
-              <>
-                erstelle deine eigene
-                <br />
-                Rezeptesammlung!
-              </>
-            }
-            label="anmelden"
-            showCloseBtn={true}
-            onClose={handleCloseBanner}
-          />
-        </div>
-      )}
     </CardListWrapper>
   );
 };

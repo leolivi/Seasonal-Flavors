@@ -1,8 +1,7 @@
 import React from "react";
-import { render, screen, fireEvent, act } from "@testing-library/react";
+import { render, screen, fireEvent } from "@testing-library/react";
 import { SessionProvider } from "next-auth/react";
 import FilterBar from "./filter-bar";
-import { dataFetch, dataFetchWithToken } from "@/utils/data-fetch";
 import { Session } from "next-auth";
 
 jest.mock("src/assets/icons/magnifier.svg", () => {
@@ -10,16 +9,12 @@ jest.mock("src/assets/icons/magnifier.svg", () => {
   MagnifierMock.displayName = "MagnifierMock";
   return MagnifierMock;
 });
-jest.mock("src/assets/icons/bookmark.svg", () => {
-  const BookmarkMock = () => <span>Bookmark</span>;
-  BookmarkMock.displayName = "BookmarkMock";
-  return BookmarkMock;
-});
 
-jest.mock("@/utils/data-fetch", () => ({
-  dataFetchWithToken: jest.fn(),
-  dataFetch: jest.fn(),
-}));
+jest.mock("src/assets/icons/cross.svg", () => {
+  const CrossMock = () => <span>Cross</span>;
+  CrossMock.displayName = "CrossMock";
+  return CrossMock;
+});
 
 jest.mock("next/navigation", () => ({
   useRouter: () => ({
@@ -27,11 +22,9 @@ jest.mock("next/navigation", () => ({
     replace: jest.fn(),
     prefetch: jest.fn(),
   }),
+  useSearchParams: () => new URLSearchParams(),
   usePathname: jest.fn(() => "/"),
 }));
-
-const mockOnShowFavorites = jest.fn();
-const mockOnHideFavorites = jest.fn();
 
 describe("FilterBar Component", () => {
   beforeEach(() => {
@@ -58,131 +51,39 @@ describe("FilterBar Component", () => {
     );
   };
 
-  test("renders with default title", () => {
-    renderWithSession(
-      <FilterBar
-        title="Default Title"
-        onShowFavorites={mockOnShowFavorites}
-        onHideFavorites={mockOnHideFavorites}
-      />,
-      mockSession,
-    );
+  test("should render with default title", () => {
+    renderWithSession(<FilterBar title="Default Title" />, mockSession);
     expect(screen.getByPlaceholderText("suchen")).toBeInTheDocument();
-    expect(screen.getByText("Favoriten")).toBeInTheDocument();
   });
 
-  test("updates input value on change", () => {
-    renderWithSession(
-      <FilterBar
-        onShowFavorites={mockOnShowFavorites}
-        onHideFavorites={mockOnHideFavorites}
-      />,
-      mockSession,
-    );
+  test("should update input value on change", () => {
+    renderWithSession(<FilterBar />, mockSession);
     const input = screen.getByPlaceholderText("suchen");
 
     fireEvent.change(input, { target: { value: "New Input" } });
     expect(input).toHaveValue("New Input");
   });
 
-  test("clears input when clear button is clicked", () => {
-    renderWithSession(
-      <FilterBar
-        onShowFavorites={mockOnShowFavorites}
-        onHideFavorites={mockOnHideFavorites}
-      />,
-      mockSession,
-    );
+  test("should clear input when clear button is clicked", () => {
+    renderWithSession(<FilterBar />, mockSession);
     const input = screen.getByPlaceholderText("suchen");
 
     fireEvent.change(input, { target: { value: "Some Input" } });
     expect(input).toHaveValue("Some Input");
 
     const clearButton = screen.getByTestId("clear-button");
-
     fireEvent.click(clearButton);
     expect(input).toHaveValue("");
   });
 
-  test("calls onShowFavorites when favorites button is clicked (activate favorites)", async () => {
-    (dataFetchWithToken as jest.Mock)
-      .mockResolvedValueOnce({ id: 1 })
-      .mockResolvedValueOnce([{ id: 1, title: "Recipe 1" }]);
-    (dataFetch as jest.Mock).mockResolvedValue([]);
+  test("filter should select a season and updates the URL", async () => {
+    renderWithSession(<FilterBar />, mockSession);
+    const selectTrigger = screen.getByTestId("season-select-trigger");
 
-    renderWithSession(
-      <FilterBar
-        onShowFavorites={mockOnShowFavorites}
-        onHideFavorites={mockOnHideFavorites}
-      />,
-      mockSession,
-    );
+    fireEvent.click(selectTrigger);
+    const seasonOption = screen.getByText("Sommer");
+    fireEvent.click(seasonOption);
 
-    const favoritesButton = screen.getByText("Favoriten");
-    await act(async () => {
-      fireEvent.click(favoritesButton);
-    });
-
-    expect(mockOnShowFavorites).toHaveBeenCalled();
-    expect(mockOnHideFavorites).not.toHaveBeenCalled();
-  });
-
-  test("calls onHideFavorites when favorites button is clicked again (deactivate favorites)", async () => {
-    (dataFetchWithToken as jest.Mock)
-      .mockResolvedValueOnce({ id: 1 })
-      .mockResolvedValueOnce([{ id: 1, title: "Recipe 1" }]);
-    (dataFetch as jest.Mock).mockResolvedValue([]);
-
-    renderWithSession(
-      <FilterBar
-        onShowFavorites={mockOnShowFavorites}
-        onHideFavorites={mockOnHideFavorites}
-      />,
-      mockSession,
-    );
-
-    const favoritesButton = screen.getByText("Favoriten");
-
-    await act(async () => {
-      fireEvent.click(favoritesButton);
-    });
-    expect(mockOnShowFavorites).toHaveBeenCalledTimes(1);
-
-    await act(async () => {
-      fireEvent.click(favoritesButton);
-    });
-    expect(mockOnHideFavorites).toHaveBeenCalledTimes(1);
-  });
-
-  test("disables favorites functionality when session is missing", async () => {
-    renderWithSession(
-      <FilterBar
-        onShowFavorites={mockOnShowFavorites}
-        onHideFavorites={mockOnHideFavorites}
-      />,
-      null,
-    );
-
-    const favoritesButton = screen.getByText("Favoriten");
-
-    fireEvent.click(favoritesButton);
-
-    expect(mockOnShowFavorites).not.toHaveBeenCalled();
-  });
-
-  test("shows register banner when session is missing", async () => {
-    renderWithSession(
-      <FilterBar
-        onShowFavorites={mockOnShowFavorites}
-        onHideFavorites={mockOnHideFavorites}
-      />,
-      null,
-    );
-
-    const favoritesButton = screen.getByText("Favoriten");
-    fireEvent.click(favoritesButton);
-
-    expect(screen.getByText(/erstelle deine eigene/i)).toBeInTheDocument();
-    expect(mockOnShowFavorites).not.toHaveBeenCalled();
+    expect(selectTrigger).toHaveTextContent("Sommer");
   });
 });

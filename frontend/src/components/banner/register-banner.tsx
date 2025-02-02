@@ -31,7 +31,11 @@ export const RegisterBanner = ({
 
   // Function to handle button click, navigating to the login page
   const handleClick = () => {
-    router.push("/session?form=register");
+    if (label === "jetzt registrieren") {
+      router.push("/session?form=register");
+    } else {
+      router.push("/session?form=login");
+    }
   };
 
   return (
