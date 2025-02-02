@@ -24,7 +24,7 @@ import { getProfileImage } from "@/services/image/imageService";
 import { handleImageDelete } from "@/services/image/imageDelete";
 import { handleImageUpload } from "@/services/image/imageUpload";
 import { handleUserPatch } from "@/services/user/userPatch";
-import { UserData } from "@/services/user/userService";
+import { getCurrentUser, UserData } from "@/services/user/userService";
 
 type ProfileFormProps = {
   user: NonNullable<ProfileCardProps["userData"]>;
@@ -54,6 +54,7 @@ export default function ProfileForm({
       username: user.username || "",
       email: user.email || "",
     },
+    shouldUnregister: true,
   });
 
   useEffect(() => {
@@ -61,7 +62,7 @@ export default function ProfileForm({
       username: user.username || "",
       email: user.email || "",
     });
-  }, [user, form]);
+  }, [user]);
 
   const hasChanges = (data: ProfileSchema) => {
     return (
@@ -131,12 +132,17 @@ export default function ProfileForm({
 
         if (response.errors) {
           setFormErrors(response.errors);
-          response.errors.forEach((error) => {
-            form.setError(error.field as keyof z.infer<typeof profileSchema>, {
-              type: "manual",
-              message: error.message,
-            });
-          });
+          response.errors.forEach(
+            (error: { field: string; message: string }) => {
+              form.setError(
+                error.field as keyof z.infer<typeof profileSchema>,
+                {
+                  type: "manual",
+                  message: error.message,
+                },
+              );
+            },
+          );
         } else if (response.success) {
           const updatedUserData = {
             ...user,
@@ -144,8 +150,10 @@ export default function ProfileForm({
             email: data.email,
           };
 
-          setUserData(updatedUserData);
-          onUserUpdate(updatedUserData);
+          const updatedUser = await getCurrentUser(user.accessToken!);
+          setUserData(updatedUser);
+          onUserUpdate(updatedUserData as UserData);
+
           toast({
             title: "Daten gespeichert",
             description: "Dein Profil wurde erfolgreich angepasst.",

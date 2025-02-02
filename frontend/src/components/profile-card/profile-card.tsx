@@ -5,12 +5,13 @@ import AvatarUpload from "../file-upload/avatar-upload";
 import ProfileForm from "../forms/profile-form";
 import { AuthSession, SessionLoader } from "../auth-session/auth-session";
 import { Button, ButtonSize, ButtonStyle } from "../button/button";
-import { UserData } from "@/services/user/userService";
+import { getCurrentUser, UserData } from "@/services/user/userService";
 import { ImageData, getProfileImage } from "@/services/image/imageService";
 import { handleUserDelete } from "@/services/user/userDelete";
 import { useToast } from "@/hooks/use-toast";
 import { ToastAction } from "@radix-ui/react-toast";
 import { useEffect, useState } from "react";
+import { useSession } from "next-auth/react";
 
 export interface ProfileCardProps {
   userData: UserData | null;
@@ -20,6 +21,7 @@ export default function ProfileCard({
   userData: initialUserData,
 }: ProfileCardProps) {
   const { toast } = useToast();
+  const { data: session } = useSession();
   const [imageData, setImageData] = useState<ImageData | undefined>();
   const [userData, setUserData] = useState<UserData | null>(initialUserData);
 
@@ -35,8 +37,16 @@ export default function ProfileCard({
       }
     };
 
+    const fetchUserData = async () => {
+      if (session?.accessToken) {
+        const fetchedUserData = await getCurrentUser(session.accessToken);
+        setUserData(fetchedUserData);
+      }
+    };
+
     fetchImage();
-  }, [userData?.id]);
+    fetchUserData();
+  }, [session]);
 
   const handleImageUpdate = (newImageData: ImageData | undefined) => {
     setImageData(newImageData);

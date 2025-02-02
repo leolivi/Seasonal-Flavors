@@ -1,4 +1,4 @@
-import { getCurrentUser, UserData } from "./userService";
+import { UserData } from "./userService";
 
 interface HandleUserPatchParams {
   data: Partial<Pick<UserData, "id" | "username" | "email">>;
@@ -16,72 +16,33 @@ export const handleUserPatch = async ({
   toast,
 }: HandleUserPatchParams) => {
   if (!userData) {
-    console.error("Userdaten sind nicht verfügbar");
     return {
-      errors: [
-        { field: "general", message: "Benutzerdaten sind nicht verfügbar" },
-      ],
+      errors: [{ field: "general", message: "Benutzerdaten nicht verfügbar" }],
     };
   }
 
   try {
-    const payload = {
-      id: data.id,
-      username: data.username,
-      email: data.email,
-    };
-
     const response = await fetch("/api/edit-user", {
       method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-      },
+      headers: { "Content-Type": "application/json" },
       cache: "no-store",
-      body: JSON.stringify(payload),
+      body: JSON.stringify(data),
     });
 
     const responseData = await response.json();
 
     if (!response.ok) {
-      const errors = responseData.errors || {};
-      const errorMessages = Object.entries(errors).map(([field, messages]) => ({
-        field,
-        message: Array.isArray(messages)
-          ? messages.join(", ")
-          : String(messages),
-      }));
-
-      return {
-        errors:
-          errorMessages.length > 0
-            ? errorMessages
-            : [
-                {
-                  field: "general",
-                  message:
-                    responseData.message ||
-                    "Ein unbekannter Fehler ist aufgetreten",
-                },
-              ],
-      };
+      return { errors: responseData.errors || [] };
     }
 
     toast({
       variant: "default",
       title: "Erfolgreich!",
-      description: "Der User wurde erfolgreich aktualisiert.",
+      description: "Dein Profil wurde aktualisiert.",
     });
 
-    const updatedUser = await getCurrentUser(userData.accessToken!);
-    return {
-      success: true,
-      updatedUser,
-    };
-
-    // router.push("/profile");
     return { success: true };
   } catch (error) {
-    console.error("Rezept-Aktualisierung fehlgeschlagen:", error);
     return {
       errors: [
         {
