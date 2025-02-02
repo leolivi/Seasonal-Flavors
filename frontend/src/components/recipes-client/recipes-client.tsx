@@ -8,6 +8,7 @@ import { LayoutOptions } from "@/utils/layout-options";
 import { Recipe } from "@/services/recipe/recipeService";
 import InfinityScroll from "../infinity-scroll/infinity-scroll";
 import { useInfiniteScroll } from "@/hooks/use-infinite-scroll";
+import SearchImage from "@/assets/images/search-image.svg";
 
 interface RecipesClientProps {
   formattedCardData: Recipe[];
@@ -37,14 +38,14 @@ const RecipesClient: React.FC<RecipesClientProps> = ({ formattedCardData }) => {
           />
         </InfinityScroll>
       ) : (
-        <div className="flex h-[45vh] w-full flex-col items-center pt-10">
-          <Typography variant="heading3">
-            {/* TODO: Add a nice image */}
+        <div className="flex h-[45vh] w-full flex-col items-center justify-center pt-10">
+          <SearchImage className="h-40 w-full min-[640px]:h-60" />
+          <Typography variant="heading3" className="mt-6">
             <p className="text-sfblack">OOPS!</p>
           </Typography>
           <Typography variant="body">
             <span className="text-sfblack">
-              Wir haben keine Ergebnisse für Ihre Suche gefunden...
+              Diese Suche ist nicht auf unserer Speisekarte...
             </span>
           </Typography>
         </div>

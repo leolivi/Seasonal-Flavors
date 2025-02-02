@@ -10,6 +10,7 @@ import { LayoutOptions } from "@/utils/layout-options";
 import ScrollButton from "../scroll-button/scroll-button";
 import InfinityScroll from "../infinity-scroll/infinity-scroll";
 import { useInfiniteScroll } from "@/hooks/use-infinite-scroll";
+import SearchImage from "@/assets/images/search-image.svg";
 
 const FavoritesClient = () => {
   const { data: session } = useSession();
@@ -19,6 +20,8 @@ const FavoritesClient = () => {
   const { visibleItems, hasMore, loadMore } = useInfiniteScroll({
     items: favorites,
   });
+
+  // TODO: add a loading bar
 
   useEffect(() => {
     const initializeFavorites = async () => {
@@ -62,9 +65,9 @@ const FavoritesClient = () => {
           />
         </InfinityScroll>
       ) : (
-        <div className="flex h-[45vh] w-full flex-col items-center pt-10">
-          <Typography variant="heading3">
-            {/* TODO: Add a nice image */}
+        <div className="flex h-[45vh] w-full flex-col items-center justify-center pt-10">
+          <SearchImage className="h-40 w-full min-[640px]:h-60" />
+          <Typography variant="heading3" className="mt-6">
             <p className="text-sfblack">Keine Favoriten gefunden</p>
           </Typography>
           <Typography variant="body">

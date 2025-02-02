@@ -12,6 +12,7 @@ import foodImage from "@/assets/images/food-image.jpg";
 import { Recipe } from "@/services/recipe/recipeService";
 import { useEffect } from "react";
 import { useRecipesStore } from "@/stores/useRecipesStore";
+import { useRouter } from "next/navigation";
 
 interface User {
   username: string;
@@ -34,7 +35,7 @@ export function RecipePageClient({
   recipeId,
 }: RecipePageClientProps) {
   const { updateRecipe } = useRecipesStore();
-
+  const router = useRouter();
   const storeRecipe = useRecipesStore((state) =>
     state.recipes.find((r) => r.id === recipeId),
   );
@@ -47,6 +48,12 @@ export function RecipePageClient({
       season: seasonArray as unknown as number[],
     });
   }, [recipeDetails, storeRecipe, updateRecipe, seasonArray]);
+
+  const handleSeasonClick = (season: string) => {
+    const params = new URLSearchParams();
+    params.set("season", season);
+    router.push(`/recipes?${params.toString()}`);
+  };
 
   return (
     <div className="px-4 pb-16 pt-8 min-[640px]:p-8 min-[640px]:pb-24">
@@ -75,6 +82,7 @@ export function RecipePageClient({
               size={ButtonSize.SMALL}
               iconLeft={<Heart color={seasonalColor} height={18} width={25} />}
               recipeSeasonColor={seasonalColor}
+              onClick={() => handleSeasonClick(season)}
             />
           );
         })}

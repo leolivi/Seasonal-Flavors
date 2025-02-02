@@ -45,7 +45,7 @@ const FilterBar = ({ title = "" }: FilterBarProps) => {
     if (inputValue) params.set("title", inputValue);
     if (selectedSeason) params.set("season", selectedSeason);
 
-    router.push(`/recipes?${params.toString()}`, { scroll: false });
+    router.push(`/recipes?${params.toString()}`);
   }, [inputValue, selectedSeason]);
 
   return (

@@ -24,7 +24,6 @@ export const RecipeHeader = ({
   recipe,
 }: RecipeHeaderProps) => {
   const router = useRouter();
-  // data: session
   const { status } = useSession();
   const [showRegisterBanner, setShowRegisterBanner] = useState(false);
   const { toggleFavorite } = useFavoritesStore();

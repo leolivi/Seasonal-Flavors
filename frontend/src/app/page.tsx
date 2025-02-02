@@ -55,7 +55,6 @@ const Home = async () => {
           </div>
         </div>
       )}
-      {/* TODO: add an explanation of the seasons here if logged in */}
     </main>
   );
 };
