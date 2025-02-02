@@ -107,6 +107,7 @@ const ProfileDropdown = forwardRef<HTMLDivElement, ProfileDropdownProps>(
           >
             <DropdownMenu.Item
               className={`cursor-pointer font-figtreeRegular hover:bg-${seasonalColor}-light rounded px-2 outline-none data-[highlighted]:bg-${seasonalColor}-light mb-2 flex items-center data-[highlighted]:text-sfblack`}
+              asChild
             >
               <Link href="/profile" className="flex w-full items-center">
                 <IoPersonSharp className="mr-2 h-4 w-4" />
@@ -118,6 +119,7 @@ const ProfileDropdown = forwardRef<HTMLDivElement, ProfileDropdownProps>(
 
             <DropdownMenu.Item
               className={`cursor-pointer font-figtreeRegular hover:bg-${seasonalColor}-light rounded px-2 outline-none data-[highlighted]:bg-${seasonalColor}-light mb-2 flex items-center data-[highlighted]:text-sfblack`}
+              asChild
             >
               <Link href="/favorites" className="flex w-full items-center">
                 <FaBookmark className="mr-2 h-4 w-4" />
@@ -129,6 +131,7 @@ const ProfileDropdown = forwardRef<HTMLDivElement, ProfileDropdownProps>(
 
             <DropdownMenu.Item
               className={`cursor-pointer font-figtreeRegular hover:bg-${seasonalColor}-light rounded px-2 outline-none data-[highlighted]:bg-${seasonalColor}-light mb-2 flex items-center data-[highlighted]:text-sfblack`}
+              asChild
             >
               <Link
                 href="/forgot-password"
