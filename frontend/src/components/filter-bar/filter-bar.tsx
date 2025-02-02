@@ -3,31 +3,27 @@
 import React, { useState, useEffect } from "react";
 import Magnifier from "src/assets/icons/magnifier.svg";
 import Cross from "@/assets/icons/cross.svg";
-import Bookmark from "src/assets/icons/bookmark.svg";
 import { Typography } from "../ui/typography";
 import { getSeasonColor } from "@/utils/SeasonUtils";
-import { useSession } from "next-auth/react";
-import { Recipe } from "@/services/recipe/recipeService";
-import { useFavoritesStore } from "@/stores/useFavoritesStore";
 import CardListWrapper from "../card-list.tsx/card-list-wrapper";
 import { RegisterBanner } from "../banner/register-banner";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@radix-ui/react-select";
 
 interface FilterBarProps {
   title?: string;
-  onShowFavorites: (favorites: Recipe[]) => void;
-  onHideFavorites: () => void;
 }
 
-const FilterBar = ({
-  title = "",
-  onShowFavorites,
-  onHideFavorites,
-}: FilterBarProps) => {
+const FilterBar = ({ title = "" }: FilterBarProps) => {
   const [inputValue, setInputValue] = useState(title);
   const seasonalColor = getSeasonColor();
-  const { data: session } = useSession();
-  const { getDetailedFavorites, isFavoritesActive, setFavoritesActive } =
-    useFavoritesStore();
   const [showRegisterBanner, setShowRegisterBanner] = useState(false);
 
   useEffect(() => {
@@ -38,62 +34,28 @@ const FilterBar = ({
     }
   }, []);
 
-  useEffect(() => {
-    const initializeFavorites = async () => {
-      if (isFavoritesActive && session) {
-        const detailedFavorites = await getDetailedFavorites();
-        onShowFavorites(detailedFavorites);
-      }
-    };
-    initializeFavorites();
-  }, [session]);
-
-  const toggleFavorites = async () => {
-    if (isFavoritesActive) {
-      setFavoritesActive(false);
-      onHideFavorites();
-      return;
-    }
-
-    if (!session) {
-      setShowRegisterBanner(true);
-      return;
-    }
-
-    try {
-      const detailedFavorites = await getDetailedFavorites();
-      onShowFavorites(detailedFavorites);
-      setFavoritesActive(true);
-    } catch (error) {
-      console.error("Error loading detailed favorites:", error);
-    }
-  };
-
   const handleCloseBanner = () => {
     setShowRegisterBanner(false);
   };
 
   return (
-    <CardListWrapper
-      className="mb-4 flex justify-between gap-2 max-[640px]:mt-8 min-[640px]:pl-6 min-[640px]:pr-7"
-      isInFavoriteView={isFavoritesActive}
-      onShowFavorites={onShowFavorites}
-    >
-      {/* Toggle Favorites Button */}
-      <button
-        data-testid="favorites-toggle-button"
-        onClick={toggleFavorites}
-        className={`border-${seasonalColor}-dark flex items-center gap-4 border-b-2 px-8 text-lg font-medium text-sfblack max-[540px]:px-4`}
-      >
-        <Bookmark
-          className={`h-8 w-auto ${
-            isFavoritesActive ? `fill-${seasonalColor}` : `fill-none`
-          }`}
-        />
-        <Typography variant="body">Favoriten</Typography>
-      </button>
+    <CardListWrapper className="mb-4 flex justify-between gap-2 max-[640px]:mt-8 min-[640px]:pl-6 min-[640px]:pr-7">
+      <Select>
+        <SelectTrigger className="w-[180px]">
+          <SelectValue placeholder="Wähle eine Saison" />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectGroup>
+            <SelectLabel>Saisons</SelectLabel>
+            <SelectItem value="apple">Apple</SelectItem>
+            <SelectItem value="banana">Banana</SelectItem>
+            <SelectItem value="blueberry">Blueberry</SelectItem>
+            <SelectItem value="grapes">Grapes</SelectItem>
+            <SelectItem value="pineapple">Pineapple</SelectItem>
+          </SelectGroup>
+        </SelectContent>
+      </Select>
 
-      {/* Search Form */}
       <form
         action="/recipes"
         method="get"

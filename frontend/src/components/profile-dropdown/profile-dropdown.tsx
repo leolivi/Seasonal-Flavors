@@ -115,7 +115,7 @@ const ProfileDropdown = forwardRef<HTMLDivElement, ProfileDropdownProps>(
             </DropdownMenu.Item>
 
             <DropdownMenu.Item className="mb-2 flex items-center gap-2 px-2">
-              <Link href="/recipes" className="flex w-full items-center">
+              <Link href="/favorites" className="flex w-full items-center">
                 <FaBookmark className="mr-2 h-4 w-4" />
                 <Typography variant="small">
                   <span className="text-sfblack">Favoriten</span>

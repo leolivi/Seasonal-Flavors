@@ -1,6 +1,5 @@
 "use client";
-import { useEffect, useState } from "react";
-import { usePathname } from "next/navigation";
+import { useEffect } from "react";
 import CardListWrapper from "@/components/card-list.tsx/card-list-wrapper";
 import ScrollButton from "@/components/scroll-button/scroll-button";
 import { Typography } from "@/components/ui/typography";
@@ -11,8 +10,8 @@ import { UserData } from "@/services/user/userService";
 import NoRecipesImage from "@/assets/images/no-recipes-image.svg";
 import InfinityScroll from "../infinity-scroll/infinity-scroll";
 import { LayoutOptions } from "@/utils/layout-options";
-import useMediaQuery from "@/hooks/use-media-query";
 import { useRecipesStore } from "@/stores/useRecipesStore";
+import { useInfiniteScroll } from "@/hooks/use-infinite-scroll";
 
 interface MyRecipesClientProps {
   cardData: Recipe[];
@@ -23,34 +22,14 @@ const MyRecipesClient: React.FC<MyRecipesClientProps> = ({
   cardData,
   user,
 }) => {
-  const [visibleItems, setVisibleItems] = useState<Recipe[]>([]);
-  const [hasMore, setHasMore] = useState(true);
-  const [isLoading, setIsLoading] = useState(false);
-  const pathname = usePathname();
-  const isDesktop = useMediaQuery("(min-width: 640px)");
+  const { visibleItems, hasMore, loadMore } = useInfiniteScroll({
+    items: cardData,
+  });
   const setRecipes = useRecipesStore((state) => state.setRecipes);
 
   useEffect(() => {
     setRecipes(cardData);
-    const initialItems = isDesktop ? 6 : 3;
-    setVisibleItems(cardData.slice(0, initialItems));
-    setHasMore(cardData.length > initialItems);
-  }, [cardData, pathname, isDesktop, setRecipes]);
-
-  const loadMore = () => {
-    if (!isLoading) {
-      setIsLoading(true);
-      const currentLength = visibleItems.length;
-      const batchSize = isDesktop ? 6 : 3;
-      const more = cardData.slice(currentLength, currentLength + batchSize);
-
-      requestAnimationFrame(() => {
-        setVisibleItems((prev) => [...prev, ...more]);
-        setHasMore(currentLength + more.length < cardData.length);
-        setIsLoading(false);
-      });
-    }
-  };
+  }, [cardData, setRecipes]);
 
   return (
     <div className="m-4">
