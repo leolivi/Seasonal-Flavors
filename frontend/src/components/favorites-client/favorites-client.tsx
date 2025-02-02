@@ -1,5 +1,4 @@
 "use client";
-
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import { Recipe } from "@/services/recipe/recipeService";
@@ -11,34 +10,43 @@ import ScrollButton from "../scroll-button/scroll-button";
 import InfinityScroll from "../infinity-scroll/infinity-scroll";
 import { useInfiniteScroll } from "@/hooks/use-infinite-scroll";
 import SearchImage from "@/assets/images/search-image.svg";
+import { SessionLoader } from "../auth-session/auth-session";
 
 const FavoritesClient = () => {
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
   const [favorites, setFavorites] = useState<Recipe[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
   const { loadFavorites, getDetailedFavorites } = useFavoritesStore();
-
   const { visibleItems, hasMore, loadMore } = useInfiniteScroll({
     items: favorites,
   });
 
-  // TODO: add a loading bar
-
   useEffect(() => {
     const initializeFavorites = async () => {
       if (session?.accessToken) {
-        await loadFavorites(session.accessToken);
-        const detailedFavorites = await getDetailedFavorites();
-        setFavorites(detailedFavorites);
+        setIsLoading(true);
+        try {
+          await loadFavorites(session.accessToken);
+          const detailedFavorites = await getDetailedFavorites();
+          setFavorites(detailedFavorites);
+        } catch (error) {
+          console.error("Failed to load favorites:", error);
+        } finally {
+          setIsLoading(false);
+        }
       }
     };
 
     initializeFavorites();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [session]);
+  }, [session, loadFavorites, getDetailedFavorites]);
 
   const onShowFavorites = async (updatedFavorites: Recipe[]) => {
     setFavorites(updatedFavorites);
   };
+
+  if (status === "loading" || isLoading) {
+    return <SessionLoader />;
+  }
 
   return (
     <div className="m-4">
@@ -48,7 +56,6 @@ const FavoritesClient = () => {
           <h1>meine Favoriten</h1>
         </Typography>
       </div>
-
       {favorites.length > 0 ? (
         <InfinityScroll
           loadMore={loadMore}

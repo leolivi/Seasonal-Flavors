@@ -29,7 +29,7 @@ const seasons = [
   { label: "ganzjährig", value: "all_year", color: "sfblack" },
 ];
 
-const FilterBar = ({ title = "" }: FilterBarProps) => {
+const FilterBar = () => {
   const seasonalColor = getSeasonColor();
   const router = useRouter();
   const searchParams = useSearchParams();
