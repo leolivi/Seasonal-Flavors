@@ -1,32 +1,23 @@
 import { useState } from "react";
+import { handleFavoriteRecipe } from "@/services/user/favoriteCreate";
+import { useToast } from "./use-toast";
 
+// TODO: delete this file or the store -- tbd
 export const useAddFavorite = () => {
   const [isFavoriting, setIsFavoriting] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const { toast } = useToast();
 
   const addFavorite = async (recipeId: number) => {
     setIsFavoriting(true);
     setError(null);
-    try {
-      // TODO: outsource
-      const response = await fetch(
-        `${process.env.BACKEND_URL}/api/recipes/${recipeId}/favorite`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        },
-      );
-      if (!response.ok) {
-        throw new Error("Error favoriting recipe");
-      }
-    } catch (err) {
-      console.error(err);
+
+    const success = await handleFavoriteRecipe({ recipeId, toast });
+    if (!success) {
       setError("Failed to add to favorites");
-    } finally {
-      setIsFavoriting(false);
     }
+
+    setIsFavoriting(false);
   };
 
   return { addFavorite, isFavoriting, error };

@@ -23,7 +23,7 @@ import { handleImageDelete } from "@/services/image/imageDelete";
 import { handleImageUpload } from "@/services/image/imageUpload";
 import { handleRecipePatch } from "@/services/recipe/recipePatch";
 import { getRecipeImage } from "@/services/image/imageService";
-import { useRecipesStore } from "@/stores/useRecipesStore";
+import { useRecipes } from "@/hooks/use-recipes";
 
 interface FormField {
   name: keyof EditRecipeSchema;
@@ -45,7 +45,7 @@ export default function EditRecipeForm({
   user,
 }: EditRecipeFormProps) {
   const router = useRouter();
-  const updateRecipe = useRecipesStore((state) => state.updateRecipe);
+  const { updateRecipe } = useRecipes();
   const [editorContent, setEditorContent] = useState<
     ProseMirrorNode | undefined
   >(undefined);
@@ -134,6 +134,7 @@ export default function EditRecipeForm({
       toast,
       router,
       userData: user,
+      updateRecipe,
     });
 
     if (updatedRecipe) {

@@ -11,7 +11,7 @@ import { getSeasonColor, translateSeason } from "@/utils/SeasonUtils";
 import foodImage from "@/assets/images/food-image.jpg";
 import { Recipe } from "@/services/recipe/recipeService";
 import { useEffect } from "react";
-import { useRecipesStore } from "@/stores/useRecipesStore";
+import { useRecipes } from "@/hooks/use-recipes";
 import { useRouter } from "next/navigation";
 
 interface User {
@@ -34,20 +34,22 @@ export function RecipePageClient({
   seasonArray,
   recipeId,
 }: RecipePageClientProps) {
-  const { updateRecipe } = useRecipesStore();
+  const { recipes, setRecipes } = useRecipes();
   const router = useRouter();
-  const storeRecipe = useRecipesStore((state) =>
-    state.recipes.find((r) => r.id === recipeId),
-  );
+  const currentRecipe = recipes.find((r) => r.id === recipeId);
 
-  const displayRecipe = storeRecipe || recipeDetails;
+  const displayRecipe = currentRecipe || recipeDetails;
 
   useEffect(() => {
-    updateRecipe({
-      ...recipeDetails,
-      season: seasonArray as unknown as number[],
-    });
-  }, [recipeDetails, storeRecipe, updateRecipe, seasonArray]);
+    if (!currentRecipe) {
+      setRecipes([
+        {
+          ...recipeDetails,
+          season: seasonArray as unknown as number[],
+        },
+      ]);
+    }
+  }, [recipeDetails, setRecipes, seasonArray, currentRecipe]);
 
   const handleSeasonClick = (season: string) => {
     const params = new URLSearchParams();

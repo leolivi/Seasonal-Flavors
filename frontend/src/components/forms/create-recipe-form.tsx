@@ -18,6 +18,7 @@ import { IngredientInput } from "../create-recipe-input/ingredient-input";
 import { handleCreateRecipe } from "@/services/recipe/recipeCreate";
 import { UserData } from "@/services/user/userService";
 import { handleImageUpload } from "@/services/image/imageUpload";
+import { useRecipes } from "@/hooks/use-recipes";
 
 interface FormField {
   name: keyof CreateRecipeSchema;
@@ -37,6 +38,7 @@ export default function CreateRecipeForm({
   user,
 }: CreateRecipeFormProps) {
   const router = useRouter();
+  const { addRecipe } = useRecipes();
   const [editorContent, setEditorContent] = useState<
     ProseMirrorNode | undefined
   >(undefined);
@@ -68,6 +70,7 @@ export default function CreateRecipeForm({
       userData: user,
       toast,
       router,
+      addRecipe,
     });
 
     if (recipeId && coverImage) {

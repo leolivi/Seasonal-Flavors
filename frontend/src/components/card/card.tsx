@@ -14,7 +14,7 @@ import { ToastAction } from "@radix-ui/react-toast";
 import { UserData } from "@/services/user/userService";
 import { handleImageDelete } from "@/services/image/imageDelete";
 import { handleRecipeDelete } from "@/services/recipe/recipeDelete";
-import { useRecipesStore } from "@/stores/useRecipesStore";
+import { useRecipes } from "@/hooks/use-recipes";
 
 interface ExtendedRecipeProps extends Recipe {
   showDetail?: boolean;
@@ -38,8 +38,11 @@ export default function Card({
   const [imageData, setImageData] = useState<ImageData | undefined>();
   const router = useRouter();
   const { toast } = useToast();
-  const setRecipes = useRecipesStore((state) => state.setRecipes);
-  const recipes = useRecipesStore((state) => state.recipes);
+  const {
+    recipes,
+    setRecipes,
+    deleteRecipe: deleteRecipeFromHook,
+  } = useRecipes();
 
   useEffect(() => {
     const fetchImageData = async () => {
@@ -59,7 +62,7 @@ export default function Card({
           .map((season: string) => getSeasonColor(season.trim()))
       : [];
 
-  const deleteRecipe = async () => {
+  const handleDelete = async () => {
     if (props.id && imageData?.id) {
       const imageDeleted = await handleImageDelete(
         props.id,
@@ -68,13 +71,18 @@ export default function Card({
       );
 
       if (imageDeleted === true) {
-        const recipeDeleted = await handleRecipeDelete(props.id, toast, router);
+        const recipeDeleted = await handleRecipeDelete(
+          props.id,
+          toast,
+          router,
+          deleteRecipeFromHook,
+        );
+
         if (recipeDeleted) {
           const updatedRecipes = recipes.filter(
             (recipe) => recipe.id !== props.id,
           );
           setRecipes(updatedRecipes);
-          router.refresh();
         }
       } else {
         toast({
@@ -155,7 +163,7 @@ export default function Card({
                 description: "Möchtest du dieses Rezept wirklich löschen?",
                 action: (
                   <ToastAction
-                    onClick={deleteRecipe}
+                    onClick={handleDelete}
                     altText="Rezept löschen bestätigen"
                   >
                     Löschen

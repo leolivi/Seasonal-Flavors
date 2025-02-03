@@ -9,7 +9,7 @@ import { useRouter, usePathname } from "next/navigation";
 import { useToast } from "@/hooks/use-toast";
 import { useFavoritesStore } from "@/stores/useFavoritesStore";
 import { UserData } from "@/services/user/userService";
-import { useRecipesStore } from "@/stores/useRecipesStore";
+import { useRecipes } from "@/hooks/use-recipes";
 
 interface CardListWrapperProps {
   cardData?: Recipe[];
@@ -42,8 +42,7 @@ const CardListWrapper = ({
   const [showRegisterBanner, setShowRegisterBanner] = useState(false);
   const { toast } = useToast();
   const { loadFavorites, toggleFavorite } = useFavoritesStore();
-  const recipes = useRecipesStore((state) => state.recipes);
-  const setRecipes = useRecipesStore((state) => state.setRecipes);
+  const { recipes, setRecipes } = useRecipes();
 
   const isMyRecipesPage = pathname === "/my-recipes";
   const isRecipesPage = pathname === "/recipes";

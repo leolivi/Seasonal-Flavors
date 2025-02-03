@@ -1,7 +1,6 @@
 import { Recipe } from "./recipeService";
 import { UserData } from "../user/userService";
 import { TagData } from "../tag/tagService";
-import { useRecipesStore } from "@/stores/useRecipesStore";
 
 type CreateRecipeInput = Omit<Recipe, "id" | "user_id"> & {
   tags: TagData["id"][];
@@ -12,6 +11,7 @@ export const handleCreateRecipe = async ({
   userData,
   toast,
   router,
+  addRecipe,
 }: {
   data: CreateRecipeInput;
   userData: UserData;
@@ -23,6 +23,7 @@ export const handleCreateRecipe = async ({
   router: {
     push: (path: string) => void;
   };
+  addRecipe: (recipe: Recipe) => void;
 }) => {
   if (!userData) {
     console.error("Benutzerdaten sind nicht verfügbar");
@@ -59,7 +60,7 @@ export const handleCreateRecipe = async ({
     const recipeId = responseData.recipe?.id;
 
     if (responseData.recipe) {
-      useRecipesStore.getState().addRecipe(responseData.recipe);
+      addRecipe(responseData.recipe);
     }
 
     toast({

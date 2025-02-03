@@ -1,5 +1,3 @@
-import { useRecipesStore } from "@/stores/useRecipesStore";
-
 export const handleRecipeDelete = async (
   recipeId: number,
   toast: (options: {
@@ -10,6 +8,7 @@ export const handleRecipeDelete = async (
   router: {
     push: (path: string) => void;
   },
+  deleteRecipe: (id: number) => void,
 ) => {
   if (!recipeId) {
     console.error("Keine Rezept-ID angegeben");
@@ -32,8 +31,7 @@ export const handleRecipeDelete = async (
       throw new Error(data.message || "Recipe deletion failed");
     }
 
-    // TODO: optimize delete process
-    useRecipesStore.getState().deleteRecipe(recipeId);
+    deleteRecipe(recipeId);
 
     toast({
       variant: "default",
