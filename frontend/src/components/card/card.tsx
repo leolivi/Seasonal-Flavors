@@ -83,6 +83,7 @@ export default function Card({
             (recipe) => recipe.id !== props.id,
           );
           setRecipes(updatedRecipes);
+          // router.refresh();
         }
       } else {
         toast({

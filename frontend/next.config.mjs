@@ -48,6 +48,12 @@ const nextConfig = {
 
     return config;
   },
+  // logging: {
+  //   fetches: {
+  //     fullUrl: true,
+  //     hmrRefreshes: true,
+  //   },
+  // },
 };
 
 export default nextConfig;

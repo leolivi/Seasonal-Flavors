@@ -4,6 +4,8 @@ import { getRecipeDetail } from "@/utils/recipeDetail";
 import { getRecipeTags } from "@/services/tag/tagService";
 import MyRecipesClient from "@/components/my-recipes-client/my-recipes-client";
 
+export const dynamic = "force-dynamic";
+
 const MyRecipesPage = async () => {
   const user = await getAuthenticatedUser();
 

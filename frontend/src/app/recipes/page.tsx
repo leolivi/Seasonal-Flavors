@@ -4,6 +4,8 @@ import { getFilteredRecipes, Recipe } from "@/services/recipe/recipeService";
 import { getRecipeTags } from "@/services/tag/tagService";
 import { getCurrentSeason } from "@/utils/SeasonUtils";
 
+export const dynamic = "force-dynamic";
+
 const RecipesPage = async ({
   searchParams,
 }: {

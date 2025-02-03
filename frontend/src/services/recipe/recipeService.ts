@@ -26,6 +26,7 @@ export const getSeasonalRecipes = async () => {
 
     const response = await fetch(
       `${process.env.BACKEND_URL}/api/recipe?${params.toString()}`,
+      { cache: "no-store" },
     );
     const data = await response.json();
 
@@ -46,6 +47,7 @@ export const getRecipe = async (recipeId: number): Promise<Recipe | null> => {
   try {
     const response = await fetch(
       `${process.env.BACKEND_URL}/api/recipe?id=${recipeId}`,
+      { cache: "no-store" },
     );
 
     const data = await response.json();
@@ -71,6 +73,7 @@ export const getUserRecipes = async (
   try {
     const response = await fetch(
       `${process.env.BACKEND_URL}/api/recipe?user_id=${userId}`,
+      { cache: "no-store" },
     );
     const data = await response.json();
 
@@ -106,6 +109,7 @@ export const getFilteredRecipes = async (season: string, title?: string) => {
 
     const response = await fetch(
       `${process.env.BACKEND_URL}/api/recipe?${params.toString()}`,
+      { cache: "no-store" },
     );
     const data = await response.json();
 

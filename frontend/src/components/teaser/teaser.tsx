@@ -30,8 +30,8 @@ export default function Teaser() {
       <ImageContainer
         fallbackSrc={foodImage}
         alt="Leckeres Essen"
-        width={500}
-        height={300}
+        width={1500}
+        height={1000}
         priority
       />
       <SeasonAnimation />

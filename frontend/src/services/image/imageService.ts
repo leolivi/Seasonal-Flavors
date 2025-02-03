@@ -6,7 +6,9 @@ export interface ImageData {
 
 export const getRecipeImage = async (recipeId: number) => {
   try {
-    const response = await fetch(`/api/get-recipe-image?recipe_id=${recipeId}`);
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_APP_URL}/api/get-image?type=recipe&recipe_id=${recipeId}`,
+    );
 
     const data = await response.json();
 
@@ -27,7 +29,9 @@ export const getRecipeImage = async (recipeId: number) => {
 
 export const getProfileImage = async (userId: number) => {
   try {
-    const response = await fetch(`/api/get-profile-image?user_id=${userId}`);
+    const response = await fetch(
+      `/api/get-image?type=profile&user_id=${userId}`,
+    );
 
     const data = await response.json();
 
