@@ -68,11 +68,14 @@ export default function Card({
       );
 
       if (imageDeleted === true) {
-        await handleRecipeDelete(props.id, toast, router);
-        const updatedRecipes = recipes.filter(
-          (recipe) => recipe.id !== props.id,
-        );
-        setRecipes(updatedRecipes);
+        const recipeDeleted = await handleRecipeDelete(props.id, toast, router);
+        if (recipeDeleted) {
+          const updatedRecipes = recipes.filter(
+            (recipe) => recipe.id !== props.id,
+          );
+          setRecipes(updatedRecipes);
+          router.refresh();
+        }
       } else {
         toast({
           variant: "destructive",

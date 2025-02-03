@@ -9,6 +9,8 @@ import { Recipe } from "@/services/recipe/recipeService";
 import InfinityScroll from "../infinity-scroll/infinity-scroll";
 import { useInfiniteScroll } from "@/hooks/use-infinite-scroll";
 import SearchImage from "@/assets/images/search-image.svg";
+import { useEffect } from "react";
+import { useRecipesStore } from "@/stores/useRecipesStore";
 
 interface RecipesClientProps {
   formattedCardData: Recipe[];
@@ -18,6 +20,11 @@ const RecipesClient: React.FC<RecipesClientProps> = ({ formattedCardData }) => {
   const { visibleItems, hasMore, loadMore } = useInfiniteScroll({
     items: formattedCardData,
   });
+  const setRecipes = useRecipesStore((state) => state.setRecipes);
+
+  useEffect(() => {
+    setRecipes(formattedCardData);
+  }, [formattedCardData, setRecipes]);
 
   return (
     <div className="m-4">

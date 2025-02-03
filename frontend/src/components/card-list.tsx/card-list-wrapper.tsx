@@ -61,8 +61,7 @@ const CardListWrapper = ({
         setRecipes(cardData);
       }
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [cardData, isMyRecipesPage, isRecipesPage]);
+  }, [cardData, isMyRecipesPage, isRecipesPage, setRecipes]);
 
   const handleBookmarkClick = async (e: React.MouseEvent, recipeId: number) => {
     e.preventDefault();

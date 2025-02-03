@@ -1,5 +1,6 @@
 import { authConfig } from "@/auth";
 import { getServerSession } from "next-auth";
+import { revalidatePath } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function DELETE(
@@ -32,6 +33,10 @@ export async function DELETE(
         { status: response.status },
       );
     }
+
+    revalidatePath("/my-recipes");
+    revalidatePath("/recipes");
+    revalidatePath(`/recipes/${recipeId}`);
 
     const data = await response.json();
     return NextResponse.json(
