@@ -53,7 +53,7 @@ export const Button: React.FC<ButtonProps> = ({
   };
 
   const sizeClasses = {
-    [ButtonSize.SMALL]: "text-sm my-6 px-4 py-2",
+    [ButtonSize.SMALL]: "text-sm my-6 px-4 py-3",
     [ButtonSize.XS]: "text-xs my-2 px-2 py-1",
     [ButtonSize.LARGE]: "text-lg px-6 py-3 my-10",
   };

@@ -173,9 +173,13 @@ export default function EditRecipeForm({
           layout="column"
           onFileChange={(fieldName: string, file: File | null) => {
             if (fieldName === "cover_image") {
-              setCoverImage(file);
+              if (file !== null) {
+                setCoverImage(file);
+              }
             }
-            form.setValue(fieldName as keyof EditRecipeSchema, file);
+            if (file !== null) {
+              form.setValue(fieldName as keyof EditRecipeSchema, file);
+            }
             form.trigger(fieldName as keyof EditRecipeSchema);
           }}
         />

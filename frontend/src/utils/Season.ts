@@ -22,7 +22,7 @@ class Season {
     }
   }
 
-  // Hardcoded season for testing -> leave this in for testing!!
+  // --- !! Hardcoded season --> leave this in for testing reasons !! --- //
   // public static getSeason(): string {
   //   return "winter";
   // }
