@@ -40,12 +40,18 @@ const Header = () => {
   const seasonalColor = getSeasonColor();
   const [isOpen, setIsOpen] = useState(false);
   const [userData, setUserData] = useState<UserData | null>(null);
+  const [isMounted, setIsMounted] = useState(false);
   const isDesktop = useMediaQuery("(min-width: 730px)");
   const pathname = usePathname();
   const ref = useRef<HTMLDivElement>(null);
   const profileRef = useRef<HTMLDivElement>(null);
 
   const toggleDropdown = () => setIsOpen(!isOpen);
+
+  // useEffect für das Mounting
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   // Fetch the user profile image data once authenticated
   useEffect(() => {
@@ -122,6 +128,11 @@ const Header = () => {
       label: "Home",
       href: "/",
     });
+  }
+
+  // Render nichts, bis die Komponente gemounted ist
+  if (!isMounted) {
+    return null;
   }
 
   return (

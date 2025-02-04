@@ -14,6 +14,7 @@ import {
   TooltipProvider,
 } from "@/components/ui/tooltip";
 import { LuInfo } from "react-icons/lu";
+import { Typography } from "@/components/ui/typography";
 
 export interface ProseMirrorNode {
   type: string;
@@ -101,7 +102,9 @@ export const TipTapEditor = ({
         </div>
       </ToggleGroup>
 
-      <EditorContent editor={editor} data-testid="tiptap-editor" />
+      <Typography variant="body">
+        <EditorContent editor={editor} data-testid="tiptap-editor" />
+      </Typography>
     </>
   );
 };

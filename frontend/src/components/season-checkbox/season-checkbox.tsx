@@ -8,6 +8,7 @@ import {
   FormLabel,
   FormMessage,
 } from "../ui/form";
+import { Typography } from "../ui/typography";
 
 interface SeasonCheckboxProps<T extends FieldValues> {
   control: Control<T>;
@@ -64,7 +65,7 @@ export function SeasonCheckbox<T extends FieldValues>({
                       htmlFor={checkboxId}
                       className="font-figtreeRegular text-2xl"
                     >
-                      {season.name}
+                      <Typography variant="body">{season.name}</Typography>
                     </FormLabel>
                   </FormItem>
                 )}
