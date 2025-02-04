@@ -17,6 +17,7 @@ import { Button, ButtonSize } from "../button/button";
 import { handleResetPassword } from "@/services/user/PasswordPatch";
 import { useToast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
+import Heart from "../ui/heart";
 
 export const ResetPasswordForm = () => {
   const { toast } = useToast();
@@ -85,6 +86,7 @@ export const ResetPasswordForm = () => {
             type="submit"
             label="Passwort zurücksetzen"
             size={ButtonSize.SMALL}
+            iconLeft={<Heart color="sfred-dark" height={20} />}
           />
         </div>
       </form>

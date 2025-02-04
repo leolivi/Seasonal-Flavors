@@ -24,7 +24,7 @@ const DataProtectionPage = async () => {
           <h1>Datenschutz</h1>
         </Typography>
       </div>
-      <div className="mt-10 font-figtreeRegular">
+      <div className="my-10 font-figtreeRegular">
         <Markdown
           options={{
             overrides: {

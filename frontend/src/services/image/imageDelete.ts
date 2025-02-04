@@ -29,8 +29,6 @@ export const handleImageDelete = async (
     const data = await response.json();
 
     if (!response.ok) {
-      // TODO: do i need this?
-      // setCurrentImageId(null);
       toast({
         variant: "destructive",
         title: "Fehler",

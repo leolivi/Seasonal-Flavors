@@ -13,7 +13,7 @@ export const profileSchema = z.object({
   username: z
     .string()
     .min(1, "Benutzername ist erforderlich")
-    .regex(/^[^<>/]*$/, "Benutzername darf keine Sonderzeichen enthalten"),
+    .regex(/^[^<>/_-]*$/, "Benutzername darf keine Sonderzeichen enthalten"),
   email: z.string().email("Bitte eine gültige E-Mail-Adresse eingeben."),
   profile_image: z
     .custom<File | null>()

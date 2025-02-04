@@ -25,6 +25,7 @@ import { handleImageDelete } from "@/services/image/imageDelete";
 import { handleImageUpload } from "@/services/image/imageUpload";
 import { handleUserPatch } from "@/services/user/userPatch";
 import { getCurrentUser, UserData } from "@/services/user/userService";
+import Heart from "../ui/heart";
 
 type ProfileFormProps = {
   user: NonNullable<ProfileCardProps["userData"]>;
@@ -295,7 +296,12 @@ export default function ProfileForm({
           </div>
         )}
         <div className="flex w-full justify-center">
-          <Button type="submit" label="speichern" size={ButtonSize.SMALL} />
+          <Button
+            type="submit"
+            label="speichern"
+            size={ButtonSize.SMALL}
+            iconLeft={<Heart color="sfred-dark" height={20} />}
+          />
         </div>
       </form>
     </Form>

@@ -123,7 +123,7 @@ export default function Card({
       </div>
       <div className="py-3 min-[640px]:h-20">
         <Typography
-          variant={showDetail ? "heading3" : "body"}
+          variant={"heading3"}
           className="line-clamp-2 overflow-hidden text-wrap font-cordaMedium text-2xl font-semibold text-sfblack"
         >
           {props.title}

@@ -16,6 +16,7 @@ import { Button, ButtonSize } from "../button/button";
 import { handleForgotPassword } from "@/services/user/PasswordPatch";
 import { useToast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
+import Heart from "../ui/heart";
 
 export const ForgotPasswordForm = () => {
   const { toast } = useToast();
@@ -52,34 +53,13 @@ export const ForgotPasswordForm = () => {
             </FormItem>
           )}
         />
-        {/* <FormField
-          control={form.control}
-          name="current_password"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Aktuelles Password</FormLabel>
-              <FormControl>
-                <Input type="password" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="new_password"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Neues Password</FormLabel>
-              <FormControl>
-                <Input type="password" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        /> */}
         <div className="flex w-full justify-center">
-          <Button type="submit" label="Email senden" size={ButtonSize.SMALL} />
+          <Button
+            type="submit"
+            label="Email senden"
+            size={ButtonSize.SMALL}
+            iconLeft={<Heart color="sfred-dark" height={20} />}
+          />
         </div>
       </form>
     </Form>

@@ -11,9 +11,9 @@ export enum ButtonStyle {
 }
 
 export enum ButtonSize {
+  XS = "xs",
   SMALL = "small",
   LARGE = "large",
-  XS = "xs",
 }
 
 interface ButtonProps {
@@ -53,8 +53,8 @@ export const Button: React.FC<ButtonProps> = ({
   };
 
   const sizeClasses = {
-    [ButtonSize.SMALL]: "text-sm my-6 px-4 py-3",
     [ButtonSize.XS]: "text-xs my-2 px-2 py-1",
+    [ButtonSize.SMALL]: "text-sm my-6 px-4 py-3",
     [ButtonSize.LARGE]: "text-lg px-6 py-3 my-10",
   };
 

@@ -30,7 +30,7 @@ export default function RecipeFormWrapper({
   const formFields: FormField[] = [
     { name: "title", label: "Rezepttitel", placeholder: "Rezepttitel" },
     {
-      name: "cooking_time",
+      name: "prep_time",
       label: "vorbereiten (min)",
       tooltip:
         "Zeit für das Vorbereiten der Zutaten, z.B. Waschen, Schneiden, Abwiegen",
@@ -38,7 +38,7 @@ export default function RecipeFormWrapper({
       type: "number",
     },
     {
-      name: "prep_time",
+      name: "cooking_time",
       label: "kochen (min)",
       tooltip:
         "Aktive Zeit am Herd oder im Ofen, ohne Vorbereitungs- oder Ruhezeiten",

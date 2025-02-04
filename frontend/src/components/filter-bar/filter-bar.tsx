@@ -57,12 +57,12 @@ const FilterBar = () => {
         defaultValue="ganzjährig"
       >
         <SelectTrigger
-          className={`relative w-40 border-b-2 border-${seasonalColor} inline-flex items-center justify-between gap-2 rounded-t-md border-x-0 px-2 data-[state=open]:bg-${seasonalColor}-light focus:outline-none hover:bg-${seasonalColor}-light rounded-t-md`}
+          className={`relative w-40 border-b-2 min-[1280px]:w-48 border-${seasonalColor} inline-flex items-center justify-between gap-2 rounded-t-md border-x-0 px-2 min-[1024px]:gap-4 data-[state=open]:bg-${seasonalColor}-light focus:outline-none hover:bg-${seasonalColor}-light rounded-t-md`}
           data-testid="season-select-trigger"
         >
           <Typography
             variant="body"
-            className="flex items-center justify-center gap-1 font-figtreeRegular"
+            className="flex items-center justify-center gap-1 font-figtreeRegular min-[1024px]:gap-3"
           >
             {selectedSeason ? (
               <>
@@ -83,7 +83,7 @@ const FilterBar = () => {
           <FaChevronDown size={12} />
         </SelectTrigger>
         <SelectContent
-          className={`absolute left-0 top-full z-50 mt-1 w-40 overflow-hidden rounded-md bg-${seasonalColor} bg-white p-1 shadow-lg`}
+          className={`absolute left-0 top-full z-50 mt-1 w-40 overflow-hidden rounded-md min-[1280px]:w-48 bg-${seasonalColor} bg-white p-1 shadow-lg`}
           position="popper"
         >
           <SelectGroup className="flex flex-col gap-1">

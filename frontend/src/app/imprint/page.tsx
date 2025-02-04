@@ -7,7 +7,7 @@ import { getSeasonColor } from "@/utils/SeasonUtils";
 export default function ImprintPage() {
   const seasonalColor = getSeasonColor();
   return (
-    <div className="px-4 min-[640px]:px-10">
+    <div className="mb-10 px-4 min-[640px]:px-10">
       <ScrollButton />
       <div className="flex items-center justify-center px-2 min-[640px]:px-6">
         <Typography variant="heading2" className="font-figtreeRegular">
@@ -20,7 +20,7 @@ export default function ImprintPage() {
           <p className="mb-4">
             <strong>Represented by:</strong> <br />
             {imprintData.representative} <br />
-            {imprintData.address.street} <br /> {imprintData.address.postalCode}
+            {imprintData.address.street} <br /> {imprintData.address.postalCode}{" "}
             {imprintData.address.city}
           </p>
           <p className="mb-4">
