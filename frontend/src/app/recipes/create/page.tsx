@@ -1,6 +1,6 @@
 import ScrollButton from "@/components/scroll-button/scroll-button";
 import { Typography } from "@/components/ui/typography";
-import ArrowLeft from "@/assets/icons/arrow-left.svg";
+import { HiOutlineArrowLeft } from "react-icons/hi";
 import Link from "next/link";
 import RecipeFormWrapper from "@/components/recipe-form-wrapper/recipe-form-wrapper";
 import { getAuthenticatedUser } from "@/utils/auth-user";
@@ -27,7 +27,11 @@ export default async function CreateRecipePage() {
         <Link href={"/my-recipes"}>
           <button aria-label="Go back">
             {" "}
-            <ArrowLeft />
+            <HiOutlineArrowLeft
+              size={25}
+              className="stroke-2 text-sfblack"
+              data-testid="arrow-left"
+            />
           </button>
         </Link>
       </div>

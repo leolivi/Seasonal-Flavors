@@ -6,13 +6,13 @@ import { Session } from "next-auth";
 
 jest.mock("src/assets/icons/magnifier.svg", () => {
   const MagnifierMock = () => <span>Magnifier</span>;
-  MagnifierMock.displayName = "MagnifierMock";
+  MagnifierMock.dataTestId = "search-button";
   return MagnifierMock;
 });
 
 jest.mock("src/assets/icons/cross.svg", () => {
   const CrossMock = () => <span>Cross</span>;
-  CrossMock.displayName = "CrossMock";
+  CrossMock.dataTestId = "cross-button";
   return CrossMock;
 });
 
@@ -52,7 +52,7 @@ describe("FilterBar Component", () => {
   };
 
   test("should render with default title", () => {
-    renderWithSession(<FilterBar title="Default Title" />, mockSession);
+    renderWithSession(<FilterBar />, mockSession);
     expect(screen.getByPlaceholderText("suchen")).toBeInTheDocument();
   });
 

@@ -1,5 +1,5 @@
 import { getSeasonColor } from "@/utils/SeasonUtils";
-import BookmarkIcon from "../../assets/icons/bookmark.svg";
+import { LuBookmark } from "react-icons/lu";
 import { useFavoritesStore } from "@/stores/useFavoritesStore";
 
 interface BookmarkButtonProps {
@@ -26,8 +26,8 @@ export default function BookmarkButton({
       aria-label="Bookmark"
       data-testid={dataTestId}
     >
-      <BookmarkIcon
-        className={`h-10 w-auto ${
+      <LuBookmark
+        className={`h-10 w-auto stroke-2 min-[640px]:h-12 ${
           isFavorite ? `fill-${seasonalColor}` : "fill-sfwhite"
         } ${className || ""}`}
       />

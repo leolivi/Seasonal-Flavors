@@ -7,9 +7,9 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import Cross from "@/assets/icons/cross.svg";
 import { Control, FieldValues, Path } from "react-hook-form";
 import { Button, ButtonSize } from "../button/button";
+import { RxCross2 } from "react-icons/rx";
 
 interface IngredientInputProps<T extends FieldValues> {
   control: Control<T>;
@@ -64,14 +64,17 @@ export function IngredientInput<T extends FieldValues>({
                     }}
                     data-testid={`ingredient-input-${index}`}
                   />
-                  <Cross
-                    className="m-2 w-6 cursor-pointer stroke-sfblack stroke-2"
-                    onClick={() => {
-                      removeIngredient(index);
-                      field.onChange(ingredients.filter(Boolean).join(", "));
-                    }}
-                    data-testid={`remove-ingredient-${index}`}
-                  />
+                  {ingredients.length > 1 && (
+                    <RxCross2
+                      size={25}
+                      className="m-2 w-6 cursor-pointer text-sfred"
+                      onClick={() => {
+                        removeIngredient(index);
+                        field.onChange(ingredients.filter(Boolean).join(", "));
+                      }}
+                      data-testid={`remove-ingredient-${index}`}
+                    />
+                  )}
                 </div>
               ))}
               <Button

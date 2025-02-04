@@ -26,7 +26,7 @@ describe("IngredientInput", () => {
     expect(screen.getByTestId("ingredient-form-item")).toBeInTheDocument();
     expect(screen.getByTestId("ingredient-label")).toBeInTheDocument();
     expect(screen.getByTestId("ingredient-input-0")).toBeInTheDocument();
-    expect(screen.getByTestId("remove-ingredient-0")).toBeInTheDocument();
+    expect(screen.queryByTestId("remove-ingredient-0")).not.toBeInTheDocument();
     expect(screen.getByText("+ Zutat hinzufügen")).toBeInTheDocument();
   });
 
@@ -41,7 +41,7 @@ describe("IngredientInput", () => {
     fireEvent.click(screen.getByTestId("remove-ingredient-0"));
 
     expect(screen.queryByTestId("ingredient-input-0")).toBeInTheDocument();
-    expect(screen.getByTestId("ingredient-input-1")).toBeInTheDocument();
+    expect(screen.queryByTestId("ingredient-input-1")).not.toBeInTheDocument();
   });
 
   test("adds new ingredient inputfields", () => {

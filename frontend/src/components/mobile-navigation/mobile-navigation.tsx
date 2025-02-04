@@ -1,7 +1,7 @@
 import { getSeasonColor } from "@/utils/SeasonUtils";
-import Cross from "../../assets/icons/cross.svg";
 import { NavStyle } from "../nav-item/nav-item";
 import NavList from "../nav-list/nav-list";
+import { RxCross2 } from "react-icons/rx";
 
 interface MobileNavigationProps {
   onClose: () => void;
@@ -26,10 +26,11 @@ export default function MobileNavigation({ ...props }: MobileNavigationProps) {
           : "-translate-y-full opacity-0"
       }`}
     >
-      <Cross
-        className="m-2 w-6 cursor-pointer self-end stroke-sfblack stroke-2"
-        onClick={props.onClose}
+      <RxCross2
+        size={25}
+        className="m-3 w-6 cursor-pointer self-end text-sfblack"
         data-testid="cross-icon"
+        onClick={props.onClose}
       />
       <NavList items={props.navigationItems} style={NavStyle.HEADER} />
     </div>

@@ -19,13 +19,13 @@ import { useState, useEffect } from "react";
 import type { ImageData } from "@/services/image/imageService";
 import { Typography } from "../ui/typography";
 import Image from "next/image";
-import Cross from "@/assets/icons/cross.svg";
 import { getProfileImage } from "@/services/image/imageService";
 import { handleImageDelete } from "@/services/image/imageDelete";
 import { handleImageUpload } from "@/services/image/imageUpload";
 import { handleUserPatch } from "@/services/user/userPatch";
 import { getCurrentUser, UserData } from "@/services/user/userService";
 import Heart from "../ui/heart";
+import { RxCross2 } from "react-icons/rx";
 
 type ProfileFormProps = {
   user: NonNullable<ProfileCardProps["userData"]>;
@@ -217,7 +217,7 @@ export default function ProfileForm({
               <FormLabel>Profilbild</FormLabel>
               <FormControl>
                 <div className="flex flex-col items-center">
-                  <div className="relative w-full">
+                  <div className="flex w-full items-center space-x-2">
                     <Input
                       type="file"
                       accept="image/*"
@@ -229,18 +229,16 @@ export default function ProfileForm({
                       }}
                       placeholder="Profilbild hochladen"
                       name={field.name}
+                      className="w-full"
                     />
                     {(previewUrl || field.value) && (
-                      <button
-                        type="button"
+                      <RxCross2
+                        size={25}
+                        className="m-2 w-6 cursor-pointer text-sfred"
                         onClick={clearFileInput}
-                        className="absolute right-2 top-1/2 -translate-y-1/2 rounded-full bg-sfwhite p-1 hover:bg-sfwhite-light"
-                      >
-                        <Cross
-                          className="h-4 w-4 cursor-pointer stroke-sfred-dark stroke-2"
-                          aria-label="Close Register Banner"
-                        />
-                      </button>
+                        data-testid="cross-button"
+                        aria-label="Clear file input"
+                      />
                     )}
                   </div>
                   {previewUrl && (

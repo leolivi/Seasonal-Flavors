@@ -1,8 +1,7 @@
 "use client";
 import { Button } from "../button/button";
 import { Typography } from "../ui/typography";
-import ArrowLeft from "@/assets/icons/arrow-left.svg";
-import Bookmark from "@/assets/icons/bookmark.svg";
+import { LuBookmark } from "react-icons/lu";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { RegisterBanner } from "../banner/register-banner";
@@ -11,6 +10,7 @@ import { useFavoritesStore } from "@/stores/useFavoritesStore";
 import { getSeasonColor } from "@/utils/SeasonUtils";
 import { Recipe } from "@/services/recipe/recipeService";
 import { useToast } from "@/hooks/use-toast";
+import { HiOutlineArrowLeft } from "react-icons/hi";
 
 interface RecipeHeaderProps {
   title: string;
@@ -61,7 +61,11 @@ export const RecipeHeader = ({
     <div>
       <div className="mt-8 w-fit cursor-pointer">
         <button onClick={handleBackClick} aria-label="Go back">
-          <ArrowLeft />
+          <HiOutlineArrowLeft
+            size={25}
+            className="stroke-2 text-sfblack"
+            data-testid="arrow-left"
+          />
         </button>
       </div>
       <div className="flex flex-col items-center">
@@ -75,8 +79,8 @@ export const RecipeHeader = ({
         <Button
           label={isFavorite ? `gespeichert` : `speichern`}
           iconLeft={
-            <Bookmark
-              className={`h-6 w-auto ${
+            <LuBookmark
+              className={`h-8 w-auto ${
                 isFavorite ? `fill-${seasonalColor}` : "fill-sfwhite"
               }`}
             />

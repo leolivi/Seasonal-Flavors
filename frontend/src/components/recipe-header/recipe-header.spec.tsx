@@ -10,7 +10,7 @@ jest.mock("next/navigation", () => ({
 
 jest.mock("src/assets/icons/arrow-left.svg", () => {
   const ArrowLeftMock = () => <div>ArrowLeftMock</div>;
-  ArrowLeftMock.displayName = "ArrowLeftMock";
+  ArrowLeftMock.dataTestId = "arrow-left";
   return ArrowLeftMock;
 });
 

@@ -9,7 +9,6 @@ import { Input } from "@/components/ui/input";
 import { Control, FieldValues, Path } from "react-hook-form";
 import { useState } from "react";
 import Image from "next/image";
-import Cross from "@/assets/icons/cross.svg";
 import {
   Tooltip,
   TooltipTrigger,
@@ -17,6 +16,7 @@ import {
   TooltipProvider,
 } from "@/components/ui/tooltip";
 import { LuInfo } from "react-icons/lu";
+import { RxCross2 } from "react-icons/rx";
 
 interface FormField {
   name: string;
@@ -122,7 +122,7 @@ export function RecipeInput<T extends FieldValues>({
               <FormControl>
                 {field.type === "file" ? (
                   <div className="flex flex-col items-center">
-                    <div className="relative w-full">
+                    <div className="flex w-full items-center space-x-2">
                       <Input
                         id={field.name}
                         type="file"
@@ -136,20 +136,18 @@ export function RecipeInput<T extends FieldValues>({
                         name={controllerField.name}
                         data-testid={`input-${field.name}`}
                         ref={controllerField.ref}
+                        className="w-full"
                       />
                       {(previewUrls[field.name] || controllerField.value) && (
-                        <button
-                          type="button"
+                        <RxCross2
+                          size={25}
+                          className="m-2 w-6 cursor-pointer text-sfred"
                           onClick={() =>
                             clearFileInput(field.name, controllerField)
                           }
-                          className="absolute right-2 top-1/2 -translate-y-1/2 rounded-full bg-sfwhite p-1 hover:bg-sfwhite-light"
-                        >
-                          <Cross
-                            className="h-4 w-4 cursor-pointer stroke-sfred-dark stroke-2"
-                            aria-label="Close Register Banner"
-                          />
-                        </button>
+                          aria-label="Clear file input"
+                          data-testid="cross-button"
+                        />
                       )}
                     </div>
                     {previewUrls[field.name] && (

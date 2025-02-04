@@ -6,7 +6,7 @@ import RecipeFormWrapper from "@/components/recipe-form-wrapper/recipe-form-wrap
 import { Typography } from "@/components/ui/typography";
 import ScrollButton from "@/components/scroll-button/scroll-button";
 import Link from "next/link";
-import ArrowLeft from "@/assets/icons/arrow-left.svg";
+import { HiOutlineArrowLeft } from "react-icons/hi";
 import { getRecipeImage } from "@/services/image/imageService";
 
 export default async function EditRecipePage({
@@ -33,7 +33,11 @@ export default async function EditRecipePage({
       <div className="mt-8 w-fit cursor-pointer">
         <Link href="/my-recipes">
           <button aria-label="Go back">
-            <ArrowLeft />
+            <HiOutlineArrowLeft
+              size={25}
+              className="stroke-2 text-sfblack"
+              data-testid="arrow-left"
+            />
           </button>
         </Link>
       </div>
