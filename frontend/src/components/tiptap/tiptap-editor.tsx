@@ -44,7 +44,7 @@ export const TipTapEditor = ({
     ],
     editorProps: {
       attributes: {
-        class: `my-5 border-2 rounded-md border-${seasonalColor} min-h-[400px] p-4 focus:outline-none editor ${
+        class: `my-5 border-2 rounded-md border-${seasonalColor}-dark min-h-[400px] p-4 focus:outline-none editor ${
           error && `border-sfred`
         }`,
       },
@@ -87,12 +87,14 @@ export const TipTapEditor = ({
           <ToggleGroupItem
             value="bold"
             onClick={() => editor.chain().focus().toggleBold().run()}
+            className={`border-${seasonalColor}-dark selection:bg-sf${seasonalColor}-light hover:bg-sf${seasonalColor}-light`}
           >
             <Bold />
           </ToggleGroupItem>
           <ToggleGroupItem
             value="italic"
             onClick={() => editor.chain().focus().toggleItalic().run()}
+            className={`border-${seasonalColor}-dark selection:bg-sf${seasonalColor}-light hover:bg-sf${seasonalColor}-light`}
           >
             <Italic />
           </ToggleGroupItem>

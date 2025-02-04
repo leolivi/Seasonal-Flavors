@@ -63,3 +63,7 @@ body {
     margin: 0;
   }
 }
+
+.ProseMirror-gapcursor::after {
+  display: none !important;
+}

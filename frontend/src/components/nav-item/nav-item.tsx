@@ -20,7 +20,7 @@ export enum NavStyle {
 // component creating a single nav item
 const NavItem = ({ icon, label, href, style }: NavItemProps) => {
   const seasonalColor = getSeasonColor();
-  const isDesktop = useMediaQuery("(min-width: 640px)");
+  const isDesktop = useMediaQuery("(min-width: 730px)");
   const isFooter = style === NavStyle.FOOTER;
   const { status } = useSession();
 

@@ -24,6 +24,7 @@ import { handleImageUpload } from "@/services/image/imageUpload";
 import { handleRecipePatch } from "@/services/recipe/recipePatch";
 import { getRecipeImage } from "@/services/image/imageService";
 import { useRecipes } from "@/hooks/use-recipes";
+import Heart from "../ui/heart";
 
 interface FormField {
   name: keyof EditRecipeSchema;
@@ -238,7 +239,12 @@ export default function EditRecipeForm({
             size={ButtonSize.SMALL}
             onClick={() => router.back()}
           />
-          <Button type="submit" label="speichern" size={ButtonSize.SMALL} />
+          <Button
+            type="submit"
+            label="speichern"
+            size={ButtonSize.SMALL}
+            iconLeft={<Heart color="sfred-dark" height={20} />}
+          />
         </div>
       </form>
     </Form>

@@ -13,7 +13,7 @@ interface NavListProps {
 const NavList = ({ items = [], style = NavStyle.HEADER }: NavListProps) => {
   return (
     <ul
-      className={`min-[640px]:flex-row min-[640px]:items-center min-[640px]:justify-evenly min-[640px]:gap-4 min-[640px]:space-y-0 min-[1024px]:gap-10 ${style === NavStyle.FOOTER ? "flex justify-center gap-8" : "flex w-auto flex-col items-start gap-2 space-y-4"}`}
+      className={`min-[730px]:flex-row min-[730px]:items-center min-[730px]:justify-evenly min-[730px]:gap-4 min-[730px]:space-y-0 min-[1024px]:gap-10 ${style === NavStyle.FOOTER ? "flex justify-center gap-8" : "flex w-auto flex-col items-start gap-2 space-y-4"}`}
     >
       {items.map((item, index) => (
         <NavItem key={index} {...item} style={style} />

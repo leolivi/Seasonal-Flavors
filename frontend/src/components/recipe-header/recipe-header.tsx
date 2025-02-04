@@ -1,5 +1,5 @@
 "use client";
-import { Button } from "../button/button";
+import { Button, ButtonSize } from "../button/button";
 import { Typography } from "../ui/typography";
 import { LuBookmark } from "react-icons/lu";
 import { useRouter } from "next/navigation";
@@ -86,6 +86,7 @@ export const RecipeHeader = ({
             />
           }
           onClick={handleSaveClick}
+          size={ButtonSize.SMALL}
         />
 
         {showRegisterBanner && (

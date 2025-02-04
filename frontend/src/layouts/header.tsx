@@ -13,6 +13,7 @@ import { MobileNavIcon } from "@/components/mobile-navigation/mobile-nav-icon";
 import { DesktopNav } from "@/components/desktop-nav/desktop-nav";
 import ProfileDropdown from "@/components/profile-dropdown/profile-dropdown";
 import { getCurrentUser, UserData } from "@/services/user/userService";
+import { BiBookHeart } from "react-icons/bi";
 
 interface HeaderContainerProps {
   color?: string;
@@ -23,7 +24,7 @@ interface HeaderContainerProps {
 const HeaderContainer = ({ children }: HeaderContainerProps) => {
   return (
     <header
-      className="px-4 py-6 min-[640px]:p-10 min-[640px]:pr-8"
+      className="px-4 py-6 min-[640px]:p-8 min-[640px]:pr-4"
       data-testid="header"
     >
       <nav className="flex w-full list-none flex-row items-center min-[640px]:justify-between min-[640px]:gap-6">
@@ -39,7 +40,7 @@ const Header = () => {
   const seasonalColor = getSeasonColor();
   const [isOpen, setIsOpen] = useState(false);
   const [userData, setUserData] = useState<UserData | null>(null);
-  const isDesktop = useMediaQuery("(min-width: 640px)");
+  const isDesktop = useMediaQuery("(min-width: 730px)");
   const pathname = usePathname();
   const ref = useRef<HTMLDivElement>(null);
   const profileRef = useRef<HTMLDivElement>(null);
@@ -97,6 +98,7 @@ const Header = () => {
     ...(status === "authenticated"
       ? [
           {
+            icon: !isDesktop ? <BiBookHeart size={24} width={20} /> : null,
             label: "meine Rezepte",
             href: "/my-recipes",
           },
