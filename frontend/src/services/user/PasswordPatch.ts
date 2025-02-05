@@ -44,7 +44,6 @@ export const handleForgotPassword = async ({
       description: "Die Email wurde erfolgreich gesendet.",
     });
 
-    router.push("/profile");
     return recipeId;
   } catch (error) {
     console.error("Fehler beim Senden der Email:", error);

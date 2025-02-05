@@ -11,8 +11,8 @@ const ProfilePage = async () => {
     : null;
 
   return (
-    <div className="flex justify-center px-4 pb-8 min-[640px]:px-8">
-      <h1 className="sr-only">Dashboard</h1>
+    <div className="flex justify-center">
+      <h1 className="sr-only">Profile</h1>
       <ProfileCard userData={userData} />
     </div>
   );

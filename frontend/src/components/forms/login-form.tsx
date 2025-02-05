@@ -77,7 +77,7 @@ export const LoginForm = ({ setForm }: LoginFormProps) => {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-6">
         <FormField
           control={form.control}
           name="email"
@@ -135,11 +135,13 @@ export const LoginForm = ({ setForm }: LoginFormProps) => {
             size={ButtonSize.SMALL}
           />
         </div>
-        <div
-          style={{ marginBottom: "2rem" }}
-          className="flex justify-center hover:text-sfred-dark"
-        >
-          <Link href="/forgot-password">Passwort vergessen?</Link>
+        <div style={{ marginBottom: "2rem" }} className="flex justify-center">
+          <Button
+            onClick={() => router.push("/forgot-password")}
+            label="Passwort vergessen?"
+            style={ButtonStyle.SIMPLERED}
+            size={ButtonSize.XS}
+          />
         </div>
       </form>
     </Form>

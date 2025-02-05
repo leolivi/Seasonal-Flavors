@@ -5,10 +5,10 @@ const ForgotPasswordPage = async () => {
   return (
     <div className="flex flex-col items-center px-4 pb-8 min-[640px]:px-8">
       <div className="w-full text-center min-[640px]:w-[500px]">
-        <Typography variant="heading2" className="font-figtreeRegular">
+        <Typography variant="heading2" className="py-8 font-figtreeRegular">
           <h1>Passwort zurücksetzen</h1>
         </Typography>
-        <Typography variant="small" className="mt-5 font-figtreeRegular">
+        <Typography variant="small" className="font-figtreeRegular">
           <p>
             Bitte bestätige uns deine E-Mail-Adresse. Wir senden dir dann per
             E-Mail eine Anleitung, wie du dein Passwort zurücksetzen kannst.

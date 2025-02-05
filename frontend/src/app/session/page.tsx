@@ -17,22 +17,24 @@ export default function Session() {
   const [form, setForm] = useState<SessionForm>(initialForm);
 
   return (
-    <div className="flex flex-col items-center">
+    <div className="flex flex-col items-center px-4 pb-8 min-[640px]:px-8">
       <h1 className="h-0 opacity-0">
         {form === SessionForm.LOGIN ? SessionForm.LOGIN : SessionForm.REGISTER}
       </h1>
-      <Typography variant="body">
+      <Typography variant="heading2">
         <p className="py-8 text-sfblack">
           {form === SessionForm.LOGIN
             ? SessionForm.LOGIN
             : SessionForm.REGISTER}
         </p>
       </Typography>
-      {form === SessionForm.LOGIN ? (
-        <LoginForm setForm={setForm} />
-      ) : (
-        <RegisterForm setForm={setForm} />
-      )}
+      <div className="w-full min-[640px]:w-[500px]">
+        {form === SessionForm.LOGIN ? (
+          <LoginForm setForm={setForm} />
+        ) : (
+          <RegisterForm setForm={setForm} />
+        )}
+      </div>
     </div>
   );
 }

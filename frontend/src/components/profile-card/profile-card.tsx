@@ -62,13 +62,11 @@ export default function ProfileCard({
 
   return (
     <AuthSession>
-      <div className="flex flex-col items-center">
-        <div className="flex w-full flex-col items-center rounded px-5 py-8">
-          <div className="mb-12 flex cursor-pointer items-center justify-center">
-            <Typography variant="heading2" className="font-figtreeRegular">
-              <h1>mein Profil</h1>
-            </Typography>
-          </div>
+      <div>
+        <div className="flex flex-col items-center px-4 pb-8 min-[640px]:px-8">
+          <Typography variant="heading2" className="py-8 font-figtreeRegular">
+            <h1>mein Profil</h1>
+          </Typography>
           <div className="flex flex-col items-center gap-6">
             <AvatarUpload
               avatarSrc={imageData?.file_path || ""}
@@ -77,7 +75,7 @@ export default function ProfileCard({
               imageId={imageData?.id}
               onImageUpdate={handleImageUpdate}
             />
-            <div className="w-full">
+            <div className="w-full min-[640px]:w-[500px]">
               <ProfileForm
                 user={userData}
                 image={imageData}
@@ -88,7 +86,7 @@ export default function ProfileCard({
             </div>
           </div>
         </div>
-        <div className="flex w-full justify-center">
+        <div className="mb-8 flex w-full justify-center">
           <Button
             style={ButtonStyle.SIMPLERED}
             label="Profil löschen"

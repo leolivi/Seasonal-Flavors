@@ -43,7 +43,7 @@ const NavItem = ({ icon, label, href, style, isActive }: NavItemProps) => {
           {icon}
           <span className="relative">
             {label}
-            {isDesktop && (
+            {isDesktop && !isFooter && (
               <span
                 className={`absolute bottom-0 left-0 h-[2px] w-0 bg-${seasonalColor}-dark rounded-full transition-all duration-300 ease-in-out group-hover:w-full`}
               />

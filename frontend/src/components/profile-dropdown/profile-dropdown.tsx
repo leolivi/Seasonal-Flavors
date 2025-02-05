@@ -106,7 +106,7 @@ const ProfileDropdown = forwardRef<HTMLDivElement, ProfileDropdownProps>(
             ref={ref}
           >
             <DropdownMenu.Item
-              className={`cursor-pointer font-figtreeRegular hover:bg-${seasonalColor}-light rounded px-2 outline-none data-[highlighted]:bg-${seasonalColor}-light mb-2 flex items-center data-[highlighted]:text-sfblack`}
+              className={`cursor-pointer font-figtreeRegular hover:bg-${seasonalColor}-light rounded px-2 outline-none data-[highlighted]:bg-${seasonalColor}-light mb-4 flex items-center data-[highlighted]:text-sfblack min-[640px]:mb-2`}
               asChild
             >
               <Link href="/profile" className="flex w-full items-center">
@@ -118,7 +118,7 @@ const ProfileDropdown = forwardRef<HTMLDivElement, ProfileDropdownProps>(
             </DropdownMenu.Item>
 
             <DropdownMenu.Item
-              className={`cursor-pointer font-figtreeRegular hover:bg-${seasonalColor}-light rounded px-2 outline-none data-[highlighted]:bg-${seasonalColor}-light mb-2 flex items-center data-[highlighted]:text-sfblack`}
+              className={`cursor-pointer font-figtreeRegular hover:bg-${seasonalColor}-light rounded px-2 outline-none data-[highlighted]:bg-${seasonalColor}-light mb-4 flex items-center data-[highlighted]:text-sfblack min-[640px]:mb-2`}
               asChild
             >
               <Link href="/favorites" className="flex w-full items-center">
@@ -130,7 +130,7 @@ const ProfileDropdown = forwardRef<HTMLDivElement, ProfileDropdownProps>(
             </DropdownMenu.Item>
 
             <DropdownMenu.Item
-              className={`cursor-pointer font-figtreeRegular hover:bg-${seasonalColor}-light rounded px-2 outline-none data-[highlighted]:bg-${seasonalColor}-light mb-2 flex items-center data-[highlighted]:text-sfblack`}
+              className={`cursor-pointer font-figtreeRegular hover:bg-${seasonalColor}-light rounded px-2 outline-none data-[highlighted]:bg-${seasonalColor}-light mb-4 flex items-center data-[highlighted]:text-sfblack min-[640px]:mb-2`}
               asChild
             >
               <Link
@@ -147,7 +147,7 @@ const ProfileDropdown = forwardRef<HTMLDivElement, ProfileDropdownProps>(
               className={`border-${seasonalColor}-dark mb-2 rounded border-[1px]`}
             />
             <DropdownMenu.Item
-              className={`cursor-pointer font-figtreeRegular hover:bg-${seasonalColor}-light rounded px-2 outline-none data-[highlighted]:bg-${seasonalColor}-light flex items-center data-[highlighted]:text-sfblack`}
+              className={`cursor-pointer font-figtreeRegular hover:bg-${seasonalColor}-light rounded px-2 outline-none data-[highlighted]:bg-${seasonalColor}-light mt-4 flex items-center data-[highlighted]:text-sfblack min-[640px]:mt-0`}
               onSelect={handleLogout}
             >
               <PiSignOutBold className="mr-2 h-4 w-4" />
