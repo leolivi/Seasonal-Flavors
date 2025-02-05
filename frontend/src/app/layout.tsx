@@ -45,6 +45,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        {/* TODO: do i need this? */}
+        {/* <link rel="icon" type="image/x-icon" href="/favicon.ico" /> */}
+      </head>
       <body
         className={`${cordaRegular.variable} ${cordaMedium.variable} ${cordaBold.variable} ${figTreeRegular.variable} ${figTreeMedium.variable} flex min-h-screen flex-col bg-sfwhite antialiased`}
       >
