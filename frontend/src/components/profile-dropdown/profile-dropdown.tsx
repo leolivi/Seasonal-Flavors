@@ -76,7 +76,7 @@ const ProfileDropdown = forwardRef<HTMLDivElement, ProfileDropdownProps>(
     };
 
     if (!userData) {
-      return <SessionLoader />;
+      return <SessionLoader size="small" />;
     }
 
     return (

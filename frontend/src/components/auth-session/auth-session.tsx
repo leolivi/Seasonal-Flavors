@@ -1,16 +1,36 @@
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { Loader2 } from "lucide-react";
 import { Typography } from "@/components/ui/typography";
+import { motion } from "framer-motion";
+import SeasonalFlavorsBrandmark from "../../assets/logo/seasonal-flavors-brandmark.svg";
 
-export const SessionLoader = () => (
-  <div className="m-auto flex w-full items-center justify-center gap-4 py-20">
-    <Loader2 className="h-12 w-12 animate-spin text-sfblack" />
-    <Typography variant="body">
-      <p className="font-figtreeRegular text-sfblack">Laden...</p>
-    </Typography>
-  </div>
-);
+interface SessionLoaderProps {
+  size?: "small" | "medium";
+}
+
+export const SessionLoader = ({ size = "medium" }: SessionLoaderProps) => {
+  const brandmarkSize =
+    size === "small"
+      ? "h-6 w-6 min-[640px]:h-10 min-[640px]:w-10"
+      : "h-24 w-24";
+
+  return (
+    <div
+      className={`flex ${size === "small" ? "flex-row items-center justify-center gap-2" : "fixed inset-0 flex-col items-center justify-center gap-4"}`}
+    >
+      <motion.div
+        animate={{ rotate: 360 }}
+        transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+        className={brandmarkSize}
+      >
+        <SeasonalFlavorsBrandmark className="brandmark" />
+      </motion.div>
+      <Typography variant="body">
+        <p className={`font-figtreeRegular text-sfblack`}>Laden...</p>
+      </Typography>
+    </div>
+  );
+};
 
 interface AuthSessionProps {
   children: React.ReactNode;

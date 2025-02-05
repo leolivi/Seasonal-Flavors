@@ -1,6 +1,7 @@
 import { useState, useCallback, useEffect } from "react";
 import { Recipe } from "@/services/recipe/recipeService";
 import useMediaQuery from "./use-media-query";
+import { SessionLoader } from "@/components/auth-session/auth-session";
 
 interface UseInfiniteScrollProps {
   items: Recipe[];
@@ -37,5 +38,13 @@ export const useInfiniteScroll = ({ items }: UseInfiniteScrollProps) => {
     }
   };
 
-  return { visibleItems, hasMore, loadMore };
+  // Rendere den SessionLoader, wenn isLoading true ist
+  const renderLoader = () => {
+    if (isLoading) {
+      return <SessionLoader size="small" />;
+    }
+    return null;
+  };
+
+  return { visibleItems, hasMore, loadMore, renderLoader };
 };

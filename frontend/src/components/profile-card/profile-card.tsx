@@ -21,7 +21,7 @@ export default function ProfileCard({
   userData: initialUserData,
 }: ProfileCardProps) {
   const { toast } = useToast();
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
   const [imageData, setImageData] = useState<ImageData | undefined>();
   const [userData, setUserData] = useState<UserData | null>(initialUserData);
 
@@ -56,8 +56,12 @@ export default function ProfileCard({
     setUserData(newUserData);
   };
 
-  if (!userData) {
-    return <SessionLoader />;
+  if (!userData || status === "loading") {
+    return (
+      <div className="flex h-[45vh] w-full flex-col items-center justify-center">
+        <SessionLoader />
+      </div>
+    );
   }
 
   return (

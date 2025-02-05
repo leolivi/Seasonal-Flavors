@@ -17,7 +17,7 @@ const FavoritesClient = () => {
   const [favorites, setFavorites] = useState<Recipe[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const { loadFavorites, getDetailedFavorites } = useFavoritesStore();
-  const { visibleItems, hasMore, loadMore } = useInfiniteScroll({
+  const { visibleItems, hasMore, loadMore, renderLoader } = useInfiniteScroll({
     items: favorites,
   });
 
@@ -89,6 +89,7 @@ const FavoritesClient = () => {
           </Typography>
         </div>
       )}
+      {renderLoader()}
       <ScrollButton />
     </div>
   );

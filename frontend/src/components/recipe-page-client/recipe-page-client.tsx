@@ -13,6 +13,8 @@ import { Recipe } from "@/services/recipe/recipeService";
 import { useEffect } from "react";
 import { useRecipes } from "@/hooks/use-recipes";
 import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
+import { SessionLoader } from "../auth-session/auth-session";
 
 interface User {
   username: string;
@@ -36,6 +38,7 @@ export function RecipePageClient({
 }: RecipePageClientProps) {
   const { recipes, setRecipes } = useRecipes();
   const router = useRouter();
+  const { status } = useSession();
   const currentRecipe = recipes.find((r) => r.id === recipeId);
 
   const displayRecipe = currentRecipe || recipeDetails;
@@ -56,6 +59,10 @@ export function RecipePageClient({
     params.set("season", season);
     router.push(`/recipes?${params.toString()}`);
   };
+
+  if (status === "loading" || !recipeDetails) {
+    return <SessionLoader />;
+  }
 
   return (
     <div className="px-4 pb-16 pt-8 min-[640px]:p-8 min-[640px]:pb-24">

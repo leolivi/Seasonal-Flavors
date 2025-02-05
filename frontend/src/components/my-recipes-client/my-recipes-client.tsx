@@ -1,5 +1,5 @@
 "use client";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import CardListWrapper from "@/components/card-list.tsx/card-list-wrapper";
 import ScrollButton from "@/components/scroll-button/scroll-button";
 import { Typography } from "@/components/ui/typography";
@@ -12,6 +12,8 @@ import InfinityScroll from "../infinity-scroll/infinity-scroll";
 import { CardLayoutOptions } from "@/utils/card-layout-options";
 import { useRecipes } from "@/hooks/use-recipes";
 import { useInfiniteScroll } from "@/hooks/use-infinite-scroll";
+import { SessionLoader } from "../auth-session/auth-session";
+import { useSession } from "next-auth/react";
 
 interface MyRecipesClientProps {
   cardData: Recipe[];
@@ -22,16 +24,27 @@ const MyRecipesClient: React.FC<MyRecipesClientProps> = ({
   cardData,
   user,
 }) => {
-  const { visibleItems, hasMore, loadMore } = useInfiniteScroll({
+  const { visibleItems, hasMore, loadMore, renderLoader } = useInfiniteScroll({
     items: cardData,
   });
   const { setRecipes, recipes } = useRecipes();
+  const { status } = useSession();
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    if (JSON.stringify(cardData) !== JSON.stringify(recipes)) {
-      setRecipes(cardData);
-    }
+    const initializeRecipes = async () => {
+      setIsLoading(true);
+      if (JSON.stringify(cardData) !== JSON.stringify(recipes)) {
+        setRecipes(cardData);
+      }
+      setIsLoading(false);
+    };
+    initializeRecipes();
   }, [cardData, setRecipes, recipes]);
+
+  if (status === "loading" || isLoading) {
+    return <SessionLoader />;
+  }
 
   return (
     <div className="m-4">
@@ -75,6 +88,7 @@ const MyRecipesClient: React.FC<MyRecipesClientProps> = ({
           </Typography>
         </div>
       )}
+      {renderLoader()}
       <ScrollButton />
     </div>
   );
