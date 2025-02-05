@@ -107,6 +107,8 @@ export function RecipeInput<T extends FieldValues>({
                             type="button"
                             onClick={(e) => e.preventDefault()}
                             className="ml-2"
+                            tabIndex={-1}
+                            aria-label={`Info: ${field.tooltip}`}
                           >
                             <LuInfo className="cursor-pointer text-sfblack transition-all hover:text-sfred" />
                           </button>

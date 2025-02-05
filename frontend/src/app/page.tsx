@@ -37,9 +37,11 @@ const Home = async () => {
 
   return (
     <main>
-      <ScrollButton />
       <Teaser />
-      <InspirationText seasonName={seasonName} />
+      <InspirationText
+        seasonName={seasonName}
+        aria-label={`Inspirationen für den ${seasonName}`}
+      />
       <CardSliderWrapper cardData={formattedCardData} />
       {!session && (
         <div className="relative my-24 flex h-[20rem] items-center justify-center px-4 min-[640px]:h-80 min-[640px]:px-8 min-[1024px]:h-96">
@@ -49,12 +51,14 @@ const Home = async () => {
             alt="Leckeres Essen"
             width={2000}
             height={2000}
+            aria-hidden="true"
           />
           <div className="absolute flex w-5/6 items-center justify-center">
             <RegisterBanner label="jetzt registrieren" />
           </div>
         </div>
       )}
+      <ScrollButton />
     </main>
   );
 };

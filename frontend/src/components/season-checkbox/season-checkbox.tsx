@@ -58,12 +58,14 @@ export function SeasonCheckbox<T extends FieldValues>({
 
                           field.onChange(updatedSeasons);
                         }}
+                        label={`${season.name}`}
                       />
                     </FormControl>
 
                     <FormLabel
                       htmlFor={checkboxId}
                       className="font-figtreeRegular text-2xl"
+                      aria-label={`${season.name} als Saison auswählen`}
                     >
                       <Typography variant="body">{season.name}</Typography>
                     </FormLabel>

@@ -18,10 +18,11 @@ const DataProtectionPage = async () => {
 
   return (
     <div className="px-4 min-[640px]:px-10">
-      <ScrollButton />
       <div className="flex items-center justify-center px-2 min-[640px]:px-6">
         <Typography variant="heading2" className="font-figtreeRegular">
-          <h1>Datenschutz</h1>
+          <h1 aria-label="Datenschutz" tabIndex={0}>
+            Datenschutz
+          </h1>
         </Typography>
       </div>
       <div className="my-10 font-figtreeRegular">
@@ -60,6 +61,7 @@ const DataProtectionPage = async () => {
           {content}
         </Markdown>
       </div>
+      <ScrollButton />
     </div>
   );
 };

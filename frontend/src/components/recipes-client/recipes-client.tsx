@@ -30,8 +30,9 @@ const RecipesClient: React.FC<RecipesClientProps> = ({ formattedCardData }) => {
 
   return (
     <div className="m-4">
-      <ScrollButton />
-      <h1 className="h-0 opacity-0">Rezepte</h1>
+      <h1 className="h-0 opacity-0" aria-label="Rezepte" tabIndex={0}>
+        Rezepte
+      </h1>
       <FilterBar />
       {formattedCardData.length > 0 ? (
         <InfinityScroll
@@ -53,12 +54,17 @@ const RecipesClient: React.FC<RecipesClientProps> = ({ formattedCardData }) => {
             <p className="text-sfblack">OOPS!</p>
           </Typography>
           <Typography variant="body">
-            <span className="text-sfblack">
+            <span
+              className="text-sfblack"
+              aria-label="Keine Ergebnisse gefunden"
+              tabIndex={0}
+            >
               Diese Suche ist nicht auf unserer Speisekarte...
             </span>
           </Typography>
         </div>
       )}
+      <ScrollButton />
     </div>
   );
 };

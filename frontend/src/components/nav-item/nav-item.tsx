@@ -29,6 +29,7 @@ const NavItem = ({ icon, label, href, style, isActive }: NavItemProps) => {
     <li
       // styling depends on screen width
       className={`cursor-pointer items-center justify-center px-4 py-1 transition-all duration-300 ease-in-out last:gap-0 ${status === "authenticated" && `last:hover:bg-transparent`} min-[640px]:mt-0`}
+      aria-label={label}
     >
       <Typography
         variant={isFooter ? "xs" : "btnS"}
@@ -39,6 +40,7 @@ const NavItem = ({ icon, label, href, style, isActive }: NavItemProps) => {
             !isDesktop ? "gap-3" : "gap-0"
           }`}
           href={href}
+          aria-label={label}
         >
           {icon}
           <span className="relative">
@@ -46,6 +48,7 @@ const NavItem = ({ icon, label, href, style, isActive }: NavItemProps) => {
             {isDesktop && !isFooter && (
               <span
                 className={`absolute bottom-0 left-0 h-[2px] w-0 bg-${seasonalColor}-dark rounded-full transition-all duration-300 ease-in-out group-hover:w-full`}
+                aria-hidden="true"
               />
             )}
           </span>

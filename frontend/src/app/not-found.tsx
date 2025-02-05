@@ -9,7 +9,11 @@ export default function NotFound() {
         <Image src={NotFoundImage} alt="404 Image" width={300} height={100} />
       </div>
       <Typography variant="heading3" className="mt-8 text-sfblack">
-        <h1 className="font-figtreeRegular">
+        <h1
+          className="font-figtreeRegular"
+          aria-label="Diese Seite ist nicht erreichbar"
+          tabIndex={0}
+        >
           Oh nein! Diese Seite ist verbrannt...
         </h1>
       </Typography>

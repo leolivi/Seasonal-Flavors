@@ -48,6 +48,9 @@ export const TipTapEditor = ({
         class: `my-5 border-2 rounded-md border-${seasonalColor}-dark min-h-[400px] p-4 focus:outline-none editor ${
           error && `border-sfred`
         }`,
+        role: "textbox",
+        "aria-label": "Zubereitungsschritte",
+        "aria-describedby": "editor-description",
       },
     },
     content: content,
@@ -75,10 +78,15 @@ export const TipTapEditor = ({
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger>
-                  <LuInfo className="ml-2 cursor-pointer text-sfblack transition-all hover:text-sfred" />
+                  <LuInfo
+                    className="ml-2 cursor-pointer text-sfblack transition-all hover:text-sfred"
+                    aria-hidden="true"
+                  />
                 </TooltipTrigger>
                 <TooltipContent>
-                  <p>Beschreibe hier den Zubereitungsvorgang</p>
+                  <p id="editor-description">
+                    Beschreibe hier den Zubereitungsvorgang
+                  </p>
                 </TooltipContent>
               </Tooltip>
             </TooltipProvider>

@@ -35,10 +35,11 @@ const MyRecipesClient: React.FC<MyRecipesClientProps> = ({
 
   return (
     <div className="m-4">
-      <ScrollButton />
       <div className="flex items-center justify-between px-1 min-[640px]:px-4">
         <Typography variant="heading2" className="font-figtreeRegular">
-          <h1>meine Rezepte</h1>
+          <h1 aria-label="meine Rezepte" tabIndex={0}>
+            meine Rezepte
+          </h1>
         </Typography>
         <Link href={"/recipes/create"}>
           <Button label="Rezept erstellen" size={ButtonSize.SMALL} />
@@ -64,12 +65,17 @@ const MyRecipesClient: React.FC<MyRecipesClientProps> = ({
             <NoRecipesImage className="h-full w-full" />
           </div>
           <Typography variant="small" className="mt-2 text-center">
-            <span className="text-sfblack">
+            <span
+              className="text-sfblack"
+              aria-label="Keine eigenen Rezepte gefunden"
+              tabIndex={0}
+            >
               Du hast noch keine eigenen Rezepte erstellt.
             </span>
           </Typography>
         </div>
       )}
+      <ScrollButton />
     </div>
   );
 };

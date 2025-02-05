@@ -51,6 +51,7 @@ const FilterBar = () => {
         value={selectedSeason}
         onValueChange={setSelectedSeason}
         defaultValue="ganzjährig"
+        aria-label="Saison-Filter"
       >
         <SelectTrigger
           className={`relative w-40 border-b-2 min-[1280px]:w-48 border-${seasonalColor}-dark inline-flex items-center justify-between gap-2 rounded-t-md border-x-0 px-2 min-[1024px]:gap-4 data-[state=open]:bg-${seasonalColor}-light focus:outline-none hover:bg-${seasonalColor}-light rounded-t-md`}
@@ -69,14 +70,18 @@ const FilterBar = () => {
                     seasons.find((s) => s.value === selectedSeason)?.color ||
                     "sfblack"
                   }
+                  aria-hidden="true"
                 />
-                {seasons.find((s) => s.value === selectedSeason)?.label}
+                <span>
+                  {seasons.find((s) => s.value === selectedSeason)?.label ||
+                    "Wähle eine Saison"}
+                </span>
               </>
             ) : (
               "Wähle eine Saison"
             )}
           </Typography>
-          <FaChevronDown size={12} />
+          <FaChevronDown size={12} aria-hidden="true" />
         </SelectTrigger>
         <SelectContent
           className={`absolute left-0 top-full z-50 mt-1 w-40 overflow-hidden rounded-md min-[1280px]:w-48 bg-${seasonalColor} bg-white p-1 shadow-lg`}
@@ -88,6 +93,7 @@ const FilterBar = () => {
                 key={season.value}
                 value={season.value}
                 className={`cursor-pointer font-figtreeRegular hover:bg-${seasonalColor}-light rounded px-2 py-1.5 outline-none data-[highlighted]:bg-${seasonalColor}-light flex items-center gap-2 data-[highlighted]:text-sfblack`}
+                aria-label={season.label}
               >
                 <Heart width={20} height={20} color={season.color} />
                 {season.label}
@@ -103,7 +109,12 @@ const FilterBar = () => {
         method="get"
         className={`flex items-center rounded-md border-2 border-${seasonalColor}-dark bg-${seasonalColor}-light px-2 py-1 hover:bg-white active:bg-white`}
         onSubmit={(e) => e.preventDefault()}
+        role="search"
+        aria-label="Suchfeld"
       >
+        <label htmlFor="season-select" className="sr-only">
+          Wähle eine Jahreszeit
+        </label>
         <Typography variant="body">
           <input
             type="text"
@@ -128,6 +139,7 @@ const FilterBar = () => {
               size={20}
               className="cursor-pointer"
               data-testid="cross-button"
+              aria-label="Suche löschen"
             />
           </button>
         ) : (
@@ -136,6 +148,7 @@ const FilterBar = () => {
               size={20}
               className="stroke-sfblack stroke-2"
               data-testid="search-button"
+              aria-label="Suche"
             />
           </button>
         )}

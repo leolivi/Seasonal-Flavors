@@ -38,6 +38,8 @@ const ScrollButton = () => {
     <div
       className="fixed bottom-0 right-0 z-10 flex w-auto justify-end p-8"
       data-testid="scroll-button"
+      tabIndex={0}
+      aria-label="Zum Seitenanfang scrollen"
     >
       {isVisible && (
         <motion.div

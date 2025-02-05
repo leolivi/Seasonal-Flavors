@@ -59,7 +59,6 @@ export function RecipePageClient({
 
   return (
     <div className="px-4 pb-16 pt-8 min-[640px]:p-8 min-[640px]:pb-24">
-      <ScrollButton />
       <RecipeHeader
         title={displayRecipe.title}
         username={user.username}
@@ -93,6 +92,7 @@ export function RecipePageClient({
         <RecipeInfo {...displayRecipe} season={seasonTags} />
         <RecipeInstructions steps={displayRecipe.steps} />
       </div>
+      <ScrollButton />
     </div>
   );
 }

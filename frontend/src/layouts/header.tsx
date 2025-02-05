@@ -27,8 +27,10 @@ const HeaderContainer = ({ children }: HeaderContainerProps) => {
       className="px-4 py-6 min-[640px]:p-8 min-[640px]:pr-4"
       data-testid="header"
     >
-      <nav className="flex w-full list-none flex-row items-center min-[640px]:justify-between min-[640px]:gap-6">
-        {children}
+      <nav className="flex w-full flex-row items-center min-[640px]:justify-between min-[640px]:gap-6">
+        <ul className="flex w-full flex-row items-center min-[640px]:justify-between min-[640px]:gap-6">
+          {children}
+        </ul>
       </nav>
     </header>
   );
@@ -127,7 +129,11 @@ const Header = () => {
 
   if (!isDesktop) {
     navigationItems.unshift({
-      icon: <BiHomeHeart size={24} width={20} />,
+      icon: (
+        <span className="flex items-center">
+          <BiHomeHeart size={24} width={20} aria-hidden="true" />
+        </span>
+      ),
       label: "Home",
       href: "/",
       isActive: pathname === "/",
@@ -141,12 +147,16 @@ const Header = () => {
 
   return (
     <HeaderContainer color={seasonalColor}>
-      <Logo variant="header" />
+      <li>
+        <Logo variant="header" />
+      </li>
       {isDesktop ? (
-        <DesktopNav
-          seasonalColor={seasonalColor}
-          navigationItems={navigationItems}
-        />
+        <li>
+          <DesktopNav
+            seasonalColor={seasonalColor}
+            navigationItems={navigationItems}
+          />
+        </li>
       ) : (
         <>
           <MobileNavIcon onClick={toggleDropdown} color={seasonalColor} />

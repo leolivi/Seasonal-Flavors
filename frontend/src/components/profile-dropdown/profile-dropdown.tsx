@@ -82,20 +82,31 @@ const ProfileDropdown = forwardRef<HTMLDivElement, ProfileDropdownProps>(
     return (
       <DropdownMenu.Root>
         <DropdownMenu.Trigger asChild>
-          <Avatar size={AvatarSize.small}>
-            <AvatarImage
-              src={imageData?.file_path || ""}
-              alt="User's avatar"
-              loading="eager"
-            />
-            <AvatarFallback>
-              <FaUserCircle
-                size={100}
-                className={`bg-${seasonalColor}`}
-                color="white"
+          <button
+            type="button"
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                e.preventDefault();
+                e.currentTarget.click();
+              }
+            }}
+            aria-label="Profilmenü öffnen"
+          >
+            <Avatar size={AvatarSize.small}>
+              <AvatarImage
+                src={imageData?.file_path || ""}
+                alt="User's avatar"
+                loading="eager"
               />
-            </AvatarFallback>
-          </Avatar>
+              <AvatarFallback>
+                <FaUserCircle
+                  size={100}
+                  className={`bg-${seasonalColor}`}
+                  color="white"
+                />
+              </AvatarFallback>
+            </Avatar>
+          </button>
         </DropdownMenu.Trigger>
 
         <DropdownMenu.Portal>

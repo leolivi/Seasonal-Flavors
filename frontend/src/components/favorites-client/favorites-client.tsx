@@ -50,10 +50,11 @@ const FavoritesClient = () => {
 
   return (
     <div className="m-4">
-      <ScrollButton />
       <div className="flex items-center justify-between px-1 min-[640px]:px-4">
         <Typography variant="heading2" className="font-figtreeRegular">
-          <h1>meine Favoriten</h1>
+          <h1 aria-label="meine Favoriten" tabIndex={0}>
+            meine Favoriten
+          </h1>
         </Typography>
       </div>
       {favorites.length > 0 ? (
@@ -78,12 +79,17 @@ const FavoritesClient = () => {
             <p className="text-sfblack">Keine Favoriten gefunden</p>
           </Typography>
           <Typography variant="body">
-            <span className="text-sfblack">
+            <span
+              className="text-sfblack"
+              aria-label="Keine Favoriten gefunden"
+              tabIndex={0}
+            >
               Füge Rezepte zu deinen Favoriten hinzu, um sie hier zu sehen.
             </span>
           </Typography>
         </div>
       )}
+      <ScrollButton />
     </div>
   );
 };

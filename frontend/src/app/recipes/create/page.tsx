@@ -22,7 +22,6 @@ export default async function CreateRecipePage() {
 
   return (
     <div className="px-4 pb-16 pt-8 min-[640px]:p-8 min-[640px]:pb-24">
-      <ScrollButton />
       <div className="mt-8 w-fit cursor-pointer">
         <Link href={"/my-recipes"}>
           <button aria-label="Go back">
@@ -37,12 +36,15 @@ export default async function CreateRecipePage() {
       </div>
       <div className="flex items-center justify-center px-2 min-[640px]:px-6">
         <Typography variant="heading2" className="font-figtreeRegular">
-          <h1>Rezept erstellen</h1>
+          <h1 aria-label="Rezept erstellen" tabIndex={0}>
+            Rezept erstellen
+          </h1>
         </Typography>
       </div>
       <div className="flex justify-center">
         <RecipeFormWrapper user={user} tags={translatedTags} />
       </div>
+      <ScrollButton />
     </div>
   );
 }

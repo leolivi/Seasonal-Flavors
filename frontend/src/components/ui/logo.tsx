@@ -12,14 +12,14 @@ const Logo = ({ variant = "header" }: LogoProps) => {
     variant === "footer" ? "h-[1.8rem] w-auto" : "h-8 w-auto min-[640px]:h-10";
 
   return (
-    <li
+    <div
       className={`cursor-pointer ${variant === "footer" ? "min-[640px]:flex" : ""}`}
       data-testid="logo"
     >
-      <Link href="/">
+      <Link href="/" aria-label="Seasonal Flavors Logo">
         <SeasonalFlavorsLogo className={logoStyles} />
       </Link>
-    </li>
+    </div>
   );
 };
 

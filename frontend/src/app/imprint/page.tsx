@@ -8,10 +8,11 @@ export default function ImprintPage() {
   const seasonalColor = getSeasonColor();
   return (
     <div className="mb-10 px-4 min-[640px]:px-10">
-      <ScrollButton />
       <div className="flex items-center justify-center px-2 min-[640px]:px-6">
         <Typography variant="heading2" className="font-figtreeRegular">
-          <h1>Impressum</h1>
+          <h1 aria-label="Impressum" tabIndex={0}>
+            Impressum
+          </h1>
         </Typography>
       </div>
       <div className="flex flex-col items-center pt-10 text-center">
@@ -59,6 +60,7 @@ export default function ImprintPage() {
           </ul>
         </Typography>
       </div>
+      <ScrollButton />
     </div>
   );
 }

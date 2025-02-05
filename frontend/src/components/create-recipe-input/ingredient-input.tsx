@@ -63,6 +63,7 @@ export function IngredientInput<T extends FieldValues>({
                       field.onChange(ingredients.filter(Boolean).join(", "));
                     }}
                     data-testid={`ingredient-input-${index}`}
+                    aria-label={`Zutat ${index + 1}`}
                   />
                   {ingredients.length > 1 && (
                     <RxCross2

@@ -65,7 +65,9 @@ export default function ProfileCard({
       <div>
         <div className="flex flex-col items-center px-4 pb-8 min-[640px]:px-8">
           <Typography variant="heading2" className="py-8 font-figtreeRegular">
-            <h1>mein Profil</h1>
+            <h1 aria-label="mein Profil" tabIndex={0}>
+              mein Profil
+            </h1>
           </Typography>
           <div className="flex flex-col items-center gap-6">
             <AvatarUpload

@@ -16,11 +16,11 @@ const FooterContainer = ({ color, children }: FooterProps) => (
 );
 
 const Copyright = () => (
-  <li>
+  <div aria-label="Copyright">
     <Typography variant="small" className="text-sfblack">
       <small>&#169; 2025 All rights reserved</small>
     </Typography>
-  </li>
+  </div>
 );
 
 interface FooterProps {
@@ -49,20 +49,24 @@ const Footer = () => {
     <FooterContainer color={seasonalColor}>
       {isDesktop ? (
         <ul className="grid grid-cols-3 items-center">
-          <div className="flex justify-start">
+          <li className="flex justify-start">
             <NavList items={footerItems} style={NavStyle.FOOTER} />
-          </div>
-          <div className="flex justify-center">
+          </li>
+          <li className="flex justify-center">
             <Logo variant="footer" />
-          </div>
-          <div className="flex justify-end">
+          </li>
+          <li className="flex justify-end">
             <Copyright />
-          </div>
+          </li>
         </ul>
       ) : (
         <ul className="flex w-full flex-col items-center gap-5">
-          <Logo variant="footer" />
-          <NavList items={footerItems} style={NavStyle.FOOTER} />
+          <li>
+            <Logo variant="footer" />
+          </li>
+          <li>
+            <NavList items={footerItems} style={NavStyle.FOOTER} />
+          </li>
           <Copyright />
         </ul>
       )}

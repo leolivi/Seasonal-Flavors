@@ -72,7 +72,11 @@ export const RecipeHeader = ({
       </div>
       <div className="flex flex-col items-center">
         <Typography variant="heading1">
-          <h1 className="mt-4 text-center font-cordaBold text-sfblack">
+          <h1
+            className="mt-4 text-center font-cordaBold text-sfblack"
+            aria-label={title}
+            tabIndex={0}
+          >
             {title}
           </h1>
         </Typography>

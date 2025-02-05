@@ -12,7 +12,9 @@ const ProfilePage = async () => {
 
   return (
     <div className="flex justify-center">
-      <h1 className="sr-only">Profile</h1>
+      <h1 className="sr-only" aria-label="Profile" tabIndex={0}>
+        Profile
+      </h1>
       <ProfileCard userData={userData} />
     </div>
   );

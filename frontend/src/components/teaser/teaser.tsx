@@ -14,7 +14,7 @@ const Heading = () => (
       variant="teaserS"
       className="z-1 w-full -translate-y-10 text-right font-cordaRegular text-sfblack max-[335px]:translate-y-2 min-[460px]:translate-y-1 min-[500px]:translate-y-0"
     >
-      <h1>
+      <h1 aria-label="saisonale & regionale Rezepte" tabIndex={0}>
         <span className="block min-[1024px]:inline">saisonale &</span> regionale
         Rezepte
       </h1>
@@ -34,7 +34,7 @@ export default function Teaser() {
         height={1000}
         priority
       />
-      <SeasonAnimation />
+      <SeasonAnimation aria-hidden="true" />
     </div>
   );
 }

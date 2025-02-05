@@ -18,7 +18,7 @@ export default function Session() {
 
   return (
     <div className="flex flex-col items-center px-4 pb-8 min-[640px]:px-8">
-      <h1 className="h-0 opacity-0">
+      <h1 className="h-0 opacity-0" aria-label="Login" tabIndex={0}>
         {form === SessionForm.LOGIN ? SessionForm.LOGIN : SessionForm.REGISTER}
       </h1>
       <Typography variant="heading2">
