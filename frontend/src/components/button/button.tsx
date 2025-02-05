@@ -42,7 +42,7 @@ export const Button: React.FC<ButtonProps> = ({
   const seasonalColor = getSeasonColor();
 
   const baseStyles =
-    "flex w-fit items-center justify-center gap-1 rounded-full hover:drop-shadow-lg";
+    "flex w-fit items-center justify-center gap-1 rounded-full hover:drop-shadow-md";
 
   const styleClasses = {
     [ButtonStyle.PRIMARY]: `px-4 py-2 text-sfblack hover:text-sfwhite active:text-sfwhite hover:bg-${seasonalColor} active:bg-${seasonalColor}-dark bg-${seasonalColor}-light cursor-pointer`,

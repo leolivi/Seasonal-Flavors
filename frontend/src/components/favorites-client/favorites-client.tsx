@@ -5,7 +5,7 @@ import { Recipe } from "@/services/recipe/recipeService";
 import { useFavoritesStore } from "@/stores/useFavoritesStore";
 import CardListWrapper from "@/components/card-list.tsx/card-list-wrapper";
 import { Typography } from "@/components/ui/typography";
-import { LayoutOptions } from "@/utils/layout-options";
+import { CardLayoutOptions } from "@/utils/card-layout-options";
 import ScrollButton from "../scroll-button/scroll-button";
 import InfinityScroll from "../infinity-scroll/infinity-scroll";
 import { useInfiniteScroll } from "@/hooks/use-infinite-scroll";
@@ -66,7 +66,7 @@ const FavoritesClient = () => {
             cardData={visibleItems}
             showDetail={true}
             showBookmark={true}
-            style={LayoutOptions.GRID}
+            style={CardLayoutOptions.GRID}
             isInFavoriteView={true}
             onShowFavorites={onShowFavorites}
           />

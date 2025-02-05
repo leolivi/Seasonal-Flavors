@@ -9,7 +9,7 @@ import { Recipe } from "@/services/recipe/recipeService";
 import { UserData } from "@/services/user/userService";
 import NoRecipesImage from "@/assets/images/no-recipes-image.svg";
 import InfinityScroll from "../infinity-scroll/infinity-scroll";
-import { LayoutOptions } from "@/utils/layout-options";
+import { CardLayoutOptions } from "@/utils/card-layout-options";
 import { useRecipes } from "@/hooks/use-recipes";
 import { useInfiniteScroll } from "@/hooks/use-infinite-scroll";
 
@@ -54,7 +54,7 @@ const MyRecipesClient: React.FC<MyRecipesClientProps> = ({
             cardData={visibleItems}
             showDetail={true}
             showEdit={true}
-            style={LayoutOptions.GRID}
+            style={CardLayoutOptions.GRID}
             user={user}
           />
         </InfinityScroll>

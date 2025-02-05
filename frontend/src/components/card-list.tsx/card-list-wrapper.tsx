@@ -1,7 +1,7 @@
 "use client";
 import { Recipe } from "@/services/recipe/recipeService";
 import { CardList } from "@/components/card-list.tsx/card-list";
-import { LayoutOptionType } from "@/utils/layout-options";
+import { CardLayoutOptionType } from "@/utils/card-layout-options";
 import { useState, useEffect } from "react";
 import { RegisterBanner } from "../banner/register-banner";
 import { useSession } from "next-auth/react";
@@ -16,7 +16,7 @@ interface CardListWrapperProps {
   showDetail?: boolean;
   showEdit?: boolean;
   showBookmark?: boolean;
-  style?: LayoutOptionType;
+  style?: CardLayoutOptionType;
   children?: React.ReactNode;
   className?: string;
   isInFavoriteView?: boolean;

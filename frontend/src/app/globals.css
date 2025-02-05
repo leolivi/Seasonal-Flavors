@@ -26,6 +26,7 @@ body {
   }
 }
 
+/* Scrollbar */
 @layer utilities {
   .text-balance {
     text-wrap: balance;
@@ -64,6 +65,7 @@ body {
   }
 }
 
+/* Remove gap cursor in Tiptap editor */
 .ProseMirror-gapcursor::after {
   display: none !important;
 }

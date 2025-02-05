@@ -5,7 +5,7 @@ import { color, motion, useScroll, useTransform } from "framer-motion";
 import { Button } from "../button/button";
 import { useRouter } from "next/navigation";
 import { CardList } from "../card-list.tsx/card-list";
-import { LayoutOptions } from "@/utils/layout-options";
+import { CardLayoutOptions } from "@/utils/card-layout-options";
 import { Recipe } from "@/services/recipe/recipeService";
 
 interface CardSliderProps {
@@ -42,7 +42,7 @@ export const CardSlider = ({ cardData }: CardSliderProps) => {
         whileTap={{ cursor: "grabbing" }}
         style={{ touchAction: "pan-y" }}
       >
-        <CardList cardData={cardData} style={LayoutOptions.FLEX} />
+        <CardList cardData={cardData} style={CardLayoutOptions.FLEX} />
       </motion.div>
 
       <div className="mt-0 flex justify-center min-[640px]:mt-4">

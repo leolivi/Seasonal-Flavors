@@ -40,22 +40,26 @@ export const RecipeInfo = ({ ...props }: Recipe) => {
   return (
     <div
       data-testid="recipe-info-container"
-      className={`max-w-fit rounded border-2 font-figtreeRegular border-${seasonalColor} bg-${seasonalColor}-light p-4`}
+      className={`max-w-fit rounded border-2 font-figtreeRegular border-${seasonalColor}-dark bg-${seasonalColor}-light p-4`}
     >
       <Typography variant="heading2" className="pt-2">
         <h2 className="text-sfblack">Zutaten</h2>
       </Typography>
-      <ul className="max-h-fit w-fit pb-4 pt-2">
-        <Typography variant="small" className="flex gap-2">
+      <ul className="max-h-fit w-full pb-4 pt-2">
+        <Typography
+          variant="small"
+          className="flex flex-wrap gap-1 min-[640px]:gap-2"
+        >
           {recipeDetails.map((detail, index) => (
             <li
               key={index}
-              className="flex w-fit flex-col items-center rounded bg-sfwhite p-2 text-sfblack"
+              className={`flex w-fit flex-col items-center rounded bg-sfwhite p-2 text-sfblack`}
             >
-              <span className="flex items-center gap-2">
+              <span className="flex items-center gap-2 font-figtreeMedium">
                 {detail.label}
                 <TooltipProvider>
                   {detail.tooltip && (
+                    // TODO: fix tooltip on mobile devices
                     <Tooltip>
                       <TooltipTrigger asChild>
                         <button type="button" className="cursor-pointer">

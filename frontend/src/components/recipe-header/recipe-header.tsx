@@ -11,6 +11,7 @@ import { getSeasonColor } from "@/utils/SeasonUtils";
 import { Recipe } from "@/services/recipe/recipeService";
 import { useToast } from "@/hooks/use-toast";
 import { HiOutlineArrowLeft } from "react-icons/hi";
+import useMediaQuery from "@/hooks/use-media-query";
 
 interface RecipeHeaderProps {
   title: string;
@@ -30,6 +31,7 @@ export const RecipeHeader = ({
   const favorites = useFavoritesStore((state) => state.favorites);
   const { toast } = useToast();
   const seasonalColor = getSeasonColor();
+  const isDesktop = useMediaQuery("(min-width: 720px)");
 
   const isFavorite = recipe?.id
     ? favorites.some((favorite) => favorite.id === recipe.id)
@@ -70,9 +72,11 @@ export const RecipeHeader = ({
       </div>
       <div className="flex flex-col items-center">
         <Typography variant="heading1">
-          <h1 className="mt-4 font-cordaBold text-sfblack">{title}</h1>
+          <h1 className="mt-4 text-center font-cordaBold text-sfblack">
+            {title}
+          </h1>
         </Typography>
-        <Typography variant="body">
+        <Typography variant="body" className="mb-4 min-[640px]:mb-0">
           <small className="mt-2 text-sfblack">von {username}</small>
         </Typography>
 
@@ -86,7 +90,7 @@ export const RecipeHeader = ({
             />
           }
           onClick={handleSaveClick}
-          size={ButtonSize.SMALL}
+          size={isDesktop ? ButtonSize.SMALL : ButtonSize.XS}
         />
 
         {showRegisterBanner && (

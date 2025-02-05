@@ -49,6 +49,7 @@ const config: Config = {
       colors: {
         background: "#FBFCF8",
         sfblack: "#1D1C1C",
+        "sfblack-light": "#1D1C1C",
         sfgreen: {
           light: "#DBF0E1",
           DEFAULT: "#A7D7B8",

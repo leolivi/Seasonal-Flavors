@@ -1,6 +1,9 @@
 import Card from "../card/card";
 import Link from "next/link";
-import { LayoutOptions, LayoutOptionType } from "@/utils/layout-options";
+import {
+  CardLayoutOptions,
+  CardLayoutOptionType,
+} from "@/utils/card-layout-options";
 import React from "react";
 import foodImage from "@/assets/images/food-image.jpg";
 import { Recipe } from "@/services/recipe/recipeService";
@@ -11,7 +14,7 @@ interface CardListProps {
   showDetail?: boolean;
   showBookmark?: boolean;
   showEdit?: boolean;
-  style?: LayoutOptionType;
+  style?: CardLayoutOptionType;
   onBookmarkClick?: (e: React.MouseEvent, recipeId: number) => void;
   onEditClick?: (e: React.MouseEvent, id: number) => void;
   user?: UserData;
@@ -22,7 +25,7 @@ export const CardList = ({
   showDetail,
   showBookmark,
   showEdit,
-  style = LayoutOptions.GRID,
+  style = CardLayoutOptions.GRID,
   cardData = [],
   onBookmarkClick,
   onEditClick,

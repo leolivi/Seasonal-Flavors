@@ -121,10 +121,10 @@ export default function Card({
           priority={props.priority}
         />
       </div>
-      <div className="py-3 min-[640px]:h-20">
+      <div className="h-fit py-3 min-[500px]:h-20">
         <Typography
           variant={"heading3"}
-          className="line-clamp-2 overflow-hidden text-wrap font-cordaMedium font-semibold text-sfblack"
+          className="line-clamp-2 overflow-hidden text-wrap font-cordaMedium font-semibold leading-7 text-sfblack min-[640px]:leading-10"
         >
           {props.title}
         </Typography>

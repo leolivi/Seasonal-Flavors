@@ -4,7 +4,7 @@ import CardListWrapper from "@/components/card-list.tsx/card-list-wrapper";
 import ScrollButton from "@/components/scroll-button/scroll-button";
 import FilterBar from "@/components/filter-bar/filter-bar";
 import { Typography } from "@/components/ui/typography";
-import { LayoutOptions } from "@/utils/layout-options";
+import { CardLayoutOptions } from "@/utils/card-layout-options";
 import { Recipe } from "@/services/recipe/recipeService";
 import InfinityScroll from "../infinity-scroll/infinity-scroll";
 import { useInfiniteScroll } from "@/hooks/use-infinite-scroll";
@@ -43,7 +43,7 @@ const RecipesClient: React.FC<RecipesClientProps> = ({ formattedCardData }) => {
             cardData={visibleItems}
             showDetail={true}
             showBookmark={true}
-            style={LayoutOptions.GRID}
+            style={CardLayoutOptions.GRID}
           />
         </InfinityScroll>
       ) : (
