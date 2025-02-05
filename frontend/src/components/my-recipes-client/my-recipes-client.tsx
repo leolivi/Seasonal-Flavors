@@ -36,7 +36,7 @@ const MyRecipesClient: React.FC<MyRecipesClientProps> = ({
   return (
     <div className="m-4">
       <ScrollButton />
-      <div className="flex items-center justify-between px-1 min-[640px]:px-6">
+      <div className="flex items-center justify-between px-1 min-[640px]:px-4">
         <Typography variant="heading2" className="font-figtreeRegular">
           <h1>meine Rezepte</h1>
         </Typography>

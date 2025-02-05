@@ -116,9 +116,9 @@ const Header = () => {
       icon:
         status === "authenticated" ? (
           <ProfileDropdown ref={profileRef} userData={userData} />
-        ) : (
+        ) : !isDesktop ? (
           <IoPersonSharp size={20} width={20} />
-        ),
+        ) : null,
       label: status === "authenticated" ? "" : "anmelden",
       href: status === "authenticated" ? "" : "/session",
       isActive: pathname === "/session",

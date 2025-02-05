@@ -45,7 +45,7 @@ export const CardSlider = ({ cardData }: CardSliderProps) => {
         <CardList cardData={cardData} style={LayoutOptions.FLEX} />
       </motion.div>
 
-      <div className="mt-4 flex justify-center">
+      <div className="mt-0 flex justify-center min-[640px]:mt-4">
         <Button label="zu den Rezepten" onClick={handleClick} />
       </div>
     </div>

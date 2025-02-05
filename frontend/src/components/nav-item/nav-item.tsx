@@ -28,14 +28,16 @@ const NavItem = ({ icon, label, href, style, isActive }: NavItemProps) => {
   return (
     <li
       // styling depends on screen width
-      className={`cursor-pointer items-center justify-center px-4 py-1 transition-all duration-300 ease-in-out last:self-center ${status === "authenticated" && `last:hover:bg-transparent`} min-[640px]:mt-0`}
+      className={`cursor-pointer items-center justify-center px-4 py-1 transition-all duration-300 ease-in-out last:gap-0 ${status === "authenticated" && `last:hover:bg-transparent`} min-[640px]:mt-0`}
     >
       <Typography
         variant={isFooter ? "xs" : "btnS"}
-        className={`relative ${isActive && `text-${seasonalColor}-dark`} group text-sfblack transition-all duration-300 ease-in-out`}
+        className={`relative ${isActive && `text-${seasonalColor}-dark`} group flex text-sfblack transition-all duration-300 ease-in-out`}
       >
         <Link
-          className={`via-${seasonalColor}-dark to-${seasonalColor}-dark hover:text-${seasonalColor}-dark flex flex-row items-center gap-3 bg-gradient-to-r from-transparent bg-no-repeat transition-all duration-300 ease-in-out [background-size:0%_100%] hover:[background-size:100%_100%]`}
+          className={`via-${seasonalColor}-dark to-${seasonalColor}-dark hover:text-${seasonalColor}-dark flex flex-row items-center bg-gradient-to-r from-transparent bg-no-repeat transition-all duration-300 ease-in-out [background-size:0%_100%] hover:[background-size:100%_100%] ${
+            !isDesktop ? "gap-3" : "gap-0"
+          }`}
           href={href}
         >
           {icon}

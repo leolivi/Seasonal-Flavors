@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { getSeasonColor } from "@/utils/SeasonUtils";
 import { ReactNode } from "react";
 import { RxCross2 } from "react-icons/rx";
+import useMediaQuery from "@/hooks/use-media-query";
 
 interface RegisterBannerProps {
   onClose?: () => void;
@@ -28,6 +29,7 @@ export const RegisterBanner = ({
 }: RegisterBannerProps) => {
   const router = useRouter();
   const seasonalColor = getSeasonColor();
+  const isDesktop = useMediaQuery("(min-width: 720px)");
 
   // Function to handle button click, navigating to the login page
   const handleClick = () => {
@@ -58,7 +60,11 @@ export const RegisterBanner = ({
         </p>
       </Typography>
 
-      <Button label={label} onClick={handleClick} size={ButtonSize.LARGE} />
+      <Button
+        label={label}
+        onClick={handleClick}
+        size={isDesktop ? ButtonSize.LARGE : ButtonSize.SMALL}
+      />
     </div>
   );
 };

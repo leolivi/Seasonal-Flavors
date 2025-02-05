@@ -42,7 +42,7 @@ const Home = async () => {
       <InspirationText seasonName={seasonName} />
       <CardSliderWrapper cardData={formattedCardData} />
       {!session && (
-        <div className="h-1/8 relative my-24 flex items-center justify-center px-4 min-[640px]:h-80 min-[640px]:px-8 min-[1024px]:h-96">
+        <div className="relative my-24 flex h-[20rem] items-center justify-center px-4 min-[640px]:h-80 min-[640px]:px-8 min-[1024px]:h-96">
           <Image
             className="h-full w-full rounded-lg object-cover"
             src={registerImage}
@@ -50,7 +50,7 @@ const Home = async () => {
             width={2000}
             height={2000}
           />
-          <div className="absolute flex items-center justify-center">
+          <div className="absolute flex w-5/6 items-center justify-center">
             <RegisterBanner label="jetzt registrieren" />
           </div>
         </div>

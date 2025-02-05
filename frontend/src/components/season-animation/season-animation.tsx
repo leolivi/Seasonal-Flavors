@@ -45,7 +45,7 @@ export default function SeasonAnimation() {
     >
       <motion.div
         style={{ rotate, x }}
-        className="motiondiv h-auto w-full min-[640px]:w-2/5 min-[1024px]:w-2/6 min-[1280px]:w-1/5"
+        className="h-auto w-4/6 min-[640px]:w-3/6 min-[1024px]:w-2/6 min-[1280px]:w-1/5"
       >
         <SeasonalFlavorsBrandmark className="brandmark" />
       </motion.div>

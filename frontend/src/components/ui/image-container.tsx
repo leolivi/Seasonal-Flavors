@@ -50,7 +50,7 @@ const ImageContainer = ({
       : imageSrc;
 
   return (
-    <div className="image-container mt-6 flex h-4/5 w-full items-center justify-center rounded-lg object-left-top min-[640px]:h-[40rem]">
+    <div className="image-container mt-6 flex h-full w-full items-center justify-center rounded-lg object-left-top min-[640px]:h-[40rem]">
       <Image
         className="h-full w-full rounded-lg object-cover"
         src={imageUrl}

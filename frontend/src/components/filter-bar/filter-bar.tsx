@@ -45,7 +45,7 @@ const FilterBar = () => {
   }, [inputValue, selectedSeason, router]);
 
   return (
-    <CardListWrapper className="mb-4 flex cursor-pointer justify-between gap-2 max-[640px]:mt-8 min-[640px]:pl-6 min-[640px]:pr-7">
+    <CardListWrapper className="mb-4 flex cursor-pointer justify-between gap-2 max-[640px]:mt-8 min-[640px]:pl-6 min-[640px]:pr-4">
       {/* Saison-Filter */}
       <Select
         value={selectedSeason}
