@@ -9,7 +9,7 @@ import useMediaQuery from "@/hooks/use-media-query";
 
 const FooterContainer = ({ color, children }: FooterProps) => (
   <footer
-    className={`w-full rounded-t-3xl p-10 bg-${color}-light mt-auto list-none`}
+    className={`w-full rounded-t-3xl p-10 bg-${color}-light z-50 mt-auto list-none`}
   >
     {children}
   </footer>

@@ -29,7 +29,7 @@ interface ProfileDropdownProps {
 const ProfileDropdown = forwardRef<HTMLDivElement, ProfileDropdownProps>(
   ({ userData }, ref) => {
     const seasonalColor = getSeasonColor();
-    const isDesktop = useMediaQuery("(min-width: 640px)");
+    const isDesktop = useMediaQuery("(min-width: 730px)");
     const [imageData, setImageData] = useState<ImageData | undefined>();
 
     const fetchProfileImage = async () => {
@@ -53,7 +53,7 @@ const ProfileDropdown = forwardRef<HTMLDivElement, ProfileDropdownProps>(
       return () => {
         window.removeEventListener("profileImageUpdate", handleImageUpdate);
       };
-    }, [userData?.id]);
+    }, []);
 
     const handleLogout = async () => {
       try {

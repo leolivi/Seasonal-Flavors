@@ -97,9 +97,10 @@ const Header = () => {
 
   const navigationItems = [
     {
-      icon: <PiBowlSteamFill size={24} width={20} />,
+      icon: !isDesktop ? <PiBowlSteamFill size={24} width={20} /> : null,
       label: "Rezepte",
       href: "/recipes",
+      isActive: pathname === "/recipes",
     },
     ...(status === "authenticated"
       ? [
@@ -107,6 +108,7 @@ const Header = () => {
             icon: !isDesktop ? <BiBookHeart size={24} width={20} /> : null,
             label: "meine Rezepte",
             href: "/my-recipes",
+            isActive: pathname === "/my-recipes",
           },
         ]
       : []),
@@ -119,6 +121,7 @@ const Header = () => {
         ),
       label: status === "authenticated" ? "" : "anmelden",
       href: status === "authenticated" ? "" : "/session",
+      isActive: pathname === "/session",
     },
   ];
 
@@ -127,6 +130,7 @@ const Header = () => {
       icon: <BiHomeHeart size={24} width={20} />,
       label: "Home",
       href: "/",
+      isActive: pathname === "/",
     });
   }
 

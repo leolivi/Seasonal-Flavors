@@ -5,6 +5,7 @@ interface NavListProps {
     icon?: React.ReactNode;
     label: string;
     href: string;
+    isActive?: boolean;
   }[];
   style?: NavStyle;
 }

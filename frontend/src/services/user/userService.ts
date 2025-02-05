@@ -25,7 +25,7 @@ export const getCurrentUser = async (
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
-        cache: "no-store",
+        // cache: "no-store",
       },
     );
 
