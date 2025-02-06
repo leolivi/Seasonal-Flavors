@@ -18,8 +18,10 @@ import { handleResetPassword } from "@/services/user/PasswordPatch";
 import { useToast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
 import Heart from "../ui/heart";
+import { Suspense } from "react";
+import { SessionLoader } from "../auth-session/auth-session";
 
-export const ResetPasswordForm = () => {
+const ResetPasswordFormContent = () => {
   const { toast } = useToast();
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -91,5 +93,13 @@ export const ResetPasswordForm = () => {
         </div>
       </form>
     </Form>
+  );
+};
+
+export const ResetPasswordForm = () => {
+  return (
+    <Suspense fallback={<SessionLoader />}>
+      <ResetPasswordFormContent />
+    </Suspense>
   );
 };

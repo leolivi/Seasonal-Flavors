@@ -19,6 +19,8 @@ const InfinityScroll: React.FC<InfiniteScrollProps> = ({
   const [isVisible, setIsVisible] = useState(isInitialContent);
 
   useEffect(() => {
+    const currentObserverTarget = observerTarget.current;
+
     const observer = new IntersectionObserver(
       (entries) => {
         if (entries[0].isIntersecting) {
@@ -34,13 +36,13 @@ const InfinityScroll: React.FC<InfiniteScrollProps> = ({
       },
     );
 
-    if (observerTarget.current) {
-      observer.observe(observerTarget.current);
+    if (currentObserverTarget) {
+      observer.observe(currentObserverTarget);
     }
 
     return () => {
-      if (observerTarget.current) {
-        observer.unobserve(observerTarget.current);
+      if (currentObserverTarget) {
+        observer.unobserve(currentObserverTarget);
       }
     };
   }, [loadMore, hasMore]);
