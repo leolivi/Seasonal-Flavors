@@ -10,7 +10,6 @@ import { UserData } from "@/services/user/userService";
 import NoRecipesImage from "@/assets/images/no-recipes-image.svg";
 import InfinityScroll from "../infinity-scroll/infinity-scroll";
 import { CardLayoutOptions } from "@/utils/card-layout-options";
-import { useRecipes } from "@/hooks/use-recipes";
 import { useInfiniteScroll } from "@/hooks/use-infinite-scroll";
 import { SessionLoader } from "../auth-session/auth-session";
 import { useSession } from "next-auth/react";

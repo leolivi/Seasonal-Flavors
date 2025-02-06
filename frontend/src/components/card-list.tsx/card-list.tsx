@@ -18,6 +18,7 @@ interface CardListProps {
   onBookmarkClick?: (e: React.MouseEvent, recipeId: number) => void;
   onEditClick?: (e: React.MouseEvent, id: number) => void;
   user?: UserData;
+  deleteRecipe: (id: number) => void;
 }
 
 // Component mapping through recipe Cards
@@ -30,6 +31,7 @@ export const CardList = ({
   onBookmarkClick,
   onEditClick,
   user,
+  deleteRecipe,
 }: CardListProps) => {
   return (
     <div className={style}>
@@ -55,6 +57,7 @@ export const CardList = ({
               ingredients={""}
               user={user || ({} as UserData)}
               user_id={item.user_id}
+              deleteRecipe={deleteRecipe}
               priority={index < 3}
             />
           </Link>

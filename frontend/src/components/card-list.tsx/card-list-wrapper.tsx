@@ -44,7 +44,7 @@ const CardListWrapper = ({
   const [showRegisterBanner, setShowRegisterBanner] = useState(false);
   const { toast } = useToast();
   const { loadFavorites, toggleFavorite } = useFavoritesStore();
-  const { recipes, setRecipes } = useRecipes();
+  const { recipes, setRecipes, deleteRecipe } = useRecipes();
 
   const isMyRecipesPage = pathname === "/my-recipes";
   const isRecipesPage = pathname === "/recipes";
@@ -104,6 +104,7 @@ const CardListWrapper = ({
           showBookmark={showBookmark}
           style={style}
           user={user}
+          deleteRecipe={deleteRecipe}
         />
       )}
 

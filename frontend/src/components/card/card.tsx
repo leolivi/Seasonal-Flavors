@@ -14,7 +14,6 @@ import { ToastAction } from "@radix-ui/react-toast";
 import { UserData } from "@/services/user/userService";
 import { handleImageDelete } from "@/services/image/imageDelete";
 import { handleRecipeDelete } from "@/services/recipe/recipeDelete";
-import { useRecipes } from "@/hooks/use-recipes";
 
 interface ExtendedRecipeProps extends Recipe {
   showDetail?: boolean;
@@ -25,6 +24,7 @@ interface ExtendedRecipeProps extends Recipe {
   imageData?: ImageData;
   priority?: boolean;
   user?: UserData;
+  deleteRecipe: (id: number) => void;
 }
 
 export default function Card({
@@ -33,16 +33,12 @@ export default function Card({
   showEdit = false,
   onBookmarkClick = () => {},
   onEditClick = () => {},
+  deleteRecipe,
   ...props
 }: ExtendedRecipeProps) {
   const [imageData, setImageData] = useState<ImageData | undefined>();
   const router = useRouter();
   const { toast } = useToast();
-  const {
-    recipes,
-    setRecipes,
-    deleteRecipe: deleteRecipeFromHook,
-  } = useRecipes();
 
   useEffect(() => {
     const fetchImageData = async () => {
@@ -75,15 +71,15 @@ export default function Card({
           props.id,
           toast,
           router,
-          deleteRecipeFromHook,
+          () => deleteRecipe(props.id),
         );
 
-        if (recipeDeleted) {
-          const updatedRecipes = recipes.filter(
-            (recipe) => recipe.id !== props.id,
-          );
-          setRecipes(updatedRecipes);
-          // router.refresh();
+        if (!recipeDeleted) {
+          toast({
+            variant: "destructive",
+            title: "Fehler",
+            description: "Rezept konnte nicht gelöscht werden.",
+          });
         }
       } else {
         toast({
