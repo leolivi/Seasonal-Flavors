@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Suspense } from "react";
 import { Typography } from "../ui/typography";
 import { getCurrentSeason, getSeasonColor } from "@/utils/SeasonUtils";
 import CardListWrapper from "../card-list.tsx/card-list-wrapper";
@@ -16,6 +16,7 @@ import Heart from "../ui/heart";
 import { useRouter, useSearchParams } from "next/navigation";
 import { SlMagnifier } from "react-icons/sl";
 import { RxCross2 } from "react-icons/rx";
+import { SessionLoader } from "../auth-session/auth-session";
 
 const seasons = [
   { label: "Frühling", value: "spring", color: "sfgreen" },
@@ -25,7 +26,7 @@ const seasons = [
   { label: "ganzjährig", value: "all_year", color: "sfblack" },
 ];
 
-const FilterBar = () => {
+const FilterBarContent = () => {
   const seasonalColor = getSeasonColor();
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -154,6 +155,14 @@ const FilterBar = () => {
         )}
       </form>
     </CardListWrapper>
+  );
+};
+
+const FilterBar = () => {
+  return (
+    <Suspense fallback={<SessionLoader size="small" />}>
+      <FilterBarContent />
+    </Suspense>
   );
 };
 

@@ -29,8 +29,7 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "jest.config.js",
-    "src/hooks/use-infinite-scroll.tss"
+    "jest.config.js"
   ],
   "exclude": ["node_modules"]
 }
