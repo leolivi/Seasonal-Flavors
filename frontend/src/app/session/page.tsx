@@ -6,8 +6,10 @@ import { Typography } from "@/components/ui/typography";
 import { SessionForm } from "@/utils/enum";
 import { useState } from "react";
 import { useSearchParams } from "next/navigation";
+import { Suspense } from "react";
+import { SessionLoader } from "@/components/auth-session/auth-session";
 
-export default function Session() {
+const SessionContent = () => {
   const searchParams = useSearchParams();
   const initialForm =
     searchParams.get("form") === "register"
@@ -36,5 +38,13 @@ export default function Session() {
         )}
       </div>
     </div>
+  );
+};
+
+export default function Session() {
+  return (
+    <Suspense fallback={<SessionLoader />}>
+      <SessionContent />
+    </Suspense>
   );
 }

@@ -15,12 +15,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, ButtonSize } from "../button/button";
 import { handleForgotPassword } from "@/services/user/PasswordPatch";
 import { useToast } from "@/hooks/use-toast";
-import { useRouter } from "next/navigation";
 import Heart from "../ui/heart";
 
 export const ForgotPasswordForm = () => {
   const { toast } = useToast();
-  const router = useRouter();
 
   const form = useForm<z.infer<typeof forgotPasswordSchema>>({
     resolver: zodResolver(forgotPasswordSchema),
@@ -33,7 +31,6 @@ export const ForgotPasswordForm = () => {
     await handleForgotPassword({
       data: { email: formData.email },
       toast,
-      router,
     });
   }
 

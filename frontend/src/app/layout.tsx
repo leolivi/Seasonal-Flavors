@@ -51,8 +51,6 @@ export default function RootLayout({
           content="width=device-width, initial-scale=1"
           lang="de"
         />
-        {/* TODO: do i need this? */}
-        {/* <link rel="icon" type="image/x-icon" href="/favicon.ico" /> */}
       </head>
       <body
         className={`${cordaRegular.variable} ${cordaMedium.variable} ${cordaBold.variable} ${figTreeRegular.variable} ${figTreeMedium.variable} flex min-h-screen flex-col bg-sfwhite antialiased`}

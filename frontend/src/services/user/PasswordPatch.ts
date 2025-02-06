@@ -1,7 +1,6 @@
 export const handleForgotPassword = async ({
   data,
   toast,
-  router,
 }: {
   data: { email: string };
   toast: (options: {
@@ -9,7 +8,6 @@ export const handleForgotPassword = async ({
     title: string;
     description: string;
   }) => void;
-  router: { push: (path: string) => void };
 }) => {
   try {
     const payload = {

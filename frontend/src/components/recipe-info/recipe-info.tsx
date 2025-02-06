@@ -59,7 +59,6 @@ export const RecipeInfo = ({ ...props }: Recipe) => {
                 {detail.label}
                 <TooltipProvider>
                   {detail.tooltip && (
-                    // TODO: fix tooltip on mobile devices
                     <Tooltip>
                       <TooltipTrigger asChild>
                         <button type="button" className="cursor-pointer">

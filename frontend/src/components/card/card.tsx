@@ -95,7 +95,6 @@ export default function Card({
     }
   };
 
-  // TODO: assure same height for all cards on a row
   return (
     <div
       className={

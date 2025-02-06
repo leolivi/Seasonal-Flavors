@@ -42,6 +42,7 @@ export const handleUserPatch = async ({
 
     return { success: true };
   } catch (error) {
+    console.error(error);
     return {
       errors: [
         {
