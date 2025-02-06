@@ -27,20 +27,12 @@ const MyRecipesClient: React.FC<MyRecipesClientProps> = ({
   const { visibleItems, hasMore, loadMore, renderLoader } = useInfiniteScroll({
     items: cardData,
   });
-  const { setRecipes, recipes } = useRecipes();
   const { status } = useSession();
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const initializeRecipes = async () => {
-      setIsLoading(true);
-      if (JSON.stringify(cardData) !== JSON.stringify(recipes)) {
-        setRecipes(cardData);
-      }
-      setIsLoading(false);
-    };
-    initializeRecipes();
-  }, [cardData, setRecipes, recipes]);
+    setIsLoading(false);
+  }, []);
 
   if (status === "loading" || isLoading) {
     return <SessionLoader />;
@@ -70,6 +62,7 @@ const MyRecipesClient: React.FC<MyRecipesClientProps> = ({
             showEdit={true}
             style={CardLayoutOptions.GRID}
             user={user}
+            initialRecipes={cardData}
           />
         </InfinityScroll>
       ) : (

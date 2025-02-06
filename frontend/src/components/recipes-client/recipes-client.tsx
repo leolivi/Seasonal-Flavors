@@ -3,16 +3,15 @@
 import CardListWrapper from "@/components/card-list.tsx/card-list-wrapper";
 import ScrollButton from "@/components/scroll-button/scroll-button";
 import FilterBar from "@/components/filter-bar/filter-bar";
-import { Typography } from "@/components/ui/typography";
 import { CardLayoutOptions } from "@/utils/card-layout-options";
 import { Recipe } from "@/services/recipe/recipeService";
 import InfinityScroll from "../infinity-scroll/infinity-scroll";
 import { useInfiniteScroll } from "@/hooks/use-infinite-scroll";
 import SearchImage from "@/assets/images/search-image.svg";
-import { useEffect, useState } from "react";
-import { useRecipes } from "@/hooks/use-recipes";
+import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { SessionLoader } from "../auth-session/auth-session";
+import { Typography } from "@/components/ui/typography";
 
 interface RecipesClientProps {
   formattedCardData: Recipe[];
@@ -22,20 +21,12 @@ const RecipesClient: React.FC<RecipesClientProps> = ({ formattedCardData }) => {
   const { visibleItems, hasMore, loadMore, renderLoader } = useInfiniteScroll({
     items: formattedCardData,
   });
-  const { setRecipes, recipes } = useRecipes();
   const { status } = useSession();
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const initializeRecipes = async () => {
-      setIsLoading(true);
-      if (JSON.stringify(formattedCardData) !== JSON.stringify(recipes)) {
-        setRecipes(formattedCardData);
-      }
-      setIsLoading(false);
-    };
-    initializeRecipes();
-  }, [formattedCardData, setRecipes, recipes]);
+    setIsLoading(false);
+  }, []);
 
   if (status === "loading" || isLoading) {
     return <SessionLoader />;
@@ -58,6 +49,7 @@ const RecipesClient: React.FC<RecipesClientProps> = ({ formattedCardData }) => {
             showDetail={true}
             showBookmark={true}
             style={CardLayoutOptions.GRID}
+            initialRecipes={formattedCardData}
           />
         </InfinityScroll>
       ) : (

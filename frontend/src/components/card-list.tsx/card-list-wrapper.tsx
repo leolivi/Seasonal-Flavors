@@ -22,10 +22,12 @@ interface CardListWrapperProps {
   isInFavoriteView?: boolean;
   onShowFavorites?: (favorites: Recipe[]) => void;
   user?: UserData;
+  initialRecipes?: Recipe[];
 }
 
 const CardListWrapper = ({
   cardData = [],
+  initialRecipes = [],
   showDetail,
   showBookmark,
   showEdit,
@@ -56,11 +58,11 @@ const CardListWrapper = ({
 
   useEffect(() => {
     if (isMyRecipesPage || isRecipesPage) {
-      if (cardData.length > 0) {
-        setRecipes(cardData);
+      if (initialRecipes.length > 0) {
+        setRecipes(initialRecipes);
       }
     }
-  }, [cardData, isMyRecipesPage, isRecipesPage, setRecipes]);
+  }, [initialRecipes, isMyRecipesPage, isRecipesPage, setRecipes]);
 
   const handleBookmarkClick = async (e: React.MouseEvent, recipeId: number) => {
     e.preventDefault();
