@@ -125,11 +125,13 @@ export default function ProfileForm({
       }
 
       try {
+        console.log("Sending update with data:", data);
         const response = await handleUserPatch({
           data: { ...data, id: user.id },
           userData: user,
           toast,
         });
+        console.log("Update response:", response);
 
         if (response.errors) {
           setFormErrors(response.errors);
@@ -145,23 +147,20 @@ export default function ProfileForm({
             },
           );
         } else if (response.success) {
-          const updatedUserData = {
-            ...user,
-            username: data.username,
-            email: data.email,
-          };
-
           const updatedUser = await getCurrentUser(user.accessToken!);
-          setUserData(updatedUser);
-          onUserUpdate(updatedUserData as UserData);
+          console.log("Fetched user after update:", updatedUser);
+          if (updatedUser) {
+            setUserData(updatedUser);
+            onUserUpdate(updatedUser);
 
-          toast({
-            title: "Daten gespeichert",
-            description: "Dein Profil wurde erfolgreich angepasst.",
-          });
+            toast({
+              title: "Daten gespeichert",
+              description: "Dein Profil wurde erfolgreich angepasst.",
+            });
+          }
         }
       } catch (error) {
-        console.error("Fehler beim Aktualisieren der Benutzerdaten:", error);
+        console.error("Error during update:", error);
         toast({
           variant: "destructive",
           title: "Fehler",

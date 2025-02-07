@@ -25,7 +25,7 @@ export const getCurrentUser = async (
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
-        // cache: "no-store",
+        cache: "no-store",
       },
     );
 
@@ -52,6 +52,9 @@ export const getUser = async (userId: number): Promise<UserData | null> => {
   try {
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_APP_URL}/api/get-user?user_id=${userId}`,
+      {
+        cache: "no-store",
+      },
     );
     const data = await response.json();
 
