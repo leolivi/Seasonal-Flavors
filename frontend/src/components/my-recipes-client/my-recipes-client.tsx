@@ -39,7 +39,7 @@ const MyRecipesClient: React.FC<MyRecipesClientProps> = ({
 
   return (
     <div className="m-4">
-      <div className="flex items-center justify-between px-1 min-[640px]:px-4">
+      <div className="flex flex-col items-center justify-between px-1 min-[640px]:flex-row min-[640px]:px-4">
         <Typography variant="heading2" className="font-figtreeRegular">
           <h1 aria-label="meine Rezepte" tabIndex={0}>
             meine Rezepte

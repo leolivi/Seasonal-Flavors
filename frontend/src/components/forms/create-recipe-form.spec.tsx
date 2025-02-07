@@ -83,7 +83,11 @@ describe("CreateRecipeForm", () => {
     expect(screen.getByTestId("ingredient-input-0")).toBeInTheDocument();
 
     mockTags.forEach((tag) => {
-      expect(screen.getByLabelText(tag.name)).toBeInTheDocument();
+      expect(
+        screen.getByRole("checkbox", {
+          name: new RegExp(tag.name, "i"),
+        }),
+      ).toBeInTheDocument();
     });
   });
 

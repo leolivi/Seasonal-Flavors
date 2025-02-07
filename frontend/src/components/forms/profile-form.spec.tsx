@@ -2,15 +2,16 @@ import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { useToast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
 import { handleUserPatch } from "@/services/user/userPatch";
+import { getCurrentUser } from "@/services/user/userService";
 import ProfileForm from "./profile-form";
 import { SessionProvider } from "next-auth/react";
-import { handleImageUpload } from "@/services/image/imageUpload";
 
 jest.mock("@/hooks/use-toast");
 jest.mock("next/navigation", () => ({
   useRouter: jest.fn(),
 }));
 jest.mock("@/services/user/userPatch");
+jest.mock("@/services/user/userService");
 jest.mock("@/services/image/imageUpload");
 jest.mock("@/services/image/imageDelete");
 
@@ -60,7 +61,17 @@ describe("ProfileForm", () => {
   });
 
   test("should submit the form with changes without a file", async () => {
+    const updatedUser = {
+      ...user,
+      username: "newuser",
+      email: "new@example.com",
+    };
+
     (handleUserPatch as jest.Mock).mockResolvedValueOnce({ success: true });
+    (getCurrentUser as jest.Mock).mockResolvedValueOnce(updatedUser);
+
+    const mockSetUserData = jest.fn();
+    const mockOnUserUpdate = jest.fn();
 
     render(
       <SessionProvider session={null}>
@@ -68,8 +79,8 @@ describe("ProfileForm", () => {
           user={user}
           image={undefined}
           onImageUpdate={() => {}}
-          setUserData={() => {}}
-          onUserUpdate={() => {}}
+          setUserData={mockSetUserData}
+          onUserUpdate={mockOnUserUpdate}
         />
       </SessionProvider>,
     );
@@ -88,14 +99,15 @@ describe("ProfileForm", () => {
         data: expect.objectContaining({
           username: "newuser",
           email: "new@example.com",
-          profile_image: undefined,
+          id: user.id,
         }),
+        userData: user,
         toast: expect.any(Function),
-        userData: expect.any(Object),
       });
 
-      expect(handleImageUpload).not.toHaveBeenCalled();
-
+      expect(getCurrentUser).toHaveBeenCalled();
+      expect(mockSetUserData).toHaveBeenCalledWith(updatedUser);
+      expect(mockOnUserUpdate).toHaveBeenCalledWith(updatedUser);
       expect(mockToast).toHaveBeenCalledWith({
         title: "Daten gespeichert",
         description: "Dein Profil wurde erfolgreich angepasst.",

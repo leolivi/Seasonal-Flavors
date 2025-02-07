@@ -56,7 +56,6 @@ describe("ForgotPasswordForm", () => {
       expect(handleForgotPassword).toHaveBeenCalledWith({
         data: { email: "test@example.com" },
         toast: expect.any(Function),
-        router: mockRouter,
       });
     });
   });

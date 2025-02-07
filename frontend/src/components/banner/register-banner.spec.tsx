@@ -4,6 +4,7 @@ import { Season } from "@/utils/Season";
 import { useRouter } from "next/navigation";
 
 jest.mock("@/utils/Season");
+jest.mock("@/hooks/use-media-query");
 jest.mock("next/navigation", () => ({
   useRouter: jest.fn(),
 }));

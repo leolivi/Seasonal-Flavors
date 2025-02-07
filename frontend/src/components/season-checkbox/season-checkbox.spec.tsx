@@ -48,7 +48,7 @@ describe("SeasonCheckbox", () => {
     render(<TestWrapper />);
 
     const firstCheckbox = screen.getByRole("checkbox", {
-      name: mockTags[0].name,
+      name: new RegExp(mockTags[0].name, "i"),
     });
 
     fireEvent.click(firstCheckbox);

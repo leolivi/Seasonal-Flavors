@@ -72,8 +72,11 @@ describe("NavItem", () => {
       />,
     );
 
-    expect(screen.getByText(label).closest("li")).toHaveClass(
-      `hover:bg-${expectedColor}-light`,
+    const link = screen.getByText(label).closest("a");
+    expect(link).toHaveClass(
+      `via-${expectedColor}-dark`,
+      `to-${expectedColor}-dark`,
+      `hover:text-${expectedColor}-dark`,
     );
   });
 

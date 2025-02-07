@@ -69,7 +69,7 @@ describe("RecipeInfo Component", () => {
 
     const container = screen.getByTestId("recipe-info-container");
 
-    expect(container).toHaveClass(`border-${mockColor}`);
+    expect(container).toHaveClass(`border-${mockColor}-dark`);
     expect(container).toHaveClass(`bg-${mockColor}-light`);
   });
 });

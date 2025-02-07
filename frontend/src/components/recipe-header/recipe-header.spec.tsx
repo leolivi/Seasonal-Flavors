@@ -19,6 +19,8 @@ jest.mock("next-auth/react", () => ({
   useSession: jest.fn(),
 }));
 
+jest.mock("@/hooks/use-media-query");
+
 describe("RecipeHeader Component", () => {
   const mockRouter = { back: jest.fn() };
 
