@@ -1,7 +1,6 @@
 "use client";
 import React, { useRef } from "react";
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { color, motion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { Button } from "../button/button";
 import { useRouter } from "next/navigation";
 import { CardList } from "../card-list.tsx/card-list";
@@ -10,6 +9,7 @@ import { Recipe } from "@/services/recipe/recipeService";
 
 interface CardSliderProps {
   cardData: Recipe[];
+  deleteRecipe?: (id: number) => void;
 }
 
 export const CardSlider = ({ cardData }: CardSliderProps) => {
@@ -42,7 +42,12 @@ export const CardSlider = ({ cardData }: CardSliderProps) => {
         whileTap={{ cursor: "grabbing" }}
         style={{ touchAction: "pan-y" }}
       >
-        <CardList cardData={cardData} style={CardLayoutOptions.FLEX} />
+        <CardList
+          cardData={cardData}
+          style={CardLayoutOptions.FLEX}
+          showEdit={false}
+          deleteRecipe={() => {}}
+        />
       </motion.div>
 
       <div className="mt-0 flex justify-center min-[640px]:mt-4">

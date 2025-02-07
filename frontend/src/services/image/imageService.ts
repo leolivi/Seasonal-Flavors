@@ -20,7 +20,7 @@ export const getRecipeImage = async (recipeId: number) => {
       return data[0];
     }
 
-    return undefined;
+    return data;
   } catch (error) {
     console.error("Fehler beim Laden des Rezeptbildes:", error);
     return undefined;
@@ -30,7 +30,7 @@ export const getRecipeImage = async (recipeId: number) => {
 export const getProfileImage = async (userId: number) => {
   try {
     const response = await fetch(
-      `/api/get-image?type=profile&user_id=${userId}`,
+      `${process.env.NEXT_PUBLIC_APP_URL}/api/get-image?type=profile&user_id=${userId}`,
     );
 
     const data = await response.json();
@@ -43,7 +43,7 @@ export const getProfileImage = async (userId: number) => {
       return data[0];
     }
 
-    return undefined;
+    return data;
   } catch (error) {
     console.error("Fehler beim Laden des Profilbildes:", error);
     return undefined;
