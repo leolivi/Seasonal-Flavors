@@ -22,7 +22,7 @@ export async function middleware(req: NextRequest) {
 
   if (pathname === "/my-recipes" && !token) {
     const redirectUrl = req.nextUrl.clone();
-    redirectUrl.pathname = "/";
+    redirectUrl.pathname = "/session";
     return NextResponse.redirect(redirectUrl);
   }
 

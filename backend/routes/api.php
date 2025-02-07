@@ -46,8 +46,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::delete('/recipes/{recipe}/tags', [TagsController::class, 'detachTags']);
 
     // Favoriten erstellen etc.
-    Route::post('/recipes/{recipe}/favorite', [RecipeController::class, 'favorite']);
     Route::get('/user/{user}/favorites', [UserController::class, 'favorites']);
+    Route::post('/recipes/{recipe}/favorite', [RecipeController::class, 'favorite']);
     Route::delete('/recipes/{recipe}/favorite', [RecipeController::class, 'unfavorite']);
 
     // uploads

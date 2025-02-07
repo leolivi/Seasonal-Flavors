@@ -2,13 +2,153 @@
   "sources": [
     {
       "id": 1,
+      "type": "Typography File",
+      "author": "Anders, M.",
+      "year": "2022",
+      "title": "How to apply responsive font sizes in Tailwind",
+      "platform": "DEV Community",
+      "url": "https://dev.to/madflanderz/how-to-apply-responsive-font-sizes-in-tailwind-2fmf",
+      "lastAccessed": "07.02.2025"
+    },
+    {
+      "id": 2,
+      "type": "Readme File",
+      "author": "Anonym",
+      "year": "2024",
+      "title": "KI-Prompt: 'Erstelle mir ein Readme für mein Projekt mit folgenden Dependencies {Dependencies mitgegeben}'",
+      "platform": "ChatGPT",
+      "url": "",
+      "lastAccessed": "12.10.2024"
+    },
+    {
+      "id": 3,
+      "type": "Mermaid Diagram",
+      "author": "Anonym",
+      "year": "2024",
+      "title": "KI-Prompt: 'Erstelle mir ein Mermaid Diagramm inkl. Beziehungen für folgende Migrations {Migrations mitgegeben}'",
+      "platform": "ChatGPT",
+      "url": "",
+      "lastAccessed": "12.10.2024"
+    },
+    {
+      "id": 4,
+      "type": "Infinite Scroll Pagination",
+      "author": "Anonym",
+      "year": "2025",
+      "title": "KI-Prompt: 'Erstelle mir eine Hook für eine onscoll Pagniation für folgendes File {File `my-recipes-client.tsx` hier eingefügt}'",
+      "platform": "Perplexity",
+      "url": "",
+      "lastAccessed": "18.01.2025"
+    },
+    {
+      "id": 5,
+      "type": "Draggable Image Slider",
+      "author": "CodingNepal",
+      "year": "2022",
+      "title": "Create A Draggable Image Slider in HTML CSS & JavaScript | Mobile Friendly Slider in JavaScript",
+      "platform": "YouTube",
+      "url": "https://www.youtube.com/watch?v=7HPsdVQhpRw",
+      "lastAccessed": "07.02.2025"
+    },
+    {
+      "id": 6,
+      "type": "Color Generator",
+      "author": "De Vries, E.",
+      "year": "2025",
+      "title": "Tailwind CSS Color Generator",
+      "platform": "",
+      "url": "https://uicolors.app/create",
+      "lastAccessed": "07.02.2025"
+    },
+    {
+      "id": 7,
+      "type": "Font",
+      "author": "Hoftype, Hofrichter, D.",
+      "year": "o.J.",
+      "title": "Corda",
+      "platform": "Fonts Shmonts",
+      "url": "https://www.fontshmonts.com/text-fonts/corda/",
+      "lastAccessed": "07.02.2025"
+    },
+    {
+      "id": 8,
       "type": "Homepage, Teaser Image",
-      "author": "Alexander Suhorucov",
-      "year": "2021",
-      "title": "Person, Die Silberring Und Goldring Trägt",
+      "author": "Kaboompics.com",
+      "year": "2025",
+      "title": "Gesund Tomaten Vegetarier roh",
       "platform": "Pexels",
-      "url": "https://www.pexels.com/your-image-url",
-      "lastAccessed": "23.10.2023"
+      "url": "https://www.pexels.com/de-de/foto/gesund-tomaten-vegetarier-roh-4020559/",
+      "lastAccessed": "07.02.2025"
+    },
+    {
+      "id": 9,
+      "type": "404 Illustrations",
+      "author": "Kapwing",
+      "year": "2025",
+      "title": "404 Illustrations - Trendy 404 page images for your next project",
+      "platform": "Kapwing",
+      "url": "https://www.kapwing.com/404-illustrations",
+      "lastAccessed": "07.02.2025"
+    },
+    {
+      "id": 10,
+      "type": "Font",
+      "author": "Kennedy, E.",
+      "year": "2025",
+      "title": "Figtree Font",
+      "platform": "Google Fonts",
+      "url": "https://fonts.google.com/specimen/Figtree",
+      "lastAccessed": "07.02.2025"
+    },
+    {
+      "id": 11,
+      "type": "Illustration no Favorites / no Search Results",
+      "author": "Limpitsouni, K.",
+      "year": "2025",
+      "title": "Book lover",
+      "platform": "unDraw",
+      "url": "https://undraw.co/search/book",
+      "lastAccessed": "07.02.2025"
+    },
+    {
+      "id": 12,
+      "type": "Illustration no Recipes created",
+      "author": "Limpitsouni, K.",
+      "year": "2025",
+      "title": "Cooking",
+      "platform": "unDraw",
+      "url": "https://undraw.co/search/cooking",
+      "lastAccessed": "07.02.2025"
+    },
+    {
+      "id": 13,
+      "type": "Homepage, Teaser Scrolling Logo",
+      "author": "Perry, M.",
+      "year": "2025",
+      "title": "Framer Motion: useScroll element scrolling",
+      "platform": "Framer Motion",
+      "url": "https://codesandbox.io/p/sandbox/framer-motion-usescroll-element-scrolling-eg6fm3?file=%2Fsrc%2FApp.tsx&from-embed",
+      "lastAccessed": "07.02.2025"
+    },
+    {
+      "id": 14,
+      "type": "Scroll to Top Button",
+      "author": "Skillthrive",
+      "year": "2025",
+      "title": "How to create a React scroll-to-top button",
+      "platform": "Skillthrive",
+      "url": "https://www.skillthrive.com/posts/react-scroll-to-top-button",
+      "lastAccessed": "07.02.2025"
+    },
+    {
+      "id": 15,
+      "type": "Homepage, Registration Image",
+      "author": "Stołowicz, J.",
+      "year": "2022",
+      "title": "Eine Person die eine Gurke auf einem Schneidebrett schneidet",
+      "platform": "Unsplash",
+      "url": "https://unsplash.com/de/fotos/eine-person-die-eine-gurke-auf-einem-schneidebrett-schneidet-ioinwBvAXi4",
+      "lastAccessed": "07.02.2025"
     }
   ]
 }

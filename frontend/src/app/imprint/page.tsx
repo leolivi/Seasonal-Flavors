@@ -35,7 +35,6 @@ export default function ImprintPage() {
         <Typography variant="heading3" className="font-figtreeRegular">
           <h2>Quellen</h2>
         </Typography>
-        {/* TODO: Add sources */}
         <Typography variant="small" className="mt-5 font-figtreeRegular">
           <ul>
             {sourcesData.sources.map((source) => (

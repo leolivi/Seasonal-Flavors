@@ -5,23 +5,26 @@ erDiagram
         string username
         string email
         string password
+        string remember_token
+    }
+
+    RECIPES {
+        int id              
+        string title        
+        int cooking_time    
+        int prep_time      
+        int servings       
+        json steps         
+        text ingredients   
+        int user_id         
     }
 
     FAVORITES {
+        int id
         int user_id
         int recipe_id
     }
     
-    RECIPES {
-        int id
-        string title
-        int prep_time
-        int cooking_time
-        int servings
-        text ingredients
-        text steps
-        int user_id
-    }
     
     TAGS {
         int id
@@ -30,6 +33,7 @@ erDiagram
     }
 
     RECIPE_TAGS {
+        int id
         int recipe_id
         int tag_id
     }
@@ -37,11 +41,17 @@ erDiagram
     IMAGES {
         int id
         string file_path
+        string alt_text
         int user_id
         int recipe_id
     }
 
-    USERS ||--o{ RECIPES : "owns"
+    PASSWORD_RESET_TOKENS{
+        string email
+        string token
+    }
+
+    USERS ||--o{ RECIPES : "owns" 
     RECIPES ||--o{ RECIPE_TAGS : "tagged with"
     TAGS ||--o{ RECIPE_TAGS : "tags"
     USERS ||--o{ FAVORITES : "favorites"
