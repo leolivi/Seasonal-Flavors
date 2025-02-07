@@ -63,6 +63,7 @@ export default function ProfileForm({
       username: user.username || "",
       email: user.email || "",
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
 
   const hasChanges = (data: ProfileSchema) => {
@@ -125,13 +126,11 @@ export default function ProfileForm({
       }
 
       try {
-        console.log("Sending update with data:", data);
         const response = await handleUserPatch({
           data: { ...data, id: user.id },
           userData: user,
           toast,
         });
-        console.log("Update response:", response);
 
         if (response.errors) {
           setFormErrors(response.errors);
@@ -148,7 +147,6 @@ export default function ProfileForm({
           );
         } else if (response.success) {
           const updatedUser = await getCurrentUser(user.accessToken!);
-          console.log("Fetched user after update:", updatedUser);
           if (updatedUser) {
             setUserData(updatedUser);
             onUserUpdate(updatedUser);

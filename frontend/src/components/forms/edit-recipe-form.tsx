@@ -139,7 +139,12 @@ export default function EditRecipeForm({
     });
 
     if (updatedRecipe) {
-      updateRecipe(formData as unknown as Recipe);
+      updateRecipe({
+        ...updatedRecipe,
+        imageSrc: imageData?.file_path,
+        imageAlt: initialRecipeData.title,
+        season: data.tags,
+      });
     }
   };
 

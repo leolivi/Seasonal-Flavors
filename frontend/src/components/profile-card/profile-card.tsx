@@ -46,6 +46,7 @@ export default function ProfileCard({
 
     fetchImage();
     fetchUserData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [session]);
 
   const handleImageUpdate = (newImageData: ImageData | undefined) => {
