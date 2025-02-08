@@ -23,6 +23,7 @@ export const handleRecipePatch = async ({
   }) => void;
   router: {
     push: (path: string) => void;
+    refresh: () => void;
   };
   updateRecipe: (recipe: Recipe) => void;
 }) => {
@@ -77,6 +78,7 @@ export const handleRecipePatch = async ({
     });
 
     router.push("/my-recipes");
+    router.refresh();
     return updatedRecipe;
   } catch (error) {
     console.error("Rezept-Aktualisierung fehlgeschlagen:", error);

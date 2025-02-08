@@ -22,6 +22,7 @@ export const handleCreateRecipe = async ({
   }) => void;
   router: {
     push: (path: string) => void;
+    refresh: () => void;
   };
   addRecipe: (recipe: Recipe) => void;
 }) => {
@@ -70,7 +71,7 @@ export const handleCreateRecipe = async ({
     });
 
     router.push("/my-recipes");
-
+    router.refresh();
     return recipeId;
   } catch (error) {
     console.error("Rezept-Erstellung fehlgeschlagen:", error);

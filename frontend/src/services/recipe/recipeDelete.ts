@@ -7,6 +7,7 @@ export const handleRecipeDelete = async (
   }) => void,
   router: {
     push: (path: string) => void;
+    refresh: () => void;
   },
   deleteRecipe: (id: number) => void,
 ) => {
@@ -40,7 +41,7 @@ export const handleRecipeDelete = async (
     });
 
     router.push("/my-recipes");
-
+    router.refresh();
     return true;
   } catch (error) {
     console.error("Rezept-Löschung fehlgeschlagen:", error);
