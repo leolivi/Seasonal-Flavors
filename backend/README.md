@@ -44,7 +44,7 @@ This is the backend for the **Seasonal Flavors** web application project, which 
 
    ```
    php artisan migrate
-   php artisan seed
+   touch ./database/database.sqlite && php artisan migrate:fresh --seed
    ```
 
 5. Start the Laravel development server:

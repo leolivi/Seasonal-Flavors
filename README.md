@@ -19,4 +19,6 @@ With the following credentials you can login as a test user on a test environmen
 - Email: yua@miau.com
 - Password: Password12!
 
+Or just register a new account.
+
 Have fun exploring this project! 🍴✨

@@ -8,6 +8,11 @@ export async function middleware(req: NextRequest) {
   // get the current request pathname
   const { pathname } = req.nextUrl;
 
+  // if the pathname is the homepage, return next
+  if (pathname === "/" || pathname === "") {
+    return NextResponse.next();
+  }
+
   if (pathname === "/session" && token) {
     const redirectUrl = req.nextUrl.clone();
     redirectUrl.pathname = "/my-recipes";
@@ -51,13 +56,11 @@ export async function middleware(req: NextRequest) {
 // Configuration to match all paths except API routes, static files, images, etc.
 export const config = {
   matcher: [
-    /*
-     * Match all request paths except for the ones starting with:
-     * - api (API routes)
-     * - _next/static (static files)
-     * - _next/image (image optimization files)
-     * - favicon.ico (favicon file)
-     */
-    "/((?!api|_next/static|_next/image|favicon.ico).*)",
+    "/session",
+    "/profile",
+    "/my-recipes",
+    "/recipes/edit/:path*",
+    "/recipes/create",
+    "/favorites",
   ],
 };
