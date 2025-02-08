@@ -12,4 +12,11 @@ It is built using **Laravel** and **SQLite** for the backend and **Next.js** and
 - You can find the detailed backend installation instructions [here](./backend/README.md).
 - You can find the detailed frontend installation instructions [here](./frontend/README.md).
 
+## Login Daten
+
+With the following credentials you can login as a test user on a test environment:
+
+- Email: yua@miau.com
+- Password: Password12!
+
 Have fun exploring this project! 🍴✨
