@@ -33,6 +33,10 @@ export const getProfileImage = async (userId: number) => {
       `${process.env.NEXT_PUBLIC_APP_URL}/api/get-image?type=profile&user_id=${userId}`,
     );
 
+    if (response.status === 401) {
+      return undefined;
+    }
+
     const data = await response.json();
 
     if (!response.ok) {

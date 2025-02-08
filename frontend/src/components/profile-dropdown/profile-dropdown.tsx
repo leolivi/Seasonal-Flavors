@@ -41,7 +41,7 @@ const ProfileDropdown = forwardRef<HTMLDivElement, ProfileDropdownProps>(
 
     useEffect(() => {
       fetchProfileImage();
-    }, [userData?.id]);
+    }, [userData]);
 
     useEffect(() => {
       const handleImageUpdate = () => {
@@ -49,11 +49,10 @@ const ProfileDropdown = forwardRef<HTMLDivElement, ProfileDropdownProps>(
       };
 
       window.addEventListener("profileImageUpdate", handleImageUpdate);
-
       return () => {
         window.removeEventListener("profileImageUpdate", handleImageUpdate);
       };
-    }, []);
+    }, [userData?.id]);
 
     const handleLogout = async () => {
       try {
