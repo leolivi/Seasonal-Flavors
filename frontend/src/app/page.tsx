@@ -1,24 +1,30 @@
-import Teaser from "@/components/teaser/teaser";
-import { RegisterBanner } from "@/components/banner/register-banner";
-import registerImage from "@/assets/images/register-image.jpg";
-import Image from "next/image";
-import ScrollButton from "@/components/scroll-button/scroll-button";
-import { InspirationText } from "@/components/inspiration-text/inspiration-text";
+import { authConfig } from "@/auth";
 import { CardSliderWrapper } from "@/components/card-slider/card-slider-wrapper";
 import { getCurrentSeason } from "@/utils/SeasonUtils";
-import { getSeasonalRecipes, Recipe } from "@/services/recipe/recipeService";
 import { getRecipeImage } from "@/services/image/imageService";
 import { getRecipeTags } from "@/services/tag/tagService";
+import { getSeasonalRecipes, Recipe } from "@/services/recipe/recipeService";
 import { getServerSession } from "next-auth";
-import { authConfig } from "@/auth";
+import { InspirationText } from "@/components/inspiration-text/inspiration-text";
+import { RegisterBanner } from "@/components/banner/register-banner";
+import Image from "next/image";
+import registerImage from "@/assets/images/register-image.jpg";
+import ScrollButton from "@/components/scroll-button/scroll-button";
+import Teaser from "@/components/teaser/teaser";
 
-// Home component that renders the main content of the page
+/*
+  @return array|Response
+  @desc Displays the home page
+*/
 const Home = async () => {
+  // retrieve the current season
   const seasonName = getCurrentSeason();
+  // retrieve the seasonal recipes
   const cardData = await getSeasonalRecipes();
+  // retrieve the session
   const session = await getServerSession(authConfig);
 
-  // Format the card data to match the expected structure
+  // format the card data
   const formattedCardData: Recipe[] = await Promise.all(
     cardData.map(async (recipe: Recipe) => {
       const imageData = await getRecipeImage(recipe.id);
@@ -35,14 +41,19 @@ const Home = async () => {
     }),
   );
 
+  // return the home page
   return (
     <main>
+      {/* teaser with logo animation */}
       <Teaser />
+      {/* inspiration text  */}
       <InspirationText
         seasonName={seasonName}
         aria-label={`Inspirationen für den ${seasonName}`}
       />
+      {/* card slider with seasonal recipes */}
       <CardSliderWrapper cardData={formattedCardData} />
+      {/* register banner if no user is logged in */}
       {!session && (
         <div className="relative my-24 flex h-[20rem] items-center justify-center px-4 min-[640px]:h-80 min-[640px]:px-8 min-[1024px]:h-96">
           <Image

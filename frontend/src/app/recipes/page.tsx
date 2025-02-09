@@ -1,3 +1,4 @@
+import { SessionLoader } from "@/components/auth-session/auth-session";
 import RecipesClient from "@/components/recipes-client/recipes-client";
 import { getRecipeImage } from "@/services/image/imageService";
 import { getFilteredRecipes, Recipe } from "@/services/recipe/recipeService";
@@ -6,23 +7,38 @@ import { getCurrentSeason } from "@/utils/SeasonUtils";
 
 export const dynamic = "force-dynamic";
 
+/*
+  @return array|Response
+  @desc Displays the recipes page
+*/
 const RecipesPage = async ({
   searchParams,
 }: {
   searchParams?: { title?: string; season?: string };
 }) => {
+  // retrieve the current season
   const currentSeason = getCurrentSeason();
+
+  // retrieve the title and season
   const title = searchParams?.title || "";
   const season = searchParams?.season || currentSeason;
 
+  // retrieve the recipes
   const recipes = await getFilteredRecipes(season, title);
-  if (!recipes) return <div>Keine Rezepte gefunden</div>;
+  if (!recipes)
+    return (
+      <div className="flex flex-col items-center justify-center">
+        Keine Rezepte gefunden <SessionLoader size="small" />
+      </div>
+    );
 
+  // format the recipes
   const formattedRecipes: Recipe[] = await Promise.all(
     recipes.map(async (recipe) => {
       const imageData = await getRecipeImage(recipe.id);
       const seasonData = await getRecipeTags(recipe.id);
 
+      // return the formatted recipe
       return {
         ...recipe,
         imageSrc: imageData?.file_path,
@@ -34,6 +50,7 @@ const RecipesPage = async ({
     }),
   );
 
+  // return the recipes client
   return <RecipesClient formattedCardData={formattedRecipes} />;
 };
 

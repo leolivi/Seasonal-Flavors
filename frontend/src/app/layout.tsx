@@ -1,10 +1,10 @@
-import type { Metadata } from "next";
-import localFont from "next/font/local";
 import "./globals.css";
+import { Toaster } from "@/components/toaster/toaster";
 import Footer from "@/layouts/footer";
 import Header from "@/layouts/header";
+import localFont from "next/font/local";
 import SessionProvider from "@/providers/session-provider";
-import { Toaster } from "@/components/toaster/toaster";
+import type { Metadata } from "next";
 
 const cordaRegular = localFont({
   src: "./fonts/corda/Corda-Regular.ttf",
