@@ -2,7 +2,13 @@ import { authConfig } from "@/auth";
 import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 
+/*
+  @return array|Response
+  @desc Creates a favorite for the current user
+*/
+
 export async function POST(request: NextRequest) {
+  // check if the request method is POST
   if (request.method !== "POST") {
     return NextResponse.json(
       { message: "Method not allowed" },
@@ -29,7 +35,7 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  // now we try to communicate with the backend
+  // now we try to create the favorite
   try {
     const response = await fetch(
       `${process.env.BACKEND_URL}/api/recipes/${recipeId}/favorite`,
@@ -45,7 +51,6 @@ export async function POST(request: NextRequest) {
     const data = await response.json();
 
     // if the response is not ok from the server, we can handle the error
-    // in the next.js server
     if (!response.ok) {
       return NextResponse.json(
         { message: data.message },
@@ -53,9 +58,13 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // if the response is ok from the server, we can return the data
     return NextResponse.json(data, { status: 201 });
   } catch (error) {
+    // log the error
     console.error("Favorite creation failed: ", error);
+
+    // return a 500 error
     return NextResponse.json(
       { message: "Favorite creation failed" },
       { status: 500 },

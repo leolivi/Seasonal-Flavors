@@ -1,7 +1,5 @@
 "use server";
 
-// tells the server that this is a server-side action and runs on the server
-
 interface ResponseReturn {
   message?: string | number;
   status: number;
@@ -19,6 +17,11 @@ export interface SignUpResponse extends ResponseReturn {
   id?: number;
   errors?: SignupError[] | { [key: string]: string } | string;
 }
+
+/*
+  @return array|Response
+  @desc Tells the server that this is a server-side action and runs on the server
+*/
 
 export async function handleSignup(
   email: string,
