@@ -1,13 +1,15 @@
 <?php
 use Illuminate\Support\Facades\Route;
-// use Illuminate\Http\Request;
-
 use App\Controllers\UserController;
 use App\Controllers\AuthController;
 use App\Controllers\RecipeController;
 use App\Controllers\UploadsController;
 use App\Controllers\TagsController;
 use App\Controllers\MailController;
+
+/*
+  @desc Create api routes
+*/
 
 // register a user
 Route::post('/user', [UserController::class, 'create']);

@@ -5,8 +5,10 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration {
+  /*
+  @desc Create the images table
+  */
   function up() {
-    // create a Images Schema
     Schema::create('images', function (Blueprint $table) {
       $table->id();
       $table->string('file_path');
@@ -17,6 +19,9 @@ return new class extends Migration {
     });
   }
 
+  /*
+  @desc Drop the images table
+  */
   function down() {
     Schema::dropIfExists('images');
   }

@@ -8,8 +8,10 @@ use App\Models\User;
 use Illuminate\Database\Seeder;
 
 class ImageSeeder extends Seeder {
+    /*
+    @desc Create images with file paths as external links
+    */
     public function run() {
-        // Create images with file paths as external links
         $images = [
             [
                 'title' => 'Butternut-Kürbissuppe',

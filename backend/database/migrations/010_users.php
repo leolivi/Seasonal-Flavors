@@ -5,8 +5,10 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration {
+  /*
+  @desc Create the users table
+  */
   function up() {
-    // create a User Schema
     Schema::create('users', function (Blueprint $table) {
       $table->id();
       $table->string('username', 100)->unique();
@@ -17,6 +19,9 @@ return new class extends Migration {
     });
   }
 
+  /*
+  @desc Drop the users table
+  */
   function down() {
     Schema::dropIfExists('users');
   }

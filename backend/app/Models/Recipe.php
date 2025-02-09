@@ -5,7 +5,6 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use WendellAdriel\Lift\Attributes\Column;
 use Illuminate\Http\Request;
 use Laravel\Sanctum\HasApiTokens;
 

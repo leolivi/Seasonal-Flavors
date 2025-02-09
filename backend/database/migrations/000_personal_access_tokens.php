@@ -5,6 +5,9 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration {
+  /*
+  @desc Create the personal_access_tokens table
+  */
   function up() {
     if (!Schema::hasTable('personal_access_tokens')) {
       Schema::create('personal_access_tokens', function (Blueprint $table) {
@@ -20,6 +23,9 @@ return new class extends Migration {
     }
   }
 
+  /*
+  @desc Drop the personal_access_tokens table
+  */
   function down() {
     Schema::dropIfExists('personal_access_tokens');
   }

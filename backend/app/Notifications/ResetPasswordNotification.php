@@ -5,22 +5,22 @@ namespace App\Notifications;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class ResetPasswordNotification extends Notification
-{
+class ResetPasswordNotification extends Notification {
     private $token;
 
-    public function __construct($token)
-    {
+    public function __construct($token){
         $this->token = $token;
     }
 
-    public function via($notifiable)
-    {
+    public function via($notifiable){
         return ['mail'];
     }
 
-    public function toMail($notifiable)
-    {
+    /*
+    @return MailMessage
+    @desc Send a reset password email
+    */
+    public function toMail($notifiable){
         $url = env('FRONTEND_URL') . '/reset-password?token=' . $this->token . '&email=' . $notifiable->email;
 
         return (new MailMessage)

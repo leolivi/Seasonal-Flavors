@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use WendellAdriel\Lift\Attributes\Column;
 use Laravel\Sanctum\HasApiTokens;
 
 class Image extends Model {

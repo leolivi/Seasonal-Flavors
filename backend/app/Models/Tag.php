@@ -5,7 +5,6 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Http\Request;
-use WendellAdriel\Lift\Attributes\Column;
 
 
 class Tag extends Model {
@@ -30,7 +29,7 @@ class Tag extends Model {
     */
     static function validate(Request $request): array {
         return $request->validate([
-        'name' => ['required', "min:1", "max:99", 'unique:tags,name'], // name soll einzigartig sein
+        'name' => ['required', "min:1", "max:99", 'unique:tags,name'],
         'category' => ["min:1", "max:99"],
         ]);
     }

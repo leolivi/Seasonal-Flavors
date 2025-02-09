@@ -8,12 +8,19 @@ use App\Models\User;
 use Illuminate\Database\Seeder;
 
 class RecipeSeeder extends Seeder {
+    /*
+    @desc Create default recipes for testing reasons
+    */
     public function run() {
 
-        // Create default recipes for testing reasons
-        // assign to default testing user
+        /*
+        @desc Assign to default testing user
+        */
         $user = User::where('email', 'yua@miau.com')->firstOrFail();
 
+        /*
+        @desc Create default recipes for testing reasons
+        */
         Recipe::updateOrCreate(
             ['title' => 'Butternut-Kürbissuppe'], 
             [
@@ -336,6 +343,9 @@ class RecipeSeeder extends Seeder {
         $this->attachTagsToRecipes();
     }
 
+    /*
+    @desc Attach tags to recipes
+    */
     private function attachTagsToRecipes() {
         $springTag = Tag::where('name', 'spring')->first();
         $summerTag = Tag::where('name', 'summer')->first();

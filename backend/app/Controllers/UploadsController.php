@@ -97,7 +97,7 @@ class UploadsController {
         }
     }
 
-     /*
+    /*
     @return JsonResponse
     @desc Deletes a file
     */

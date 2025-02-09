@@ -5,17 +5,21 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration {
-
-    // create a Password Reset Tokens Schema
-    public function up() {
-        Schema::create('password_reset_tokens', function (Blueprint $table) {
-            $table->string('email')->primary();
+  /*
+  @desc Create the password_reset_tokens table
+  */
+  function up() {
+    Schema::create('password_reset_tokens', function (Blueprint $table) {
+      $table->string('email')->primary();
             $table->string('token');
             $table->timestamp('created_at')->nullable();
         });
     }
 
-    public function down(){
-        Schema::dropIfExists('password_reset_tokens');
-    }
+  /*
+  @desc Drop the password_reset_tokens table
+  */
+  function down() {
+    Schema::dropIfExists('password_reset_tokens');
+  }
 }; 
