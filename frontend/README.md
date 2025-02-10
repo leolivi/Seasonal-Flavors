@@ -126,12 +126,13 @@ Seasonal-Flavors/
 To run the tests, use the following command:
 
 ```
+cd frontend
 npm run test
 # or
 yarn test
 ```
 
-❗️ frontend folder must be the root folder to run the tests ❗️
+❗️ Important: You must be in the frontend directory to run the tests ❗️
 
 ## Features 🎀
 

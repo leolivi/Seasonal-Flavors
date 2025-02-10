@@ -4,23 +4,30 @@ import { useRouter } from "next/navigation";
 import { RecipeHeader } from "./recipe-header";
 import { useSession } from "next-auth/react";
 
+// mock the use router hook
 jest.mock("next/navigation", () => ({
   useRouter: jest.fn(),
 }));
 
+// mock the arrow left icon
 jest.mock("src/assets/icons/arrow-left.svg", () => {
   const ArrowLeftMock = () => <div>ArrowLeftMock</div>;
   ArrowLeftMock.dataTestId = "arrow-left";
   return ArrowLeftMock;
 });
 
+// mock the use session hook
 jest.mock("next-auth/react", () => ({
   ...jest.requireActual("next-auth/react"),
   useSession: jest.fn(),
 }));
 
+// mock the use media query hook
 jest.mock("@/hooks/use-media-query");
 
+/*
+  @desc Test the recipe header
+*/
 describe("RecipeHeader Component", () => {
   const mockRouter = { back: jest.fn() };
 

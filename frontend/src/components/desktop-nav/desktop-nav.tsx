@@ -1,4 +1,4 @@
-import { NavStyle } from "../nav-item/nav-item";
+import { NavStyle } from "@/utils/enum";
 import NavList from "../nav-list/nav-list";
 
 interface DesktopNavProps {
@@ -10,6 +10,9 @@ interface DesktopNavProps {
   }[];
 }
 
+/*
+  @desc Displays the desktop navigation
+*/
 export const DesktopNav = ({ navigationItems }: DesktopNavProps) => {
   return <NavList items={navigationItems} style={NavStyle.HEADER} />;
 };

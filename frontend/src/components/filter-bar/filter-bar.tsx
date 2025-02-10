@@ -1,9 +1,8 @@
 "use client";
 
-import React, { useState, useEffect, Suspense } from "react";
-import { Typography } from "../ui/typography";
+import { FaChevronDown } from "react-icons/fa";
 import { getCurrentSeason, getSeasonColor } from "@/utils/SeasonUtils";
-import CardListWrapper from "../card-list.tsx/card-list-wrapper";
+import { RxCross2 } from "react-icons/rx";
 import {
   Select,
   SelectContent,
@@ -11,12 +10,13 @@ import {
   SelectItem,
   SelectTrigger,
 } from "@radix-ui/react-select";
-import { FaChevronDown } from "react-icons/fa";
-import Heart from "../ui/heart";
-import { useRouter, useSearchParams } from "next/navigation";
-import { SlMagnifier } from "react-icons/sl";
-import { RxCross2 } from "react-icons/rx";
 import { SessionLoader } from "../auth-session/auth-session";
+import { SlMagnifier } from "react-icons/sl";
+import { Typography } from "../ui/typography";
+import { useRouter, useSearchParams } from "next/navigation";
+import CardListWrapper from "../card-list.tsx/card-list-wrapper";
+import Heart from "../ui/heart";
+import React, { useState, useEffect, Suspense } from "react";
 
 const seasons = [
   { label: "Frühling", value: "spring", color: "sfgreen" },
@@ -26,17 +26,27 @@ const seasons = [
   { label: "ganzjährig", value: "all_year", color: "sfblack" },
 ];
 
+/*
+  @desc Displays the filter bar content
+*/
 const FilterBarContent = () => {
+  // get the seasonal color
   const seasonalColor = getSeasonColor();
+  // get the router
   const router = useRouter();
+  // get the search params
   const searchParams = useSearchParams();
 
+  // get the current season
   const currentSeason = getCurrentSeason();
+  // get the input value
   const [inputValue, setInputValue] = useState(searchParams.get("title") || "");
+  // get the selected season
   const [selectedSeason, setSelectedSeason] = useState(
     searchParams.get("season") || currentSeason,
   );
 
+  // handle the search
   useEffect(() => {
     const params = new URLSearchParams();
     if (inputValue) params.set("title", inputValue);
@@ -44,9 +54,11 @@ const FilterBarContent = () => {
 
     router.push(`/recipes?${params.toString()}`);
   }, [inputValue, selectedSeason, router]);
-
   return (
-    <CardListWrapper className="mb-4 flex cursor-pointer justify-between gap-2 max-[640px]:mt-8 min-[640px]:pl-6 min-[640px]:pr-4">
+    <CardListWrapper
+      viewOptions={{}}
+      className="mb-4 flex cursor-pointer justify-between gap-2 max-[640px]:mt-8 min-[640px]:pl-6 min-[640px]:pr-4"
+    >
       {/* Saison-Filter */}
       <Select
         value={selectedSeason}
@@ -89,6 +101,7 @@ const FilterBarContent = () => {
           position="popper"
         >
           <SelectGroup className="flex flex-col gap-1">
+            {/* map through the seasons */}
             {seasons.map((season) => (
               <SelectItem
                 key={season.value}
@@ -104,7 +117,7 @@ const FilterBarContent = () => {
         </SelectContent>
       </Select>
 
-      {/* Suchfeld */}
+      {/* search field */}
       <form
         action="/recipes"
         method="get"
@@ -158,6 +171,9 @@ const FilterBarContent = () => {
   );
 };
 
+/*
+  @desc Displays the filter bar
+*/
 const FilterBar = () => {
   return (
     <Suspense fallback={<SessionLoader size="small" />}>

@@ -1,5 +1,8 @@
 import React from "react";
 
+/*
+  @desc Heart component 
+*/
 const Heart = ({ ...props }) => {
   return (
     <svg

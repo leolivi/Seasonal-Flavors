@@ -1,39 +1,38 @@
-import RecipesClient from "@/components/recipes-client/recipes-client";
-import { getRecipeImage } from "@/services/image/imageService";
-import { getFilteredRecipes, Recipe } from "@/services/recipe/recipeService";
-import { getRecipeTags } from "@/services/tag/tagService";
 import { getCurrentSeason } from "@/utils/SeasonUtils";
+import { getFilteredRecipes } from "@/services/recipe/recipeService";
+import { SessionLoader } from "@/components/auth-session/auth-session";
+import RecipesClient from "@/components/recipes-client/recipes-client";
+import { formatRecipeData } from "@/utils/recipe-formatting";
 
 export const dynamic = "force-dynamic";
 
+/*
+  @desc Displays the recipes page
+*/
 const RecipesPage = async ({
   searchParams,
 }: {
   searchParams?: { title?: string; season?: string };
 }) => {
+  // retrieve the current season
   const currentSeason = getCurrentSeason();
+  // retrieve the title and season
   const title = searchParams?.title || "";
   const season = searchParams?.season || currentSeason;
 
+  // retrieve the recipes
   const recipes = await getFilteredRecipes(season, title);
-  if (!recipes) return <div>Keine Rezepte gefunden</div>;
+  if (!recipes)
+    return (
+      <div className="flex flex-col items-center justify-center">
+        Keine Rezepte gefunden <SessionLoader size="small" />
+      </div>
+    );
 
-  const formattedRecipes: Recipe[] = await Promise.all(
-    recipes.map(async (recipe) => {
-      const imageData = await getRecipeImage(recipe.id);
-      const seasonData = await getRecipeTags(recipe.id);
+  // fetch formatted recipes
+  const formattedRecipes = await formatRecipeData(recipes);
 
-      return {
-        ...recipe,
-        imageSrc: imageData?.file_path,
-        imageAlt: imageData?.alt_text,
-        season: Array.isArray(seasonData)
-          ? seasonData.map((tag) => tag.name).join(", ")
-          : "",
-      };
-    }),
-  );
-
+  // return the recipes client
   return <RecipesClient formattedCardData={formattedRecipes} />;
 };
 

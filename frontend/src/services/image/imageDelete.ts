@@ -1,3 +1,6 @@
+/*
+  @desc Handle image delete
+*/
 export const handleImageDelete = async (
   entityId: number,
   imageId: number,
@@ -15,6 +18,7 @@ export const handleImageDelete = async (
     return false;
   }
 
+  // redirect to api handler delete-image
   try {
     const response = await fetch(`/api/delete-image/${imageId}`, {
       method: "DELETE",

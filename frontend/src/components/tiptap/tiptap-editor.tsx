@@ -29,13 +29,19 @@ interface TipTapEditorProps {
   onContentChange: (content: ProseMirrorNode) => void;
 }
 
+/*
+  @desc TipTapEditor component
+*/
 export const TipTapEditor = ({
   content,
   onContentChange,
 }: TipTapEditorProps) => {
+  // get the current season
   const seasonalColor = getSeasonColor();
+  // get the error state
   const { error } = useFormField();
 
+  // create the editor
   const editor = useEditor({
     extensions: [
       StarterKit.configure({
@@ -111,6 +117,7 @@ export const TipTapEditor = ({
       </ToggleGroup>
 
       <Typography variant="body">
+        {/* tiptap editor */}
         <EditorContent editor={editor} data-testid="tiptap-editor" />
       </Typography>
     </>

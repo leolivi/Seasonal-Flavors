@@ -12,14 +12,20 @@ import { Input } from "../ui/input";
 import { forgotPasswordSchema } from "@/validation/passwordSchema";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Button, ButtonSize } from "../button/button";
+import { Button } from "../button/button";
 import { handleForgotPassword } from "@/services/user/PasswordPatch";
 import { useToast } from "@/hooks/use-toast";
 import Heart from "../ui/heart";
+import { ButtonSize } from "@/utils/enum";
 
+/*
+  @desc Forgot password form
+*/
 export const ForgotPasswordForm = () => {
+  // get the toast
   const { toast } = useToast();
 
+  // create the form
   const form = useForm<z.infer<typeof forgotPasswordSchema>>({
     resolver: zodResolver(forgotPasswordSchema),
     defaultValues: {
@@ -27,6 +33,7 @@ export const ForgotPasswordForm = () => {
     },
   });
 
+  // handle the form submission
   async function onSubmit(formData: z.infer<typeof forgotPasswordSchema>) {
     await handleForgotPassword({
       data: { email: formData.email },
@@ -34,6 +41,7 @@ export const ForgotPasswordForm = () => {
     });
   }
 
+  // render the form
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-6">
@@ -51,6 +59,7 @@ export const ForgotPasswordForm = () => {
           )}
         />
         <div className="flex w-full justify-center">
+          {/* submit button */}
           <Button
             type="submit"
             label="Email senden"

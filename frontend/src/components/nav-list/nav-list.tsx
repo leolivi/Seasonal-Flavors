@@ -1,4 +1,5 @@
-import NavItem, { NavStyle } from "../nav-item/nav-item";
+import { NavStyle } from "@/utils/enum";
+import NavItem from "../nav-item/nav-item";
 
 interface NavListProps {
   items: {
@@ -10,7 +11,9 @@ interface NavListProps {
   style?: NavStyle;
 }
 
-// component to map through items for navigation
+/*
+  @desc Nav list
+*/
 const NavList = ({ items = [], style = NavStyle.HEADER }: NavListProps) => {
   return (
     <ul

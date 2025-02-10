@@ -7,6 +7,9 @@ interface SessionProviderProps {
   children: ReactNode;
 }
 
+/*
+  @desc Session provider
+*/
 const SessionProvider = ({ children }: SessionProviderProps) => {
   return <NextAuthSessionProvider>{children}</NextAuthSessionProvider>;
 };

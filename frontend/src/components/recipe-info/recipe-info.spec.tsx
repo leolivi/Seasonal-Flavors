@@ -2,8 +2,12 @@ import { render, screen } from "@testing-library/react";
 import { RecipeInfo } from "./recipe-info";
 import { Season } from "@/utils/Season";
 
+// mock the season
 jest.mock("@/utils/Season");
 
+/*
+  @desc Test Recipe info component
+*/
 describe("RecipeInfo Component", () => {
   test("displays prep time, cooking time, and servings correctly", () => {
     render(

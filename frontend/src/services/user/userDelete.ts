@@ -1,5 +1,8 @@
 import { signOut } from "next-auth/react";
 
+/*
+  @desc Handle user delete
+*/
 export const handleUserDelete = async (
   userId: number,
   toast: (options: {
@@ -13,6 +16,7 @@ export const handleUserDelete = async (
     return false;
   }
 
+  // redirect to api handler delete-user
   try {
     const response = await fetch(`/api/delete-user`, {
       method: "DELETE",

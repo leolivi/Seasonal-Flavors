@@ -8,19 +8,22 @@ import Logo from "@/components/ui/logo";
 import MobileNavigation from "@/components/mobile-navigation/mobile-navigation";
 import { usePathname } from "next/navigation";
 import { getSeasonColor } from "@/utils/SeasonUtils";
-import { getSession, useSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import { MobileNavIcon } from "@/components/mobile-navigation/mobile-nav-icon";
 import { DesktopNav } from "@/components/desktop-nav/desktop-nav";
 import ProfileDropdown from "@/components/profile-dropdown/profile-dropdown";
-import { getCurrentUser, UserData } from "@/services/user/userService";
+import { UserData } from "@/types/interfaces";
 import { BiBookHeart } from "react-icons/bi";
+import { getAuthenticatedUser } from "@/utils/auth-user";
 
 interface HeaderContainerProps {
   color?: string;
   children: React.ReactNode;
 }
 
-// wrapper component for semantic structure and responsiveness
+/*
+  @desc Header container component for semantic structure and responsiveness
+*/
 const HeaderContainer = ({ children }: HeaderContainerProps) => {
   return (
     <header
@@ -36,7 +39,9 @@ const HeaderContainer = ({ children }: HeaderContainerProps) => {
   );
 };
 
-// header component
+/*
+  @desc Header component
+*/
 const Header = () => {
   const { status } = useSession();
   const seasonalColor = getSeasonColor();
@@ -50,25 +55,19 @@ const Header = () => {
 
   const toggleDropdown = () => setIsOpen(!isOpen);
 
-  // useEffect für das Mounting
+  // useEffect for mounting
   useEffect(() => {
     setIsMounted(true);
   }, []);
 
   // Fetch the user profile image data once authenticated
   useEffect(() => {
-    // Funktion zum Abrufen der Benutzerdaten
+    // Function to fetch the user data
     const fetchUserData = async () => {
-      if (status === "authenticated") {
-        const session = await getSession();
-        if (session?.accessToken) {
-          const userData = await getCurrentUser(session.accessToken);
-          setUserData(userData);
-        }
-      }
+      const user = await getAuthenticatedUser();
+      setUserData(user);
     };
-
-    // Funktion zum Schließen des Modals bei Klick außerhalb
+    // Function to close the modal when clicking outside
     const handleClickOutside = (event: MouseEvent) => {
       const target = event.target as Node;
 
@@ -82,21 +81,22 @@ const Header = () => {
       setIsOpen(false);
     };
 
-    // Abrufen der Benutzerdaten
+    // Fetch the user data
     fetchUserData();
 
-    // Event-Listener für Click-Outside
+    // Event-Listener for click outside
     document.addEventListener("mousedown", handleClickOutside);
 
-    // Schließe das MobileNavigation-Element, wenn sich der Pfad ändert
+    // Close the MobileNavigation element when the path changes
     setIsOpen(false);
 
-    // Cleanup-Funktion
+    // Cleanup function
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [status, pathname]);
 
+  // Navigation items
   const navigationItems = [
     {
       icon: !isDesktop ? <PiBowlSteamFill size={24} width={20} /> : null,
@@ -127,6 +127,7 @@ const Header = () => {
     },
   ];
 
+  // Add home icon to the navigation items if not on desktop
   if (!isDesktop) {
     navigationItems.unshift({
       icon: (
@@ -140,7 +141,7 @@ const Header = () => {
     });
   }
 
-  // Render nichts, bis die Komponente gemounted ist
+  // Render nothing until the component is mounted
   if (!isMounted) {
     return null;
   }
@@ -150,6 +151,7 @@ const Header = () => {
       <li>
         <Logo variant="header" />
       </li>
+      {/* Desktop layout */}
       {isDesktop ? (
         <li>
           <DesktopNav
@@ -158,6 +160,7 @@ const Header = () => {
           />
         </li>
       ) : (
+        /* Mobile layout */
         <>
           <MobileNavIcon onClick={toggleDropdown} color={seasonalColor} />
           <div ref={ref}>

@@ -1,3 +1,6 @@
+/*
+  @desc Handle image upload
+*/
 export const handleImageUpload = async (
   id: string | number,
   image: File,
@@ -23,6 +26,7 @@ export const handleImageUpload = async (
     formData.append("alt_text", `Profilbild ${title}`);
   }
 
+  // redirect to api handler upload-image
   try {
     const response = await fetch("/api/upload-image", {
       method: "POST",

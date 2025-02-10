@@ -12,20 +12,21 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
-import { Button, ButtonSize } from "../button/button";
+import { Button } from "../button/button";
 import { ProfileSchema, profileSchema } from "@/validation/profileSchema";
 import { ProfileCardProps } from "../profile-card/profile-card";
 import { useState, useEffect } from "react";
-import type { ImageData } from "@/services/image/imageService";
+import { ImageData, UserData } from "@/types/interfaces";
 import { Typography } from "../ui/typography";
 import Image from "next/image";
 import { getProfileImage } from "@/services/image/imageService";
 import { handleImageDelete } from "@/services/image/imageDelete";
 import { handleImageUpload } from "@/services/image/imageUpload";
 import { handleUserPatch } from "@/services/user/userPatch";
-import { getCurrentUser, UserData } from "@/services/user/userService";
+import { getCurrentUser } from "@/services/user/userService";
 import Heart from "../ui/heart";
 import { RxCross2 } from "react-icons/rx";
+import { ButtonSize } from "@/utils/enum";
 
 type ProfileFormProps = {
   user: NonNullable<ProfileCardProps["userData"]>;
@@ -35,6 +36,9 @@ type ProfileFormProps = {
   onUserUpdate: (newUserData: UserData) => void;
 };
 
+/*
+  @desc Profile form
+*/
 export default function ProfileForm({
   user,
   image,
@@ -42,13 +46,17 @@ export default function ProfileForm({
   setUserData,
   onUserUpdate,
 }: ProfileFormProps) {
+  // get the profile image
   const [profileImage, setProfileImage] = useState<File | null>();
+  // get the toast
   const { toast } = useToast();
+  // get the form errors
   const [formErrors, setFormErrors] = useState<
     { field: string; message: string }[]
   >([]);
+  // get the preview url
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
-
+  // create the form
   const form = useForm<z.infer<typeof profileSchema>>({
     resolver: zodResolver(profileSchema),
     defaultValues: {
@@ -58,6 +66,7 @@ export default function ProfileForm({
     shouldUnregister: true,
   });
 
+  // reset the form
   useEffect(() => {
     form.reset({
       username: user.username || "",
@@ -66,6 +75,7 @@ export default function ProfileForm({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
 
+  // check if there are changes
   const hasChanges = (data: ProfileSchema) => {
     return (
       (data.username !== user.username && data.username !== undefined) ||
@@ -74,6 +84,7 @@ export default function ProfileForm({
     );
   };
 
+  // handle the form submission
   async function onSubmit(data: z.infer<typeof profileSchema>) {
     setFormErrors([]);
 
@@ -173,6 +184,7 @@ export default function ProfileForm({
     }
   }
 
+  // handle the file change
   const handleFileChange = (file: File | null) => {
     if (file) {
       const url = URL.createObjectURL(file);
@@ -187,6 +199,7 @@ export default function ProfileForm({
     }
   };
 
+  // clear the file input
   const clearFileInput = () => {
     if (previewUrl) {
       URL.revokeObjectURL(previewUrl);
@@ -203,6 +216,7 @@ export default function ProfileForm({
     }
   };
 
+  // render the form
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-6">
@@ -228,6 +242,7 @@ export default function ProfileForm({
                       name={field.name}
                       className="w-full"
                     />
+                    {/* clear button only if there is a preview url or a file */}
                     {(previewUrl || field.value) && (
                       <RxCross2
                         size={25}
@@ -238,6 +253,7 @@ export default function ProfileForm({
                       />
                     )}
                   </div>
+                  {/* preview image */}
                   {previewUrl && (
                     <div className="relative mt-2">
                       <Image
@@ -281,6 +297,7 @@ export default function ProfileForm({
             </FormItem>
           )}
         />
+        {/* error message */}
         {formErrors.length > 0 && (
           <div className="font-figtreeRegular text-sfred">
             {formErrors.map((error, index) => (
@@ -291,6 +308,7 @@ export default function ProfileForm({
           </div>
         )}
         <div className="flex w-full justify-center">
+          {/* submit button */}
           <Button
             type="submit"
             label="speichern"

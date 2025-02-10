@@ -1,16 +1,19 @@
-import React from "react";
 import { CardSlider } from "./card-slider";
-import { Recipe } from "@/services/recipe/recipeService";
+import { RecipeData } from "@/types/interfaces";
+import React from "react";
 
 interface CardSliderWrapperProps {
-  cardData: Recipe[];
+  cardData: RecipeData[];
 }
 
-// Client component to handle routing and dragging logic
+/*
+  @desc Wrapper for the card slider
+*/
 export const CardSliderWrapper = ({ cardData }: CardSliderWrapperProps) => {
   return (
     <div className="wrapper select-none">
       <div className="carousel overflow-hidden overflow-y-hidden whitespace-nowrap">
+        {/* card slider */}
         <CardSlider cardData={cardData} />
       </div>
     </div>

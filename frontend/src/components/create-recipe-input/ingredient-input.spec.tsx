@@ -3,6 +3,7 @@ import { IngredientInput } from "./ingredient-input";
 import { useForm, FormProvider } from "react-hook-form";
 import { CreateRecipeSchema } from "@/validation/createRecipeSchema";
 
+// Mock the cross icon
 jest.mock("@/assets/icons/cross.svg", () => ({
   __esModule: true,
   default: ({ "data-testid": testId }: { "data-testid": string }) => (
@@ -10,6 +11,9 @@ jest.mock("@/assets/icons/cross.svg", () => ({
   ),
 }));
 
+/*
+  @desc Test wrapper for the ingredient input
+*/
 const TestWrapper: React.FC = () => {
   const methods = useForm<CreateRecipeSchema>();
   return (

@@ -1,37 +1,40 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { forwardRef, useEffect, useState } from "react";
 import Link from "next/link";
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-  AvatarSize,
-} from "@/components/avatar/avatar";
-import { FaUserCircle } from "react-icons/fa";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { FaBookmark } from "react-icons/fa";
 import { FaLock } from "react-icons/fa6";
+import { FaUserCircle } from "react-icons/fa";
+import { getSeasonColor } from "@/utils/SeasonUtils";
+import { getProfileImage } from "@/services/image/imageService";
 import { IoPersonSharp } from "react-icons/io5";
 import { PiSignOutBold } from "react-icons/pi";
-import { getSeasonColor } from "@/utils/SeasonUtils";
-import { toast } from "@/hooks/use-toast";
+import { SessionLoader } from "../auth-session/auth-session";
 import { signOut } from "next-auth/react";
+import { toast } from "@/hooks/use-toast";
 import { Typography } from "../ui/typography";
+import { UserData } from "@/types/interfaces";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import useMediaQuery from "@/hooks/use-media-query";
-import { SessionLoader } from "../auth-session/auth-session";
-import { FaBookmark } from "react-icons/fa";
-import { ImageData, getProfileImage } from "@/services/image/imageService";
-import { UserData } from "@/services/user/userService";
-
+import { AvatarSize } from "@/utils/enum";
+import { ImageData } from "@/types/interfaces";
 interface ProfileDropdownProps {
   userData: UserData | null;
 }
 
+/*
+  @desc Profile dropdown
+*/
 const ProfileDropdown = forwardRef<HTMLDivElement, ProfileDropdownProps>(
   ({ userData }, ref) => {
+    // get the seasonal color
     const seasonalColor = getSeasonColor();
+    // check if the user is on a desktop
     const isDesktop = useMediaQuery("(min-width: 730px)");
+    // set the image data
     const [imageData, setImageData] = useState<ImageData | undefined>();
 
+    // fetch the profile image
     const fetchProfileImage = async () => {
       if (userData?.id) {
         const fetchedImageData = await getProfileImage(userData.id);
@@ -43,6 +46,7 @@ const ProfileDropdown = forwardRef<HTMLDivElement, ProfileDropdownProps>(
       fetchProfileImage();
     }, [userData]);
 
+    // handle the image update
     useEffect(() => {
       const handleImageUpdate = () => {
         fetchProfileImage();
@@ -54,6 +58,7 @@ const ProfileDropdown = forwardRef<HTMLDivElement, ProfileDropdownProps>(
       };
     }, [userData?.id]);
 
+    // handle the logout
     const handleLogout = async () => {
       try {
         toast({
@@ -74,13 +79,35 @@ const ProfileDropdown = forwardRef<HTMLDivElement, ProfileDropdownProps>(
       }
     };
 
+    // render the session loader if the user data is not available
     if (!userData) {
       return <SessionLoader size="small" />;
     }
 
+    // menu items
+    const menuItems = [
+      {
+        href: "/profile",
+        icon: <IoPersonSharp className="mr-2 h-4 w-4" />,
+        label: "Mein Profil",
+      },
+      {
+        href: "/favorites",
+        icon: <FaBookmark className="mr-2 h-4 w-4" />,
+        label: "Favoriten",
+      },
+      {
+        href: "/forgot-password",
+        icon: <FaLock className="mr-2 h-4 w-4" />,
+        label: "Passwort ändern",
+      },
+    ];
+
+    // render the dropdown menu
     return (
       <DropdownMenu.Root>
         <DropdownMenu.Trigger asChild>
+          {/* avatar */}
           <button
             type="button"
             onKeyDown={(e) => {
@@ -92,11 +119,13 @@ const ProfileDropdown = forwardRef<HTMLDivElement, ProfileDropdownProps>(
             aria-label="Profilmenü öffnen"
           >
             <Avatar size={AvatarSize.small}>
+              {/* avatar image */}
               <AvatarImage
                 src={imageData?.file_path || ""}
                 alt="User's avatar"
                 loading="eager"
               />
+              {/* avatar fallback */}
               <AvatarFallback>
                 <FaUserCircle
                   size={100}
@@ -108,6 +137,7 @@ const ProfileDropdown = forwardRef<HTMLDivElement, ProfileDropdownProps>(
           </button>
         </DropdownMenu.Trigger>
 
+        {/* dropdown menu portal */}
         <DropdownMenu.Portal>
           <DropdownMenu.Content
             className={`z-50 mt-2 w-fit rounded-md bg-sfwhite p-4 shadow-lg`}
@@ -115,44 +145,21 @@ const ProfileDropdown = forwardRef<HTMLDivElement, ProfileDropdownProps>(
             align={isDesktop ? "end" : "center"}
             ref={ref}
           >
-            <DropdownMenu.Item
-              className={`cursor-pointer font-figtreeRegular hover:bg-${seasonalColor}-light rounded px-2 outline-none data-[highlighted]:bg-${seasonalColor}-light mb-4 flex items-center data-[highlighted]:text-sfblack min-[640px]:mb-2`}
-              asChild
-            >
-              <Link href="/profile" className="flex w-full items-center">
-                <IoPersonSharp className="mr-2 h-4 w-4" />
-                <Typography variant="small">
-                  <span className="text-sfblack">Mein Profil</span>
-                </Typography>
-              </Link>
-            </DropdownMenu.Item>
-
-            <DropdownMenu.Item
-              className={`cursor-pointer font-figtreeRegular hover:bg-${seasonalColor}-light rounded px-2 outline-none data-[highlighted]:bg-${seasonalColor}-light mb-4 flex items-center data-[highlighted]:text-sfblack min-[640px]:mb-2`}
-              asChild
-            >
-              <Link href="/favorites" className="flex w-full items-center">
-                <FaBookmark className="mr-2 h-4 w-4" />
-                <Typography variant="small">
-                  <span className="text-sfblack">Favoriten</span>
-                </Typography>
-              </Link>
-            </DropdownMenu.Item>
-
-            <DropdownMenu.Item
-              className={`cursor-pointer font-figtreeRegular hover:bg-${seasonalColor}-light rounded px-2 outline-none data-[highlighted]:bg-${seasonalColor}-light mb-4 flex items-center data-[highlighted]:text-sfblack min-[640px]:mb-2`}
-              asChild
-            >
-              <Link
-                href="/forgot-password"
-                className="flex w-full items-center"
+            {/* map through the menu items */}
+            {menuItems.map((item) => (
+              <DropdownMenu.Item
+                key={item.href}
+                className={`cursor-pointer font-figtreeRegular hover:bg-${seasonalColor}-light rounded px-2 outline-none data-[highlighted]:bg-${seasonalColor}-light mb-4 flex items-center data-[highlighted]:text-sfblack min-[640px]:mb-2`}
+                asChild
               >
-                <FaLock className="mr-2 h-4 w-4" />
-                <Typography variant="small">
-                  <span className="text-sfblack">Passwort ändern</span>
-                </Typography>
-              </Link>
-            </DropdownMenu.Item>
+                <Link href={item.href} className="flex w-full items-center">
+                  {item.icon}
+                  <Typography variant="small">
+                    <span className="text-sfblack">{item.label}</span>
+                  </Typography>
+                </Link>
+              </DropdownMenu.Item>
+            ))}
             <DropdownMenu.Separator
               className={`border-${seasonalColor}-dark mb-2 rounded border-[1px]`}
             />

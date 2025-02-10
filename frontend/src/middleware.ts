@@ -1,6 +1,9 @@
 import { getToken } from "next-auth/jwt";
 import { NextRequest, NextResponse } from "next/server";
 
+/*
+  @desc Middleware to check if the user is authenticated
+*/
 export async function middleware(req: NextRequest) {
   // get the token from the request ehader (JWT from cookies via NextAuth)
   const token = await getToken({ req, secret: process.env.AUTH_SECRET });
@@ -8,43 +11,49 @@ export async function middleware(req: NextRequest) {
   // get the current request pathname
   const { pathname } = req.nextUrl;
 
+  // if the user is authenticated and the path is /session, redirect to the my-recipes page
   if (pathname === "/session" && token) {
     const redirectUrl = req.nextUrl.clone();
     redirectUrl.pathname = "/my-recipes";
     return NextResponse.redirect(redirectUrl);
   }
 
+  // if the user is not authenticated, redirect to the session page
   if (pathname === "/profile" && !token) {
     const redirectUrl = req.nextUrl.clone();
     redirectUrl.pathname = "/session";
     return NextResponse.redirect(redirectUrl);
   }
 
+  // if the user is not authenticated and the path is /my-recipes, redirect to the session page
   if (pathname === "/my-recipes" && !token) {
     const redirectUrl = req.nextUrl.clone();
     redirectUrl.pathname = "/session";
     return NextResponse.redirect(redirectUrl);
   }
 
+  // if the user is not authenticated and the path is /recipes/edit, redirect to the session page
   if (pathname.match(/^\/recipes\/edit\/[^\/]+$/) && !token) {
     const redirectUrl = req.nextUrl.clone();
     redirectUrl.pathname = "/session";
     return NextResponse.redirect(redirectUrl);
   }
 
+  // if the user is not authenticated and the path is /recipes/create, redirect to the session page
   if (pathname === "/recipes/create" && !token) {
     const redirectUrl = req.nextUrl.clone();
     redirectUrl.pathname = "/session";
     return NextResponse.redirect(redirectUrl);
   }
 
+  // if the user is not authenticated and the path is /favorites, redirect to the session page
   if (pathname === "/favorites" && !token) {
     const redirectUrl = req.nextUrl.clone();
     redirectUrl.pathname = "/session";
     return NextResponse.redirect(redirectUrl);
   }
 
-  // 5. continue with the request, if no other condition is met
+  // continue with the request, if no other condition is met
   return NextResponse.next();
 }
 

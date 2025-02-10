@@ -1,5 +1,8 @@
 import { z } from "zod";
 
+/*
+  @desc Schema for reset password
+*/
 export const resetPasswordSchema = z
   .object({
     token: z.string(),

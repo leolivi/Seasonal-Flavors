@@ -4,20 +4,26 @@ import { handleForgotPassword } from "@/services/user/PasswordPatch";
 import { useRouter } from "next/navigation";
 import { ForgotPasswordForm } from "./forgot-password-form";
 
+// mock the password patch service
 jest.mock("@/services/user/PasswordPatch", () => ({
   handleForgotPassword: jest.fn(),
 }));
 
+// mock the toast
 jest.mock("@/hooks/use-toast", () => ({
   useToast: jest.fn(() => ({
     toast: jest.fn(),
   })),
 }));
 
+// mock the next/navigation
 jest.mock("next/navigation", () => ({
   useRouter: jest.fn(),
 }));
 
+/*
+  @desc Test the forgot password form
+*/
 describe("ForgotPasswordForm", () => {
   const mockRouter = { push: jest.fn() };
 

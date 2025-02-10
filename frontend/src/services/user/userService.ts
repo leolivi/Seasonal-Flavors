@@ -1,15 +1,10 @@
 import { getProfileImage } from "@/services/image/imageService";
-import { Recipe } from "../recipe/recipeService";
 import { handleLogout } from "@/components/auth-session/handle-logout";
+import { UserData, RecipeData } from "@/types/interfaces";
 
-export interface UserData {
-  id: number;
-  username: string;
-  email: string;
-  imageSrc?: string;
-  accessToken?: string;
-}
-
+/*
+  @desc Get current user
+*/
 export const getCurrentUser = async (
   accessToken: string,
 ): Promise<UserData | null> => {
@@ -18,6 +13,7 @@ export const getCurrentUser = async (
       return null;
     }
 
+    // redirect to api handler get-user
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_APP_URL}/api/get-user`,
       {
@@ -48,7 +44,11 @@ export const getCurrentUser = async (
   }
 };
 
+/*
+  @desc Get user
+*/
 export const getUser = async (userId: number): Promise<UserData | null> => {
+  // redirect to api handler get-user
   try {
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_APP_URL}/api/get-user?user_id=${userId}`,
@@ -74,10 +74,14 @@ export const getUser = async (userId: number): Promise<UserData | null> => {
   }
 };
 
+/*
+  @desc Get user favorites
+*/
 export const getUserFavorites = async (
   userId: number,
   accessToken: string,
-): Promise<Recipe[]> => {
+): Promise<RecipeData[]> => {
+  // redirect to api handler get-user-favorites
   try {
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_APP_URL}/api/get-user-favorites?user_id=${userId}`,

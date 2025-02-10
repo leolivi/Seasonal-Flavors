@@ -9,6 +9,9 @@ export const ACCEPTED_IMAGE_TYPES = [
   "image/svg+xml",
 ];
 
+/*
+  @desc Schema for creating a recipe
+*/
 export const createRecipeSchema = z.object({
   title: z
     .string()

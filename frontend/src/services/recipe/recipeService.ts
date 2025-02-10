@@ -1,23 +1,13 @@
 import { getCurrentSeason } from "@/utils/SeasonUtils";
+import { RecipeData } from "@/types/interfaces";
 
-export interface Recipe {
-  id: number;
-  title: string;
-  cooking_time: number;
-  prep_time: number;
-  servings: number;
-  steps: string;
-  ingredients: string;
-  user_id: string;
-  image_id?: number;
-  imageSrc?: string;
-  imageAlt?: string;
-  season?: string | number[];
-}
-
+/*
+  @desc Get seasonal recipes
+*/
 export const getSeasonalRecipes = async () => {
   const seasonName = getCurrentSeason();
 
+  // redirect to api handler get-seasonal-recipes
   try {
     const params = new URLSearchParams();
     params.append("tags[]", "all_year");
@@ -43,7 +33,9 @@ export const getSeasonalRecipes = async () => {
   }
 };
 
-export const getRecipe = async (recipeId: number): Promise<Recipe | null> => {
+export const getRecipe = async (
+  recipeId: number,
+): Promise<RecipeData | null> => {
   try {
     const response = await fetch(
       `${process.env.BACKEND_URL}/api/recipe?id=${recipeId}`,
@@ -69,7 +61,7 @@ export const getRecipe = async (recipeId: number): Promise<Recipe | null> => {
 
 export const getUserRecipes = async (
   userId: number,
-): Promise<Recipe[] | null> => {
+): Promise<RecipeData[] | null> => {
   try {
     const response = await fetch(
       `${process.env.BACKEND_URL}/api/recipe?user_id=${userId}`,

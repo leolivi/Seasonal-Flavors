@@ -4,14 +4,19 @@ import { LoginForm } from "./login-form";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
+// mock the sign in
 jest.mock("next-auth/react", () => ({
   signIn: jest.fn(),
 }));
 
+// mock the next/navigation
 jest.mock("next/navigation", () => ({
   useRouter: jest.fn(),
 }));
 
+/*
+  @desc Test the login form
+*/
 describe("LoginForm", () => {
   const mockRouter = { push: jest.fn() };
   const setFormMock = jest.fn();

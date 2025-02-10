@@ -3,7 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FieldErrors, useForm } from "react-hook-form";
 import { Form, FormField, FormMessage } from "@/components/ui/form";
-import { Button, ButtonSize, ButtonStyle } from "../button/button";
+import { Button } from "../button/button";
 import { SeasonCheckbox } from "../season-checkbox/season-checkbox";
 import { useRouter } from "next/navigation";
 import { RecipeInput } from "../create-recipe-input/recipe-input";
@@ -15,9 +15,7 @@ import {
   editRecipeSchema,
   EditRecipeSchema,
 } from "@/validation/editRecipeSchema";
-import { ImageData } from "@/services/image/imageService";
-import { Recipe } from "@/services/recipe/recipeService";
-import { UserData } from "@/services/user/userService";
+import { ImageData, RecipeData, UserData } from "@/types/interfaces";
 import Image from "next/image";
 import { handleImageDelete } from "@/services/image/imageDelete";
 import { handleImageUpload } from "@/services/image/imageUpload";
@@ -25,6 +23,7 @@ import { handleRecipePatch } from "@/services/recipe/recipePatch";
 import { getRecipeImage } from "@/services/image/imageService";
 import { useRecipes } from "@/hooks/use-recipes";
 import Heart from "../ui/heart";
+import { ButtonSize, ButtonStyle } from "@/utils/enum";
 
 interface FormField {
   name: keyof EditRecipeSchema;
@@ -34,26 +33,36 @@ interface FormField {
 
 interface EditRecipeFormProps {
   formFields: FormField[];
-  recipeData: Recipe;
+  recipeData: RecipeData;
   tags: { id: number; name: string }[];
   user: UserData;
 }
 
+/*
+  @desc Edit recipe form
+*/
 export default function EditRecipeForm({
   formFields,
   recipeData: initialRecipeData,
   tags,
   user,
 }: EditRecipeFormProps) {
+  // get the router
   const router = useRouter();
+  // get the recipes
   const { updateRecipe } = useRecipes();
+  // get the editor content
   const [editorContent, setEditorContent] = useState<
     ProseMirrorNode | undefined
   >(undefined);
+  // get the cover image
   const [coverImage, setCoverImage] = useState<File | null>();
+  // get the image data
   const [imageData, setImageData] = useState<ImageData | undefined>();
+  // get the toast
   const { toast } = useToast();
 
+  // fetch the image data
   useEffect(() => {
     const fetchImage = async () => {
       if (initialRecipeData?.id) {
@@ -65,6 +74,7 @@ export default function EditRecipeForm({
     fetchImage();
   }, [initialRecipeData?.id]);
 
+  // create the form
   const form = useForm<EditRecipeSchema>({
     resolver: zodResolver(editRecipeSchema),
     defaultValues: {
@@ -83,6 +93,7 @@ export default function EditRecipeForm({
     },
   });
 
+  // handle the form submission
   const onSubmit = async (data: EditRecipeSchema) => {
     const formData = {
       ...data,
@@ -92,8 +103,10 @@ export default function EditRecipeForm({
       steps: JSON.stringify(editorContent),
     };
 
+    // get the recipe id
     const recipeId = initialRecipeData.id;
 
+    // handle the cover image and recipe patch
     if (coverImage) {
       try {
         if (imageData && imageData.id) {
@@ -148,6 +161,7 @@ export default function EditRecipeForm({
     }
   };
 
+  // handle the form errors
   const handleError = (errors: FieldErrors<EditRecipeSchema>) => {
     if (Object.keys(errors).length > 0) {
       toast({
@@ -158,15 +172,18 @@ export default function EditRecipeForm({
     }
   };
 
+  // get the single inputs
   const singleInputs = formFields.filter(
     (field) =>
       !["cooking_time", "prep_time", "servings", "steps"].includes(field.name),
   );
 
+  // get the row inputs
   const rowInputs = formFields.filter((field) =>
     ["cooking_time", "prep_time", "servings"].includes(field.name),
   );
 
+  // render the form
   return (
     <Form {...form}>
       <form
@@ -174,6 +191,7 @@ export default function EditRecipeForm({
         className="w-full space-y-6 min-[640px]:w-5/6 min-[1020px]:w-2/3 min-[1240px]:w-1/2"
         noValidate
       >
+        {/* single inputs */}
         <RecipeInput<EditRecipeSchema>
           fields={singleInputs}
           control={form.control}
@@ -191,6 +209,7 @@ export default function EditRecipeForm({
           }}
         />
 
+        {/* cover image */}
         {!coverImage && imageData?.file_path && (
           <div className="flex flex-col items-center">
             <Image
@@ -203,14 +222,17 @@ export default function EditRecipeForm({
           </div>
         )}
 
+        {/* row inputs */}
         <RecipeInput fields={rowInputs} control={form.control} layout="row" />
 
+        {/*  ingredient input */}
         <IngredientInput
           control={form.control}
           name="ingredients"
           defaultValue={initialRecipeData.ingredients}
         />
 
+        {/*  steps input */}
         <FormField
           control={form.control}
           name="steps"
@@ -230,6 +252,7 @@ export default function EditRecipeForm({
           )}
         />
 
+        {/* season checkbox */}
         <SeasonCheckbox<EditRecipeSchema>
           control={form.control}
           name="tags"
@@ -237,6 +260,7 @@ export default function EditRecipeForm({
         />
 
         <div className="flex w-full justify-between">
+          {/* cancel button */}
           <Button
             type="button"
             label="abbrechen"
@@ -244,6 +268,7 @@ export default function EditRecipeForm({
             size={ButtonSize.SMALL}
             onClick={() => router.back()}
           />
+          {/* save button */}
           <Button
             type="submit"
             label="speichern"

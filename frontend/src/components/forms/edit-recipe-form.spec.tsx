@@ -1,75 +1,61 @@
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import EditRecipeForm from "./edit-recipe-form";
-import { useRouter } from "next/navigation";
 import { FormField } from "../recipe-form-wrapper/recipe-form-wrapper";
+import { clearCommonMocks, setupCommonMocks } from "../__mocks__/test-mocks";
 
-jest.mock("src/assets/icons/cross.svg", () => {
-  const CrossMock = () => <span>CrossMock</span>;
-  CrossMock.displayName = "CrossMock";
-  return CrossMock;
-});
-
-jest.mock("src/assets/icons/plus.svg", () => {
-  const PlusMock = () => <span>PlusMock</span>;
-  PlusMock.displayName = "PlusMock";
-  return PlusMock;
-});
-
-jest.mock("@/services/recipe/recipePatch", () => ({
-  handleRecipePatch: jest.fn(),
-}));
-
+// mock the router
+const mockRouter = { push: jest.fn(), back: jest.fn() };
 jest.mock("next/navigation", () => ({
-  useRouter: jest.fn(),
+  useRouter: () => mockRouter,
 }));
 
-jest.mock("@/hooks/use-toast", () => ({
-  useToast: jest.fn(() => ({
-    toast: jest.fn(),
-  })),
-}));
+// mock the tags
+const mockTags = [
+  { id: 1, name: "Frühling" },
+  { id: 2, name: "Sommer" },
+];
 
-jest.mock("@/services/image/imageUpload");
-jest.mock("@/services/image/imageDelete");
+// mock the user
+const mockUser = {
+  id: 1,
+  email: "test@example.com",
+  username: "testuser",
+};
 
+// mock the recipe data
+const mockRecipeData = {
+  id: 1,
+  title: "Test Rezept",
+  cooking_time: 30,
+  prep_time: 15,
+  servings: 4,
+  steps: JSON.stringify({ type: "doc", content: [] }),
+  ingredients: "Zutaten",
+  season: [1, 2],
+  user_id: "1",
+};
+
+// mock the form fields
+const mockFormFields = [
+  { name: "title", label: "Titel" },
+  { name: "cover_image", label: "Cover Image" },
+  { name: "cooking_time", label: "Kochzeit" },
+  { name: "servings", label: "Portionen" },
+  { name: "prep_time", label: "Vorbereitungszeit" },
+  { name: "ingredients", label: "Zutaten" },
+  { name: "steps", label: "Schritte" },
+];
+
+/*
+  @desc Test the edit recipe form
+*/
 describe("EditRecipeForm", () => {
-  const mockRouter = { push: jest.fn(), back: jest.fn() };
-  const mockTags = [
-    { id: 1, name: "Frühling" },
-    { id: 2, name: "Sommer" },
-  ];
-  const mockUser = {
-    id: 1,
-    email: "test@example.com",
-    username: "testuser",
-  };
-  const mockRecipeData = {
-    id: 1,
-    title: "Test Rezept",
-    cooking_time: 30,
-    prep_time: 15,
-    servings: 4,
-    steps: JSON.stringify({ type: "doc", content: [] }),
-    ingredients: "Zutaten",
-    season: [1, 2],
-    user_id: "1",
-  };
-  const mockFormFields = [
-    { name: "title", label: "Titel" },
-    { name: "cover_image", label: "Cover Image" },
-    { name: "cooking_time", label: "Kochzeit" },
-    { name: "servings", label: "Portionen" },
-    { name: "prep_time", label: "Vorbereitungszeit" },
-    { name: "ingredients", label: "Zutaten" },
-    { name: "steps", label: "Schritte" },
-  ];
-
-  beforeEach(() => {
-    (useRouter as jest.Mock).mockReturnValue(mockRouter);
+  beforeAll(() => {
+    setupCommonMocks();
   });
 
   afterEach(() => {
-    jest.clearAllMocks();
+    clearCommonMocks();
   });
 
   test("should render the form with all fields", () => {

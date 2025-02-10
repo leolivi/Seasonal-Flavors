@@ -1,37 +1,39 @@
 "use client";
 
-import * as React from "react";
-import * as AvatarPrimitive from "@radix-ui/react-avatar";
-
 import { cn } from "@/utils/clsx";
+import { AvatarSize } from "@/utils/enum";
 import { getSeasonColor } from "@/utils/SeasonUtils";
+import * as AvatarPrimitive from "@radix-ui/react-avatar";
+import * as React from "react";
 
-export enum AvatarSize {
-  small = "h-10 w-10",
-  large = "h-20 w-20",
-}
+/*
+  @desc avatar component from shadcn/ui
+*/
 
 interface AvatarProps
   extends React.ComponentPropsWithoutRef<typeof AvatarPrimitive.Root> {
   size?: AvatarSize;
 }
 
-const seasonalColor = getSeasonColor();
-
 const Avatar = React.forwardRef<
   React.ElementRef<typeof AvatarPrimitive.Root>,
   AvatarProps
->(({ className, size = AvatarSize.small, ...props }, ref) => (
-  <AvatarPrimitive.Root
-    ref={ref}
-    className={cn(
-      `relative flex shrink-0 overflow-hidden rounded-full border-2 border-${seasonalColor}-dark bg-${seasonalColor}-light`,
-      size,
-      className,
-    )}
-    {...props}
-  />
-));
+>(({ className, size = AvatarSize.small, ...props }, ref) => {
+  // get the seasonal color
+  const seasonalColor = getSeasonColor();
+  // return the avatar
+  return (
+    <AvatarPrimitive.Root
+      ref={ref}
+      className={cn(
+        `relative flex shrink-0 overflow-hidden rounded-full border-2 border-${seasonalColor}-dark bg-${seasonalColor}-light`,
+        size,
+        className,
+      )}
+      {...props}
+    />
+  );
+});
 Avatar.displayName = AvatarPrimitive.Root.displayName;
 
 interface AvatarImageProps
@@ -39,6 +41,9 @@ interface AvatarImageProps
   size?: AvatarSize;
 }
 
+/*
+  @desc AvatarImage component from shadcn/ui
+*/
 const AvatarImage = React.forwardRef<
   React.ElementRef<typeof AvatarPrimitive.Image>,
   AvatarImageProps

@@ -1,9 +1,9 @@
-// components/NavItem.js
 import Link from "next/link";
-import { Typography } from "../ui/typography";
+import { Typography } from "@/components/ui/typography";
 import useMediaQuery from "@/hooks/use-media-query";
 import { getSeasonColor } from "@/utils/SeasonUtils";
 import { useSession } from "next-auth/react";
+import { NavStyle } from "@/utils/enum";
 
 interface NavItemProps {
   icon?: React.ReactNode;
@@ -13,18 +13,20 @@ interface NavItemProps {
   isActive?: boolean;
 }
 
-export enum NavStyle {
-  FOOTER = "footer",
-  HEADER = "header",
-}
-
-// component creating a single nav item
+/*
+  @desc Nav item
+*/
 const NavItem = ({ icon, label, href, style, isActive }: NavItemProps) => {
+  // get the seasonal color
   const seasonalColor = getSeasonColor();
+  // check if the user is on a desktop
   const isDesktop = useMediaQuery("(min-width: 730px)");
+  // check if the style is footer
   const isFooter = style === NavStyle.FOOTER;
+  // get the session status
   const { status } = useSession();
 
+  // render the component
   return (
     <li
       // styling depends on screen width

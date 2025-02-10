@@ -9,6 +9,9 @@ const ACCEPTED_IMAGE_TYPES = [
   "image/svg+xml",
 ];
 
+/*
+  @desc Schema for profile
+*/
 export const profileSchema = z.object({
   username: z
     .string()

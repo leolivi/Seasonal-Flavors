@@ -6,13 +6,19 @@ import { getCurrentUser } from "@/services/user/userService";
 import ProfileForm from "./profile-form";
 import { SessionProvider } from "next-auth/react";
 
+// mock the toast
 jest.mock("@/hooks/use-toast");
+// mock the next/navigation
 jest.mock("next/navigation", () => ({
   useRouter: jest.fn(),
 }));
+// mock the user patch service
 jest.mock("@/services/user/userPatch");
+// mock the user service
 jest.mock("@/services/user/userService");
+// mock the image upload service
 jest.mock("@/services/image/imageUpload");
+// mock the image delete service
 jest.mock("@/services/image/imageDelete");
 
 const mockToast = jest.fn();
@@ -27,6 +33,9 @@ afterEach(() => {
   jest.clearAllMocks();
 });
 
+/*
+  @desc Test the profile form
+*/
 describe("ProfileForm", () => {
   const user = {
     id: 1,

@@ -1,15 +1,16 @@
-import { getServerSession } from "next-auth";
-import { redirect } from "next/navigation";
-import FavoritesClient from "../../components/favorites-client/favorites-client";
-import { authConfig } from "@/auth";
+import FavoritesClient from "@/components/favorites-client/favorites-client";
+import { getAuthenticatedUser } from "@/utils/auth-user";
 
+/*
+  @desc Displays the favorites page
+*/
 const FavoritesPage = async () => {
-  const session = await getServerSession(authConfig);
+  // retrieve the user
+  const user = await getAuthenticatedUser();
+  // if there is no user, return null
+  if (!user) return null;
 
-  if (!session) {
-    redirect("/session");
-  }
-
+  // return the favorites client
   return <FavoritesClient />;
 };
 

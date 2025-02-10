@@ -1,8 +1,13 @@
+import { Typography } from "@/components/ui/typography";
 import Image from "next/image";
 import NotFoundImage from "@/assets/images/404-image.png";
-import { Typography } from "@/components/ui/typography";
 
+/*
+  @return array|Response
+  @desc Displays the not found page
+*/
 export default function NotFound() {
+  // return the not found page
   return (
     <div className="px-4 pb-8 text-center min-[640px]:px-8">
       <div className="flex justify-center">

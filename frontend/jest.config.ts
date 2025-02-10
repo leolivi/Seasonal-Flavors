@@ -1,9 +1,8 @@
 import { Config } from "jest";
 import nextJest from "next/jest";
 
-// Configure next.js with Jest
 const createJestConfig = nextJest({
-  dir: "./", // Path to your Next.js app
+  dir: "./",
 });
 
 // Jest configuration

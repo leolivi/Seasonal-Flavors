@@ -1,13 +1,16 @@
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import ProfileDropdown from "./profile-dropdown";
 
+// mock the sign out
 const mockSignOut = jest.fn();
 
+// mock the use media query hook
 jest.mock("@/hooks/use-media-query", () => ({
   __esModule: true,
   default: jest.fn(() => true),
 }));
 
+// mock the use session hook
 jest.mock("next-auth/react", () => ({
   useSession: () => ({
     data: { accessToken: "mock-token" },
@@ -16,7 +19,8 @@ jest.mock("next-auth/react", () => ({
   signOut: jest.fn(() => mockSignOut()),
 }));
 
-jest.mock("@/components/avatar/avatar", () => {
+// mock the avatar component
+jest.mock("@/components/ui/avatar", () => {
   const Image = jest.requireActual("next/image").default;
   return {
     Avatar: ({ children }: { children: React.ReactNode }) => (
@@ -34,6 +38,7 @@ jest.mock("@/components/avatar/avatar", () => {
   };
 });
 
+// mock the dropdown menu component
 jest.mock("@radix-ui/react-dropdown-menu", () => ({
   Root: ({ children }: { children: React.ReactNode }) => <div>{children}</div>,
   Trigger: ({ children }: { children: React.ReactNode }) => (
@@ -55,12 +60,16 @@ jest.mock("@radix-ui/react-dropdown-menu", () => ({
   Separator: () => <div />,
 }));
 
+// mock the user data
 const userData = {
   id: 1,
   username: "testuser",
   email: "test@test.com",
 };
 
+/*
+  @desc Test the profile dropdown
+*/
 describe("ProfileDropdown", () => {
   beforeEach(() => {
     mockSignOut.mockClear();

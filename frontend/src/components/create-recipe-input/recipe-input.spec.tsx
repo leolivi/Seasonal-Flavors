@@ -3,6 +3,7 @@ import { RecipeInput } from "./recipe-input";
 import { useForm, FormProvider } from "react-hook-form";
 import { CreateRecipeSchema } from "@/validation/createRecipeSchema";
 
+// Test wrapper for the recipe input
 const TestWrapper = () => {
   const methods = useForm<CreateRecipeSchema>();
   return (
@@ -18,6 +19,9 @@ const TestWrapper = () => {
   );
 };
 
+/*
+  @desc Test the recipe input
+*/
 describe("RecipeInput", () => {
   const mockOnFileChange = jest.fn();
 

@@ -2,9 +2,12 @@ import { authConfig } from "@/auth";
 import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 
-// here we need to defined it as a NextRequest, so taht we can access the request body
+/*
+  @desc Uploads an image to the backend
+*/
+
 export async function POST(request: NextRequest) {
-  // route schützen
+  // check if the request method is POST
   if (request.method !== "POST") {
     return NextResponse.json(
       { message: "Method not allowed" },
@@ -15,10 +18,12 @@ export async function POST(request: NextRequest) {
   // retrieve the request body
   const formData = await request.formData();
 
+  // retrieve the form data
   const recipeId = formData.get("recipe_id");
   const userId = formData.get("user_id");
   const type = formData.get("type");
 
+  // if there is no type, return a bad request error
   if (!type) {
     return NextResponse.json(
       { message: "Upload type is required" },
@@ -26,6 +31,7 @@ export async function POST(request: NextRequest) {
     );
   }
 
+  // if the type is recipe and there is no recipeId, return a bad request error
   if (type === "recipe" && !recipeId) {
     return NextResponse.json(
       { message: "Recipe ID is required for recipe image uploads" },
@@ -33,6 +39,7 @@ export async function POST(request: NextRequest) {
     );
   }
 
+  // if the type is profile and there is no userId, return a bad request error
   if (type === "profile" && !userId) {
     return NextResponse.json(
       { message: "User ID is required for profile image uploads" },
@@ -40,9 +47,9 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  // now we try to communicate with the backend
+  // try to upload the image
   try {
-    // get the session to retrieve the user's accessToken
+    // get the session to retrieve the user's accessTok en
     const session = await getServerSession(authConfig);
 
     // if there is no session, return unauthorized
@@ -50,13 +57,16 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ message: "Unauthorized" }, { status: 401 });
     }
 
-    // Konstruiere die URL basierend auf dem Upload-Typ
+    // set the base url
     const baseUrl = `${process.env.BACKEND_URL}/api/uploads`;
+
+    // set the query params
     const queryParams =
       type === "recipe"
         ? `type=recipe&recipe_id=${recipeId}`
         : `type=profile&user_id=${userId}`;
 
+    // set the upload url
     const uploadUrl = `${baseUrl}?${queryParams}`;
 
     // send the request to the backend
@@ -68,23 +78,24 @@ export async function POST(request: NextRequest) {
       body: formData,
     });
 
+    // retrieve the data
     const data = await response.text();
 
-    // (optional) handle errors
-    // if the response from the server is not ok, in some cases the response of the
-    // next.js server can be a 200, if you're not conditionally checking if the
-    // !response.ok,
-    // that's why we did an additional check here
+    // if the response is not ok from the server, we can handle the error
     if (!response.ok) {
       return NextResponse.json({ message: data }, { status: response.status });
     }
 
+    // return the data
     return NextResponse.json(data, { status: 201 });
   } catch (error) {
+    // log the error
     console.error("Image upload failed: ", error);
+
+    // return a 400 error
     return NextResponse.json(
       { message: "There was an error in the upload." },
-      { status: 400 },
+      { status: 500 },
     );
   }
 }

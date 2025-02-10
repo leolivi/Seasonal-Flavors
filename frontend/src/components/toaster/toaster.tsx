@@ -10,6 +10,9 @@ import {
   ToastViewport,
 } from "@/components/toaster/toast";
 
+/*
+  @desc Toaster component from shadcn/ui
+*/
 export function Toaster() {
   const { toasts } = useToast();
 

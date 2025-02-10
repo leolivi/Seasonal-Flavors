@@ -1,3 +1,6 @@
+/*
+  @desc Handle recipe delete
+*/
 export const handleRecipeDelete = async (
   recipeId: number,
   toast: (options: {
@@ -16,6 +19,7 @@ export const handleRecipeDelete = async (
     return false;
   }
 
+  // redirect to api handler delete-recipe
   try {
     const response = await fetch(`/api/delete-recipe/${recipeId}`, {
       method: "DELETE",

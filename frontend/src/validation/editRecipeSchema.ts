@@ -1,6 +1,9 @@
 import { z } from "zod";
 import { createRecipeSchema } from "./createRecipeSchema";
 
+/*
+  @desc Schema for editing a recipe extending the createRecipeSchema
+*/
 export const editRecipeSchema = createRecipeSchema
   .omit({ cover_image: true })
   .extend({

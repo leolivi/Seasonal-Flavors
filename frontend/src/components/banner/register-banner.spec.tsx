@@ -3,12 +3,18 @@ import { RegisterBanner } from "./register-banner";
 import { Season } from "@/utils/Season";
 import { useRouter } from "next/navigation";
 
+// mock the season
 jest.mock("@/utils/Season");
+// mock the use media query hook
 jest.mock("@/hooks/use-media-query");
+// mock the next/navigation hook
 jest.mock("next/navigation", () => ({
   useRouter: jest.fn(),
 }));
 
+/*
+  @desc Tests the register banner component
+*/
 describe("RegisterBanner Component", () => {
   afterEach(() => {
     jest.restoreAllMocks();

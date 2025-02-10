@@ -1,12 +1,13 @@
-import { UserData } from "../user/userService";
-import { Recipe } from "./recipeService";
-import { TagData } from "../tag/tagService";
+import { RecipeData, TagData, UserData } from "@/types/interfaces";
 
-export type EditRecipeInput = Omit<Recipe, "user_id"> & {
+export type EditRecipeInput = Omit<RecipeData, "user_id"> & {
   tags: TagData["id"][];
   id?: number;
 };
 
+/*
+  @desc Handle recipe patch
+*/
 export const handleRecipePatch = async ({
   data,
   userData,
@@ -25,13 +26,14 @@ export const handleRecipePatch = async ({
     push: (path: string) => void;
     refresh: () => void;
   };
-  updateRecipe: (recipe: Recipe) => void;
+  updateRecipe: (recipe: RecipeData) => void;
 }) => {
   if (!userData) {
     console.error("Benutzerdaten sind nicht verfügbar");
     return;
   }
 
+  // redirect to api handler edit-recipe
   try {
     const payload = {
       ...data,

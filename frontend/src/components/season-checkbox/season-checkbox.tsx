@@ -16,6 +16,9 @@ interface SeasonCheckboxProps<T extends FieldValues> {
   tags: { id: number; name: string }[];
 }
 
+/*
+  @desc Component for the season checkbox
+*/
 export function SeasonCheckbox<T extends FieldValues>({
   control,
   name,
@@ -28,14 +31,17 @@ export function SeasonCheckbox<T extends FieldValues>({
       render={() => (
         <FormItem>
           <div className="mb-4">
+            {/* label */}
             <FormLabel className="font-figtreeRegular text-base">
               Saison
             </FormLabel>
+            {/* description */}
             <FormDescription className="font-figtreeRegular">
               Wähle die Jahreszeiten aus, in denen die Zutaten des Rezeptes in
               Saison sind.
             </FormDescription>
           </div>
+          {/* render the seasons */}
           {tags.map((season) => {
             const checkboxId = `season-${season.id}`;
             return (
@@ -74,6 +80,7 @@ export function SeasonCheckbox<T extends FieldValues>({
               />
             );
           })}
+          {/* error message */}
           <FormMessage />
         </FormItem>
       )}

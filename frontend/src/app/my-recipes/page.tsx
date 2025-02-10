@@ -1,46 +1,27 @@
 import { getAuthenticatedUser } from "@/utils/auth-user";
 import { getUserRecipes } from "@/services/recipe/recipeService";
-import { getRecipeDetail } from "@/utils/recipeDetail";
-import { getRecipeTags } from "@/services/tag/tagService";
 import MyRecipesClient from "@/components/my-recipes-client/my-recipes-client";
+import { formatRecipeData } from "@/utils/recipe-formatting";
 
 export const dynamic = "force-dynamic";
 
+/*
+  @desc Displays the my recipes page
+*/
 const MyRecipesPage = async () => {
+  // retrieve the user
   const user = await getAuthenticatedUser();
-
   if (!user) return null;
 
+  // retrieve the recipes
   const cardData = await getUserRecipes(user.id);
   if (!cardData) return null;
 
-  const formattedCardData = (
-    await Promise.all(
-      cardData.map(async (recipe) => {
-        const recipeDetails = await getRecipeDetail(recipe.id);
-        if (!recipeDetails) return null;
+  // retrive formatted recipes
+  const formattedCardData = await formatRecipeData(cardData);
 
-        const seasonData = await getRecipeTags(recipe.id);
-
-        const seasonTags = recipeDetails.season
-          .map((tagId: number) => {
-            const tag = seasonData.find((t) => t.id === tagId);
-            return tag ? tag.name : "";
-          })
-          .filter(Boolean)
-          .join(", ");
-
-        return {
-          ...recipe,
-          imageSrc: recipeDetails.imageSrc,
-          imageAlt: recipeDetails.imageAlt,
-          season: seasonTags,
-        };
-      }),
-    )
-  ).filter((recipe): recipe is NonNullable<typeof recipe> => recipe !== null);
-
-  return <MyRecipesClient cardData={formattedCardData} user={user} />;
+  // return the recipes client
+  return <MyRecipesClient cardData={formattedCardData} />;
 };
 
 export default MyRecipesPage;

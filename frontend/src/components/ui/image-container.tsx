@@ -3,7 +3,8 @@
 import Image from "next/image";
 import { StaticImageData } from "next/image";
 import { useEffect, useState } from "react";
-import { ImageData, getRecipeImage } from "@/services/image/imageService";
+import { getRecipeImage } from "@/services/image/imageService";
+import { ImageData } from "@/types/interfaces";
 
 interface ImageSectionProps {
   recipeId?: number;
@@ -14,7 +15,9 @@ interface ImageSectionProps {
   priority?: boolean;
 }
 
-// component for an image (full screen and responsive)
+/*
+  @desc ImageContainer component for an image (full screen and responsive)
+*/
 const ImageContainer = ({
   recipeId,
   fallbackSrc,
@@ -23,8 +26,10 @@ const ImageContainer = ({
   height,
   priority = true,
 }: ImageSectionProps) => {
+  // get the image data
   const [imageData, setImageData] = useState<ImageData | undefined>();
 
+  // fetch the image data
   useEffect(() => {
     const fetchImage = async () => {
       if (recipeId) {
@@ -36,12 +41,12 @@ const ImageContainer = ({
     fetchImage();
   }, [recipeId]);
 
-  // Bestimme die finale Bildquelle
+  // determine the final image source
   const imageSrc = imageData?.file_path || fallbackSrc;
 
   if (!imageSrc) return null;
 
-  // Prüfen ob die src eine vollständige URL ist
+  // check if the src is a complete URL
   const imageUrl =
     typeof imageSrc === "string" &&
     !imageSrc.startsWith("http") &&

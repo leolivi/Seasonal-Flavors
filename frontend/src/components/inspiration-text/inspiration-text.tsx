@@ -7,14 +7,20 @@ interface InspirationTextProps {
   seasonName: string;
 }
 
-// Component to display seasonal inspiration text with scroll-based animation
+/*
+  @desc Inspiration text
+*/
 export const InspirationText = ({ seasonName }: InspirationTextProps) => {
+  // get the seasonal color
   const seasonalColor = getSeasonColor();
+  // get the translated season
   const translatedSeason = translateSeason(seasonName);
-
+  // get the scroll y progress
   const { scrollYProgress } = useScroll();
+  // get the x transform
   const x = useTransform(scrollYProgress, [0.1, 0.6], [-200, 0]);
 
+  // render the component
   return (
     <div className="relative mb-5 mt-14 flex justify-center" tabIndex={0}>
       <Typography variant="heading3">

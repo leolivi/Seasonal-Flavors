@@ -1,6 +1,5 @@
 import { getSeasonColor } from "@/utils/SeasonUtils";
 import { Typography } from "../ui/typography";
-import { Recipe } from "@/services/recipe/recipeService";
 import {
   Tooltip,
   TooltipTrigger,
@@ -8,14 +7,21 @@ import {
   TooltipProvider,
 } from "@/components/ui/tooltip";
 import { LuInfo } from "react-icons/lu";
+import { RecipeData } from "@/types/interfaces";
 
-export const RecipeInfo = ({ ...props }: Recipe) => {
+/*
+  @desc Recipe info in the recipe page
+*/
+export const RecipeInfo = ({ ...props }: RecipeData) => {
+  // get the ingredients array
   const ingredientsArray = props.ingredients
     .split(",")
     .map((item) => item.trim());
 
+  // get the seasonal color
   const seasonalColor = getSeasonColor();
 
+  // recipe details
   const recipeDetails = [
     {
       label: "vorbereiten",
@@ -42,6 +48,7 @@ export const RecipeInfo = ({ ...props }: Recipe) => {
       data-testid="recipe-info-container"
       className={`max-w-fit rounded border-2 font-figtreeRegular border-${seasonalColor}-dark bg-${seasonalColor}-light p-4`}
     >
+      {/* recipe details */}
       <Typography variant="heading2" className="pt-2">
         <h2 className="text-sfblack">Zutaten</h2>
       </Typography>
@@ -77,7 +84,9 @@ export const RecipeInfo = ({ ...props }: Recipe) => {
           ))}
         </Typography>
       </ul>
-      <ul className={`list-disc marker:text-${seasonalColor}-dark`}>
+
+      {/* ingredients */}
+      <ul className={`list-disc marker:text-${seasonalColor}-dark}`}>
         {ingredientsArray.map((ingredient, index) => (
           <Typography key={index} variant="body">
             <li key={index} className="ml-6 pb-2 text-sfblack">

@@ -6,6 +6,10 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/utils/clsx";
 import { getSeasonColor } from "@/utils/SeasonUtils";
 
+/*
+  @desc Toggle component from shadcn/ui
+*/
+
 const seasonalColor = getSeasonColor();
 
 const toggleVariants = cva(

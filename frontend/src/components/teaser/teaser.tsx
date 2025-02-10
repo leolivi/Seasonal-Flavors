@@ -4,7 +4,9 @@ import SeasonAnimation from "../season-animation/season-animation";
 import { Typography } from "../ui/typography";
 import ImageContainer from "../ui/image-container";
 
-// heading component only used once in the whole project
+/*
+  @desc Heading component
+*/
 const Heading = () => (
   <>
     <Typography variant="teaserL" className="font-figtreeMedium text-sfblack">
@@ -22,7 +24,9 @@ const Heading = () => (
   </>
 );
 
-// homepage teaser component containing heading and Teaser Image
+/*
+  @desc Homepage teaser component containing heading and Teaser Image
+*/
 export default function Teaser() {
   return (
     <div className="teaser-container static px-4 py-8 min-[640px]:p-8">
@@ -34,6 +38,7 @@ export default function Teaser() {
         height={1000}
         priority
       />
+      {/* season animation */}
       <SeasonAnimation aria-hidden="true" />
     </div>
   );

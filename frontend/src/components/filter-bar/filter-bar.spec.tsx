@@ -4,18 +4,21 @@ import { SessionProvider } from "next-auth/react";
 import FilterBar from "./filter-bar";
 import { Session } from "next-auth";
 
+// mock the magnifier icon
 jest.mock("src/assets/icons/magnifier.svg", () => {
   const MagnifierMock = () => <span>Magnifier</span>;
   MagnifierMock.dataTestId = "search-button";
   return MagnifierMock;
 });
 
+// mock the cross icon
 jest.mock("src/assets/icons/cross.svg", () => {
   const CrossMock = () => <span>Cross</span>;
   CrossMock.dataTestId = "cross-button";
   return CrossMock;
 });
 
+// mock the next/navigation
 jest.mock("next/navigation", () => ({
   useRouter: () => ({
     push: jest.fn(),
@@ -26,11 +29,15 @@ jest.mock("next/navigation", () => ({
   usePathname: jest.fn(() => "/"),
 }));
 
+/*
+  @desc Test the filter bar
+*/
 describe("FilterBar Component", () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });
 
+  // mock session
   const mockSession: Session = {
     user: {
       id: 1,
@@ -42,6 +49,7 @@ describe("FilterBar Component", () => {
     accessToken: "test-token",
   };
 
+  // render with session
   const renderWithSession = (
     ui: React.ReactNode,
     sessionData: Session | null,

@@ -5,6 +5,10 @@ import { Typography } from "./typography";
 import { IoEye, IoEyeOff } from "react-icons/io5";
 import { useFormField } from "./form";
 
+/*
+  @desc Input component from shadcn/ui
+*/
+
 const Input = React.forwardRef<HTMLInputElement, React.ComponentProps<"input">>(
   ({ className, type, ...props }, ref) => {
     const seasonalColor = getSeasonColor();

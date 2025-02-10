@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import { Button } from "../button/button";
+import { Control, FieldValues, Path } from "react-hook-form";
 import {
   FormField,
   FormItem,
@@ -7,9 +8,9 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Control, FieldValues, Path } from "react-hook-form";
-import { Button, ButtonSize } from "../button/button";
 import { RxCross2 } from "react-icons/rx";
+import React, { useState } from "react";
+import { ButtonSize } from "@/utils/enum";
 
 interface IngredientInputProps<T extends FieldValues> {
   control: Control<T>;
@@ -17,39 +18,50 @@ interface IngredientInputProps<T extends FieldValues> {
   defaultValue?: string;
 }
 
+/*
+  @desc Displays the ingredient input
+*/
 export function IngredientInput<T extends FieldValues>({
   control,
   name,
   defaultValue,
 }: IngredientInputProps<T>) {
+  // set ingredients state
   const [ingredients, setIngredients] = useState<string[]>(
     defaultValue ? defaultValue.split(",").map((i) => i.trim()) : [""],
   );
 
+  // update ingredient
   const updateIngredient = (index: number, value: string) => {
     const newIngredients = [...ingredients];
     newIngredients[index] = value;
     setIngredients(newIngredients);
   };
 
+  // remove ingredient
   const removeIngredient = (index: number) => {
     const newIngredients = ingredients.filter((_, i) => i !== index);
     setIngredients(newIngredients);
   };
 
+  // add ingredient
   const addIngredient = () => {
     setIngredients([...ingredients, ""]);
   };
 
+  // render the ingredient input
   return (
     <FormField
       control={control}
       name={name}
       render={({ field }) => (
         <FormItem data-testid="ingredient-form-item">
+          {/* label */}
           <FormLabel data-testid="ingredient-label">Zutaten</FormLabel>
+
           <FormControl>
             <div className="space-y-2" data-testid="ingredients-container">
+              {/* map ingredients */}
               {ingredients.map((ingredient, index) => (
                 <div
                   key={index}
@@ -78,6 +90,8 @@ export function IngredientInput<T extends FieldValues>({
                   )}
                 </div>
               ))}
+
+              {/* add ingredient button */}
               <Button
                 type="button"
                 size={ButtonSize.SMALL}
@@ -90,6 +104,8 @@ export function IngredientInput<T extends FieldValues>({
               />
             </div>
           </FormControl>
+
+          {/* form message */}
           <FormMessage data-testid="ingredient-form-message" />
         </FormItem>
       )}

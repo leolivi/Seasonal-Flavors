@@ -1,17 +1,22 @@
 import { Season } from "@/utils/Season";
 
-// Function to get the current Season
+/*
+  @desc Helper functions for Season.tsx
+*/
+
+// get the current Season
 export const getCurrentSeason = () => {
   const season = Season.getSeason();
   return season;
 };
 
-// Function to get seasons defined color
+// get the color for the current season
 export const getSeasonColor = (seasonName?: string) => {
   const season = new Season();
   return season.getColor(seasonName);
 };
-// Function to translate the season name into German
+
+// translate the season name into German
 export const translateSeason = (season: string): string => {
   switch (season.toLowerCase()) {
     case "spring":

@@ -4,17 +4,22 @@ import SeasonalFlavorsBrandmark from "../../assets/logo/seasonal-flavors-brandma
 import { motion, useScroll, useTransform } from "framer-motion";
 import { getCurrentSeason } from "@/utils/SeasonUtils";
 
-// component for the brandmark and its rotation movement
+/*
+  @desc Component for the brandmark and its rotation movement
+*/
 export default function SeasonAnimation() {
   const container = useRef<HTMLDivElement>(null);
 
   // const testSeason = "winter";
 
+  // get the current season
   const currentSeason = getCurrentSeason();
 
+  // get the season index
   const seasons = ["winter", "autumn", "summer", "spring"];
   const seasonIndex = seasons.indexOf(currentSeason);
 
+  // get the rotation increment
   const rotationIncrement = 90;
   const bottomPosition = 270;
 
@@ -47,6 +52,7 @@ export default function SeasonAnimation() {
         style={{ rotate, x }}
         className="h-auto w-4/6 min-[640px]:w-3/6 min-[1024px]:w-2/6 min-[1280px]:w-1/5"
       >
+        {/* brandmark */}
         <SeasonalFlavorsBrandmark className="brandmark" />
       </motion.div>
     </div>
