@@ -73,8 +73,7 @@ export const handleCreateRecipe = async ({
     });
 
     router.push("/my-recipes");
-    // TODO: remove or add?
-    // router.refresh();
+    router.refresh();
     return recipeId;
   } catch (error) {
     console.error("Rezept-Erstellung fehlgeschlagen:", error);

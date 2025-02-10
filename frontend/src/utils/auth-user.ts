@@ -1,7 +1,8 @@
 import { getSession } from "next-auth/react";
 import { getServerSession } from "next-auth";
 import { authConfig } from "@/auth";
-import { getCurrentUser, UserData } from "@/services/user/userService";
+import { getCurrentUser } from "@/services/user/userService";
+import { UserData } from "@/types/interfaces";
 
 /*
   @desc Get authenticated user function

@@ -1,7 +1,6 @@
 import { getAuthenticatedUser } from "@/utils/auth-user";
 import { getTags } from "@/services/tag/tagService";
 import { HiOutlineArrowLeft } from "react-icons/hi";
-import { notFound } from "next/navigation";
 import { translateSeason } from "@/utils/SeasonUtils";
 import { Typography } from "@/components/ui/typography";
 import Link from "next/link";

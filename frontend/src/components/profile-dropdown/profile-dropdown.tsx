@@ -146,7 +146,7 @@ const ProfileDropdown = forwardRef<HTMLDivElement, ProfileDropdownProps>(
             ref={ref}
           >
             {/* map through the menu items */}
-            {menuItems.map((item, index) => (
+            {menuItems.map((item) => (
               <DropdownMenu.Item
                 key={item.href}
                 className={`cursor-pointer font-figtreeRegular hover:bg-${seasonalColor}-light rounded px-2 outline-none data-[highlighted]:bg-${seasonalColor}-light mb-4 flex items-center data-[highlighted]:text-sfblack min-[640px]:mb-2`}

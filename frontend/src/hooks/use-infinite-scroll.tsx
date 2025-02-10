@@ -1,10 +1,10 @@
-import { Recipe } from "@/services/recipe/recipeService";
 import { SessionLoader } from "@/components/auth-session/auth-session";
 import { useState, useCallback, useEffect } from "react";
 import useMediaQuery from "./use-media-query";
+import { RecipeData } from "@/types/interfaces";
 
 interface UseInfiniteScrollProps {
-  items: Recipe[];
+  items: RecipeData[];
 }
 
 /*
@@ -12,7 +12,7 @@ interface UseInfiniteScrollProps {
 */
 export const useInfiniteScroll = ({ items }: UseInfiniteScrollProps) => {
   // state for the visible items
-  const [visibleItems, setVisibleItems] = useState<Recipe[]>([]);
+  const [visibleItems, setVisibleItems] = useState<RecipeData[]>([]);
   // state for the has more items
   const [hasMore, setHasMore] = useState(true);
   // state for the loading state

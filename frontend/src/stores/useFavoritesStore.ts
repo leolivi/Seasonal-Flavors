@@ -1,25 +1,25 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { create } from "zustand";
-import { Recipe } from "@/services/recipe/recipeService";
+import { RecipeData, TagData } from "@/types/interfaces";
 import { getCurrentUser, getUserFavorites } from "@/services/user/userService";
-import { getRecipeTags, TagData } from "@/services/tag/tagService";
+import { getRecipeTags } from "@/services/tag/tagService";
 import { deleteFavoriteRecipe } from "@/services/user/favoriteDelete";
 import { handleFavoriteRecipe } from "@/services/user/favoriteCreate";
 import { getRecipeImage } from "@/services/image/imageService";
 
 interface FavoritesStore {
-  favorites: Recipe[];
-  setFavorites: (favorites: Recipe[]) => void;
-  addFavorite: (recipe: Recipe) => void;
+  favorites: RecipeData[];
+  setFavorites: (favorites: RecipeData[]) => void;
+  addFavorite: (recipe: RecipeData) => void;
   removeFavorite: (recipeId: number) => void;
   toggleFavorite: (
-    recipe: Recipe,
+    recipe: RecipeData,
     toast: any,
     isInFavoriteView?: boolean,
-    onShowFavorites?: (favorites: Recipe[]) => void,
+    onShowFavorites?: (favorites: RecipeData[]) => void,
   ) => Promise<void>;
   loadFavorites: (accessToken: string) => Promise<void>;
-  getDetailedFavorites: () => Promise<Recipe[]>;
+  getDetailedFavorites: () => Promise<RecipeData[]>;
   isFavoritesActive: boolean;
   setFavoritesActive: (isActive: boolean) => void;
 }

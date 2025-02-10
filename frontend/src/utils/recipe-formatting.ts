@@ -1,11 +1,11 @@
-import { Recipe } from "@/services/recipe/recipeService";
+import { RecipeData } from "@/types/interfaces";
 import { getRecipeImage } from "@/services/image/imageService";
 import { getRecipeTags } from "@/services/tag/tagService";
 
 /*
   @desc Format recipe data by fetching and combining image and season tag information
 */
-export const formatRecipeData = async (recipes: Recipe[]) => {
+export const formatRecipeData = async (recipes: RecipeData[]) => {
   return Promise.all(
     recipes.map(async (recipe) => {
       // Fetch image and season data in parallel for each recipe

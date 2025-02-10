@@ -12,7 +12,7 @@ import { useSession } from "next-auth/react";
 import { MobileNavIcon } from "@/components/mobile-navigation/mobile-nav-icon";
 import { DesktopNav } from "@/components/desktop-nav/desktop-nav";
 import ProfileDropdown from "@/components/profile-dropdown/profile-dropdown";
-import { UserData } from "@/services/user/userService";
+import { UserData } from "@/types/interfaces";
 import { BiBookHeart } from "react-icons/bi";
 import { getAuthenticatedUser } from "@/utils/auth-user";
 

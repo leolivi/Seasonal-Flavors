@@ -1,7 +1,5 @@
 import { getCurrentSeason } from "@/utils/SeasonUtils";
-import { getFilteredRecipes, Recipe } from "@/services/recipe/recipeService";
-import { getRecipeImage } from "@/services/image/imageService";
-import { getRecipeTags } from "@/services/tag/tagService";
+import { getFilteredRecipes } from "@/services/recipe/recipeService";
 import { SessionLoader } from "@/components/auth-session/auth-session";
 import RecipesClient from "@/components/recipes-client/recipes-client";
 import { formatRecipeData } from "@/utils/recipe-formatting";

@@ -1,7 +1,8 @@
 import { getRecipeDetail } from "@/utils/recipe-detail";
-import { getRecipeTags, TagData } from "@/services/tag/tagService";
+import { getRecipeTags } from "@/services/tag/tagService";
 import { getUser } from "@/services/user/userService";
 import { RecipePageClient } from "@/components/recipe-page-client/recipe-page-client";
+import { TagData } from "@/types/interfaces";
 
 /*
   @desc Displays the recipe page

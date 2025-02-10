@@ -1,9 +1,9 @@
 import { CardSlider } from "./card-slider";
-import { Recipe } from "@/services/recipe/recipeService";
+import { RecipeData } from "@/types/interfaces";
 import React from "react";
 
 interface CardSliderWrapperProps {
-  cardData: Recipe[];
+  cardData: RecipeData[];
 }
 
 /*

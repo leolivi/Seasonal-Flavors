@@ -1,4 +1,4 @@
-import { UserData } from "./userService";
+import { UserData } from "@/types/interfaces";
 
 interface HandleUserPatchParams {
   data: Partial<Pick<UserData, "id" | "username" | "email">>;
