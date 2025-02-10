@@ -1,8 +1,6 @@
-import { Recipe } from "./recipeService";
-import { UserData } from "../user/userService";
-import { TagData } from "../tag/tagService";
+import { RecipeData, TagData, UserData } from "@/types/interfaces";
 
-type CreateRecipeInput = Omit<Recipe, "id" | "user_id"> & {
+type CreateRecipeInput = Omit<RecipeData, "id" | "user_id"> & {
   tags: TagData["id"][];
 };
 
@@ -27,7 +25,7 @@ export const handleCreateRecipe = async ({
     push: (path: string) => void;
     refresh: () => void;
   };
-  addRecipe: (recipe: Recipe) => void;
+  addRecipe: (recipe: RecipeData) => void;
 }) => {
   if (!userData) {
     console.error("Benutzerdaten sind nicht verfügbar");

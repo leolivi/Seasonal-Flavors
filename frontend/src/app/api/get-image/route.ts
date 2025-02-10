@@ -3,7 +3,6 @@ import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 
 /*
-  @return array|Response
   @desc Retrieves an image for a recipe or user profile
 */
 

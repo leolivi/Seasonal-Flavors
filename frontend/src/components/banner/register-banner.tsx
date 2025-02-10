@@ -1,11 +1,12 @@
 "use client";
-import { Button, ButtonSize } from "../button/button";
+import { Button } from "../button/button";
 import { getSeasonColor } from "@/utils/SeasonUtils";
 import { ReactNode } from "react";
 import { RxCross2 } from "react-icons/rx";
 import { Typography } from "../ui/typography";
 import { useRouter } from "next/navigation";
 import useMediaQuery from "@/hooks/use-media-query";
+import { ButtonSize } from "@/utils/enum";
 
 interface RegisterBannerProps {
   onClose?: () => void;

@@ -1,11 +1,13 @@
-import { Avatar, AvatarFallback, AvatarImage, AvatarSize } from "../ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { FaUserCircle } from "react-icons/fa";
 import { FiTrash2 } from "react-icons/fi";
 import { getSeasonColor } from "@/utils/SeasonUtils";
 import { handleImageDelete } from "@/services/image/imageDelete";
-import { ImageData, getProfileImage } from "@/services/image/imageService";
+import { getProfileImage } from "@/services/image/imageService";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
+import { AvatarSize } from "@/utils/enum";
+import { ImageData } from "@/types/interfaces";
 
 interface AvatarUploadProps {
   avatarSrc: string;

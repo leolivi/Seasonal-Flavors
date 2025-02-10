@@ -3,7 +3,6 @@ import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 
 /*
-  @return array|Response
   @desc Uploads an image to the backend
 */
 

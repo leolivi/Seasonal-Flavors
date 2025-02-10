@@ -13,13 +13,14 @@ import { Input } from "../ui/input";
 import { resetPasswordSchema } from "@/validation/resetPasswordSchema";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Button, ButtonSize } from "../button/button";
+import { Button } from "../button/button";
 import { handleResetPassword } from "@/services/user/PasswordPatch";
 import { useToast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
 import Heart from "../ui/heart";
 import { Suspense } from "react";
 import { SessionLoader } from "../auth-session/auth-session";
+import { ButtonSize } from "@/utils/enum";
 
 /*
   @desc Reset password form

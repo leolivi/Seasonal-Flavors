@@ -3,7 +3,6 @@ import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 
 /*
-  @return array|Response
   @desc Retrieves the profile image of a user
 */
 export async function GET(request: NextRequest) {

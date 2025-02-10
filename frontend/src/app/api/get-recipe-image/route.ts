@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 
 /*
-  @return array|Response
   @desc Retrieves the recipe image by its ID
 */
 

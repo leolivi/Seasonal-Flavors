@@ -8,9 +8,12 @@ import { TagData } from "@/types/interfaces";
 */
 export const getTags = async () => {
   try {
-    const response = await fetch(`${process.env.BACKEND_URL}/api/tags`, {
-      cache: "no-store",
-    });
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_APP_URL}/api/get-tags`,
+      {
+        cache: "no-store",
+      },
+    );
     const tagsData = await response.json();
     return tagsData.map((tag: { id: number; name: string }) => ({
       id: tag.id,
@@ -28,7 +31,7 @@ export const getTags = async () => {
 export const getRecipeTags = async (recipeId: number): Promise<TagData[]> => {
   try {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/recipes/${recipeId}/tags`,
+      `${process.env.NEXT_PUBLIC_APP_URL}/api/get-tags?recipe_id=${recipeId}`,
       {
         cache: "no-store",
       },

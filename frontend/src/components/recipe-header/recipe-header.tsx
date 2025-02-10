@@ -1,9 +1,8 @@
 "use client";
-import { Button, ButtonSize } from "../button/button";
+import { Button } from "../button/button";
 import { getSeasonColor } from "@/utils/SeasonUtils";
 import { HiOutlineArrowLeft } from "react-icons/hi";
 import { LuBookmark } from "react-icons/lu";
-import { Recipe } from "@/services/recipe/recipeService";
 import { RegisterBanner } from "../banner/register-banner";
 import { Typography } from "../ui/typography";
 import { useFavoritesStore } from "@/stores/useFavoritesStore";
@@ -12,11 +11,13 @@ import { useSession } from "next-auth/react";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import useMediaQuery from "@/hooks/use-media-query";
+import { RecipeData } from "@/types/interfaces";
+import { ButtonSize } from "@/utils/enum";
 
 interface RecipeHeaderProps {
   title: string;
   username: string;
-  recipe: Recipe;
+  recipe: RecipeData;
 }
 
 /*

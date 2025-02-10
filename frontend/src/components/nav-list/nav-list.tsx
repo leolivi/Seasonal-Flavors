@@ -1,4 +1,5 @@
-import NavItem, { NavStyle } from "@/components/nav-item/nav-item";
+import { NavStyle } from "@/utils/enum";
+import NavItem from "../nav-item/nav-item";
 
 interface NavListProps {
   items: {

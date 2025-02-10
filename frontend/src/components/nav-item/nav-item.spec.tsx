@@ -1,8 +1,9 @@
 import { render, screen } from "@testing-library/react";
 import { Season } from "@/utils/Season";
 import useMediaQuery from "@/hooks/use-media-query";
-import NavItem, { NavStyle } from "./nav-item";
+import NavItem from "./nav-item";
 import { useSession } from "next-auth/react";
+import { NavStyle } from "@/utils/enum";
 
 // mock the season utils
 jest.mock("@/utils/Season");

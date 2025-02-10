@@ -1,7 +1,6 @@
 "use client";
 
 import { CardLayoutOptions } from "@/utils/card-layout-options";
-import { Recipe } from "@/services/recipe/recipeService";
 import { SessionLoader } from "../auth-session/auth-session";
 import { Typography } from "@/components/ui/typography";
 import { useInfiniteScroll } from "@/hooks/use-infinite-scroll";
@@ -12,9 +11,10 @@ import FilterBar from "@/components/filter-bar/filter-bar";
 import InfinityScroll from "../infinity-scroll/infinity-scroll";
 import ScrollButton from "@/components/scroll-button/scroll-button";
 import SearchImage from "@/assets/images/search-image.svg";
+import { RecipeData } from "@/types/interfaces";
 
 interface RecipesClientProps {
-  formattedCardData: Recipe[];
+  formattedCardData: RecipeData[];
 }
 
 /*

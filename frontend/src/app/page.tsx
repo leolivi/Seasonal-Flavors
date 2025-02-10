@@ -1,9 +1,7 @@
 import { authConfig } from "@/auth";
 import { CardSliderWrapper } from "@/components/card-slider/card-slider-wrapper";
 import { getCurrentSeason } from "@/utils/SeasonUtils";
-import { getRecipeImage } from "@/services/image/imageService";
-import { getRecipeTags } from "@/services/tag/tagService";
-import { getSeasonalRecipes, Recipe } from "@/services/recipe/recipeService";
+import { getSeasonalRecipes } from "@/services/recipe/recipeService";
 import { getServerSession } from "next-auth";
 import { InspirationText } from "@/components/inspiration-text/inspiration-text";
 import { RegisterBanner } from "@/components/banner/register-banner";

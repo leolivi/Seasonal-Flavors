@@ -1,7 +1,7 @@
 import { getSeasonColor } from "@/utils/SeasonUtils";
-import { NavStyle } from "../nav-item/nav-item";
 import NavList from "../nav-list/nav-list";
 import { RxCross2 } from "react-icons/rx";
+import { NavStyle } from "@/utils/enum";
 
 interface MobileNavigationProps {
   onClose: () => void;

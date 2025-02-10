@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 
 /*
-  @return array|Response
   @desc Sends a password reset email to the user
 */
 

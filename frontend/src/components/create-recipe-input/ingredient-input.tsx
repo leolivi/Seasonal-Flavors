@@ -1,4 +1,4 @@
-import { Button, ButtonSize } from "../button/button";
+import { Button } from "../button/button";
 import { Control, FieldValues, Path } from "react-hook-form";
 import {
   FormField,
@@ -10,6 +10,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { RxCross2 } from "react-icons/rx";
 import React, { useState } from "react";
+import { ButtonSize } from "@/utils/enum";
 
 interface IngredientInputProps<T extends FieldValues> {
   control: Control<T>;

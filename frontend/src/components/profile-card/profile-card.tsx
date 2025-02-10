@@ -1,10 +1,10 @@
 "use client";
 
 import { AuthSession, SessionLoader } from "../auth-session/auth-session";
-import { Button, ButtonSize, ButtonStyle } from "../button/button";
-import { getCurrentUser, UserData } from "@/services/user/userService";
+import { Button } from "../button/button";
+import { getCurrentUser } from "@/services/user/userService";
 import { handleUserDelete } from "@/services/user/userDelete";
-import { ImageData, getProfileImage } from "@/services/image/imageService";
+import { getProfileImage } from "@/services/image/imageService";
 import { ToastAction } from "@radix-ui/react-toast";
 import { Typography } from "../ui/typography";
 import { useEffect, useState } from "react";
@@ -12,6 +12,8 @@ import { useSession } from "next-auth/react";
 import { useToast } from "@/hooks/use-toast";
 import AvatarUpload from "../file-upload/avatar-upload";
 import ProfileForm from "../forms/profile-form";
+import { UserData, ImageData as CustomImageData } from "@/types/interfaces";
+import { ButtonSize, ButtonStyle } from "@/utils/enum";
 
 export interface ProfileCardProps {
   userData: UserData | null;
@@ -28,7 +30,7 @@ export default function ProfileCard({
   // get the session
   const { data: session, status } = useSession();
   // get the image data
-  const [imageData, setImageData] = useState<ImageData | undefined>();
+  const [imageData, setImageData] = useState<CustomImageData | undefined>();
   // get the user data
   const [userData, setUserData] = useState<UserData | null>(initialUserData);
 
@@ -59,7 +61,7 @@ export default function ProfileCard({
   }, [session]);
 
   // handle the image update
-  const handleImageUpdate = (newImageData: ImageData | undefined) => {
+  const handleImageUpdate = (newImageData: CustomImageData | undefined) => {
     setImageData(newImageData);
   };
 

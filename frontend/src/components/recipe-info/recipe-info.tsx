@@ -1,6 +1,5 @@
 import { getSeasonColor } from "@/utils/SeasonUtils";
 import { Typography } from "../ui/typography";
-import { Recipe } from "@/services/recipe/recipeService";
 import {
   Tooltip,
   TooltipTrigger,
@@ -8,11 +7,12 @@ import {
   TooltipProvider,
 } from "@/components/ui/tooltip";
 import { LuInfo } from "react-icons/lu";
+import { RecipeData } from "@/types/interfaces";
 
 /*
   @desc Recipe info in the recipe page
 */
-export const RecipeInfo = ({ ...props }: Recipe) => {
+export const RecipeInfo = ({ ...props }: RecipeData) => {
   // get the ingredients array
   const ingredientsArray = props.ingredients
     .split(",")

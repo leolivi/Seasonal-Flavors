@@ -4,7 +4,6 @@ import { revalidatePath } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
 
 /*
-  @return array|Response
   @desc Deletes a recipe for the current user
 */
 

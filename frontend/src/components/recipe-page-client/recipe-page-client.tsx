@@ -1,8 +1,7 @@
 "use client";
 
-import { Button, ButtonSize, ButtonStyle } from "@/components/button/button";
+import { Button } from "@/components/button/button";
 import { getSeasonColor, translateSeason } from "@/utils/SeasonUtils";
-import { Recipe } from "@/services/recipe/recipeService";
 import { RecipeHeader } from "@/components/recipe-header/recipe-header";
 import { RecipeInfo } from "@/components/recipe-info/recipe-info";
 import { RecipeInstructions } from "@/components/recipe-instructions/recipe-instructions";
@@ -15,6 +14,8 @@ import foodImage from "@/assets/images/food-image.jpg";
 import Heart from "@/components/ui/heart";
 import ImageContainer from "@/components/ui/image-container";
 import ScrollButton from "@/components/scroll-button/scroll-button";
+import { RecipeData } from "@/types/interfaces";
+import { ButtonSize, ButtonStyle } from "@/utils/enum";
 
 interface User {
   username: string;
@@ -22,7 +23,7 @@ interface User {
 }
 
 interface RecipePageClientProps {
-  recipeDetails: Recipe;
+  recipeDetails: RecipeData;
   user: User;
   seasonTags: string;
   seasonArray: string[];

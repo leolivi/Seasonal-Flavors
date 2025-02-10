@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 
 /*
-  @return array|Response
   @desc Retrieves a user by its ID
 */
 

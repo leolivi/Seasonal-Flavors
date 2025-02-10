@@ -3,12 +3,12 @@ import { Button } from "../button/button";
 import { CardLayoutOptions } from "@/utils/card-layout-options";
 import { CardList } from "../card-list.tsx/card-list";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { Recipe } from "@/services/recipe/recipeService";
 import { useRouter } from "next/navigation";
 import React, { useRef } from "react";
+import { RecipeData } from "@/types/interfaces";
 
 interface CardSliderProps {
-  cardData: Recipe[];
+  cardData: RecipeData[];
   deleteRecipe?: (id: number) => void;
 }
 

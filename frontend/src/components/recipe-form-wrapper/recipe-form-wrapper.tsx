@@ -1,9 +1,7 @@
 import { CreateRecipeSchema } from "@/validation/createRecipeSchema";
-import { ImageData } from "@/services/image/imageService";
-import { Recipe } from "@/services/recipe/recipeService";
-import { UserData } from "@/services/user/userService";
 import CreateRecipeForm from "../forms/create-recipe-form";
 import EditRecipeForm from "../forms/edit-recipe-form";
+import { RecipeData, UserData } from "@/types/interfaces";
 
 type FormFieldName = keyof CreateRecipeSchema;
 
@@ -16,7 +14,7 @@ export interface FormField {
 }
 
 interface RecipeFormWrapperProps {
-  recipeData?: Recipe;
+  recipeData?: RecipeData;
   tags: { id: number; name: string }[];
   user: UserData;
   imageData?: ImageData;

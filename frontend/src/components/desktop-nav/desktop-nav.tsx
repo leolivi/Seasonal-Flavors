@@ -1,4 +1,4 @@
-import { NavStyle } from "../nav-item/nav-item";
+import { NavStyle } from "@/utils/enum";
 import NavList from "../nav-list/nav-list";
 
 interface DesktopNavProps {
