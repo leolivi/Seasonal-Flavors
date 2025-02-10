@@ -1,4 +1,4 @@
-import { getRecipeDetail } from "@/utils/recipeDetail";
+import { getRecipeDetail } from "@/utils/recipe-detail";
 import { getRecipeTags, TagData } from "@/services/tag/tagService";
 import { getUser } from "@/services/user/userService";
 import { RecipePageClient } from "@/components/recipe-page-client/recipe-page-client";
@@ -14,10 +14,8 @@ export default async function RecipePage({
   // retrieve the recipe id
   const recipeId = params.id;
 
-  // retrieve the recipe details
+  // retrieve the recipe details first as other data depends on it
   const recipeDetails = await getRecipeDetail(recipeId);
-
-  // if there is no recipe details, return null
   if (!recipeDetails) return null;
 
   // retrieve the user id
@@ -26,14 +24,19 @@ export default async function RecipePage({
       ? Number(recipeDetails.user_id)
       : recipeDetails.user_id;
 
-  // retrieve the user
-  const user = await getUser(userId);
+  // fetch user and season tags in parallel using Promise.allSettled
+  const [userResult, seasonDataResult] = await Promise.allSettled([
+    getUser(userId),
+    getRecipeTags(recipeDetails.id),
+  ]);
 
-  // if there is no user, return null
-  if (!user) return null;
+  // Check user result
+  if (userResult.status === "rejected" || !userResult.value) return null;
+  const user = userResult.value;
 
-  // retrieve the season tags
-  const seasonData = await getRecipeTags(recipeDetails.id);
+  // Check season data result and process tags
+  const seasonData =
+    seasonDataResult.status === "fulfilled" ? seasonDataResult.value : [];
 
   // format the season tags
   const seasonTags = recipeDetails.season
@@ -44,7 +47,7 @@ export default async function RecipePage({
     .filter(Boolean)
     .join(", ");
 
-  // format the season tags
+  // format the season tags array
   const seasonArray = seasonTags
     .split(",")
     .map((season: string) => season.trim());

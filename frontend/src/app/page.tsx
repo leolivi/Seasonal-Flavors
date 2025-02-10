@@ -11,34 +11,29 @@ import Image from "next/image";
 import registerImage from "@/assets/images/register-image.jpg";
 import ScrollButton from "@/components/scroll-button/scroll-button";
 import Teaser from "@/components/teaser/teaser";
+import { formatRecipeData } from "@/utils/recipe-formatting";
 
 /*
   @desc Displays the home page
 */
 const Home = async () => {
-  // retrieve the current season
+  // Get the current season
   const seasonName = getCurrentSeason();
-  // retrieve the seasonal recipes
-  const cardData = await getSeasonalRecipes();
-  // retrieve the session
-  const session = await getServerSession(authConfig);
 
-  // format the card data
-  const formattedCardData: Recipe[] = await Promise.all(
-    cardData.map(async (recipe: Recipe) => {
-      const imageData = await getRecipeImage(recipe.id);
-      const seasonData = await getRecipeTags(recipe.id);
+  // Fetch initial data in parallel
+  const [recipesResult, sessionResult] = await Promise.allSettled([
+    getSeasonalRecipes(),
+    getServerSession(authConfig),
+  ]);
 
-      return {
-        ...recipe,
-        imageSrc: imageData?.file_path,
-        imageAlt: imageData?.alt_text,
-        season: Array.isArray(seasonData)
-          ? seasonData.map((tag) => tag.name).join(", ")
-          : "",
-      };
-    }),
-  );
+  // Handle recipes result
+  const cardData =
+    recipesResult.status === "fulfilled" ? recipesResult.value : [];
+  const session =
+    sessionResult.status === "fulfilled" ? sessionResult.value : null;
+
+  // Fetch formatted recipes
+  const formattedCardData = await formatRecipeData(cardData);
 
   // return the home page
   return (

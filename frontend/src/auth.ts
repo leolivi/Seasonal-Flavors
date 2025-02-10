@@ -2,13 +2,18 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import { AuthOptions, Session, SessionStrategy, User } from "next-auth";
 import { JWT } from "next-auth/jwt";
 
+/*
+  @desc Authentication configuration
+*/
 export const authConfig: AuthOptions = {
   secret: process.env.AUTH_SECRET,
   session: {
-    strategy: "jwt" as SessionStrategy, // using JWT as session strategy / management
+    // using JWT as session strategy / management
+    strategy: "jwt" as SessionStrategy,
   },
   pages: {
-    signIn: "/auth/sign-in", // custom sign-in page
+    // custom sign-in page
+    signIn: "/auth/sign-in",
   },
   providers: [
     CredentialsProvider({
@@ -53,6 +58,7 @@ export const authConfig: AuthOptions = {
     }),
   ],
   callbacks: {
+    // callback for JWT
     async jwt({ token, user }: { token: JWT; user?: User }) {
       if (user) {
         // if user is logged in, add the token from the response to the user object
@@ -60,6 +66,7 @@ export const authConfig: AuthOptions = {
       }
       return token;
     },
+    // callback for session
     async session({ session, token }: { session: Session; token: JWT }) {
       // if the user is logged in and a session is created for the user,
       // add the token from the response to the session object

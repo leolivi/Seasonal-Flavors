@@ -3,18 +3,19 @@ import { useEffect, useState } from "react";
 import CardListWrapper from "@/components/card-list.tsx/card-list-wrapper";
 import ScrollButton from "@/components/scroll-button/scroll-button";
 import { Typography } from "@/components/ui/typography";
-import { Button, ButtonSize } from "@/components/button/button";
+import { Button } from "@/components/button/button";
 import Link from "next/link";
-import { Recipe } from "@/services/recipe/recipeService";
+import { RecipeData } from "@/types/interfaces";
 import NoRecipesImage from "@/assets/images/no-recipes-image.svg";
 import InfinityScroll from "../infinity-scroll/infinity-scroll";
 import { CardLayoutOptions } from "@/utils/card-layout-options";
 import { useInfiniteScroll } from "@/hooks/use-infinite-scroll";
 import { SessionLoader } from "../auth-session/auth-session";
 import { useSession } from "next-auth/react";
+import { ButtonSize } from "@/utils/enum";
 
 interface MyRecipesClientProps {
-  cardData: Recipe[];
+  cardData: RecipeData[];
 }
 
 /*

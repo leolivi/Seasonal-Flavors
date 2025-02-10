@@ -1,16 +1,23 @@
-import { useState, useCallback, useEffect } from "react";
 import { Recipe } from "@/services/recipe/recipeService";
-import useMediaQuery from "./use-media-query";
 import { SessionLoader } from "@/components/auth-session/auth-session";
+import { useState, useCallback, useEffect } from "react";
+import useMediaQuery from "./use-media-query";
 
 interface UseInfiniteScrollProps {
   items: Recipe[];
 }
 
+/*
+  @desc Hook to handle infinite scroll for recipe cards
+*/
 export const useInfiniteScroll = ({ items }: UseInfiniteScrollProps) => {
+  // state for the visible items
   const [visibleItems, setVisibleItems] = useState<Recipe[]>([]);
+  // state for the has more items
   const [hasMore, setHasMore] = useState(true);
+  // state for the loading state
   const [isLoading, setIsLoading] = useState(false);
+  // state for the desktop media query
   const isDesktop = useMediaQuery("(min-width: 640px)");
 
   const resetItems = useCallback(() => {
@@ -23,6 +30,7 @@ export const useInfiniteScroll = ({ items }: UseInfiniteScrollProps) => {
     resetItems();
   }, [resetItems]);
 
+  // load more items
   const loadMore = () => {
     if (!isLoading) {
       setIsLoading(true);
@@ -38,7 +46,7 @@ export const useInfiniteScroll = ({ items }: UseInfiniteScrollProps) => {
     }
   };
 
-  // Rendere den SessionLoader, wenn isLoading true ist
+  // render the session loader when isLoading is true
   const renderLoader = () => {
     if (isLoading) {
       return <SessionLoader size="small" />;

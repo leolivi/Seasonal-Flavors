@@ -1,20 +1,7 @@
 import { getSeasonColor } from "@/utils/SeasonUtils";
 import { Typography } from "../ui/typography";
 import React from "react";
-
-export enum ButtonStyle {
-  PRIMARY = "primary",
-  OUTLINE = "outline",
-  OUTLINERED = "outline-red",
-  SIMPLE = "simple",
-  SIMPLERED = "simple-red",
-}
-
-export enum ButtonSize {
-  XS = "xs",
-  SMALL = "small",
-  LARGE = "large",
-}
+import { ButtonSize, ButtonStyle } from "@/utils/enum";
 
 interface ButtonProps {
   label: string;

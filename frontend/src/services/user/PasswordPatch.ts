@@ -1,3 +1,6 @@
+/*
+  @desc Handle forgot password
+*/
 export const handleForgotPassword = async ({
   data,
   toast,
@@ -9,6 +12,7 @@ export const handleForgotPassword = async ({
     description: string;
   }) => void;
 }) => {
+  // redirect to api handler forgot-password
   try {
     const payload = {
       email: data.email,

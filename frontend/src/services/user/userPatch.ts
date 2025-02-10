@@ -10,6 +10,9 @@ interface HandleUserPatchParams {
   }) => void;
 }
 
+/*
+  @desc Handle user patch
+*/
 export const handleUserPatch = async ({
   data,
   userData,
@@ -21,6 +24,7 @@ export const handleUserPatch = async ({
     };
   }
 
+  // redirect to api handler edit-user
   try {
     const response = await fetch("/api/edit-user", {
       method: "PATCH",

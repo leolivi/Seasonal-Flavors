@@ -1,19 +1,14 @@
-import { authConfig } from "@/auth";
-import { getCurrentUser } from "@/services/user/userService";
-import { getServerSession } from "next-auth";
 import ProfileCard from "@/components/profile-card/profile-card";
+import { getAuthenticatedUser } from "@/utils/auth-user";
 
 /*
   @desc Displays the profile page
 */
 const ProfilePage = async () => {
-  // retrieve the session
-  const session = await getServerSession(authConfig);
-
   // retrieve the user
-  const userData = session?.accessToken
-    ? await getCurrentUser(session.accessToken)
-    : null;
+  const user = await getAuthenticatedUser();
+  // if there is no user, return null
+  if (!user) return null;
 
   // return the profile page
   return (
@@ -23,7 +18,7 @@ const ProfilePage = async () => {
         Profile
       </h1>
       {/* profile card */}
-      <ProfileCard userData={userData} />
+      <ProfileCard userData={user} />
     </div>
   );
 };

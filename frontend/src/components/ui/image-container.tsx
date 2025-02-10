@@ -3,7 +3,8 @@
 import Image from "next/image";
 import { StaticImageData } from "next/image";
 import { useEffect, useState } from "react";
-import { ImageData, getRecipeImage } from "@/services/image/imageService";
+import { getRecipeImage } from "@/services/image/imageService";
+import { ImageData } from "@/types/interfaces";
 
 interface ImageSectionProps {
   recipeId?: number;

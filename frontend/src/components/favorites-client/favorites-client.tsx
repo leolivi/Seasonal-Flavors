@@ -1,6 +1,6 @@
 "use client";
 import { CardLayoutOptions } from "@/utils/card-layout-options";
-import { Recipe } from "@/services/recipe/recipeService";
+import { RecipeData } from "@/types/interfaces";
 import { SessionLoader } from "../auth-session/auth-session";
 import { Typography } from "@/components/ui/typography";
 import { useEffect, useState } from "react";
@@ -19,7 +19,7 @@ const FavoritesClient = () => {
   // get the session
   const { data: session, status } = useSession();
   // set the favorites state
-  const [favorites, setFavorites] = useState<Recipe[]>([]);
+  const [favorites, setFavorites] = useState<RecipeData[]>([]);
   // set the loading state
   const [isLoading, setIsLoading] = useState(true);
   // get the favorites store
@@ -50,7 +50,7 @@ const FavoritesClient = () => {
   }, [session, loadFavorites, getDetailedFavorites]);
 
   // update the favorites
-  const onShowFavorites = async (updatedFavorites: Recipe[]) => {
+  const onShowFavorites = async (updatedFavorites: RecipeData[]) => {
     setFavorites(updatedFavorites);
   };
 

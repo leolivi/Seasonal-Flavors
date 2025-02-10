@@ -3,6 +3,7 @@ import { Typography } from "@/components/ui/typography";
 import useMediaQuery from "@/hooks/use-media-query";
 import { getSeasonColor } from "@/utils/SeasonUtils";
 import { useSession } from "next-auth/react";
+import { NavStyle } from "@/utils/enum";
 
 interface NavItemProps {
   icon?: React.ReactNode;
@@ -10,11 +11,6 @@ interface NavItemProps {
   href: string;
   style: NavStyle;
   isActive?: boolean;
-}
-
-export enum NavStyle {
-  FOOTER = "footer",
-  HEADER = "header",
 }
 
 /*

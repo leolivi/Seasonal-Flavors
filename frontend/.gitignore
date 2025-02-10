@@ -23,6 +23,7 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
+# Add these to the .gitignore file after project submission
 # local env files
 # .env
 # .env*.local

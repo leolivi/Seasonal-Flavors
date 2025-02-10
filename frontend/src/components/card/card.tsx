@@ -1,10 +1,10 @@
-import { Button, ButtonSize, ButtonStyle } from "../button/button";
+import { Button } from "../button/button";
 import { FaRegClock } from "react-icons/fa6";
 import { getSeasonColor } from "@/utils/SeasonUtils";
 import { handleImageDelete } from "@/services/image/imageDelete";
 import { handleRecipeDelete } from "@/services/recipe/recipeDelete";
-import { ImageData, getRecipeImage } from "@/services/image/imageService";
-import { Recipe } from "@/services/recipe/recipeService";
+import { getRecipeImage } from "@/services/image/imageService";
+import { RecipeData, ImageData } from "@/types/interfaces";
 import { ToastAction } from "@radix-ui/react-toast";
 import { Typography } from "../ui/typography";
 import { useEffect, useState } from "react";
@@ -13,8 +13,9 @@ import { useToast } from "@/hooks/use-toast";
 import BookmarkButton from "../ui/bookmark";
 import Heart from "../ui/heart";
 import Image from "next/image";
+import { ButtonSize, ButtonStyle } from "@/utils/enum";
 
-interface CardProps extends Recipe {
+interface CardProps extends RecipeData {
   showDetail?: boolean;
   showBookmark?: boolean;
   showEdit?: boolean;

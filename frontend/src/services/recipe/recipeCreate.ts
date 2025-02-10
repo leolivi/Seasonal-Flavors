@@ -6,6 +6,9 @@ type CreateRecipeInput = Omit<Recipe, "id" | "user_id"> & {
   tags: TagData["id"][];
 };
 
+/*
+  @desc Handle recipe create
+*/
 export const handleCreateRecipe = async ({
   data,
   userData,
@@ -31,6 +34,7 @@ export const handleCreateRecipe = async ({
     return;
   }
 
+  // redirect to api handler create-recipe
   try {
     const payload = {
       ...data,

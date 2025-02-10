@@ -6,9 +6,9 @@ enableFetchMocks();
 jest.mock("@/services/image/imageService");
 jest.mock("@/services/user/userService");
 
-// Globale Test-Konfiguration
+// Global Test Configuration
 beforeAll(() => {
-  // Unterdrücke Konsolenausgaben während der Tests
+  // Suppress console output during tests
   jest.spyOn(console, "error").mockImplementation(() => {});
 });
 

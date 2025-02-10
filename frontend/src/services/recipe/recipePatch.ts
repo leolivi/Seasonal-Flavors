@@ -7,6 +7,9 @@ export type EditRecipeInput = Omit<Recipe, "user_id"> & {
   id?: number;
 };
 
+/*
+  @desc Handle recipe patch
+*/
 export const handleRecipePatch = async ({
   data,
   userData,
@@ -32,6 +35,7 @@ export const handleRecipePatch = async ({
     return;
   }
 
+  // redirect to api handler edit-recipe
   try {
     const payload = {
       ...data,

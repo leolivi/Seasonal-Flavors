@@ -1,3 +1,6 @@
+/*
+  @desc Season class
+*/
 class Season {
   private season: string;
 
@@ -5,10 +8,12 @@ class Season {
     this.season = Season.getSeason();
   }
 
+  // get current month
   private static getMonth(): number {
     return new Date().getMonth() + 1;
   }
 
+  // assign season to month
   public static getSeason(): string {
     const month = this.getMonth();
     if (month >= 3 && month <= 5) {
@@ -27,6 +32,7 @@ class Season {
   //   return "winter";
   // }
 
+  // assign color to season
   getColor(season?: string) {
     const currentSeason = season || this.season;
 

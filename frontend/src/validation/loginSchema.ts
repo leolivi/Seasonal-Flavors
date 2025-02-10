@@ -1,5 +1,8 @@
 import { z } from "zod";
 
+/*
+  @desc Schema for login
+*/
 export const loginSchema = z.object({
   email: z.string().email("Bitte eine gültige E-Mail-Adresse eingeben."),
   password: z

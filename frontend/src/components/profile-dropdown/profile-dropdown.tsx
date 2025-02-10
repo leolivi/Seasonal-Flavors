@@ -1,27 +1,23 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { forwardRef, useEffect, useState } from "react";
 import Link from "next/link";
-import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-  AvatarSize,
-} from "@/components/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { FaBookmark } from "react-icons/fa";
 import { FaLock } from "react-icons/fa6";
 import { FaUserCircle } from "react-icons/fa";
 import { getSeasonColor } from "@/utils/SeasonUtils";
-import { ImageData, getProfileImage } from "@/services/image/imageService";
+import { getProfileImage } from "@/services/image/imageService";
 import { IoPersonSharp } from "react-icons/io5";
 import { PiSignOutBold } from "react-icons/pi";
 import { SessionLoader } from "../auth-session/auth-session";
 import { signOut } from "next-auth/react";
 import { toast } from "@/hooks/use-toast";
 import { Typography } from "../ui/typography";
-import { UserData } from "@/services/user/userService";
+import { UserData } from "@/types/interfaces";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import useMediaQuery from "@/hooks/use-media-query";
-
+import { AvatarSize } from "@/utils/enum";
+import { ImageData } from "@/types/interfaces";
 interface ProfileDropdownProps {
   userData: UserData | null;
 }

@@ -2,7 +2,11 @@ import { getRecipeImage } from "@/services/image/imageService";
 import { getRecipe } from "@/services/recipe/recipeService";
 import { getRecipeTags } from "@/services/tag/tagService";
 
+/*
+  @desc Get recipe detail
+*/
 export const getRecipeDetail = async (recipeId: number) => {
+  // get recipe, image and tags
   try {
     const [recipe, imageData, recipeTags] = await Promise.all([
       getRecipe(recipeId),
@@ -10,6 +14,7 @@ export const getRecipeDetail = async (recipeId: number) => {
       getRecipeTags(recipeId),
     ]);
 
+    // if recipe not found, throw error
     if (!recipe) {
       throw new Error("Rezept nicht gefunden");
     }

@@ -2,13 +2,13 @@ import {
   CardLayoutOptions,
   CardLayoutOptionType,
 } from "@/utils/card-layout-options";
-import { Recipe } from "@/services/recipe/recipeService";
+import { RecipeData } from "@/types/interfaces";
 import Card from "../card/card";
 import Link from "next/link";
 import React from "react";
 
 interface CardListProps {
-  cardData: Recipe[];
+  cardData: RecipeData[];
   viewOptions: {
     showDetail?: boolean;
     showBookmark?: boolean;

@@ -3,7 +3,7 @@
 import { Dispatch, SetStateAction } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { handleSignup, SignUpResponse } from "@/actions/auth-actions";
-import { Button, ButtonSize, ButtonStyle } from "../button/button";
+import { Button } from "../button/button";
 import { Typography } from "../ui/typography";
 import Heart from "../ui/heart";
 import { useToast } from "@/hooks/use-toast";
@@ -19,7 +19,7 @@ import {
   FormMessage,
 } from "../ui/form";
 import { Input } from "../ui/input";
-import { SessionForm } from "@/utils/enum";
+import { ButtonSize, ButtonStyle, SessionForm } from "@/utils/enum";
 
 interface RegisterFormProps {
   setForm: Dispatch<SetStateAction<SessionForm>>;

@@ -1,19 +1,14 @@
 "use client";
 
 import { cn } from "@/utils/clsx";
+import { AvatarSize } from "@/utils/enum";
 import { getSeasonColor } from "@/utils/SeasonUtils";
 import * as AvatarPrimitive from "@radix-ui/react-avatar";
 import * as React from "react";
 
 /*
-  @return array|Response
-  @desc Displays the avatar
+  @desc avatar component from shadcn/ui
 */
-
-export enum AvatarSize {
-  small = "h-10 w-10",
-  large = "h-20 w-20",
-}
 
 interface AvatarProps
   extends React.ComponentPropsWithoutRef<typeof AvatarPrimitive.Root> {

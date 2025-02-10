@@ -24,6 +24,9 @@ interface FavoritesStore {
   setFavoritesActive: (isActive: boolean) => void;
 }
 
+/*
+  @desc Favorites store
+*/
 export const useFavoritesStore = create<FavoritesStore>((set, get) => ({
   favorites: [],
   isFavoritesActive: false,
@@ -48,6 +51,8 @@ export const useFavoritesStore = create<FavoritesStore>((set, get) => ({
   ) => {
     const isFavorited = get().favorites.some((fav) => fav.id === recipe.id);
 
+    // if recipe is favorited, delete it
+    // if recipe is not favorited, add it
     try {
       const success = isFavorited
         ? await deleteFavoriteRecipe({ recipeId: recipe.id, toast })
@@ -79,6 +84,7 @@ export const useFavoritesStore = create<FavoritesStore>((set, get) => ({
     }
   },
 
+  // fetch users favorites
   loadFavorites: async (accessToken) => {
     try {
       const user = await getCurrentUser(accessToken);
@@ -90,6 +96,7 @@ export const useFavoritesStore = create<FavoritesStore>((set, get) => ({
     }
   },
 
+  // fetch detailed favorites
   getDetailedFavorites: async () => {
     const favorites = get().favorites;
 

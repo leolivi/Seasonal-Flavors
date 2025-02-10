@@ -1,10 +1,8 @@
-export interface ImageData {
-  id: number;
-  file_path: string;
-  alt_text: string;
-}
-
+/*
+  @desc Get recipe image
+*/
 export const getRecipeImage = async (recipeId: number) => {
+  // redirect to api handler get-image
   try {
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_APP_URL}/api/get-image?type=recipe&recipe_id=${recipeId}`,
@@ -27,7 +25,11 @@ export const getRecipeImage = async (recipeId: number) => {
   }
 };
 
+/*
+  @desc Get profile image
+*/
 export const getProfileImage = async (userId: number) => {
+  // redirect to api handler get-image
   try {
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_APP_URL}/api/get-image?type=profile&user_id=${userId}`,

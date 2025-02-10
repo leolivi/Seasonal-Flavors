@@ -12,20 +12,21 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
-import { Button, ButtonSize } from "../button/button";
+import { Button } from "../button/button";
 import { ProfileSchema, profileSchema } from "@/validation/profileSchema";
 import { ProfileCardProps } from "../profile-card/profile-card";
 import { useState, useEffect } from "react";
-import type { ImageData } from "@/services/image/imageService";
+import { ImageData, UserData } from "@/types/interfaces";
 import { Typography } from "../ui/typography";
 import Image from "next/image";
 import { getProfileImage } from "@/services/image/imageService";
 import { handleImageDelete } from "@/services/image/imageDelete";
 import { handleImageUpload } from "@/services/image/imageUpload";
 import { handleUserPatch } from "@/services/user/userPatch";
-import { getCurrentUser, UserData } from "@/services/user/userService";
+import { getCurrentUser } from "@/services/user/userService";
 import Heart from "../ui/heart";
 import { RxCross2 } from "react-icons/rx";
+import { ButtonSize } from "@/utils/enum";
 
 type ProfileFormProps = {
   user: NonNullable<ProfileCardProps["userData"]>;

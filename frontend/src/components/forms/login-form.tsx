@@ -4,7 +4,7 @@ import { Dispatch, SetStateAction, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { Button, ButtonSize, ButtonStyle } from "../button/button";
+import { Button } from "../button/button";
 import { Typography } from "../ui/typography";
 import Heart from "../ui/heart";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -19,7 +19,7 @@ import {
   FormMessage,
 } from "../ui/form";
 import { Input } from "../ui/input";
-import { SessionForm } from "@/utils/enum";
+import { ButtonSize, ButtonStyle, SessionForm } from "@/utils/enum";
 
 interface LoginFormProps {
   setForm: Dispatch<SetStateAction<SessionForm>>;

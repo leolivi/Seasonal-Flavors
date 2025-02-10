@@ -1,6 +1,6 @@
 import { CardLayoutOptionType } from "@/utils/card-layout-options";
 import { CardList } from "./card-list";
-import { Recipe } from "@/services/recipe/recipeService";
+import { RecipeData } from "@/types/interfaces";
 import { RegisterBanner } from "../banner/register-banner";
 import { useFavoritesStore } from "@/stores/useFavoritesStore";
 import { useRecipes } from "@/hooks/use-recipes";
@@ -10,8 +10,8 @@ import { useState, useEffect } from "react";
 import { useToast } from "@/hooks/use-toast";
 
 interface CardListWrapperProps {
-  cardData?: Recipe[];
-  initialRecipes?: Recipe[];
+  cardData?: RecipeData[];
+  initialRecipes?: RecipeData[];
   viewOptions: {
     showDetail?: boolean;
     showEdit?: boolean;
@@ -20,7 +20,7 @@ interface CardListWrapperProps {
   };
   className?: string;
   isInFavoriteView?: boolean;
-  onShowFavorites?: (favorites: Recipe[]) => void;
+  onShowFavorites?: (favorites: RecipeData[]) => void;
   children?: React.ReactNode;
 }
 

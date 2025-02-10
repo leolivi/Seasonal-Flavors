@@ -12,13 +12,18 @@ import ScrollButton from "@/components/scroll-button/scroll-button";
   @desc Displays the create recipe page
 */
 export default async function CreateRecipePage() {
-  // retrieve the user and tags
-  const [user, tags] = await Promise.all([getAuthenticatedUser(), getTags()]);
-
-  // if there is no user, return null
-  if (!user) {
-    return notFound();
-  }
+  // fetch the user and tags
+  const results = await Promise.allSettled([getAuthenticatedUser(), getTags()]);
+  // Check the results
+  const userResult = results[0];
+  const tagsResult = results[1];
+  // if the user result is rejected, return null
+  if (userResult.status === "rejected" || !userResult.value) return null;
+  // if the tags result is rejected, return null
+  if (tagsResult.status === "rejected" || !tagsResult.value) return null;
+  // get the user and tags
+  const user = userResult.value;
+  const tags = tagsResult.status === "fulfilled" ? tagsResult.value : [];
 
   // format the tags
   const translatedTags = tags.map((tag: { id: number; name: string }) => ({

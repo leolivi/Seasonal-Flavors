@@ -1,3 +1,6 @@
+/*
+  @desc Handle favorite delete
+*/
 export const deleteFavoriteRecipe = async ({
   recipeId,
   toast,
@@ -14,6 +17,7 @@ export const deleteFavoriteRecipe = async ({
     return false;
   }
 
+  // redirect to api handler delete-favorite
   try {
     const response = await fetch(`/api/delete-favorite/${recipeId}`, {
       method: "DELETE",

@@ -1,5 +1,8 @@
 import { z } from "zod";
 
+/*
+  @desc Schema for authentication
+*/
 export const authSchema = z
   .object({
     username: z

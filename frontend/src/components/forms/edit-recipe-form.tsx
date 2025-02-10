@@ -3,7 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { FieldErrors, useForm } from "react-hook-form";
 import { Form, FormField, FormMessage } from "@/components/ui/form";
-import { Button, ButtonSize, ButtonStyle } from "../button/button";
+import { Button } from "../button/button";
 import { SeasonCheckbox } from "../season-checkbox/season-checkbox";
 import { useRouter } from "next/navigation";
 import { RecipeInput } from "../create-recipe-input/recipe-input";
@@ -15,9 +15,7 @@ import {
   editRecipeSchema,
   EditRecipeSchema,
 } from "@/validation/editRecipeSchema";
-import { ImageData } from "@/services/image/imageService";
-import { Recipe } from "@/services/recipe/recipeService";
-import { UserData } from "@/services/user/userService";
+import { ImageData, RecipeData, UserData } from "@/types/interfaces";
 import Image from "next/image";
 import { handleImageDelete } from "@/services/image/imageDelete";
 import { handleImageUpload } from "@/services/image/imageUpload";
@@ -25,6 +23,7 @@ import { handleRecipePatch } from "@/services/recipe/recipePatch";
 import { getRecipeImage } from "@/services/image/imageService";
 import { useRecipes } from "@/hooks/use-recipes";
 import Heart from "../ui/heart";
+import { ButtonSize, ButtonStyle } from "@/utils/enum";
 
 interface FormField {
   name: keyof EditRecipeSchema;
@@ -34,7 +33,7 @@ interface FormField {
 
 interface EditRecipeFormProps {
   formFields: FormField[];
-  recipeData: Recipe;
+  recipeData: RecipeData;
   tags: { id: number; name: string }[];
   user: UserData;
 }

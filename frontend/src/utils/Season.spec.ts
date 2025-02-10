@@ -6,6 +6,9 @@ const mockDate = (dateString: string) => {
   jest.spyOn(global, "Date").mockImplementation(() => date as unknown as Date);
 };
 
+/*
+  @desc Test for Season.tsx
+*/
 describe("Season", () => {
   afterEach(() => {
     jest.restoreAllMocks();

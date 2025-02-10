@@ -1,3 +1,6 @@
+/*
+  @desc Handle favorite recipe
+*/
 export const handleFavoriteRecipe = async ({
   recipeId,
   toast,
@@ -9,6 +12,7 @@ export const handleFavoriteRecipe = async ({
     description: string;
   }) => void;
 }) => {
+  // redirect to api handler create-favorite
   try {
     const response = await fetch("/api/create-favorite", {
       method: "POST",

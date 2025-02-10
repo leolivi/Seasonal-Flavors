@@ -1,5 +1,5 @@
 import { getAuthenticatedUser } from "@/utils/auth-user";
-import { getRecipeDetail } from "@/utils/recipeDetail";
+import { getRecipeDetail } from "@/utils/recipe-detail";
 import { getRecipeImage } from "@/services/image/imageService";
 import { getTags } from "@/services/tag/tagService";
 import { HiOutlineArrowLeft } from "react-icons/hi";
@@ -20,18 +20,33 @@ export default async function EditRecipePage({
   // retrieve the recipe id
   const recipeId = parseInt(params.id);
 
-  // retrieve the recipe, user, tags and image data
-  const [recipe, user, tags, imageData] = await Promise.all([
+  // retrieve the recipe, user, tags and image data in parallel
+  const results = await Promise.allSettled([
     getRecipeDetail(recipeId),
     getAuthenticatedUser(),
     getTags(),
     getRecipeImage(recipeId),
   ]);
 
-  // if there is no recipe or user, return null
-  if (!recipe || !user) {
+  // Extract results and handle potential failures
+  const [recipeResult, userResult, tagsResult, imageDataResult] = results;
+
+  // Check if required data (recipe and user) is available
+  if (
+    recipeResult.status === "rejected" ||
+    !recipeResult.value ||
+    userResult.status === "rejected" ||
+    !userResult.value
+  ) {
     return notFound();
   }
+
+  // Extract values, defaulting to empty arrays/objects for non-critical data
+  const recipe = recipeResult.value;
+  const user = userResult.value;
+  const tags = tagsResult.status === "fulfilled" ? tagsResult.value : [];
+  const imageData =
+    imageDataResult.status === "fulfilled" ? imageDataResult.value : null;
 
   // return the edit recipe page
   return (
