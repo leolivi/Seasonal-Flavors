@@ -1,25 +1,5 @@
+// mocks/test-mocks.ts
 import { jest } from "@jest/globals";
-
-// TODO: make this working
-
-// Mock Router
-export const mockRouter = {
-  push: jest.fn(),
-  back: jest.fn(),
-};
-
-// --- Mock Services --- //
-export const mockServices = {
-  recipeCreate: jest.fn(),
-  handleForgotPassword: jest.fn(),
-  imageUpload: jest.fn(),
-};
-
-// --- Mock Hooks --- //
-export const mockToast = jest.fn();
-export const mockUseToast = () => ({
-  toast: mockToast,
-});
 
 // --- Mock Components --- //
 export const mockCrossIcon = () => {
@@ -34,13 +14,23 @@ export const mockPlusIcon = () => {
   return PlusMock;
 };
 
+// --- Mock Services --- //
+export const mockServices = {
+  recipeCreate: jest.fn(),
+  recipePatch: jest.fn(),
+  handleForgotPassword: jest.fn(),
+  imageUpload: jest.fn(),
+  imageDelete: jest.fn(),
+};
+
+// --- Mock Hooks --- //
+export const mockToast = jest.fn();
+export const mockUseToast = () => ({
+  toast: mockToast,
+});
+
 // -- Setup function to automatically mock common dependencies -- //
 export const setupCommonMocks = () => {
-  // Mock next/navigation
-  jest.mock("next/navigation", () => ({
-    useRouter: () => mockRouter,
-  }));
-
   // Mock toast
   jest.mock("@/hooks/use-toast", () => ({
     useToast: mockUseToast,
@@ -51,11 +41,16 @@ export const setupCommonMocks = () => {
     handleCreateRecipe: mockServices.recipeCreate,
   }));
 
+  jest.mock("@/services/recipe/recipePatch", () => ({
+    handleRecipePatch: mockServices.recipePatch,
+  }));
+
   jest.mock("@/services/user/PasswordPatch", () => ({
     handleForgotPassword: mockServices.handleForgotPassword,
   }));
 
   jest.mock("@/services/image/imageUpload", () => mockServices.imageUpload);
+  jest.mock("@/services/image/imageDelete", () => mockServices.imageDelete);
 
   // Mock icons
   jest.mock("src/assets/icons/cross.svg", () => mockCrossIcon());

@@ -1,47 +1,13 @@
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import EditRecipeForm from "./edit-recipe-form";
-import { useRouter } from "next/navigation";
 import { FormField } from "../recipe-form-wrapper/recipe-form-wrapper";
-
-// mock the cross icon
-jest.mock("src/assets/icons/cross.svg", () => {
-  const CrossMock = () => <span>CrossMock</span>;
-  CrossMock.displayName = "CrossMock";
-  return CrossMock;
-});
-
-// mock the plus icon
-jest.mock("src/assets/icons/plus.svg", () => {
-  const PlusMock = () => <span>PlusMock</span>;
-  PlusMock.displayName = "PlusMock";
-  return PlusMock;
-});
-
-// mock the recipe patch service
-jest.mock("@/services/recipe/recipePatch", () => ({
-  handleRecipePatch: jest.fn(),
-}));
-
-// mock the next/navigation
-jest.mock("next/navigation", () => ({
-  useRouter: jest.fn(),
-}));
-
-// mock the toast
-jest.mock("@/hooks/use-toast", () => ({
-  useToast: jest.fn(() => ({
-    toast: jest.fn(),
-  })),
-}));
-
-// mock the image upload service
-jest.mock("@/services/image/imageUpload");
-
-// mock the image delete service
-jest.mock("@/services/image/imageDelete");
+import { clearCommonMocks, setupCommonMocks } from "../__mocks__/test-mocks";
 
 // mock the router
 const mockRouter = { push: jest.fn(), back: jest.fn() };
+jest.mock("next/navigation", () => ({
+  useRouter: () => mockRouter,
+}));
 
 // mock the tags
 const mockTags = [
@@ -84,12 +50,12 @@ const mockFormFields = [
   @desc Test the edit recipe form
 */
 describe("EditRecipeForm", () => {
-  beforeEach(() => {
-    (useRouter as jest.Mock).mockReturnValue(mockRouter);
+  beforeAll(() => {
+    setupCommonMocks();
   });
 
   afterEach(() => {
-    jest.clearAllMocks();
+    clearCommonMocks();
   });
 
   test("should render the form with all fields", () => {
