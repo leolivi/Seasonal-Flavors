@@ -48,14 +48,31 @@ export async function PATCH(request: NextRequest) {
       body: JSON.stringify(body),
     });
 
-    // if the response is not ok from the server, we can handle the error
     if (!response.ok) {
-      const error = await response.json();
-      console.error("User edit failed:", error);
-      return NextResponse.json(
-        { message: error.message },
-        { status: response.status },
-      );
+      const errorData = await response.json();
+
+      // convert the error message to the expected format
+      if (errorData.message) {
+        // extract the field from the error message
+        let field = "general";
+        if (errorData.message.includes("email")) {
+          field = "email";
+        } else if (errorData.message.includes("username")) {
+          field = "username";
+        }
+
+        return NextResponse.json(
+          {
+            errors: [
+              {
+                field: field,
+                message: errorData.message,
+              },
+            ],
+          },
+          { status: response.status },
+        );
+      }
     }
 
     // retrieve the updated user data
@@ -86,9 +103,17 @@ export async function PATCH(request: NextRequest) {
     // return the data
     return NextResponse.json(updatedUserData, { status: 200 });
   } catch (error) {
-    // log the error
     console.error("User edit failed:", error);
-    // return a 500 error
-    return NextResponse.json({ message: "User edit failed" }, { status: 500 });
+    return NextResponse.json(
+      {
+        errors: [
+          {
+            field: "general",
+            message: "Ein unerwarteter Fehler ist aufgetreten",
+          },
+        ],
+      },
+      { status: 500 },
+    );
   }
 }

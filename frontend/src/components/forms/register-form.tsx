@@ -191,6 +191,8 @@ export const RegisterForm = ({ setForm }: RegisterFormProps) => {
             Ich akzeptiere die{" "}
             <a
               href="/data-protection"
+              target="_blank"
+              rel="noopener noreferrer"
               className="font-figtreeRegular text-sfred-dark"
             >
               Datenschutzerklärung

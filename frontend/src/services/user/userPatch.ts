@@ -3,11 +3,17 @@ import { UserData } from "@/types/interfaces";
 interface HandleUserPatchParams {
   data: Partial<Pick<UserData, "id" | "username" | "email">>;
   userData: UserData;
-  toast: (options: {
-    variant: "default" | "destructive";
-    title: string;
-    description: string;
-  }) => void;
+}
+
+interface UserPatchError {
+  field: string;
+  message: string;
+}
+
+interface UserPatchResponse {
+  success?: boolean;
+  status: number;
+  errors?: UserPatchError[] | { [key: string]: string } | string;
 }
 
 /*
@@ -16,10 +22,10 @@ interface HandleUserPatchParams {
 export const handleUserPatch = async ({
   data,
   userData,
-  toast,
-}: HandleUserPatchParams) => {
+}: HandleUserPatchParams): Promise<UserPatchResponse> => {
   if (!userData) {
     return {
+      status: 400,
       errors: [{ field: "general", message: "Benutzerdaten nicht verfügbar" }],
     };
   }
@@ -32,22 +38,19 @@ export const handleUserPatch = async ({
       body: JSON.stringify(data),
     });
 
+    // get the response data
     const responseData = await response.json();
 
-    if (!response.ok) {
-      return { errors: responseData.errors || [] };
-    }
-
-    toast({
-      variant: "default",
-      title: "Erfolgreich!",
-      description: "Dein Profil wurde aktualisiert.",
-    });
-
-    return { success: true };
+    // return the response data
+    return {
+      ...responseData,
+      status: response.status,
+      success: response.ok,
+    };
   } catch (error) {
     console.error(error);
     return {
+      status: 500,
       errors: [
         {
           field: "general",

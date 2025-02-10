@@ -22,6 +22,7 @@ import { useRecipes } from "@/hooks/use-recipes";
 import Heart from "../ui/heart";
 import { ButtonSize, ButtonStyle } from "@/utils/enum";
 import { UserData } from "@/types/interfaces";
+import { handleFormErrors } from "@/utils/form-error-handler";
 
 interface FormField {
   name: keyof CreateRecipeSchema;
@@ -69,6 +70,7 @@ export default function CreateRecipeForm({
       cover_image: undefined,
     },
   });
+
   // handle the form submission
   const onSubmit = async (data: CreateRecipeSchema) => {
     const formData = {
@@ -89,15 +91,13 @@ export default function CreateRecipeForm({
     }
   };
 
-  // handle the form error
+  // handle the form errors
   const handleError = (errors: FieldErrors<CreateRecipeSchema>) => {
-    if (Object.keys(errors).length > 0) {
-      toast({
-        variant: "destructive",
-        title: "Validierungsfehler",
-        description: "Bitte überprüfe die Eingabefelder auf Fehler.",
-      });
-    }
+    handleFormErrors(errors, {
+      toast,
+      defaultErrorTitle: "Validierungsfehler",
+      defaultErrorMessage: "Bitte überprüfe die Eingabefelder auf Fehler.",
+    });
   };
 
   // get the single inputs

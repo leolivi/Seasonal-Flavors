@@ -17,13 +17,13 @@ import {
 } from "@/validation/editRecipeSchema";
 import { ImageData, RecipeData, UserData } from "@/types/interfaces";
 import Image from "next/image";
-import { handleImageDelete } from "@/services/image/imageDelete";
-import { handleImageUpload } from "@/services/image/imageUpload";
 import { handleRecipePatch } from "@/services/recipe/recipePatch";
 import { getRecipeImage } from "@/services/image/imageService";
 import { useRecipes } from "@/hooks/use-recipes";
 import Heart from "../ui/heart";
 import { ButtonSize, ButtonStyle } from "@/utils/enum";
+import { handleFormErrors } from "@/utils/form-error-handler";
+import { handleImageUpdate } from "@/utils/image-handler";
 
 interface FormField {
   name: keyof EditRecipeSchema;
@@ -51,16 +51,16 @@ export default function EditRecipeForm({
   const router = useRouter();
   // get the recipes
   const { updateRecipe } = useRecipes();
-  // get the editor content
+  // get the toast
+  const { toast } = useToast();
+
   const [editorContent, setEditorContent] = useState<
     ProseMirrorNode | undefined
   >(undefined);
-  // get the cover image
-  const [coverImage, setCoverImage] = useState<File | null>();
   // get the image data
   const [imageData, setImageData] = useState<ImageData | undefined>();
-  // get the toast
-  const { toast } = useToast();
+  // get the cover image
+  const [coverImage, setCoverImage] = useState<File | null>();
 
   // fetch the image data
   useEffect(() => {
@@ -103,46 +103,24 @@ export default function EditRecipeForm({
       steps: JSON.stringify(editorContent),
     };
 
-    // get the recipe id
     const recipeId = initialRecipeData.id;
 
-    // handle the cover image and recipe patch
+    // Handle cover image upload
     if (coverImage) {
-      try {
-        if (imageData && imageData.id) {
-          const deleteResult = await handleImageDelete(
-            recipeId,
-            imageData.id,
-            toast,
-          );
-          if (!deleteResult) {
-            throw new Error("Fehler beim Löschen des alten Bildes");
-          }
-        }
+      const success = await handleImageUpdate({
+        entityId: recipeId,
+        currentImage: imageData,
+        newImage: coverImage,
+        entityName: data.title,
+        type: "recipe",
+        toast,
+        onSuccess: setImageData,
+      });
 
-        const uploadResult = await handleImageUpload(
-          recipeId,
-          coverImage,
-          data.title,
-          toast,
-        );
-        if (!uploadResult) {
-          throw new Error("Fehler beim Hochladen des neuen Bildes");
-        }
-
-        const updatedImageData = await getRecipeImage(recipeId);
-        setImageData(updatedImageData);
-      } catch (error) {
-        console.error("Fehler bei der Bildverarbeitung:", error);
-        toast({
-          variant: "destructive",
-          title: "Fehler",
-          description: "Bild konnte nicht aktualisiert werden.",
-        });
-        return;
-      }
+      if (!success) return;
     }
 
+    // update the recipe
     const updatedRecipe = await handleRecipePatch({
       data: formData,
       toast,
@@ -163,13 +141,11 @@ export default function EditRecipeForm({
 
   // handle the form errors
   const handleError = (errors: FieldErrors<EditRecipeSchema>) => {
-    if (Object.keys(errors).length > 0) {
-      toast({
-        variant: "destructive",
-        title: "Validierungsfehler",
-        description: "Bitte überprüfe die Eingabefelder auf Fehler.",
-      });
-    }
+    handleFormErrors(errors, {
+      toast,
+      defaultErrorTitle: "Validierungsfehler",
+      defaultErrorMessage: "Bitte überprüfe die Eingabefelder auf Fehler.",
+    });
   };
 
   // get the single inputs

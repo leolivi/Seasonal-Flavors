@@ -63,7 +63,7 @@ export default function AvatarUpload({
 
   // render the avatar upload
   return (
-    <div className="flex flex-col items-center">
+    <div className="relative flex flex-col items-center">
       <Avatar size={AvatarSize.large}>
         {/* avatar image */}
         <AvatarImage
@@ -84,7 +84,7 @@ export default function AvatarUpload({
       </Avatar>
       {/* delete button */}
       {avatarSrc !== "" && imageLoaded && (
-        <div className="relative -right-10 -top-20 w-fit cursor-pointer rounded-full bg-sfwhite-light p-1 hover:drop-shadow-lg">
+        <div className="absolute -right-2 -top-1 w-fit cursor-pointer rounded-full bg-sfwhite-light p-1 hover:drop-shadow-lg">
           <FiTrash2 size={25} onClick={handleDelete} />
         </div>
       )}

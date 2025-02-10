@@ -15,6 +15,7 @@ export enum ButtonStyle {
   OUTLINERED = "outline-red",
   SIMPLE = "simple",
   SIMPLERED = "simple-red",
+  UPLOAD = "upload",
 }
 
 export enum ButtonSize {
