@@ -1,5 +1,9 @@
-interface ErrorHandlerOptions {
-  form?: any;
+import { Path, UseFormReturn } from "react-hook-form";
+
+interface ErrorHandlerOptions<
+  TFormData extends Record<string, unknown> = Record<string, unknown>,
+> {
+  form?: UseFormReturn<TFormData>;
   toast: (options: {
     variant: "default" | "destructive";
     title: string;
@@ -9,10 +13,27 @@ interface ErrorHandlerOptions {
   defaultErrorMessage?: string;
 }
 
+export interface ValidationError {
+  type: string;
+  [key: string]: unknown;
+}
+
+export interface ApiFieldError {
+  field: string;
+  message: string;
+}
+
+export type ApiErrors = ApiFieldError[] | Record<string, string> | string;
+
 /*
   @desc handle form errors
 */
-export function handleFormErrors(errors: any, options: ErrorHandlerOptions) {
+export function handleFormErrors<
+  TFormData extends Record<string, unknown> = Record<string, unknown>,
+>(
+  errors: ValidationError | ApiErrors,
+  options: ErrorHandlerOptions<TFormData>,
+) {
   const {
     form,
     toast,
@@ -34,7 +55,7 @@ export function handleFormErrors(errors: any, options: ErrorHandlerOptions) {
   if (Array.isArray(errors)) {
     errors.forEach((error) => {
       if (form) {
-        form.setError(error.field, {
+        form.setError(error.field as Path<TFormData>, {
           type: "manual",
           message: error.message,
         });
@@ -47,7 +68,7 @@ export function handleFormErrors(errors: any, options: ErrorHandlerOptions) {
   if (typeof errors === "object" && errors !== null) {
     Object.entries(errors).forEach(([field, message]) => {
       if (form) {
-        form.setError(field, {
+        form.setError(field as Path<TFormData>, {
           type: "manual",
           message: message as string,
         });

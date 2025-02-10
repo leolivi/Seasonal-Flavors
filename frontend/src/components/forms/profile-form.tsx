@@ -24,6 +24,7 @@ import Heart from "../ui/heart";
 import { ButtonSize } from "@/utils/enum";
 import { handleFormErrors } from "@/utils/form-error-handler";
 import { ProfileImageUpload } from "../file-upload/profile-image-upload";
+import { ValidationError, ApiErrors } from "@/utils/form-error-handler";
 
 interface ProfileFormProps {
   user: NonNullable<ProfileCardProps["userData"]>;
@@ -117,8 +118,15 @@ export default function ProfileForm({
   }
 
   // handle form errors
-  function handleErrors(errors: any, toast: any) {
-    handleFormErrors(errors, {
+  function handleErrors(
+    errors: ValidationError | ApiErrors,
+    toast: (options: {
+      variant: "default" | "destructive";
+      title: string;
+      description: string;
+    }) => void,
+  ) {
+    handleFormErrors<z.infer<typeof profileSchema>>(errors, {
       toast,
       defaultErrorTitle: "Fehler",
       defaultErrorMessage: "Fehler beim Aktualisieren des Profils.",
