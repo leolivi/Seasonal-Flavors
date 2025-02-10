@@ -93,11 +93,17 @@ export default function CreateRecipeForm({
 
   // handle the form errors
   const handleError = (errors: FieldErrors<CreateRecipeSchema>) => {
-    handleFormErrors(errors, {
-      toast,
-      defaultErrorTitle: "Validierungsfehler",
-      defaultErrorMessage: "Bitte überprüfe die Eingabefelder auf Fehler.",
-    });
+    handleFormErrors(
+      {
+        type: "validation",
+        errors: errors,
+      },
+      {
+        toast,
+        defaultErrorTitle: "Validierungsfehler",
+        defaultErrorMessage: "Bitte überprüfe die Eingabefelder auf Fehler.",
+      },
+    );
   };
 
   // get the single inputs

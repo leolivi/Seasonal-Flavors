@@ -57,8 +57,8 @@ export function ProfileImageUpload({
           onImageUpdate(newImageData);
           setInputKey(Date.now());
         },
-        onDataUpdate: (userData) => {
-          onUserDataUpdate(userData);
+        onDataUpdate: (updatedImageData) => {
+          onUserDataUpdate(updatedImageData);
         },
       });
 

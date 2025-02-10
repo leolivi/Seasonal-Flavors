@@ -1,7 +1,7 @@
 import { handleImageDelete } from "@/services/image/imageDelete";
 import { getProfileImage, getRecipeImage } from "@/services/image/imageService";
 import { handleImageUpload } from "@/services/image/imageUpload";
-import { ImageData } from "@/types/interfaces";
+import { ImageData, UserData } from "@/types/interfaces";
 
 interface ImageHandlerParams {
   entityId: number;
@@ -9,9 +9,13 @@ interface ImageHandlerParams {
   newImage: File;
   entityName: string;
   type?: "profile" | "recipe";
-  toast: any;
+  toast: (props: {
+    variant: "default" | "destructive";
+    title: string;
+    description: string;
+  }) => void;
   onSuccess?: (updatedImageData: ImageData | undefined) => void;
-  onDataUpdate?: (data: any) => void;
+  onDataUpdate?: (data: UserData) => void;
 }
 
 /*
@@ -28,8 +32,6 @@ export async function handleImageUpdate({
   onDataUpdate,
 }: ImageHandlerParams) {
   try {
-    let uploadResult: string | undefined;
-
     // delete the old image, if it exists
     if (currentImage && currentImage.id) {
       const deleteResult = await handleImageDelete(
@@ -43,7 +45,7 @@ export async function handleImageUpdate({
     }
 
     // upload the new image
-    uploadResult = await handleImageUpload(
+    const uploadResult = await handleImageUpload(
       entityId,
       newImage,
       entityName,
@@ -62,7 +64,7 @@ export async function handleImageUpdate({
         : await getRecipeImage(entityId);
 
     if (onSuccess) onSuccess(updatedImageData);
-    if (onDataUpdate) onDataUpdate({ ...currentImage });
+    if (onDataUpdate) onDataUpdate(updatedImageData);
 
     // trigger the profile image update event
     if (type === "profile") {
