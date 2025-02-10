@@ -1,10 +1,10 @@
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { useToast } from "@/hooks/use-toast";
 import { useRouter } from "next/navigation";
-import { handleUserPatch } from "@/services/user/userPatch";
 import { getCurrentUser } from "@/services/user/userService";
 import ProfileForm from "./profile-form";
 import { SessionProvider } from "next-auth/react";
+import { handleUserPatch } from "@/services/user/userPatch";
 
 // mock the toast
 jest.mock("@/hooks/use-toast");
@@ -16,10 +16,6 @@ jest.mock("next/navigation", () => ({
 jest.mock("@/services/user/userPatch");
 // mock the user service
 jest.mock("@/services/user/userService");
-// mock the image upload service
-jest.mock("@/services/image/imageUpload");
-// mock the image delete service
-jest.mock("@/services/image/imageDelete");
 
 const mockToast = jest.fn();
 const mockRouter = { refresh: jest.fn() };
@@ -62,9 +58,7 @@ describe("ProfileForm", () => {
       </SessionProvider>,
     );
 
-    expect(
-      screen.getByPlaceholderText("Profilbild hochladen"),
-    ).toBeInTheDocument();
+    expect(screen.getByTestId("profile-image-upload")).toBeInTheDocument();
     expect(screen.getByPlaceholderText("username")).toBeInTheDocument();
     expect(screen.getByPlaceholderText("email")).toBeInTheDocument();
   });
@@ -111,16 +105,18 @@ describe("ProfileForm", () => {
           id: user.id,
         }),
         userData: user,
-        toast: expect.any(Function),
       });
 
       expect(getCurrentUser).toHaveBeenCalled();
       expect(mockSetUserData).toHaveBeenCalledWith(updatedUser);
       expect(mockOnUserUpdate).toHaveBeenCalledWith(updatedUser);
-      expect(mockToast).toHaveBeenCalledWith({
-        title: "Daten gespeichert",
-        description: "Dein Profil wurde erfolgreich angepasst.",
-      });
+      expect(mockToast).toHaveBeenCalledWith(
+        expect.objectContaining({
+          title: "Erfolgreich!",
+          description: "Dein Profil wurde aktualisiert.",
+          variant: "default",
+        }),
+      );
     });
   });
 

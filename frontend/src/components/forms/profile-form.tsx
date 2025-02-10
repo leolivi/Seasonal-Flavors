@@ -13,7 +13,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { Button } from "../button/button";
-import { ProfileSchema, profileSchema } from "@/validation/profileSchema";
+import { profileSchema } from "@/validation/profileSchema";
 import { ProfileCardProps } from "../profile-card/profile-card";
 import { useState, useEffect } from "react";
 import { ImageData, UserData } from "@/types/interfaces";
@@ -23,7 +23,6 @@ import { getCurrentUser } from "@/services/user/userService";
 import Heart from "../ui/heart";
 import { ButtonSize } from "@/utils/enum";
 import { handleFormErrors } from "@/utils/form-error-handler";
-import { handleImageUpdate } from "@/utils/image-handler";
 import { ProfileImageUpload } from "../file-upload/profile-image-upload";
 
 interface ProfileFormProps {
@@ -97,15 +96,15 @@ export default function ProfileForm({
       if (response.success) {
         const updatedUser = await getCurrentUser(user.accessToken!);
 
+        if (updatedUser) {
+          setUserData(updatedUser);
+          onUserUpdate(updatedUser);
+        }
         toast({
           variant: "default",
           title: "Erfolgreich!",
           description: "Dein Profil wurde aktualisiert.",
         });
-        if (updatedUser) {
-          setUserData(updatedUser);
-          onUserUpdate(updatedUser);
-        }
       }
     } catch (error) {
       console.error("Error during update:", error);

@@ -80,6 +80,7 @@ export function ProfileImageUpload({
             handleImageUploadChange(file);
           }}
           className="hidden"
+          data-testid="profile-image-upload"
           id="profile-image-upload"
         />
         <Button
