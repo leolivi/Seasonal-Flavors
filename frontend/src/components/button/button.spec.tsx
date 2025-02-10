@@ -1,9 +1,13 @@
-import { render, fireEvent } from "@testing-library/react";
 import { Button } from "./button";
+import { render, fireEvent } from "@testing-library/react";
 import { Season } from "@/utils/Season";
 
+// mock the season
 jest.mock("@/utils/Season");
 
+/*
+  @desc Tests the button component
+  */
 describe("Button Component", () => {
   test("should call on Click when btn is clicked", () => {
     const mockOnClick = jest.fn();

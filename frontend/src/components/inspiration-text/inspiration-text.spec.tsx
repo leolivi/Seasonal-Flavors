@@ -2,11 +2,15 @@ import { render } from "@testing-library/react";
 import { InspirationText } from "./inspiration-text";
 import * as SeasonUtils from "@/utils/SeasonUtils";
 
+// mock the season utils
 jest.mock("@/utils/SeasonUtils", () => ({
   getSeasonColor: jest.fn(() => "sfgreen"),
   translateSeason: jest.fn(() => "Frühling"),
 }));
 
+/*
+  @desc Test the inspiration text
+*/
 describe("InspirationText", () => {
   afterEach(() => {
     jest.clearAllMocks();

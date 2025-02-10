@@ -4,9 +4,13 @@ interface RecipeInstructionsProps {
   steps: string;
 }
 
+/*
+  @desc Recipe instructions
+*/
 export const RecipeInstructions = ({ steps }: RecipeInstructionsProps) => {
   let instructions = [];
 
+  // parse the steps into an array
   try {
     const parsedSteps = JSON.parse(steps);
 
@@ -66,11 +70,15 @@ export const RecipeInstructions = ({ steps }: RecipeInstructionsProps) => {
     instructions = ["Die Zubereitungsschritte konnten nicht geladen werden."];
   }
 
+  // render the instructions
   return (
     <div className="py-8 min-[640px]:pt-6">
+      {/* heading */}
       <Typography variant="heading2">
         <h2 className="font-figtreeRegular text-sfblack">Zubereitung</h2>
       </Typography>
+
+      {/* instructions */}
       <div className="text-sfblack">{instructions}</div>
     </div>
   );

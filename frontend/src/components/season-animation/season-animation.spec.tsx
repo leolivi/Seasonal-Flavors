@@ -3,15 +3,19 @@ import { render, screen } from "@testing-library/react";
 import { Season } from "@/utils/Season";
 import SeasonAnimation from "./season-animation";
 
+// mock brandmark
 jest.mock("../../assets/logo/seasonal-flavors-brandmark.svg", () => {
   const MockBrandmark = () => <div data-testid="brandmark" />;
   MockBrandmark.displayName = "MockBrandmark";
   return MockBrandmark;
 });
 
+// mock seasons
+const seasons = ["winter", "autumn", "summer", "spring"];
+/*
+  @desc Test SeasonAnimation component
+*/
 describe("SeasonAnimation", () => {
-  const seasons = ["winter", "autumn", "summer", "spring"];
-
   beforeEach(() => {
     jest.clearAllMocks();
   });

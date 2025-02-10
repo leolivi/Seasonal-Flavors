@@ -2,26 +2,41 @@ import { render, screen } from "@testing-library/react";
 import RecipeFormWrapper from "./recipe-form-wrapper";
 import { useRouter } from "next/navigation";
 
+// mock the use router hook
 jest.mock("next/navigation", () => ({
   useRouter: jest.fn(),
 }));
 
+// mock the create recipe form
 jest.mock("../forms/create-recipe-form", () => {
   return jest.fn(() => <div data-testid="mock-recipe-form" />);
 });
 
+// mock the edit recipe form
 jest.mock("../forms/edit-recipe-form", () => {
   return jest.fn(() => <div data-testid="mock-edit-recipe-form" />);
 });
 
+// mock the tags
 const mockTags = [
   { id: 1, name: "Tag1" },
   { id: 2, name: "Tag2" },
 ];
-const mockUser = { id: 1, name: "User  1", username: "user1" };
 
+// mock the user
+const mockUser = {
+  id: 1,
+  name: "User  1",
+  username: "user1",
+  email: "user1@example.com",
+};
+
+/*
+  @desc Test the recipe form wrapper
+*/
 describe("RecipeFormWrapper", () => {
   beforeEach(() => {
+    // mock the use router hook
     (useRouter as jest.Mock).mockReturnValue({
       push: jest.fn(),
     });

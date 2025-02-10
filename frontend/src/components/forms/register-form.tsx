@@ -33,7 +33,45 @@ interface RegisterFormInputs {
   acceptDataPolicy: boolean;
 }
 
+const formFields = [
+  {
+    name: "username" as const,
+    label: "Username",
+    placeholder: "Username",
+    type: "text",
+    autoComplete: "off",
+  },
+  {
+    name: "email" as const,
+    label: "Email",
+    placeholder: "Email",
+    type: "text",
+    autoComplete: "off",
+  },
+  {
+    name: "password" as const,
+    label: "Passwort",
+    placeholder: "Passwort",
+    type: "password",
+    autoComplete: "new-password",
+  },
+  {
+    name: "password_confirmation" as const,
+    label: "Passwort bestätigen",
+    placeholder: "Passwort bestätigen",
+    type: "password",
+    autoComplete: "new-password",
+  },
+];
+
+/*
+  @desc Register form
+*/
 export const RegisterForm = ({ setForm }: RegisterFormProps) => {
+  // get the toast
+  const { toast } = useToast();
+
+  // create the form
   const form = useForm<AuthSchema>({
     resolver: zodResolver(authSchema),
     defaultValues: {
@@ -46,8 +84,7 @@ export const RegisterForm = ({ setForm }: RegisterFormProps) => {
     reValidateMode: "onBlur",
   });
 
-  const { toast } = useToast();
-
+  // handle the form submission
   const onSubmit: SubmitHandler<RegisterFormInputs> = async (data) => {
     if (data.password !== data.password_confirmation) {
       form.setError("password_confirmation", {
@@ -114,72 +151,31 @@ export const RegisterForm = ({ setForm }: RegisterFormProps) => {
     }
   };
 
+  // render the form
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-6">
-        <FormField
-          control={form.control}
-          name="username"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Username</FormLabel>
-              <FormControl>
-                <Input placeholder="Username" autoComplete="off" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="email"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Email</FormLabel>
-              <FormControl>
-                <Input placeholder="Email" autoComplete="off" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="password"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Passwort</FormLabel>
-              <FormControl>
-                <Input
-                  type="password"
-                  placeholder="Passwort"
-                  autoComplete="new-password"
-                  {...field}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          control={form.control}
-          name="password_confirmation"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Passwort bestätigen</FormLabel>
-              <FormControl>
-                <Input
-                  type="password"
-                  placeholder="Passwort bestätigen"
-                  autoComplete="new-password"
-                  {...field}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+        {formFields.map((field) => (
+          <FormField
+            key={field.name}
+            control={form.control}
+            name={field.name}
+            render={({ field: formField }) => (
+              <FormItem>
+                <FormLabel>{field.label}</FormLabel>
+                <FormControl>
+                  <Input
+                    type={field.type}
+                    placeholder={field.placeholder}
+                    autoComplete={field.autoComplete}
+                    {...formField}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        ))}
 
         <div className="flex items-center space-x-2">
           <input
@@ -212,6 +208,7 @@ export const RegisterForm = ({ setForm }: RegisterFormProps) => {
         )}
 
         <div className="flex justify-center">
+          {/* submit button */}
           <Button
             type="submit"
             label="registrieren"

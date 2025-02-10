@@ -2,7 +2,6 @@ import { ResetPasswordForm } from "@/components/forms/reset-password-form";
 import { Typography } from "@/components/ui/typography";
 
 /*
-  @return array|Response
   @desc Displays the reset password page
 */
 const ResetPasswordPage = () => {

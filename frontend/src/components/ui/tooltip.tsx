@@ -4,6 +4,10 @@ import * as React from "react";
 import * as TooltipPrimitive from "@radix-ui/react-tooltip";
 import { cn } from "@/utils/clsx";
 
+/*
+  @desc Tooltip component from shadcn/ui
+*/
+
 const TooltipProvider = TooltipPrimitive.Provider;
 
 const Tooltip = TooltipPrimitive.Root;

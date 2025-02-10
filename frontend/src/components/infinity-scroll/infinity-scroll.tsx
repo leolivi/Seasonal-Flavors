@@ -8,6 +8,9 @@ interface InfiniteScrollProps {
   isInitialContent?: boolean;
 }
 
+/*
+  @desc Infinity scroll
+*/
 const InfinityScroll: React.FC<InfiniteScrollProps> = ({
   loadMore,
   hasMore,
@@ -15,9 +18,12 @@ const InfinityScroll: React.FC<InfiniteScrollProps> = ({
   className,
   isInitialContent = true,
 }) => {
+  // get the observer target
   const observerTarget = useRef(null);
+  // get the visibility state
   const [isVisible, setIsVisible] = useState(isInitialContent);
 
+  // show the observer target
   useEffect(() => {
     const currentObserverTarget = observerTarget.current;
 

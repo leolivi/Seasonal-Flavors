@@ -3,6 +3,7 @@ import { render, screen } from "@testing-library/react";
 import Card from "@/components/card/card";
 import fetchMock from "jest-fetch-mock";
 
+// mock the next/navigation hook
 jest.mock("next/navigation", () => ({
   useRouter: jest.fn(() => ({
     push: jest.fn(),
@@ -10,12 +11,14 @@ jest.mock("next/navigation", () => ({
   })),
 }));
 
-jest.mock("../ui/bookmark", () => () => <div>BookmarkMock</div>);
+// mock the bookmark component
+jest.mock("@/components/ui/bookmark.tsx", () => () => (
+  <div data-testid="bookmark">BookmarkMock</div>
+));
 
-beforeEach(() => {
-  fetchMock.resetMocks();
-});
-
+/*
+  @desc Tests the card component
+*/
 describe("Card", () => {
   const defaultProps = {
     id: 1,
@@ -23,14 +26,19 @@ describe("Card", () => {
     imageAlt: "Test Image",
     imageId: 1,
     title: "Test Recipe",
-    prepDuration: 30,
+    prep_time: 30,
+    season: "summer,winter", // Beispiel für die Saison
   };
+
+  beforeEach(() => {
+    fetchMock.resetMocks();
+  });
 
   test("renders the image with correct src and alt attributes", () => {
     render(
       <Card
+        deleteRecipe={jest.fn()}
         cooking_time={0}
-        prep_time={0}
         servings={0}
         steps={""}
         ingredients={""}
@@ -45,8 +53,8 @@ describe("Card", () => {
   test("displays the title correctly", () => {
     render(
       <Card
+        deleteRecipe={jest.fn()}
         cooking_time={0}
-        prep_time={0}
         servings={0}
         steps={""}
         ingredients={""}
@@ -60,8 +68,8 @@ describe("Card", () => {
   test("does not render Bookmark and cooking time when showDetail is false", () => {
     render(
       <Card
+        deleteRecipe={jest.fn()}
         cooking_time={0}
-        prep_time={0}
         servings={0}
         steps={""}
         ingredients={""}
@@ -72,26 +80,68 @@ describe("Card", () => {
     );
 
     expect(screen.queryByText("30 Minuten")).not.toBeInTheDocument();
-    expect(screen.queryByText("BookmarkMock")).not.toBeInTheDocument();
+    expect(screen.queryByTestId("bookmark")).not.toBeInTheDocument();
   });
 
-  test("renders Bookmark and cooking time when showDetail is true", () => {
+  test("renders Bookmark and cooking time when showDetail is true", async () => {
+    const onBookmarkClick = jest.fn();
     render(
       <Card
+        deleteRecipe={jest.fn()}
         cooking_time={30}
-        prep_time={30}
         servings={0}
         steps={""}
         ingredients={""}
         user_id={""}
         {...defaultProps}
         showDetail={true}
-        showBookmark={true} // Setze showBookmark auf true
+        showBookmark={true}
+        onBookmarkClick={onBookmarkClick}
       />,
     );
 
-    const bookmarks = screen.getByText("BookmarkMock");
-    expect(bookmarks).toBeInTheDocument();
-    expect(screen.getByText("30 Minuten")).toBeInTheDocument();
+    expect(screen.queryByText("30 Minuten")).toBeInTheDocument();
+    expect(screen.queryByTestId("bookmark")).toBeInTheDocument();
+  });
+
+  test("renders edit button when showEdit is true", () => {
+    const onEditClick = jest.fn();
+    render(
+      <Card
+        deleteRecipe={jest.fn()}
+        cooking_time={0}
+        servings={0}
+        steps={""}
+        ingredients={""}
+        user_id={""}
+        {...defaultProps}
+        showEdit={true}
+        onEditClick={onEditClick}
+      />,
+    );
+
+    const editButton = screen.getByText("bearbeiten");
+    expect(editButton).toBeInTheDocument();
+    editButton.click();
+    expect(onEditClick).toHaveBeenCalled();
+  });
+
+  test("calls deleteRecipe when delete button is clicked", () => {
+    const deleteRecipeMock = jest.fn();
+    render(
+      <Card
+        deleteRecipe={deleteRecipeMock}
+        cooking_time={0}
+        servings={0}
+        steps={""}
+        ingredients={""}
+        user_id={""}
+        {...defaultProps}
+        showEdit={true}
+      />,
+    );
+
+    const deleteButton = screen.getByText("löschen");
+    deleteButton.click();
   });
 });

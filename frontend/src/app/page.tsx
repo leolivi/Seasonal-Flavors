@@ -13,7 +13,6 @@ import ScrollButton from "@/components/scroll-button/scroll-button";
 import Teaser from "@/components/teaser/teaser";
 
 /*
-  @return array|Response
   @desc Displays the home page
 */
 const Home = async () => {

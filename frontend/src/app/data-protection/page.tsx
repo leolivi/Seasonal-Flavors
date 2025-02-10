@@ -6,7 +6,6 @@ import path from "path";
 import ScrollButton from "@/components/scroll-button/scroll-button";
 
 /*
-  @return string
   @desc Retrieves the markdown content
 */
 async function getMarkdownContent() {
@@ -17,7 +16,6 @@ async function getMarkdownContent() {
 }
 
 /*
-  @return array|Response
   @desc Displays the data protection page
 */
 const DataProtectionPage = async () => {

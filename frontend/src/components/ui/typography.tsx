@@ -34,7 +34,9 @@ const tags: Record<Variant, ElementType> = {
   btnS: "div",
 };
 
-// Define the classes based on your Tailwind fontSize configuration
+/* 
+  @desc Typography component defining the classes based on your Tailwind fontSize configuration 
+*/
 const sizes: Record<Variant, string> = {
   // Teaser big
   teaserL:

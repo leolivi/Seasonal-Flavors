@@ -33,19 +33,27 @@ export interface CreateRecipeFormProps {
   user: UserData;
 }
 
+/*
+  @desc Displays the create recipe form
+*/
 export default function CreateRecipeForm({
   formFields,
   tags,
   user,
 }: CreateRecipeFormProps) {
+  // get the router
   const router = useRouter();
+  // get the recipes
   const { addRecipe } = useRecipes();
+  // get the editor content
   const [editorContent, setEditorContent] = useState<
     ProseMirrorNode | undefined
   >(undefined);
+  // get the cover image
   const [coverImage, setCoverImage] = useState<File | null>();
+  // get the toast
   const { toast } = useToast();
-
+  // get the form
   const form = useForm<CreateRecipeSchema>({
     resolver: zodResolver(createRecipeSchema),
     defaultValues: {
@@ -59,7 +67,7 @@ export default function CreateRecipeForm({
       cover_image: undefined,
     },
   });
-
+  // handle the form submission
   const onSubmit = async (data: CreateRecipeSchema) => {
     const formData = {
       ...data,
@@ -79,6 +87,7 @@ export default function CreateRecipeForm({
     }
   };
 
+  // handle the form error
   const handleError = (errors: FieldErrors<CreateRecipeSchema>) => {
     if (Object.keys(errors).length > 0) {
       toast({
@@ -89,15 +98,18 @@ export default function CreateRecipeForm({
     }
   };
 
+  // get the single inputs
   const singleInputs = formFields.filter(
     (field) =>
       !["cooking_time", "prep_time", "servings", "steps"].includes(field.name),
   );
 
+  // get the row inputs
   const rowInputs = formFields.filter((field) =>
     ["cooking_time", "prep_time", "servings"].includes(field.name),
   );
 
+  // render the form
   return (
     <Form {...form}>
       <form
@@ -105,6 +117,7 @@ export default function CreateRecipeForm({
         className="w-full space-y-6 min-[640px]:w-5/6 min-[1020px]:w-2/3 min-[1240px]:w-1/2"
         noValidate
       >
+        {/* recipe input */}
         <RecipeInput<CreateRecipeSchema>
           fields={singleInputs}
           control={form.control}
@@ -120,10 +133,13 @@ export default function CreateRecipeForm({
           }}
         />
 
+        {/* row inputs */}
         <RecipeInput control={form.control} fields={rowInputs} layout="row" />
 
+        {/* ingredient input */}
         <IngredientInput control={form.control} name="ingredients" />
 
+        {/* steps input */}
         <FormField
           control={form.control}
           name="steps"
@@ -148,6 +164,7 @@ export default function CreateRecipeForm({
         />
 
         <div className="flex w-full justify-between">
+          {/* cancel button */}
           <Button
             type="button"
             label="abbrechen"
@@ -155,6 +172,7 @@ export default function CreateRecipeForm({
             size={ButtonSize.SMALL}
             onClick={() => router.back()}
           />
+          {/* save button */}
           <Button
             type="submit"
             label="speichern"

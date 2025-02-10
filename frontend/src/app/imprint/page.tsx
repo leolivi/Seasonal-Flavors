@@ -5,7 +5,6 @@ import ScrollButton from "@/components/scroll-button/scroll-button";
 import sourcesData from "@/data/sources.json";
 
 /*
-  @return array|Response
   @desc Displays the imprint page
 */
 export default function ImprintPage() {

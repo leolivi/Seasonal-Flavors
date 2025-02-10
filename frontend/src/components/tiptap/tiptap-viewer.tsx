@@ -1,5 +1,3 @@
-//src/components/tiptap/tiptap-viewer.tsx
-
 "use client";
 
 import { sanitizeTiptapContent } from "@/utils/sanitize-tiptap-content";
@@ -10,6 +8,9 @@ interface TipTapViewerProps {
   content: string;
 }
 
+/*
+  @desc TipTapViewer component
+*/
 export const TipTapViewer = ({ content }: TipTapViewerProps) => {
   // since the backend returns a JSON string, we need to parse it first
   // pasring means that we convert the JSON string into a JSON object

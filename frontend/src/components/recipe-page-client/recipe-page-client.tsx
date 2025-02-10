@@ -1,20 +1,20 @@
 "use client";
 
 import { Button, ButtonSize, ButtonStyle } from "@/components/button/button";
-import ScrollButton from "@/components/scroll-button/scroll-button";
-import ImageContainer from "@/components/ui/image-container";
+import { getSeasonColor, translateSeason } from "@/utils/SeasonUtils";
+import { Recipe } from "@/services/recipe/recipeService";
 import { RecipeHeader } from "@/components/recipe-header/recipe-header";
 import { RecipeInfo } from "@/components/recipe-info/recipe-info";
 import { RecipeInstructions } from "@/components/recipe-instructions/recipe-instructions";
-import Heart from "@/components/ui/heart";
-import { getSeasonColor, translateSeason } from "@/utils/SeasonUtils";
-import foodImage from "@/assets/images/food-image.jpg";
-import { Recipe } from "@/services/recipe/recipeService";
+import { SessionLoader } from "../auth-session/auth-session";
 import { useEffect } from "react";
 import { useRecipes } from "@/hooks/use-recipes";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
-import { SessionLoader } from "../auth-session/auth-session";
+import foodImage from "@/assets/images/food-image.jpg";
+import Heart from "@/components/ui/heart";
+import ImageContainer from "@/components/ui/image-container";
+import ScrollButton from "@/components/scroll-button/scroll-button";
 
 interface User {
   username: string;
@@ -29,6 +29,9 @@ interface RecipePageClientProps {
   recipeId: number;
 }
 
+/*
+  @desc recipe detail page client
+*/
 export function RecipePageClient({
   recipeDetails,
   user,
@@ -43,6 +46,7 @@ export function RecipePageClient({
 
   const displayRecipe = currentRecipe || recipeDetails;
 
+  // set the recipe
   useEffect(() => {
     if (!currentRecipe) {
       setRecipes([
@@ -54,23 +58,28 @@ export function RecipePageClient({
     }
   }, [recipeDetails, setRecipes, seasonArray, currentRecipe]);
 
+  // handle season click
   const handleSeasonClick = (season: string) => {
     const params = new URLSearchParams();
     params.set("season", season);
     router.push(`/recipes?${params.toString()}`);
   };
 
+  // if the status is loading or the recipe details are not available, return the session loader
   if (status === "loading" || !recipeDetails) {
     return <SessionLoader />;
   }
 
   return (
     <div className="px-4 pb-16 pt-8 min-[640px]:p-8 min-[640px]:pb-24">
+      {/* recipe header */}
       <RecipeHeader
         title={displayRecipe.title}
         username={user.username}
         recipe={displayRecipe}
       />
+
+      {/* recipe image */}
       <ImageContainer
         recipeId={recipeId}
         fallbackSrc={foodImage}
@@ -78,6 +87,8 @@ export function RecipePageClient({
         width={500}
         height={300}
       />
+
+      {/* recipe seasons */}
       <div className="flex justify-center gap-2">
         {seasonArray.map((season: string, index: number) => {
           const seasonalColor = getSeasonColor(season);
@@ -95,10 +106,14 @@ export function RecipePageClient({
           );
         })}
       </div>
+
+      {/* recipe info */}
       <div className="custom-grid items-left flex flex-col min-[640px]:grid min-[640px]:grid-cols-[auto_1fr] min-[640px]:items-start min-[640px]:gap-8">
         <RecipeInfo {...displayRecipe} season={seasonTags} />
         <RecipeInstructions steps={displayRecipe.steps} />
       </div>
+
+      {/* scroll button */}
       <ScrollButton />
     </div>
   );

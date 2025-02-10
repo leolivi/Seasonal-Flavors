@@ -2,6 +2,7 @@ import { render, screen } from "@testing-library/react";
 import ScrollButton from "./scroll-button";
 import { act } from "react";
 
+// mock season
 jest.mock("@/utils/Season", () => {
   return {
     Season: jest.fn().mockImplementation(() => ({
@@ -10,6 +11,9 @@ jest.mock("@/utils/Season", () => {
   };
 });
 
+/*
+  @desc Test ScrollButton component
+*/
 describe("ScrollButton Component", () => {
   beforeEach(() => {
     window.scrollTo = jest.fn();

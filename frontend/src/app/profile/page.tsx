@@ -4,7 +4,6 @@ import { getServerSession } from "next-auth";
 import ProfileCard from "@/components/profile-card/profile-card";
 
 /*
-  @return array|Response
   @desc Displays the profile page
 */
 const ProfilePage = async () => {

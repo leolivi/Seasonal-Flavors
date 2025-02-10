@@ -1,12 +1,14 @@
 "use client";
 
 import { getSeasonColor } from "@/utils/SeasonUtils";
-import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
 
 // Component defining the scroll-to-top button
 const ScrollButton = () => {
+  // get the seasonal color
   const seasonalColor = getSeasonColor();
+  // set the visibility state
   const [isVisible, setIsVisible] = useState(false);
 
   // function to toggle button visibility
@@ -18,7 +20,7 @@ const ScrollButton = () => {
     }
   };
 
-  // function to define what happens onClick
+  // function to scroll to the top
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
@@ -26,6 +28,7 @@ const ScrollButton = () => {
     });
   };
 
+  // add event listener to the window
   useEffect(() => {
     window.addEventListener("scroll", toggleVisibility);
 

@@ -11,9 +11,12 @@ import {
   FormProvider,
   useFormContext,
 } from "react-hook-form";
-
 import { cn } from "@/utils/clsx";
 import { Label } from "@/components/ui/label";
+
+/*
+  @desc Form component from shadcn/ui
+*/
 
 const Form = FormProvider;
 

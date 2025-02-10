@@ -5,25 +5,32 @@ import { handleResetPassword } from "@/services/user/PasswordPatch";
 import { useRouter } from "next/navigation";
 import { useSearchParams } from "next/navigation";
 
+// mock the password patch service
 jest.mock("@/services/user/PasswordPatch", () => ({
   handleResetPassword: jest.fn(),
 }));
 
+// mock the toast
 jest.mock("@/hooks/use-toast", () => ({
   useToast: jest.fn(() => ({
     toast: jest.fn(),
   })),
 }));
 
+// mock the next/navigation
 jest.mock("next/navigation", () => ({
   useRouter: jest.fn(),
   useSearchParams: jest.fn(),
 }));
 
-describe("ResetPasswordForm", () => {
-  const mockRouter = { push: jest.fn() };
-  const mockSearchParams = { get: jest.fn() };
+// mock the router and search params
+const mockRouter = { push: jest.fn() };
+const mockSearchParams = { get: jest.fn() };
 
+/*
+  @desc Test the reset password form
+*/
+describe("ResetPasswordForm", () => {
   beforeEach(() => {
     (useRouter as jest.Mock).mockReturnValue(mockRouter);
     (useSearchParams as jest.Mock).mockReturnValue(mockSearchParams);

@@ -5,7 +5,9 @@ interface LogoProps {
   variant?: "header" | "footer";
 }
 
-// component for logo
+/*
+  @desc Logo component
+*/
 const Logo = ({ variant = "header" }: LogoProps) => {
   // Conditional styles based on the variant (header or footer)
   const logoStyles =

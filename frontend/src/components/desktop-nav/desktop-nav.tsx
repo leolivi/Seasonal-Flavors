@@ -10,6 +10,9 @@ interface DesktopNavProps {
   }[];
 }
 
+/*
+  @desc Displays the desktop navigation
+*/
 export const DesktopNav = ({ navigationItems }: DesktopNavProps) => {
   return <NavList items={navigationItems} style={NavStyle.HEADER} />;
 };

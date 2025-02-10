@@ -1,14 +1,13 @@
+import { getCurrentSeason } from "@/utils/SeasonUtils";
+import { getFilteredRecipes, Recipe } from "@/services/recipe/recipeService";
+import { getRecipeImage } from "@/services/image/imageService";
+import { getRecipeTags } from "@/services/tag/tagService";
 import { SessionLoader } from "@/components/auth-session/auth-session";
 import RecipesClient from "@/components/recipes-client/recipes-client";
-import { getRecipeImage } from "@/services/image/imageService";
-import { getFilteredRecipes, Recipe } from "@/services/recipe/recipeService";
-import { getRecipeTags } from "@/services/tag/tagService";
-import { getCurrentSeason } from "@/utils/SeasonUtils";
 
 export const dynamic = "force-dynamic";
 
 /*
-  @return array|Response
   @desc Displays the recipes page
 */
 const RecipesPage = async ({

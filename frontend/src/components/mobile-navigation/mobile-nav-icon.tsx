@@ -5,7 +5,9 @@ interface MobileNavIconProps {
   color: string;
 }
 
-// component for mobile nav icon
+/*
+  @desc Mobile nav icon
+*/
 export const MobileNavIcon = ({ onClick, color }: MobileNavIconProps) => (
   <li
     className={`absolute right-4 flex h-12 w-12 cursor-pointer items-center justify-center rounded-full bg-${color}-light min-[640px]:right-8`}

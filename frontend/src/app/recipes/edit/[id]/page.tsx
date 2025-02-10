@@ -10,7 +10,6 @@ import RecipeFormWrapper from "@/components/recipe-form-wrapper/recipe-form-wrap
 import ScrollButton from "@/components/scroll-button/scroll-button";
 
 /*
-  @return array|Response
   @desc Displays the edit recipe page
 */
 export default async function EditRecipePage({

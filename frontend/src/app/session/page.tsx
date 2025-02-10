@@ -2,15 +2,14 @@
 
 import { LoginForm } from "@/components/forms/login-form";
 import { RegisterForm } from "@/components/forms/register-form";
-import { Typography } from "@/components/ui/typography";
 import { SessionForm } from "@/utils/enum";
-import { useState } from "react";
-import { useSearchParams } from "next/navigation";
-import { Suspense } from "react";
 import { SessionLoader } from "@/components/auth-session/auth-session";
+import { Suspense } from "react";
+import { Typography } from "@/components/ui/typography";
+import { useSearchParams } from "next/navigation";
+import { useState } from "react";
 
 /*
-  @return array|Response
   @desc Displays the session content
 */
 const SessionContent = () => {

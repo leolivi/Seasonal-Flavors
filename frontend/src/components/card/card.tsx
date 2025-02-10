@@ -1,79 +1,83 @@
-import Image from "next/image";
-import { Typography } from "../ui/typography";
-import { FaRegClock } from "react-icons/fa6";
-import Heart from "../ui/heart";
-import { getSeasonColor } from "@/utils/SeasonUtils";
-import BookmarkButton from "../ui/bookmark";
 import { Button, ButtonSize, ButtonStyle } from "../button/button";
-import { useRouter } from "next/navigation";
-import { useToast } from "@/hooks/use-toast";
-import { Recipe } from "@/services/recipe/recipeService";
-import { ImageData, getRecipeImage } from "@/services/image/imageService";
-import { useEffect, useState } from "react";
-import { ToastAction } from "@radix-ui/react-toast";
-import { UserData } from "@/services/user/userService";
+import { FaRegClock } from "react-icons/fa6";
+import { getSeasonColor } from "@/utils/SeasonUtils";
 import { handleImageDelete } from "@/services/image/imageDelete";
 import { handleRecipeDelete } from "@/services/recipe/recipeDelete";
+import { ImageData, getRecipeImage } from "@/services/image/imageService";
+import { Recipe } from "@/services/recipe/recipeService";
+import { ToastAction } from "@radix-ui/react-toast";
+import { Typography } from "../ui/typography";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { useToast } from "@/hooks/use-toast";
+import BookmarkButton from "../ui/bookmark";
+import Heart from "../ui/heart";
+import Image from "next/image";
 
-interface ExtendedRecipeProps extends Recipe {
+interface CardProps extends Recipe {
   showDetail?: boolean;
   showBookmark?: boolean;
   showEdit?: boolean;
   onBookmarkClick?: (e: React.MouseEvent) => void;
   onEditClick?: (e: React.MouseEvent) => void;
-  imageData?: ImageData;
-  priority?: boolean;
-  user?: UserData;
   deleteRecipe: (id: number) => void;
+  priority?: boolean;
 }
 
+/*
+  @desc Displays a card with a recipe
+*/
 export default function Card({
   showDetail = false,
   showBookmark = false,
   showEdit = false,
-  onBookmarkClick = () => {},
-  onEditClick = () => {},
+  onBookmarkClick,
+  onEditClick,
   deleteRecipe,
-  ...props
-}: ExtendedRecipeProps) {
-  const [imageData, setImageData] = useState<ImageData | undefined>();
+  priority,
+  ...recipe
+}: CardProps) {
+  // get the image data
+  const [imageData, setImageData] = useState<ImageData>();
+
+  // get the router
   const router = useRouter();
+
+  // get the toast
   const { toast } = useToast();
 
+  // fetch the image data
   useEffect(() => {
     const fetchImageData = async () => {
-      if (props.id) {
-        const fetchedImageData = await getRecipeImage(props.id);
+      if (recipe.id) {
+        const fetchedImageData = await getRecipeImage(recipe.id);
         setImageData(fetchedImageData);
       }
     };
-
     fetchImageData();
-  }, [props.id]);
+  }, [recipe.id]);
 
+  // get the seasonal colors
   const seasonColors =
-    props.season && typeof props.season === "string"
-      ? props.season
-          .split(",")
-          .map((season: string) => getSeasonColor(season.trim()))
+    recipe.season && typeof recipe.season === "string"
+      ? recipe.season.split(",").map((season) => getSeasonColor(season.trim()))
       : [];
 
+  // handle the recipe delete
   const handleDelete = async () => {
-    if (props.id && imageData?.id) {
+    if (recipe.id && imageData?.id) {
       const imageDeleted = await handleImageDelete(
-        props.id,
+        recipe.id,
         imageData.id,
         toast,
       );
-
-      if (imageDeleted === true) {
+      if (imageDeleted) {
         const recipeDeleted = await handleRecipeDelete(
-          props.id,
+          recipe.id,
           toast,
           router,
-          () => deleteRecipe(props.id),
+          () => deleteRecipe(recipe.id),
         );
-
         if (!recipeDeleted) {
           toast({
             variant: "destructive",
@@ -81,16 +85,11 @@ export default function Card({
             description: "Rezept konnte nicht gelöscht werden.",
           });
         }
-      } else {
-        toast({
-          variant: "destructive",
-          title: "Fehler",
-          description: "Bild konnte nicht gelöscht werden.",
-        });
       }
     }
   };
 
+  // render the card
   return (
     <div
       className={
@@ -100,36 +99,39 @@ export default function Card({
       }
     >
       <div className="min-[640px]:min-w-70 min-[1024px]:min-w-90 relative aspect-square min-w-56">
-        {showBookmark && (
+        {/* bookmark */}
+        {showBookmark && onBookmarkClick && (
           <BookmarkButton
             onClick={onBookmarkClick}
-            recipeId={props.id.toString()}
+            recipeId={recipe.id.toString()}
             data-testid="bookmark"
           />
         )}
+        {/* image */}
         <Image
           className="pointer-events-none h-full w-full rounded-lg object-cover object-center"
-          src={imageData?.file_path || props.imageSrc || ""}
-          alt={imageData?.alt_text || props.imageAlt || props.title}
+          src={imageData?.file_path || recipe.imageSrc || ""}
+          alt={imageData?.alt_text || recipe.imageAlt || recipe.title}
           width={500}
           height={300}
-          priority={props.priority}
+          priority={priority}
         />
       </div>
+      {/* title */}
       <div className="h-fit py-3 min-[500px]:h-20">
         <Typography
-          variant={"heading3"}
+          variant="heading3"
           className="line-clamp-2 overflow-hidden text-wrap font-cordaMedium font-semibold leading-7 text-sfblack min-[640px]:leading-10"
         >
-          {props.title}
+          {recipe.title}
         </Typography>
       </div>
-
+      {/* detail */}
       {showDetail && (
         <div className="mt-4 flex justify-between">
           <div className="flex items-center gap-2">
             <FaRegClock size={20} />
-            <p className="text-sfblack">{props.prep_time} Minuten</p>
+            <p className="text-sfblack">{recipe.prep_time} Minuten</p>
           </div>
           <div className="flex gap-1">
             {seasonColors.map((color, index) => (
@@ -144,8 +146,10 @@ export default function Card({
           </div>
         </div>
       )}
+      {/* edit and delete functions */}
       {showEdit && (
         <div className="mt-4 flex justify-between border-t-2 border-sfblack pt-2">
+          {/* delete */}
           <Button
             size={ButtonSize.XS}
             style={ButtonStyle.OUTLINERED}
@@ -168,6 +172,7 @@ export default function Card({
               });
             }}
           />
+          {/* edit */}
           <Button
             size={ButtonSize.XS}
             label="bearbeiten"

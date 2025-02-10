@@ -1,6 +1,6 @@
-import React from "react";
-import { Typography } from "../ui/typography";
 import { getSeasonColor } from "@/utils/SeasonUtils";
+import { Typography } from "../ui/typography";
+import React from "react";
 
 export enum ButtonStyle {
   PRIMARY = "primary",
@@ -28,6 +28,9 @@ interface ButtonProps {
   dataTestId?: string;
 }
 
+/*
+  @desc Displays the button
+*/
 export const Button: React.FC<ButtonProps> = ({
   label,
   iconLeft,
@@ -39,11 +42,14 @@ export const Button: React.FC<ButtonProps> = ({
   type = "button",
   dataTestId,
 }) => {
+  // get the seasonal color
   const seasonalColor = getSeasonColor();
 
+  // base styles
   const baseStyles =
     "flex w-fit items-center justify-center gap-1 rounded-full hover:drop-shadow-md";
 
+  // style classes
   const styleClasses = {
     [ButtonStyle.PRIMARY]: `px-4 py-2 text-sfblack hover:text-sfwhite active:text-sfwhite hover:bg-${seasonalColor} active:bg-${seasonalColor}-dark bg-${seasonalColor}-light cursor-pointer`,
     [ButtonStyle.OUTLINE]: `my-2 px-4 py-2 text-sfblack border-2 border-${recipeSeasonColor}-light bg-sfwhite`,
@@ -52,12 +58,14 @@ export const Button: React.FC<ButtonProps> = ({
     [ButtonStyle.SIMPLERED]: `text-sfred-dark  cursor-pointer`,
   };
 
+  // size classes
   const sizeClasses = {
     [ButtonSize.XS]: "text-xs my-2 px-2 py-1",
     [ButtonSize.SMALL]: "text-sm my-6 px-4 py-3",
     [ButtonSize.LARGE]: "text-lg px-6 py-3 my-10",
   };
 
+  // typography variant
   const typographyVariant =
     size === ButtonSize.LARGE
       ? "btnL"
@@ -65,6 +73,7 @@ export const Button: React.FC<ButtonProps> = ({
         ? "btnS"
         : "small";
 
+  // return the button
   return (
     <button
       className={`${baseStyles} ${styleClasses[style]} ${sizeClasses[size]}`}
@@ -72,10 +81,13 @@ export const Button: React.FC<ButtonProps> = ({
       onClick={onClick}
       data-testid={dataTestId}
     >
+      {/* icon left */}
       {iconLeft && <span className="mr-2">{iconLeft}</span>}
+      {/* label */}
       <Typography variant={typographyVariant} className="font-figtreeRegular">
         {label}
       </Typography>
+      {/* icon right */}
       {iconRight && <span className="ml-2">{iconRight}</span>}
     </button>
   );

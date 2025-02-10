@@ -1,15 +1,14 @@
-import ScrollButton from "@/components/scroll-button/scroll-button";
-import { Typography } from "@/components/ui/typography";
-import { HiOutlineArrowLeft } from "react-icons/hi";
-import Link from "next/link";
-import RecipeFormWrapper from "@/components/recipe-form-wrapper/recipe-form-wrapper";
 import { getAuthenticatedUser } from "@/utils/auth-user";
 import { getTags } from "@/services/tag/tagService";
+import { HiOutlineArrowLeft } from "react-icons/hi";
 import { notFound } from "next/navigation";
 import { translateSeason } from "@/utils/SeasonUtils";
+import { Typography } from "@/components/ui/typography";
+import Link from "next/link";
+import RecipeFormWrapper from "@/components/recipe-form-wrapper/recipe-form-wrapper";
+import ScrollButton from "@/components/scroll-button/scroll-button";
 
 /*
-  @return array|Response
   @desc Displays the create recipe page
 */
 export default async function CreateRecipePage() {

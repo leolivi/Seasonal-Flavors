@@ -4,7 +4,6 @@ import { getUser } from "@/services/user/userService";
 import { RecipePageClient } from "@/components/recipe-page-client/recipe-page-client";
 
 /*
-  @return array|Response
   @desc Displays the recipe page
 */
 export default async function RecipePage({

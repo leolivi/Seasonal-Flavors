@@ -1,69 +1,78 @@
-"use client";
-import { Recipe } from "@/services/recipe/recipeService";
-import { CardList } from "@/components/card-list.tsx/card-list";
 import { CardLayoutOptionType } from "@/utils/card-layout-options";
-import { useState, useEffect } from "react";
+import { CardList } from "./card-list";
+import { Recipe } from "@/services/recipe/recipeService";
 import { RegisterBanner } from "../banner/register-banner";
-import { useSession } from "next-auth/react";
-import { useRouter, usePathname } from "next/navigation";
-import { useToast } from "@/hooks/use-toast";
 import { useFavoritesStore } from "@/stores/useFavoritesStore";
-import { UserData } from "@/services/user/userService";
 import { useRecipes } from "@/hooks/use-recipes";
+import { useRouter, usePathname } from "next/navigation";
+import { useSession } from "next-auth/react";
+import { useState, useEffect } from "react";
+import { useToast } from "@/hooks/use-toast";
 
 interface CardListWrapperProps {
   cardData?: Recipe[];
-  showDetail?: boolean;
-  showEdit?: boolean;
-  showBookmark?: boolean;
-  style?: CardLayoutOptionType;
-  children?: React.ReactNode;
+  initialRecipes?: Recipe[];
+  viewOptions: {
+    showDetail?: boolean;
+    showEdit?: boolean;
+    showBookmark?: boolean;
+    style?: CardLayoutOptionType;
+  };
   className?: string;
   isInFavoriteView?: boolean;
   onShowFavorites?: (favorites: Recipe[]) => void;
-  user?: UserData;
-  initialRecipes?: Recipe[];
+  children?: React.ReactNode;
 }
 
+/*
+  @desc Wrapper for the card list
+*/
 const CardListWrapper = ({
   cardData = [],
   initialRecipes = [],
-  showDetail,
-  showBookmark,
-  showEdit,
-  style,
-  children,
+  viewOptions,
   className,
   isInFavoriteView = false,
   onShowFavorites,
-  user,
+  children,
 }: CardListWrapperProps) => {
+  // get the session
   const { status, data: session } = useSession();
+
+  // get the router and pathname
   const router = useRouter();
   const pathname = usePathname();
-  const [showRegisterBanner, setShowRegisterBanner] = useState(false);
-  const { toast } = useToast();
-  const { loadFavorites, toggleFavorite } = useFavoritesStore();
-  const { recipes, setRecipes, deleteRecipe } = useRecipes();
 
+  // get the toast
+  const { toast } = useToast();
+
+  // get the favorites store
+  const { loadFavorites, toggleFavorite } = useFavoritesStore();
+
+  // get the recipes
+  const { recipes, setRecipes, deleteRecipe } = useRecipes();
+  const [showRegisterBanner, setShowRegisterBanner] = useState(false);
+
+  // check if the page is the my recipes page or the recipes page
   const isMyRecipesPage = pathname === "/my-recipes";
   const isRecipesPage = pathname === "/recipes";
   const displayData = isMyRecipesPage ? recipes : cardData;
 
+  // load the favorites
   useEffect(() => {
     if (status === "authenticated" && session?.accessToken) {
       loadFavorites(session.accessToken);
     }
   }, [status, session, loadFavorites]);
 
+  // load the recipes
   useEffect(() => {
-    if (isMyRecipesPage || isRecipesPage) {
-      if (initialRecipes.length > 0) {
-        setRecipes(initialRecipes);
-      }
+    if ((isMyRecipesPage || isRecipesPage) && initialRecipes.length > 0) {
+      setRecipes(initialRecipes);
     }
   }, [initialRecipes, isMyRecipesPage, isRecipesPage, setRecipes]);
 
+  // handle the bookmark click
   const handleBookmarkClick = async (e: React.MouseEvent, recipeId: number) => {
     e.preventDefault();
     e.stopPropagation();
@@ -73,12 +82,14 @@ const CardListWrapper = ({
       return;
     }
 
-    const recipe = displayData.find((e) => e.id === recipeId);
+    const recipe = displayData.find((r) => r.id === recipeId);
+    // toggle favorize recipe
     if (recipe) {
       await toggleFavorite(recipe, toast, isInFavoriteView, onShowFavorites);
     }
   };
 
+  // handle the edit click
   const handleEditClick = (e: React.MouseEvent, id: number) => {
     e.preventDefault();
     e.stopPropagation();
@@ -87,27 +98,26 @@ const CardListWrapper = ({
     }
   };
 
-  const handleCloseBanner = () => {
-    setShowRegisterBanner(false);
+  // handlers
+  const handlers = {
+    onBookmarkClick: handleBookmarkClick,
+    onEditClick: handleEditClick,
+    deleteRecipe,
   };
 
+  // render the card list
   return (
     <div className={className}>
       {children}
+      {/* card list */}
       {displayData.length > 0 && (
         <CardList
-          onBookmarkClick={handleBookmarkClick}
-          onEditClick={(e, id) => handleEditClick(e, id)}
-          showEdit={showEdit}
           cardData={displayData}
-          showDetail={showDetail}
-          showBookmark={showBookmark}
-          style={style}
-          user={user}
-          deleteRecipe={deleteRecipe}
+          viewOptions={viewOptions}
+          handlers={handlers}
         />
       )}
-
+      {/* register banner */}
       {showRegisterBanner && (
         <div className="fixed left-1/2 top-1/2 z-50 -translate-x-1/2">
           <RegisterBanner
@@ -120,7 +130,7 @@ const CardListWrapper = ({
             }
             label="anmelden"
             showCloseBtn={true}
-            onClose={handleCloseBanner}
+            onClose={() => setShowRegisterBanner(false)}
           />
         </div>
       )}

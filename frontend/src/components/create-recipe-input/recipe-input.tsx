@@ -1,3 +1,4 @@
+import { Control, FieldValues, Path } from "react-hook-form";
 import {
   FormControl,
   FormItem,
@@ -6,17 +7,16 @@ import {
   FormField as RHFFormField,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Control, FieldValues, Path } from "react-hook-form";
-import { useState } from "react";
-import Image from "next/image";
+import { LuInfo } from "react-icons/lu";
+import { RxCross2 } from "react-icons/rx";
 import {
   Tooltip,
   TooltipTrigger,
   TooltipContent,
   TooltipProvider,
 } from "@/components/ui/tooltip";
-import { LuInfo } from "react-icons/lu";
-import { RxCross2 } from "react-icons/rx";
+import { useState } from "react";
+import Image from "next/image";
 
 interface FormField {
   name: string;
@@ -32,14 +32,19 @@ interface RecipeInputProps<T extends FieldValues> {
   onFileChange?: (fieldName: string, file: File | null) => void;
 }
 
+/*
+  @desc Displays the input fields for the create recipe form and edit recipe form
+*/
 export function RecipeInput<T extends FieldValues>({
   fields,
   control,
   layout = "column",
   onFileChange,
 }: RecipeInputProps<T>) {
+  // set the preview image urls
   const [previewUrls, setPreviewUrls] = useState<Record<string, string>>({});
 
+  // handle the file change
   const handleFileChange = (fieldName: string, file: File | null) => {
     if (file) {
       const url = URL.createObjectURL(file);
@@ -54,6 +59,7 @@ export function RecipeInput<T extends FieldValues>({
     if (onFileChange) onFileChange(fieldName, file);
   };
 
+  // clear the file input
   const clearFileInput = (
     fieldName: string,
     controllerField: { onChange: (value: File | null) => void },
@@ -76,6 +82,7 @@ export function RecipeInput<T extends FieldValues>({
     }
   };
 
+  // render the recipe input
   return (
     <div
       data-testid="create-recipe-form"
@@ -83,6 +90,7 @@ export function RecipeInput<T extends FieldValues>({
         layout === "row" ? "flex flex-row items-start gap-4" : "space-y-6"
       }
     >
+      {/* map the fields */}
       {fields.map((field) => (
         <RHFFormField
           key={field.name}
@@ -99,6 +107,8 @@ export function RecipeInput<T extends FieldValues>({
               >
                 <div className="flex items-center">
                   {field.label}
+
+                  {/* tooltip */}
                   {field.tooltip && (
                     <TooltipProvider>
                       <Tooltip>
@@ -122,6 +132,7 @@ export function RecipeInput<T extends FieldValues>({
                 </div>
               </FormLabel>
               <FormControl>
+                {/* file input type file */}
                 {field.type === "file" ? (
                   <div className="flex flex-col items-center">
                     <div className="flex w-full items-center space-x-2">
@@ -140,6 +151,8 @@ export function RecipeInput<T extends FieldValues>({
                         ref={controllerField.ref}
                         className="w-full"
                       />
+
+                      {/* clear image preview button */}
                       {(previewUrls[field.name] || controllerField.value) && (
                         <RxCross2
                           size={25}
@@ -152,6 +165,8 @@ export function RecipeInput<T extends FieldValues>({
                         />
                       )}
                     </div>
+
+                    {/* image preview */}
                     {previewUrls[field.name] && (
                       <div className="mt-2">
                         <Image
@@ -165,6 +180,7 @@ export function RecipeInput<T extends FieldValues>({
                     )}
                   </div>
                 ) : (
+                  /* input type text */
                   <Input
                     id={field.name}
                     type={field.type || "text"}
@@ -188,6 +204,8 @@ export function RecipeInput<T extends FieldValues>({
                   />
                 )}
               </FormControl>
+
+              {/* form message */}
               <FormMessage />
             </FormItem>
           )}

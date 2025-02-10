@@ -2,7 +2,6 @@ import { ForgotPasswordForm } from "@/components/forms/forgot-password-form";
 import { Typography } from "@/components/ui/typography";
 
 /*
-  @return array|Response
   @desc Displays the forgot password page
 */
 const ForgotPasswordPage = async () => {

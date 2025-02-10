@@ -21,13 +21,20 @@ import Heart from "../ui/heart";
 import { Suspense } from "react";
 import { SessionLoader } from "../auth-session/auth-session";
 
+/*
+  @desc Reset password form
+*/
 const ResetPasswordFormContent = () => {
+  // get the toast
   const { toast } = useToast();
+  // get the router
   const router = useRouter();
+  // get the search params
   const searchParams = useSearchParams();
+  // get the token and email
   const token = searchParams.get("token");
   const email = searchParams.get("email");
-
+  // create the form
   const form = useForm<z.infer<typeof resetPasswordSchema>>({
     resolver: zodResolver(resetPasswordSchema),
     defaultValues: {
@@ -38,6 +45,7 @@ const ResetPasswordFormContent = () => {
     },
   });
 
+  // handle the form submission
   async function onSubmit(formData: z.infer<typeof resetPasswordSchema>) {
     await handleResetPassword({
       data: formData,
@@ -46,6 +54,7 @@ const ResetPasswordFormContent = () => {
     });
   }
 
+  // render the form
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-6">
@@ -84,6 +93,7 @@ const ResetPasswordFormContent = () => {
           )}
         />
         <div className="flex w-full justify-center">
+          {/* submit button */}
           <Button
             type="submit"
             label="Passwort zurücksetzen"

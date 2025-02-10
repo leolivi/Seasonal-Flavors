@@ -3,22 +3,28 @@ import { handleSignup } from "@/actions/auth-actions";
 import { RegisterForm } from "./register-form";
 import { SessionForm } from "@/utils/enum";
 
+// mock the eye close icon
 jest.mock("src/assets/icons/eye-close.svg", () => {
   const EyeCloseMock = () => <span>EyeCloseMock</span>;
   EyeCloseMock.displayName = "EyeCloseMock";
   return EyeCloseMock;
 });
 
+// mock the eye open icon
 jest.mock("src/assets/icons/eye-open.svg", () => {
   const EyeOpenMock = () => <span>EyeOpenMock</span>;
   EyeOpenMock.displayName = "EyeOpenMock";
   return EyeOpenMock;
 });
 
+// mock the auth actions
 jest.mock("@/actions/auth-actions", () => ({
   handleSignup: jest.fn(),
 }));
 
+/*
+  @desc Test the register form
+*/
 describe("RegisterForm", () => {
   const setFormMock = jest.fn();
 

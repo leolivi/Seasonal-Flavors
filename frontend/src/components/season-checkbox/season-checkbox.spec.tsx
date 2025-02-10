@@ -3,6 +3,7 @@ import { SeasonCheckbox } from "./season-checkbox";
 import { useForm, FormProvider } from "react-hook-form";
 import { CreateRecipeSchema } from "@/validation/createRecipeSchema";
 
+// mock tags
 const mockTags = [
   { id: 1, name: "Frühling" },
   { id: 2, name: "Sommer" },
@@ -10,6 +11,7 @@ const mockTags = [
   { id: 4, name: "Winter" },
 ];
 
+// test wrapper
 const TestWrapper = () => {
   const methods = useForm<CreateRecipeSchema>({
     defaultValues: {
@@ -24,6 +26,9 @@ const TestWrapper = () => {
   );
 };
 
+/*
+  @desc Test SeasonCheckbox component
+*/
 describe("SeasonCheckbox", () => {
   test("should render all seasons correctly", () => {
     render(<TestWrapper />);

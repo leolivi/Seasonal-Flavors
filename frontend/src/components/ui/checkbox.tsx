@@ -5,6 +5,9 @@ interface CheckboxProps {
   label: string;
 }
 
+/*
+  @desc Checkbox component
+*/
 export default function Checkbox({
   id,
   checked,

@@ -1,10 +1,10 @@
 "use client";
 import { Button, ButtonSize } from "../button/button";
-import { Typography } from "../ui/typography";
-import { useRouter } from "next/navigation";
 import { getSeasonColor } from "@/utils/SeasonUtils";
 import { ReactNode } from "react";
 import { RxCross2 } from "react-icons/rx";
+import { Typography } from "../ui/typography";
+import { useRouter } from "next/navigation";
 import useMediaQuery from "@/hooks/use-media-query";
 
 interface RegisterBannerProps {
@@ -14,7 +14,9 @@ interface RegisterBannerProps {
   content?: ReactNode;
 }
 
-//  Component to display The register Banner
+/*
+  @desc Displays the register banner
+*/
 export const RegisterBanner = ({
   onClose,
   showCloseBtn = false,
@@ -31,7 +33,7 @@ export const RegisterBanner = ({
   const seasonalColor = getSeasonColor();
   const isDesktop = useMediaQuery("(min-width: 720px)");
 
-  // Function to handle button click, navigating to the login page
+  // handle button click, navigating to the login page
   const handleClick = () => {
     if (label === "jetzt registrieren") {
       router.push("/session?form=register");
@@ -40,11 +42,13 @@ export const RegisterBanner = ({
     }
   };
 
+  // return the register banner
   return (
     <div
       data-testid="register-banner"
       className={`w-fit cursor-pointer rounded-lg border-4 bg-${seasonalColor}-dark/80 border-${seasonalColor}-dark flex flex-col items-center px-20 py-2 pt-10 max-[380px]:px-4`}
     >
+      {/* close button */}
       {showCloseBtn && (
         <RxCross2
           size={25}
@@ -54,12 +58,13 @@ export const RegisterBanner = ({
           data-testid="cross-button"
         />
       )}
+      {/* content */}
       <Typography variant="body">
         <p className="text-center font-figtreeRegular text-sfwhite">
           {content}
         </p>
       </Typography>
-
+      {/* register / sign in button */}
       <Button
         label={label}
         onClick={handleClick}

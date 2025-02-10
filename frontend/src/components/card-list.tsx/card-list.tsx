@@ -1,64 +1,53 @@
-import Card from "../card/card";
-import Link from "next/link";
 import {
   CardLayoutOptions,
   CardLayoutOptionType,
 } from "@/utils/card-layout-options";
-import React from "react";
-import foodImage from "@/assets/images/food-image.jpg";
 import { Recipe } from "@/services/recipe/recipeService";
-import { UserData } from "@/services/user/userService";
+import Card from "../card/card";
+import Link from "next/link";
+import React from "react";
 
 interface CardListProps {
-  cardData?: Recipe[];
-  showDetail?: boolean;
-  showBookmark?: boolean;
-  showEdit?: boolean;
-  style?: CardLayoutOptionType;
-  onBookmarkClick?: (e: React.MouseEvent, recipeId: number) => void;
-  onEditClick?: (e: React.MouseEvent, id: number) => void;
-  user?: UserData;
-  deleteRecipe: (id: number) => void;
+  cardData: Recipe[];
+  viewOptions: {
+    showDetail?: boolean;
+    showBookmark?: boolean;
+    showEdit?: boolean;
+    style?: CardLayoutOptionType;
+  };
+  handlers: {
+    onBookmarkClick: (e: React.MouseEvent, id: number) => void;
+    onEditClick: (e: React.MouseEvent, id: number) => void;
+    deleteRecipe: (id: number) => void;
+  };
 }
 
-// Component mapping through recipe Cards
+/*
+  @desc Displays the card list
+*/
 export const CardList = ({
-  showDetail,
-  showBookmark,
-  showEdit,
-  style = CardLayoutOptions.GRID,
-  cardData = [],
-  onBookmarkClick,
-  onEditClick,
-  user,
-  deleteRecipe,
+  cardData,
+  viewOptions,
+  handlers,
+  // user,
 }: CardListProps) => {
+  // get the card view options to pass to the pages
+  const { style = CardLayoutOptions.GRID, ...cardViewOptions } = viewOptions;
+
+  // render the card list
   return (
     <div className={style}>
-      {cardData.map((item, index) => (
-        <React.Fragment key={`${item.id}-${index}`}>
-          <Link href={`/recipes/${item.id}`} className="cursor-pointer">
+      {cardData.map((recipe, index) => (
+        <React.Fragment key={`${recipe.id}-${index}`}>
+          <Link href={`/recipes/${recipe.id}`} className="cursor-pointer">
             <Card
-              id={item.id}
-              imageSrc={item.imageSrc || foodImage.src}
-              imageAlt={item.imageAlt}
-              image_id={item.image_id}
-              title={item.title}
-              prep_time={item.prep_time}
-              season={item.season}
-              showDetail={showDetail}
-              showBookmark={showBookmark}
-              showEdit={showEdit}
-              onBookmarkClick={(e) => onBookmarkClick?.(e, item.id)}
-              onEditClick={(e) => onEditClick?.(e, item.id)}
-              cooking_time={0}
-              servings={0}
-              steps={""}
-              ingredients={""}
-              user={user || ({} as UserData)}
-              user_id={item.user_id}
-              deleteRecipe={deleteRecipe}
+              {...recipe}
+              {...cardViewOptions}
+              onBookmarkClick={(e) => handlers.onBookmarkClick(e, recipe.id)}
+              onEditClick={(e) => handlers.onEditClick(e, recipe.id)}
+              deleteRecipe={handlers.deleteRecipe}
               priority={index < 3}
+              // user={user}
             />
           </Link>
         </React.Fragment>
