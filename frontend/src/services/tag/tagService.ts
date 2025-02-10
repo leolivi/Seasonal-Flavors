@@ -1,8 +1,6 @@
 import { translateSeason } from "@/utils/SeasonUtils";
 import { TagData } from "@/types/interfaces";
 
-// TODO: Add API Handler
-
 /*
   @desc Get tags
 */

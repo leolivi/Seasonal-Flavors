@@ -4,9 +4,6 @@ import { NextRequest, NextResponse } from "next/server";
   @desc Retrieves a recipe by its ID
 */
 
-// TODO: chef if i need this...
-export const dynamic = "force-dynamic";
-
 export async function GET(request: NextRequest) {
   // check if the request method is GET
   if (request.method !== "GET") {

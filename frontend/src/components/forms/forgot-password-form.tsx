@@ -12,10 +12,11 @@ import { Input } from "../ui/input";
 import { forgotPasswordSchema } from "@/validation/passwordSchema";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Button, ButtonSize } from "../button/button";
+import { Button } from "../button/button";
 import { handleForgotPassword } from "@/services/user/PasswordPatch";
 import { useToast } from "@/hooks/use-toast";
 import Heart from "../ui/heart";
+import { ButtonSize } from "@/utils/enum";
 
 /*
   @desc Forgot password form
