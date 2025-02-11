@@ -4,9 +4,8 @@ const MAX_FILE_SIZE = 2000000; // 2MB
 const ACCEPTED_IMAGE_TYPES = [
   "image/jpeg",
   "image/jpg",
+  "image/JPG",
   "image/png",
-  "image/webp",
-  "image/svg+xml",
 ];
 
 /*
@@ -29,7 +28,7 @@ export const profileSchema = z.object({
       message: `Maximale Dateigröße ist ${MAX_FILE_SIZE / 1000000}MB.`,
     })
     .refine((file) => !file || ACCEPTED_IMAGE_TYPES.includes(file.type), {
-      message: ".jpg, .jpeg, .png, .webp und .svg Dateien sind akzeptiert.",
+      message: ".jpg, .jpeg, .png, .JPG Dateien sind akzeptiert.",
     })
     .optional(),
 });

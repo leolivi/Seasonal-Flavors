@@ -56,7 +56,7 @@ class UploadsController {
     
         try {
             $validated = $request->validate([
-                'file' => ['required', 'file', 'max:2048', 'mimes:jpeg,jpg,png,gif,JPG'],
+                'file' => ['required', 'file', 'max:2048', 'mimes:jpeg,jpg,png,JPG'],
                 'type' => ['required', Rule::in(['profile', 'recipe'])],
                 'recipe_id' => ['required_if:type,recipe', 'exists:recipes,id'],
                 'alt_text' => ['string', 'max:255', 'regex:/^[a-zA-Z0-9\s\p{L}\p{N}]+$/u'],

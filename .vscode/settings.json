@@ -1,5 +1,3 @@
 {
-  // TODO: delete the todo part
-  "todo-tree.tree.scanMode": "workspace",
   "jest.disabledWorkspaceFolders": ["Seasonal-Flavors"]
 }
