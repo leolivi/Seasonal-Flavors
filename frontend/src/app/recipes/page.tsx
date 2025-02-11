@@ -33,7 +33,11 @@ const RecipesPage = async ({
   const formattedRecipes = await formatRecipeData(recipes);
 
   // return the recipes client
-  return <RecipesClient formattedCardData={formattedRecipes} />;
+  return (
+    <main>
+      <RecipesClient formattedCardData={formattedRecipes} />
+    </main>
+  );
 };
 
 export default RecipesPage;

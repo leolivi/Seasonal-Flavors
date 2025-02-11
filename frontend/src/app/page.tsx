@@ -35,7 +35,7 @@ const Home = async () => {
 
   // return the home page
   return (
-    <main>
+    <div>
       {/* teaser with logo animation */}
       <Teaser />
       {/* inspiration text  */}
@@ -62,7 +62,7 @@ const Home = async () => {
         </div>
       )}
       <ScrollButton />
-    </main>
+    </div>
   );
 };
 
