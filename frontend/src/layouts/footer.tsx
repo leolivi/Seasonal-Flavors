@@ -12,7 +12,7 @@ import { NavStyle } from "@/utils/enum";
 */
 const FooterContainer = ({ color, children }: FooterProps) => (
   <footer
-    className={`w-full rounded-t-3xl p-10 bg-${color}-light z-50 mt-auto list-none`}
+    className={`w-full rounded-t-3xl p-10 bg-${color}-light z-20 mt-auto list-none`}
   >
     {children}
   </footer>
