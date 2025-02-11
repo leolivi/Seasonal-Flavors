@@ -4,7 +4,7 @@ Wir legen grossen Wert darauf, dass der Umgang mit Personendaten transparent ist
 
 ## Welche Dienste wir nutzen
 
-Font Awesome
+Aktuell sind keine Dienste in Nutzung.
 
 ## Kontaktinformationen
 
@@ -20,13 +20,11 @@ Datenschutzverantwortliche Person: Léonie Liviero, kontakt@seasonalflavors.com
 ### Welche Daten sammeln wir von Ihnen und von wem erhalten wir diese Daten?
 
 In erster Linie bearbeiten wir Personendaten, die Sie uns übermitteln oder die wir beim Betrieb unserer Website sammeln. Unter Umständen erhalten wir Personendaten über Sie auch von Dritten. Das können folgende Kategorien sein:
-Personenstammdaten (Name, Adresse, Geburtsdaten, etc.);
-Kontaktdaten (Handynummer, E-Mailadresse, etc.);
-Finanzdaten (bspw. Kontoangaben);
+Personenstammdaten (Name etc.);
+Kontaktdaten ( E-Mailadresse, etc.);
 Onlinekennungen (bspw. Cookie-Kennung, IP-Adressen);
 Standort- und Verkehrsdaten;
-Ton- und Bildaufnahmen;
-besonders schützenswerte Daten (bspw. biometrische Daten oder Angaben über Ihre Gesundheit).
+Ton- und Bildaufnahmen.
 
 ### Unter welchen Voraussetzungen bearbeiten wir Ihre Daten?
 
@@ -103,10 +101,6 @@ Diese Daten können keiner bestimmten Person zugeordnet werden und es findet kei
 
 Wie können Sie die Datenerfassung verhindern?
 Die Daten werden nur solange gespeichert, wie dies zur Erreichung des Zweckes Ihrer Erhebung notwendig ist. Dementsprechend werden die Daten nach Beendigung jeder Sitzung gelöscht. Die Speicherung der Logfiles ist für den Betrieb der Webseite zwingend notwendig, Sie haben daher keine Möglichkeit dagegen Widerspruch zu erheben.
-
-### Font Awesome
-
-Font Awesome wird betrieben von Fonticons, Inc., mit Sitz in 6 Porter Road, Apartment 3R, Cambridge, MA 02140, USA. Font Awesome ist eine Sammlung von skalierbaren Vektor-Icons, die Website-Entwicklern ermöglicht, verschiedene Icons und soziale Logos auf ihren Websites zu integrieren.Wir nutzen Font Awesome, um visuelle Icons auf unserer Website zu integrieren. Dies kann beispielsweise Icons für Benutzeroberflächen, soziale Medien-Links oder andere grafische Darstellungen umfassen, die das Design und die Benutzererfahrung unserer Website verbessern.Font Awesome kann Webfonts von den Servern von Fonticons, Inc. laden, wenn ein Benutzer unsere Website besucht. Dabei wird die IP-Adresse des Benutzers an Fonticons, Inc. gesendet. Dies ist notwendig, damit der Webbrowser des Benutzers die Font Awesome-Icons korrekt anzeigen kann.Fonticons, Inc. speichert die IP-Adressen der Benutzer nur kurzzeitig und ausschliesslich zum Zweck der Bereitstellung der Font Awesome-Icons. Es findet keine weitergehende Speicherung oder Analyse statt.
 
 BrainBox Generatoren
 BrainBox Generatoren ist ein Dienst der BrainBox Solutions GmbH, um alle datenschutzrelevanten Dienste auf einer Website zu erkennen und unter anderem damit bei der Erstellung der Datenschutzerklärung zu helfen. Dabei werden keine personenbezogenen Daten erfasst oder verarbeitet.

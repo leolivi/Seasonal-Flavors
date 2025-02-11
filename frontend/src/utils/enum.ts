@@ -13,6 +13,7 @@ export enum ButtonStyle {
   PRIMARY = "primary",
   OUTLINE = "outline",
   OUTLINERED = "outline-red",
+  OUTLINEGREEN = "outline-green",
   SIMPLE = "simple",
   SIMPLERED = "simple-red",
   UPLOAD = "upload",

@@ -18,7 +18,7 @@ export default function AcceptButton() {
       onClick={handleAccept}
       label="Akzeptieren"
       size={ButtonSize.XS}
-      style={ButtonStyle.OUTLINERED}
+      style={ButtonStyle.OUTLINEGREEN}
     />
   );
 }
