@@ -11,6 +11,15 @@ export async function middleware(req: NextRequest) {
   // get the current request pathname
   const { pathname } = req.nextUrl;
 
+  // get the cookie consent
+  const cookieConsent = req.cookies.get("cookieConsent");
+
+  // if the cookie consent is not set, show the cookie consent banner
+  if (!cookieConsent) {
+    const response = NextResponse.next();
+    response.headers.set("x-cookie-consent", "false");
+    return response;
+  }
   // if the user is authenticated and the path is /session, redirect to the my-recipes page
   if (pathname === "/session" && token) {
     const redirectUrl = req.nextUrl.clone();

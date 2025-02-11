@@ -5,6 +5,8 @@ import Header from "@/layouts/header";
 import localFont from "next/font/local";
 import SessionProvider from "@/providers/session-provider";
 import type { Metadata } from "next";
+import { cookies } from "next/headers";
+import CookieConsentServer from "@/components/cookie-consent/cookie-consent-server";
 
 const cordaRegular = localFont({
   src: "./fonts/corda/Corda-Regular.ttf",
@@ -43,6 +45,10 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // get the cookie consent
+  const cookieStore = cookies();
+  const hasCookieConsent = cookieStore.has("cookieConsent");
+
   return (
     <html lang="de">
       <head>
@@ -55,6 +61,7 @@ export default function RootLayout({
           <Header />
           <Toaster />
           {children}
+          {!hasCookieConsent && <CookieConsentServer />}
           <Footer />
         </SessionProvider>
       </body>
