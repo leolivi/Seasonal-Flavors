@@ -20,6 +20,7 @@ import {
 } from "../ui/form";
 import { Input } from "../ui/input";
 import { ButtonSize, ButtonStyle, SessionForm } from "@/utils/enum";
+import { trackAction } from "@/components/analytics/action-tracker";
 
 interface LoginFormProps {
   setForm: Dispatch<SetStateAction<SessionForm>>;
@@ -70,6 +71,12 @@ export const LoginForm = ({ setForm }: LoginFormProps) => {
         description: "Login fehlgeschlagen, bitte versuche es erneut.",
       });
     } else {
+      // Track successful login
+      trackAction("login", {
+        method: "credentials",
+        timestamp: new Date().toISOString(),
+      });
+
       toast({
         variant: "default",
         title: "Herzlich Willkommen!",

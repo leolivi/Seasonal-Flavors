@@ -20,6 +20,7 @@ import {
 } from "../ui/form";
 import { Input } from "../ui/input";
 import { ButtonSize, ButtonStyle, SessionForm } from "@/utils/enum";
+import { trackAction } from "@/components/analytics/action-tracker";
 
 interface RegisterFormProps {
   setForm: Dispatch<SetStateAction<SessionForm>>;
@@ -101,6 +102,9 @@ export const RegisterForm = ({ setForm }: RegisterFormProps) => {
     );
 
     if (response.status === 201) {
+      trackAction("register", {
+        timestamp: new Date().toISOString(),
+      });
       toast({
         variant: "default",
         title: "Erfolgreich registriert",

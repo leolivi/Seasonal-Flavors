@@ -2,6 +2,7 @@ import { getAuthenticatedUser } from "@/utils/auth-user";
 import { getUserRecipes } from "@/services/recipe/recipeService";
 import MyRecipesClient from "@/components/my-recipes-client/my-recipes-client";
 import { formatRecipeData } from "@/utils/recipe-formatting";
+import PageViewTracker from "@/components/analytics/page-view-tracker";
 
 export const dynamic = "force-dynamic";
 
@@ -21,7 +22,12 @@ const MyRecipesPage = async () => {
   const formattedCardData = await formatRecipeData(cardData);
 
   // return the recipes client
-  return <MyRecipesClient cardData={formattedCardData} />;
+  return (
+    <>
+      <PageViewTracker />
+      <MyRecipesClient cardData={formattedCardData} />
+    </>
+  );
 };
 
 export default MyRecipesPage;

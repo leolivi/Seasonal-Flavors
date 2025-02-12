@@ -3,6 +3,7 @@ import { getFilteredRecipes } from "@/services/recipe/recipeService";
 import { SessionLoader } from "@/components/auth-session/auth-session";
 import RecipesClient from "@/components/recipes-client/recipes-client";
 import { formatRecipeData } from "@/utils/recipe-formatting";
+import PageViewTracker from "@/components/analytics/page-view-tracker";
 
 export const dynamic = "force-dynamic";
 
@@ -35,6 +36,7 @@ const RecipesPage = async ({
   // return the recipes client
   return (
     <main>
+      <PageViewTracker />
       <RecipesClient formattedCardData={formattedRecipes} />
     </main>
   );

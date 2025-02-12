@@ -13,6 +13,7 @@ import { useInfiniteScroll } from "@/hooks/use-infinite-scroll";
 import { SessionLoader } from "../auth-session/auth-session";
 import { useSession } from "next-auth/react";
 import { ButtonSize } from "@/utils/enum";
+import { trackAction } from "@/components/analytics/action-tracker";
 
 interface MyRecipesClientProps {
   cardData: RecipeData[];
@@ -52,7 +53,15 @@ const MyRecipesClient: React.FC<MyRecipesClientProps> = ({ cardData }) => {
           </h1>
         </Typography>
         {/* create recipe button */}
-        <Link href={"/recipes/create"}>
+        <Link
+          href={"/recipes/create"}
+          onClick={() =>
+            trackAction("click_create_recipe", {
+              action: "/recipes/create",
+              source: "/my-recipes",
+            })
+          }
+        >
           <Button label="Rezept erstellen" size={ButtonSize.SMALL} />
         </Link>
       </div>
