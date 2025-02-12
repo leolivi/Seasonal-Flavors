@@ -104,6 +104,11 @@ export function RecipeInput<T extends FieldValues>({
               <FormLabel
                 htmlFor={field.name}
                 data-testid={`form-label-${field.name}`}
+                className={
+                  layout === "row"
+                    ? "max-[460px]:line-clamp-2 max-[460px]:h-8"
+                    : ""
+                }
               >
                 <div className="flex items-center">
                   {field.label}
