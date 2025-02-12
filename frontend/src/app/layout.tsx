@@ -53,6 +53,21 @@ export default function RootLayout({
     <html lang="de">
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        {/* Google tag (gtag.js) */}
+        <script
+          async
+          src={`https://www.googletagmanager.com/gtag/js?id=G-03G8CTGP0H`}
+        />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-03G8CTGP0H');
+        `,
+          }}
+        />
       </head>
       <body
         className={`${cordaRegular.variable} ${cordaMedium.variable} ${cordaBold.variable} ${figTreeRegular.variable} ${figTreeMedium.variable} flex min-h-screen flex-col bg-sfwhite antialiased`}
