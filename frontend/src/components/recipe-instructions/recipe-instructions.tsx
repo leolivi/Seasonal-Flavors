@@ -45,31 +45,31 @@ export const RecipeInstructions = ({ steps }: RecipeInstructionsProps) => {
         (item: StepItem, index: number) => {
           // Paragraph mit möglichen Formatierungen
           if (item.type === "paragraph" && item.content) {
-            const paragraphContent = item.content.map((innerItem) => {
-              if ("text" in innerItem) {
-                let content: ReactNode = innerItem.text;
+            const paragraphContent = item.content.map(
+              (innerItem, innerIndex) => {
+                if ("text" in innerItem) {
+                  let content: ReactNode = innerItem.text;
 
-                // apply the formatting
-                if (innerItem.marks) {
-                  innerItem.marks.forEach((mark) => {
-                    if (mark.type === "bold") {
-                      content = (
-                        <strong key={`bold-${innerItem.text}`}>
-                          {content}
-                        </strong>
-                      );
-                    }
-                    if (mark.type === "italic") {
-                      content = (
-                        <em key={`italic-${innerItem.text}`}>{content}</em>
-                      );
-                    }
-                  });
+                  // apply the formatting
+                  if (innerItem.marks) {
+                    innerItem.marks.forEach((mark) => {
+                      if (mark.type === "bold") {
+                        content = (
+                          <strong key={`bold-${innerIndex}`}>{content}</strong>
+                        );
+                      }
+                      if (mark.type === "italic") {
+                        content = (
+                          <em key={`italic-${innerIndex}`}>{content}</em>
+                        );
+                      }
+                    });
+                  }
+                  return <span key={innerIndex}>{content}</span>;
                 }
-                return content;
-              }
-              return null;
-            });
+                return null;
+              },
+            );
 
             return (
               <Typography
