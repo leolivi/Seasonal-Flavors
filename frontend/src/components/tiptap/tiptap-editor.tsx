@@ -2,9 +2,11 @@
 
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
+import BulletList from "@tiptap/extension-bullet-list";
+import OrderedList from "@tiptap/extension-ordered-list";
+import ListItem from "@tiptap/extension-list-item";
 import { Bold, Italic } from "lucide-react";
 import { ToggleGroup, ToggleGroupItem } from "../ui/toggle-group";
-import ListItem from "@tiptap/extension-list-item";
 import { getSeasonColor } from "@/utils/SeasonUtils";
 import { FormLabel, useFormField } from "../ui/form";
 import {
@@ -48,6 +50,16 @@ export const TipTapEditor = ({
         listItem: false,
       }),
       ListItem,
+      BulletList.configure({
+        HTMLAttributes: {
+          class: "list-disc ml-4",
+        },
+      }),
+      OrderedList.configure({
+        HTMLAttributes: {
+          class: "list-decimal ml-4",
+        },
+      }),
     ],
     editorProps: {
       attributes: {
@@ -78,6 +90,7 @@ export const TipTapEditor = ({
         variant="outline"
         className="mt-6 justify-between gap-5"
       >
+        {/* label */}
         <FormLabel htmlFor="steps" className="font-figtreeRegular">
           <div className="flex items-end">
             Zubereitung
@@ -98,6 +111,8 @@ export const TipTapEditor = ({
             </TooltipProvider>
           </div>
         </FormLabel>
+
+        {/* toggle group */}
         <div className="flex gap-2">
           <ToggleGroupItem
             value="bold"
@@ -112,6 +127,20 @@ export const TipTapEditor = ({
             className={`border-${seasonalColor}-dark selection:bg-sf${seasonalColor}-light hover:bg-sf${seasonalColor}-light`}
           >
             <Italic />
+          </ToggleGroupItem>
+          <ToggleGroupItem
+            value="bullet-list"
+            onClick={() => editor.chain().focus().toggleBulletList().run()}
+            className={`border-${seasonalColor}-dark selection:bg-sf${seasonalColor}-light hover:bg-sf${seasonalColor}-light`}
+          >
+            Bullet List
+          </ToggleGroupItem>
+          <ToggleGroupItem
+            value="ordered-list"
+            onClick={() => editor.chain().focus().toggleOrderedList().run()}
+            className={`border-${seasonalColor}-dark selection:bg-sf${seasonalColor}-light hover:bg-sf${seasonalColor}-light`}
+          >
+            Ordered List
           </ToggleGroupItem>
         </div>
       </ToggleGroup>
