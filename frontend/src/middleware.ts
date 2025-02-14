@@ -14,6 +14,11 @@ export async function middleware(req: NextRequest) {
   // get the cookie consent
   const cookieConsent = req.cookies.get("cookieConsent");
 
+  // if the path is "/" (home page), stay there (no further redirection)
+  if (pathname === "/") {
+    return NextResponse.next();
+  }
+
   // if the cookie consent is not set, show the cookie consent banner
   if (!cookieConsent) {
     const response = NextResponse.next();
@@ -34,10 +39,10 @@ export async function middleware(req: NextRequest) {
     return NextResponse.redirect(redirectUrl);
   }
 
-  // if the user is not authenticated and the path is /my-recipes, redirect to the session page
+  // if the user is not authenticated and the path is /my-recipes, redirect to the home page
   if (pathname === "/my-recipes" && !token) {
     const redirectUrl = req.nextUrl.clone();
-    redirectUrl.pathname = "/session";
+    redirectUrl.pathname = "/";
     return NextResponse.redirect(redirectUrl);
   }
 

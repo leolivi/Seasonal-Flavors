@@ -102,6 +102,7 @@ This is the frontend for the **Seasonal Flavors** project, a web application tha
 Seasonal-Flavors/
 ├── frontend/
 │   ├── src/               # Source code
+│   │   ├── actions/         # Action functions
 │   │   ├── app/             # Next.js pages
 │   │   ├── assets/          # Static files like images
 │   │   ├── components/      # Reusable React components
@@ -112,6 +113,7 @@ Seasonal-Flavors/
 │   │   ├── services/        # API services
 │   │   ├── stores/          # Zustand stores
 │   │   ├── types/           # TypeScript types
+│   │   ├── utils/           # Utility functions
 │   │   ├── validations/     # Validation functions
 │   ├── .env.local         # Environment variables
 │   ├── package.json       # Project dependencies and scripts

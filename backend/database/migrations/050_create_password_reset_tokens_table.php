@@ -13,8 +13,8 @@ return new class extends Migration {
       $table->string('email')->primary();
             $table->string('token');
             $table->timestamp('created_at')->nullable();
-        });
-    }
+      });
+  }
 
   /*
   @desc Drop the password_reset_tokens table

@@ -11,7 +11,7 @@ export default function CookieConsentServer() {
 
   return (
     <div
-      className={`gap-2 border-2 border-${seasonalColor}-dark fixed bottom-0 right-0 flex flex-col items-center justify-center rounded-lg bg-${seasonalColor}-light z-30 max-w-full p-4 min-[640px]:flex-row`}
+      className={`gap-2 border-2 border-${seasonalColor}-dark fixed bottom-0 left-1/2 flex -translate-x-1/2 flex-col items-center justify-center rounded-t-lg bg-${seasonalColor}-light z-30 w-full p-2 max-[640px]:text-center min-[640px]:flex-row`}
     >
       <Typography variant="small">
         <p className="font-figtreeRegular">
