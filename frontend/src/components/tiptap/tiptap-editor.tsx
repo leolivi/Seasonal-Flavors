@@ -47,6 +47,8 @@ export const TipTapEditor = ({
   const editor = useEditor({
     extensions: [
       StarterKit.configure({
+        bulletList: false,
+        orderedList: false,
         listItem: false,
       }),
       ListItem,
