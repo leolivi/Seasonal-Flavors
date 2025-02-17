@@ -41,8 +41,6 @@ This is the frontend for the **Seasonal Flavors** project, a web application tha
 
    Adjust the .env.example file in the frontend folder to your needs.
 
-   ❗️ For this school project, the .env. file is already set up - will be deleted later ❗️
-
 4. **Start the development server:**
 
    ```

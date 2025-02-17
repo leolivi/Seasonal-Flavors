@@ -25,7 +25,7 @@ yarn-error.log*
 
 # Add these to the .gitignore file after project submission
 # local env files
-# .env
+.env
 # .env*.local
 
 

@@ -38,8 +38,6 @@ This is the backend for the **Seasonal Flavors** web application project, which 
 
    Adjust the .env.example file in the backend folder to your needs.
 
-   ❗️ For this school project, the .env. file is already set up - will be deleted later ❗️
-
 4. Run the migrations to set up the SQLite database:
 
    ```
