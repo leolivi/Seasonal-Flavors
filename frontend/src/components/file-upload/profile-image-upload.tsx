@@ -64,6 +64,12 @@ export function ProfileImageUpload({
 
       if (!imageUpdateSuccess) {
         setInputKey(Date.now());
+      } else {
+        toast({
+          variant: "default",
+          title: "Erfolg",
+          description: "Dein Profilbild wurde aktualisiert.",
+        });
       }
     }
   };
